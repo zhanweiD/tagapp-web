@@ -4,8 +4,12 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action} from 'mobx'
+import {
+  NoData, 
+} from '../../component'
 
 import store from './store'
+import ModalConfig from './model'
 
 @observer
 export default class GroupConfig extends Component {
@@ -13,9 +17,28 @@ export default class GroupConfig extends Component {
 
   }
 
+  @action openModal = () => {
+    // store.detail = data
+    store.visible = true
+    // store.getDataSource()
+  }
+
   render() {
+    const noDataConfig = {
+      btnText: '去初始化',
+      onClick: () => this.openModal(),
+      text: '初始化',
+      code: 'asset_tag_project_add',
+      noAuthText: '没有任何项目',
+    }
     return (
-      <div>123</div>
+      <div>
+        <NoData
+          // isLoading={tableLoading}
+          {...noDataConfig}
+        />
+        <ModalConfig store={store} />
+      </div>
     )
   }
 }
