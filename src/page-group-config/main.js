@@ -12,7 +12,7 @@ export default class Page extends Component {
   render() {
     return (
       <Router>
-        <Frame>
+        <Frame page="space">
           <Switch>
             <Route exact path="/group-config" component={GroupConfig} />
             <Route
