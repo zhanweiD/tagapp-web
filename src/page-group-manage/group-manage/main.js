@@ -4,11 +4,12 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action} from 'mobx'
+import {projectProvider} from '../../component'
 
 import store from './store'
 
 @observer
-export default class GroupManage extends Component {
+class GroupManage extends Component {
   componentWillMount() {
 
   }
@@ -19,3 +20,5 @@ export default class GroupManage extends Component {
     )
   }
 }
+
+export default projectProvider(GroupManage)

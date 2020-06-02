@@ -13,7 +13,7 @@ export default class Page extends Component {
   render() {
     return (
       <Router>
-        <Frame>
+        <Frame page="space">
           <Switch>
             <Route exact path="/data-search/my-search" component={MySearch} />
             <Route

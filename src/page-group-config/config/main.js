@@ -1,18 +1,19 @@
 /**
- * @description 我的查询
+ * @description 后台配置
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action} from 'mobx'
 import {
-  NoData, 
+  NoData,
+  projectProvider,
 } from '../../component'
 
 import store from './store'
 import ModalConfig from './model'
 
 @observer
-export default class GroupConfig extends Component {
+class GroupConfig extends Component {
   componentWillMount() {
 
   }
@@ -42,3 +43,5 @@ export default class GroupConfig extends Component {
     )
   }
 }
+
+export default projectProvider(GroupConfig)
