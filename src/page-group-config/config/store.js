@@ -1,5 +1,5 @@
 import {
-  observable, action, runInAction, toJS,
+  observable, action, runInAction, toJS, observe,
 } from 'mobx'
 import {
   successTip, errorTip, changeToOptions, trimFormValues,
@@ -9,9 +9,29 @@ import io from './io'
 class Store {
   @observable dataSource = [] // 数据源 
   @observable dataTypeSource = [] // 数据源类型 
-  @observable visible = false // 控制弹窗
-  @observable selectLoading = false
+  @observable visible = false // 控制配置弹窗
+  @observable entityVisible = false // 控制实体弹窗
+  @observable initVisible = true // 初始化页面是否显示
+  @observable uploadLoading = false // 图片上传
+  @observable selectLoading = false 
   @observable confirmLoading = false
+  @observable pagination = {
+    totalCount: 1,
+    currentPage: 1,
+    pageSize: 10,
+  }
+  @observable list = [
+    {
+      objId: 7025450323959360,
+      objName: "实体",
+      objDescr: null,
+      basicFeatureTag: "6873122232241152",
+      markedFeatureTag: "7025450326318656,7025602576644544",
+      addTime: 1590486038000,
+      picture: "base64up",
+      isUsed: 0,
+    },
+  ]
   // example
   @action async get() {
     try {
@@ -63,6 +83,18 @@ class Store {
       runInAction(() => {
         this.selectLoading = false
       })
+    }
+  }
+
+  @action async delList(id) {
+    try {
+      // await io.delList({id})
+      runInAction(() => {
+        successTip('删除成功')
+        this.getList({currentPage: 1})
+      })
+    } catch (e) {
+      errorTip(e.message)
     }
   }
 }

@@ -9,8 +9,9 @@ import {
   projectProvider,
 } from '../../component'
 
+import BackConfig from './back-config'
 import store from './store'
-import ModalConfig from './model'
+import ConfigModal from './configModal'
 
 @observer
 class GroupConfig extends Component {
@@ -33,12 +34,15 @@ class GroupConfig extends Component {
       noAuthText: '没有任何项目',
     }
     return (
-      <div>
-        <NoData
-          // isLoading={tableLoading}
-          {...noDataConfig}
-        />
-        <ModalConfig store={store} />
+      <div className="config">
+        <div style={{display: store.initVisible ? 'block' : 'none'}}>
+          <NoData
+            // isLoading={tableLoading}
+            {...noDataConfig}
+          />
+          <ConfigModal store={store} />
+        </div>
+        <BackConfig store={store} />
       </div>
     )
   }

@@ -6,7 +6,7 @@ import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
 
 @observer
-export default class modalConfig extends Component {
+export default class ConfigModal extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -104,8 +104,10 @@ export default class modalConfig extends Component {
     this.store.closeModal()
   }
 
-  submit = () => {
-    
+  @action submit = () => {
+    this.store.initVisible = false
+    this.store.visible = false
+    this.store.closeModal()
   }
 
   // checkName = (rule, value, callback) => {

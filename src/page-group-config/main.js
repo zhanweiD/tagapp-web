@@ -6,8 +6,7 @@ import {
 
 import Frame from '../frame'
 import GroupConfig from './config'
-// import GroupBackConfig from './config/back-config'
-
+import './main.styl'
 @observer
 export default class Page extends Component {
   render() {
@@ -16,7 +15,6 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/group-config" component={GroupConfig} />
-            {/* <Route exact path="/group-back-config" component={GroupBackConfig} /> */}
             <Route
               render={() => {
                 window.location.href = '/404'
