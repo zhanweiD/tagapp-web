@@ -1,0 +1,129 @@
+@import "./antd-cover.styl"
+
+
+#root
+  width 100%
+  height 100%
+.dt-frame .cf-body
+  height calc(100vh - 48px)
+.frame-layout
+  height 100%
+  background-color #FFF
+  .frame-sider
+    background-color #FFF
+  .frame-menu
+    height 100%
+  .frame-content
+    height 100%
+    overflow-y auto
+    background #f4f6f9
+
+
+// 详情页top的基本信息
+.detail-top-info
+  color: rgba(0, 0, 0, 0.45)
+  .info-body
+    & > div
+      display flex
+      margin-bottom 8px
+      &:last-child
+        margin-bottom 0
+    .info-body-kv
+      display flex
+      padding-right 32px
+      align-items center
+      .info-v
+        color: rgba(0, 0, 0, 0.65)
+
+
+// 饼图边上的表格样式
+.pie-side-table
+  width 220px
+  td
+    height 30px
+    white-space nowrap
+    padding-right 16px
+    i
+      display block
+      width 10px
+      height 10px
+      border-radius 10px
+
+.dt-info-row
+  .ant-row
+    margin-bottom 8px!important
+
+.disabled
+  color: rgba(0, 0, 0, 0.25)
+  cursor: not-allowed
+.ant-table-placeholder
+  border-bottom  0 none
+.time-range-wrap
+  text-align right
+  margin-top -48px
+  margin-bottom 16px
+
+.detail-info
+  background #ffffff
+
+  .d-head
+    font-size 16px
+    color rgba(0, 0, 0, .85)
+    padding 16px 24px 16px
+    border-bottom  1px solid rgba(0, 0, 0, .1)
+
+  .d-info
+    padding 16px 25px
+    margin-bottom 16px
+
+.chart-title
+  font-size 14px
+  margin-bottom 16px
+  padding-left 8px
+  position relative
+  line-height 32px
+
+
+//*--------------- mahua ---------------*//
+.bgf
+  background #ffffff
+  // border-radius 2px
+
+/* 内容区header */
+.content-header
+  line-height 56px
+  font-size 16px
+  padding-left 16px
+  background #ffffff
+  color rgba(0,0,0, .85)
+
+/* 列表操作项 分割线 样式 */
+.table-action-line{
+  display: inline-block;
+  height: 14px;
+  width: 1px;
+  background: rgba(0,0,0,0.09);
+  margin: 0 8px;
+}
+
+/* frame nav */
+.dt-frame
+  min-width 1200px
+  .cf-nav-extra
+    display flex
+    align-items center
+    justify-content flex-end
+
+    .ant-select-selection
+      background-color #e9e9e9
+      color rgba(0,0,0,.43)
+      border-radius 5px
+      outline none
+      border: 0px
+
+    .ant-select-selection:hover, .ant-select-selection:active
+      border: 0px
+      box-shadow 0 0 0 0
+
+
+
