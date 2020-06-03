@@ -8,7 +8,10 @@ import io from './io'
 
 class Store {
   @observable dataSource = [] // 数据源 
-  @observable dataTypeSource = [] // 数据源类型 
+  @observable dataTypeSource = [] // 数据源类型
+  @observable dataStorageId = '' // 配置页面数据源id
+  @observable dataStorageTypeID = '' // 配置页面数据源类型id
+  @observable detail = {} // 编辑展示信息
   @observable visible = false // 控制配置弹窗
   @observable entityVisible = false // 控制实体弹窗
   @observable initVisible = true // 初始化页面是否显示
@@ -32,23 +35,90 @@ class Store {
       isUsed: 0,
     },
   ]
-  // example
-  @action async get() {
-    try {
-      const res = await io.get()
-      runInAction(() => {
-       
-      })
-    } catch (e) {
-      errorTip(e.message)
-    }
-  }
 
   @action.bound closeModal() {
     this.dataSource.clear()
     // this.dataEnginesSource.clear()
     // this.dataGroupData.clear()
     // this.detail = {}
+  }
+
+
+  // 初始化云资源
+  @action async groupInit(data) {
+    try {
+      const res = await io.groupInit({
+        tenantId: global.tenantId,
+        userId: global.userId,
+        dataStorageId: data.storageId,
+        dataStorageType: data.type,
+      })
+      runInAction(() => {
+        // this.initVisible = res.dataStorageType ? false : true
+        this.dataSourceInit = res.dataStorageId
+        this.dataTypeSourceInit = res.dataStorageTypeName
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  // 获取云资源信息
+  @action async getPortrayal() {
+    try {
+      const res = await io.getPortrayal()
+      runInAction(() => {
+        // this.initVisible = res.dataStorageType ? false : true
+        this.dataSourceInit = res.dataStorageId
+        this.dataTypeSourceInit = res.dataStorageTypeName
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取实体分页列表
+  @action async getEntityPage() {
+    try {
+      // const res = await io.getEntityPage({
+      //   currentPage: 1,
+      //   pageSize: 10,
+      // })
+      runInAction(() => {
+        // this.list = res.data
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取实体列表
+  @action async getGroupList() {
+    try {
+      // const res = await io.getGroupList({
+      //   currentPage: 1,
+      //   pageSize: 10,
+      // })
+      runInAction(() => {
+        // this.list = res.data
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取标签列表
+  @action async getTagList() {
+    try {
+      // const res = await io.getTagList({
+      //   currentPage: 1,
+      //   pageSize: 10,
+      // })
+      runInAction(() => {
+        // this.list = res.data
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
   }
 
   @action async getDataTypeSource() {
@@ -83,6 +153,49 @@ class Store {
       runInAction(() => {
         this.selectLoading = false
       })
+    }
+  }
+
+  @action async getEntityInfo(id) {
+    try {
+      // await io.getEntityInfo({
+      //   id,
+      // })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  @action async addList(data, cb) {
+    try {
+      // await io.addList({...data})
+      runInAction(() => {
+        successTip('添加成功')
+        this.getList({currentPage: 1})
+        cb()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  @action async editList(data, cb) {
+    try {
+      // await io.editList({
+      //   "tenantId": 512635,
+      //   "userId": 243724,
+      //   "proejctId": 1234,
+      //   "objId": 123,
+      //   "basicFeatureTag": "213,231",
+      //   "markedFeatureTag": "234,441",
+      //   "picture": "base64"
+      // })
+      runInAction(() => {
+        successTip('编辑成功')
+        this.getList({currentPage: 1})
+        cb()
+      })
+    } catch (e) {
+      errorTip(e.message)
     }
   }
 

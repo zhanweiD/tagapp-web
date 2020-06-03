@@ -8,23 +8,6 @@ import {
 } from '../../common/util'
 
 const {Option} = Select
-function getBase64(img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  if (!isJpgOrPng) {
-    message.error('请上传JPG/PNG格式图片!')
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2
-  if (!isLt2M) {
-    message.error('图片大小不能超过2MB!')
-  }
-  return isJpgOrPng && isLt2M
-}
 
 @observer
 class EModal extends Component {
@@ -34,21 +17,42 @@ class EModal extends Component {
     this.form = props.form 
   }
 
+  getBase64(img, callback) {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
+  }
   handleChange = info => {
     if (info.file.status === 'uploading') {
       this.store.uploadLoading = true
       return
     }
     if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj, imageUrl => {
+      this.getBase64(info.file.originFileObj, imageUrl => {
         this.store.imageUrl = imageUrl
         this.store.uploadLoading = false 
       })
     }
   }
+  beforeUpload(file) {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error('请上传JPG/PNG格式图片!')
+      return
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error('图片大小不能超过2MB!')
+      return
+    }
+    return isJpgOrPng && isLt2M
+  }
 
-  @action handleCancel = () => {
+  @action modalCancel = () => {
     this.store.entityVisible = false
+    this.store.uploadLoading = false
+    this.store.imageUrl = null
+    this.form.resetFields()
     this.store.closeModal()
   }
 
@@ -58,28 +62,53 @@ class EModal extends Component {
       if (!err) {
         const data = {
           ...values,
-          groupIdList: [values.groupIdList],
+          // groupIdList: [values.groupIdList],
         }
-
+        console.log(values)
+        this.modalCancel()
         // 编辑 
         if (store.modalType === 'edit') {
           const params = {id: store.detail.id, ...data}
           store.editList(params, () => {
-            this.handleCancel()
+            this.modalCancel()
           })
         } else {
           // 新增
           store.addList(data, () => {
-            this.handleCancel()
+            this.modalCancel()
           })
         }
       }
     })
   }
 
+  // 基本特征选择
+  @action basicChange = value => {
+    if (value.length > 20) {
+      this.store.basicFeatureTags = value.slice(0, 20)
+    } else {
+      this.store.basicFeatureTags = value
+    }
+  }
+  // 显著特征选择
+  @action obviousChange = value => {
+    if (value.length > 20) {
+      this.store.markedFeatureTag = value.slice(0, 20)
+    } else {
+      this.store.markedFeatureTag = value
+    }
+  }
+
   render() {
     const {
-      entityVisible, modalType, confirmLoading, imageUrl, uploadLoading,
+      entityVisible, 
+      modalType, 
+      confirmLoading, 
+      imageUrl, 
+      uploadLoading,
+      basicFeatureTags,
+      markedFeatureTag,
+      detail,
     } = this.store
 
     const {getFieldDecorator} = this.form
@@ -87,7 +116,7 @@ class EModal extends Component {
     const modalConfig = {
       title: modalType === 'edit' ? '编辑项目' : '添加项目',
       visible: entityVisible,
-      onCancel: this.handleCancel,
+      onCancel: this.modalCancel,
       onOk: this.submit,
       maskClosable: false,
       width: 525,
@@ -112,16 +141,17 @@ class EModal extends Component {
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="实体名称">
             {getFieldDecorator('objId', {
-              // initialValue: ''
+              initialValue: detail.objName,
               rules: [{required: true, message: '请选择实体名称！'}],
             })(
               <Select
                 placeholder="请选择实体名称"
+                disabled={modalType === 'add' ? false : true}
                 onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>
-              </Select>,
+              </Select>
             )}
           </Form.Item>
           <Form.Item 
@@ -129,17 +159,19 @@ class EModal extends Component {
             extra="在个体画像中显示，最多可选择20个"
           >
             {getFieldDecorator('basicFeatureTag', {
+              initialValue: detail.basicFeatureTag,
               rules: [{required: true, message: '请选择标签！'}],
             })(
               <Select
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
+                value={basicFeatureTags}
                 onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>
-              </Select>,
+              </Select>
             )}
           </Form.Item>
           <Form.Item 
@@ -147,37 +179,39 @@ class EModal extends Component {
             extra="常关注的特征，最多可选择20个"
           >
             {getFieldDecorator('markedFeatureTag', {
+              initialValue: detail.markedFeatureTag,
               rules: [{required: true, message: '请选择标签！'}],
             })(
               <Select
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
+                value={markedFeatureTag}
                 onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>
-              </Select>,
+              </Select>
             )}
           </Form.Item>
           <Form.Item 
             label="图片"
             extra="图片在个体画像中显示"
+            // key={Math.random()}
           >
             {getFieldDecorator('picture', {
-              initialValue: undefined,
-              rules: [{required: true, message: 'Please select your gender!'}],
+              // initialValue: undefined,
             })(
               <Upload
-                name="avatar"
+                name="上传画像"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
+                beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
               >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{width: '100%'}} /> : uploadButton}
+                {imageUrl ? <img src={imageUrl} alt="上传画像" style={{width: '100%'}} /> : uploadButton}
               </Upload>
             )}
           </Form.Item>

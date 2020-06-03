@@ -16,7 +16,7 @@ import ConfigModal from './configModal'
 @observer
 class GroupConfig extends Component {
   componentWillMount() {
-
+    // store.getPortrayal()
   }
 
   @action openModal = () => {

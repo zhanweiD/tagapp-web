@@ -58,14 +58,17 @@ export default class GroupBackConfig extends Component {
    * @param type 弹窗类型 编辑 / 添加(edit / add)
    */
   @action openModal = (type, data = {}) => {
-    // this.store.detail = data
-    console.log(1)
+    this.store.detail = data
     this.store.entityVisible = true
     this.store.modalType = type
     // this.store.getDataSource()
-    // if (type === 'edit') {
-    //   this.store.getEnginesSource(data.dataStorageId)
-    // }
+    if (type === 'add') {
+      this.store.getGroupList(data.objId)
+      this.store.getTagList(data.objId)
+    }
+    if (type === 'edit') {
+      this.store.getEntityInfo(data.objId)
+    }
     // this.store.getGroups()
   }
 
@@ -83,11 +86,13 @@ export default class GroupBackConfig extends Component {
       dataSource = [], 
       dataTypeSource = [],
       initVisible,
+      dataStorageTypeID,
+      dataStorageId,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
-      initialValue: 1,
+      initialValue: dataStorageTypeID,
       disabled: true,
       rules: [
         '@requiredSelect',
@@ -123,7 +128,7 @@ export default class GroupBackConfig extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: '1583289421353fdnk',
+      initialValue: dataStorageId,
       disabled: true,
       rules: [
         '@requiredSelect',

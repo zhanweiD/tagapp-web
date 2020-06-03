@@ -105,26 +105,20 @@ export default class ConfigModal extends Component {
   }
 
   @action submit = () => {
-    this.store.initVisible = false
-    this.store.visible = false
-    this.store.closeModal()
+    this.form.validateFields((err, value) => {
+      if (!err) {
+        // this.store.groupInit(value)
+        this.store.initVisible = false
+        this.store.visible = false
+        this.store.closeModal()
+      }
+    })
   }
-
-  // checkName = (rule, value, callback) => {
-  //   const params = {
-  //     name: value,
-  //   }
-
-  //   if (this.store.detail.id) {
-  //     params.id = this.store.detail.id
-  //   }
-
-  //   this.store.checkName(params, callback)
-  // }
 
   render() {
     const {
-      visible, confirmLoading,
+      visible, 
+      confirmLoading,
     } = this.store
     const modalConfig = {
       title: '初始化',
