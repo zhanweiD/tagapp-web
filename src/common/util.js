@@ -12,6 +12,7 @@ const {pathPrefix} = window.__keeper
 // 接口前缀
 
 export const groupConfigApi = `${pathPrefix}/group-config` // 群体配置
+export const groupManageApi = `${pathPrefix}/group/manage` // 群体管理
 
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览

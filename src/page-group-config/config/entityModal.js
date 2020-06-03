@@ -114,7 +114,7 @@ class EModal extends Component {
     const {getFieldDecorator} = this.form
 
     const modalConfig = {
-      title: modalType === 'edit' ? '编辑项目' : '添加项目',
+      title: modalType === 'edit' ? '编辑实体' : '添加实体',
       visible: entityVisible,
       onCancel: this.modalCancel,
       onOk: this.submit,

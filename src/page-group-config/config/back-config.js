@@ -63,11 +63,11 @@ export default class GroupBackConfig extends Component {
     this.store.entityVisible = true
     this.store.modalType = type
     if (type === 'add') {
-      this.store.getEntityList(data.objId)
-      this.store.getTagList(data.objId)
+      // this.store.getEntityList(data.objId)
+      // this.store.getTagList(data.objId)
     }
     if (type === 'edit') {
-      this.store.getEntityInfo(data.objId)
+      // this.store.getEntityInfo(data.objId)
     }
   }
 
@@ -82,69 +82,38 @@ export default class GroupBackConfig extends Component {
   selectContent= () => {
     const {
       selectLoading, 
-      dataSource = [], 
+      dataSource = [],
       dataTypeSource = [],
       initVisible,
-      dataStorageTypeID,
+      dataStorageTypeId,
       dataStorageId,
+      dataStorageTypeName,
+      dataStorageName,
     } = this.store
-
     return [{
       label: '数据源类型',
       key: 'type',
-      initialValue: dataStorageTypeID,
+      initialValue: dataStorageTypeName,
       disabled: true,
       rules: [
         '@requiredSelect',
       ],
       control: {
-        // options: dataTypeSource,
-        options: [
-          {
-            value: 1,
-            name: 'Mysql',
-          },
-          {
-            value: 2,
-            name: 'Oracle',
-          },
-          {
-            value: 11,
-            name: 'PostgreSQL',
-          },
-          {
-            value: 10,
-            name: 'Greenplum',
-          },
-          {
-            value: 4,
-            name: 'Hive',
-          },
-        ],
-        onSelect: v => this.selectDataTypeSource(v),
-        notFoundContent: selectLoading ? <Spin size="small" /> : null, 
+        options: dataTypeSource,
+        // onSelect: v => this.selectDataTypeSource(v),
+        // notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: dataStorageId,
+      initialValue: dataStorageName,
       disabled: true,
       rules: [
         '@requiredSelect',
       ],
       control: {
-        // options: dataSource,
-        options: [
-          {
-            value: "1583289421353fdnk",
-            name: "testdatasource",
-          },
-          {
-            value: "15839289253985ouc",
-            name: "1234",
-          },
-        ],
+        options: dataSource,
         onSelect: v => this.selectDataSource(v),
         notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },

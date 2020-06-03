@@ -9,10 +9,42 @@ import io from './io'
 
 const {Option} = Select
 class Store {
-  @observable dataSource = [] // 数据源 
-  @observable dataTypeSource = [] // 数据源类型
-  @observable dataStorageId = '' // 配置页面数据源id
-  @observable dataStorageTypeID = '' // 配置页面数据源类型id
+  @observable dataSource = [
+    {
+      value: "1583289421353fdnk",
+      name: "testdatasource",
+    },
+    {
+      value: "15839289253985ouc",
+      name: "1234",
+    },
+  ] // 数据源 
+  @observable dataTypeSource = [
+    {
+      value: 1,
+      name: 'Mysql',
+    },
+    {
+      value: 2,
+      name: 'Oracle',
+    },
+    {
+      value: 11,
+      name: 'PostgreSQL',
+    },
+    {
+      value: 10,
+      name: 'Greenplum',
+    },
+    {
+      value: 4,
+      name: 'Hive',
+    },
+  ] // 数据源类型
+  @observable dataStorageId = 1 // 配置页面数据源id
+  @observable dataStorageName = 'test' // 配置页面数据源id
+  @observable dataStorageTypeId = '1583289421353fdnk' // 配置页面数据源类型id
+  @observable dataStorageTypeName = 'MySQL' // 配置页面数据源类型id
   @observable entityList = [] // 实体列表
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
@@ -41,7 +73,7 @@ class Store {
   ]
 
   @action.bound closeModal() {
-    this.dataSource.clear()
+    // this.dataSource.clear()
     // this.dataEnginesSource.clear()
     // this.dataGroupData.clear()
     // this.detail = {}
@@ -58,9 +90,10 @@ class Store {
         dataStorageType: data.type,
       })
       runInAction(() => {
+        this.getPortrayal()
         // this.initVisible = res.dataStorageType ? false : true
-        this.dataSourceInit = res.dataStorageId
-        this.dataTypeSourceInit = res.dataStorageTypeName
+        // this.dataStorageId = res.dataStorageId
+        // this.dataStorageTypeId = res.dataStorageTypeName
       })
     } catch (e) {
       errorTip(e.message)
@@ -72,8 +105,8 @@ class Store {
       const res = await io.getPortrayal()
       runInAction(() => {
         // this.initVisible = res.dataStorageType ? false : true
-        this.dataSourceInit = res.dataStorageId
-        this.dataTypeSourceInit = res.dataStorageTypeName
+        // this.dataStorageId = res.dataStorageId || 1
+        // this.dataStorageTypeId = res.dataStorageType || '1583289421353fdnk'
       })
     } catch (e) {
       errorTip(e.message)

@@ -20,6 +20,14 @@ import ModalGroup from './modal'
 
 import store from './store'
 
+// 面包屑设置
+// eslint-disable-next-line no-underscore-dangle
+
+// const navList = [
+//   navListMap.tagCenter,
+//   navListMap.common,
+//   {text: navListMap.project.text},
+// ]
 @observer
 class GroupManage extends Component {
   columns = [
@@ -106,7 +114,9 @@ class GroupManage extends Component {
     },
   ]
   componentWillMount() {
-
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
+    // store.getGroupList()
   }
 
   @action openModal = () => {
