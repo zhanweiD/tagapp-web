@@ -7,6 +7,7 @@ import {
 import Frame from '../frame'
 import GroupConfig from './group-manage'
 import UnitList from './unit-list'
+import './main.styl'
 
 @observer
 export default class Page extends Component {
