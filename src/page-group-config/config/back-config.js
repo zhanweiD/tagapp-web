@@ -33,6 +33,7 @@ export default class GroupBackConfig extends Component {
       key: 'isUsed',
       title: '使用状态',
       dataIndex: 'isUsed',
+      render: text => <span style={{color: text ? 'green' : ''}}>{text ? '使用中' : '未使用'}</span>,
     }, {
       key: 'action',
       title: '操作',
@@ -45,7 +46,7 @@ export default class GroupBackConfig extends Component {
           </Fragment>
           <Fragment>
             <Popconfirm placement="topRight" title="你确认要移除该实体吗？" onConfirm={() => this.delItem(record.id)}>
-              <a href>移除</a>
+              <a disabled={record.isUsed} href>移除</a>
             </Popconfirm>
           </Fragment>
         </div>
@@ -58,18 +59,16 @@ export default class GroupBackConfig extends Component {
    * @param type 弹窗类型 编辑 / 添加(edit / add)
    */
   @action openModal = (type, data = {}) => {
-    this.store.detail = data
+    // this.store.detail = data
     this.store.entityVisible = true
     this.store.modalType = type
-    // this.store.getDataSource()
     if (type === 'add') {
-      this.store.getGroupList(data.objId)
+      this.store.getEntityList(data.objId)
       this.store.getTagList(data.objId)
     }
     if (type === 'edit') {
       this.store.getEntityInfo(data.objId)
     }
-    // this.store.getGroups()
   }
 
   /**
@@ -77,7 +76,7 @@ export default class GroupBackConfig extends Component {
    * @param id 项目ID
    */
   delItem = id => {
-    this.store.delList(id)
+    this.store.delEntity(id)
   }
 
   selectContent= () => {
@@ -89,6 +88,7 @@ export default class GroupBackConfig extends Component {
       dataStorageTypeID,
       dataStorageId,
     } = this.store
+
     return [{
       label: '数据源类型',
       key: 'type',

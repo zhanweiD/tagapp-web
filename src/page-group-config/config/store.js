@@ -1,16 +1,20 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
+import {Select} from 'antd'
 import {
   successTip, errorTip, changeToOptions, trimFormValues,
 } from '../../common/util'
 import io from './io'
 
+const {Option} = Select
 class Store {
   @observable dataSource = [] // 数据源 
   @observable dataTypeSource = [] // 数据源类型
   @observable dataStorageId = '' // 配置页面数据源id
   @observable dataStorageTypeID = '' // 配置页面数据源类型id
+  @observable entityList = [] // 实体列表
+  @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
   @observable visible = false // 控制配置弹窗
   @observable entityVisible = false // 控制实体弹窗
@@ -32,7 +36,7 @@ class Store {
       markedFeatureTag: "7025450326318656,7025602576644544",
       addTime: 1590486038000,
       picture: "base64up",
-      isUsed: 0,
+      isUsed: 1,
     },
   ]
 
@@ -92,14 +96,14 @@ class Store {
   }
 
   // 获取实体列表
-  @action async getGroupList() {
+  @action async getEntityList() {
     try {
-      // const res = await io.getGroupList({
-      //   currentPage: 1,
-      //   pageSize: 10,
-      // })
+      const res = await io.getEntityList({
+      })
       runInAction(() => {
-        // this.list = res.data
+        this.entityList = res.map(item => {
+          return (<Option value={item.objId}>{item.objName}</Option>)
+        })
       })
     } catch (e) {
       errorTip(e.message)
@@ -109,18 +113,19 @@ class Store {
   // 获取标签列表
   @action async getTagList() {
     try {
-      // const res = await io.getTagList({
-      //   currentPage: 1,
-      //   pageSize: 10,
-      // })
+      const res = await io.getTagList({
+      })
       runInAction(() => {
-        // this.list = res.data
+        this.TagList = res.map(item => {
+          return (<Option value={item.tagId}>{item.tagName}</Option>)
+        })
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
 
+  // 获取数据源类型列表
   @action async getDataTypeSource() {
     this.selectLoading = true
     try {
@@ -138,6 +143,8 @@ class Store {
       })
     }
   }
+
+  // 获取数据源列表
   @action async getDataSource() {
     this.selectLoading = true
     try {
@@ -156,18 +163,22 @@ class Store {
     }
   }
 
+  // 获取实体信息
   @action async getEntityInfo(id) {
     try {
       // await io.getEntityInfo({
       //   id,
       // })
+      // this.store.detail = res
     } catch (e) {
       errorTip(e.message)
     }
   }
-  @action async addList(data, cb) {
+
+  // 添加实体
+  @action async addEntity(data, cb) {
     try {
-      // await io.addList({...data})
+      // await io.addEntity({...data})
       runInAction(() => {
         successTip('添加成功')
         this.getList({currentPage: 1})
@@ -178,9 +189,10 @@ class Store {
     }
   }
 
-  @action async editList(data, cb) {
+  // 编辑实体
+  @action async editEntity(data, cb) {
     try {
-      // await io.editList({
+      // await io.editEntity({
       //   "tenantId": 512635,
       //   "userId": 243724,
       //   "proejctId": 1234,
@@ -199,9 +211,10 @@ class Store {
     }
   }
 
-  @action async delList(id) {
+  // 删除实体
+  @action async delEntity(id) {
     try {
-      // await io.delList({id})
+      // await io.delEntity({id})
       runInAction(() => {
         successTip('删除成功')
         this.getList({currentPage: 1})

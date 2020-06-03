@@ -68,15 +68,15 @@ class EModal extends Component {
         this.modalCancel()
         // 编辑 
         if (store.modalType === 'edit') {
-          const params = {id: store.detail.id, ...data}
-          store.editList(params, () => {
-            this.modalCancel()
-          })
+          const params = {id: store.detail.objId, ...data}
+          // store.editEntity(params, () => {
+          //   this.modalCancel()
+          // })
         } else {
           // 新增
-          store.addList(data, () => {
-            this.modalCancel()
-          })
+          // store.addEntity(data, () => {
+          //   this.modalCancel()
+          // })
         }
       }
     })
@@ -200,7 +200,7 @@ class EModal extends Component {
             // key={Math.random()}
           >
             {getFieldDecorator('picture', {
-              // initialValue: undefined,
+              initialValue: detail.picture,
             })(
               <Upload
                 name="上传画像"
