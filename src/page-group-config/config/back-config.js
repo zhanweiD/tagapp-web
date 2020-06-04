@@ -84,7 +84,6 @@ export default class GroupBackConfig extends Component {
       selectLoading, 
       dataSource = [],
       dataTypeSource = [],
-      initVisible,
       dataStorageTypeId,
       dataStorageId,
       dataStorageTypeName,
@@ -100,8 +99,8 @@ export default class GroupBackConfig extends Component {
       ],
       control: {
         options: dataTypeSource,
-        // onSelect: v => this.selectDataTypeSource(v),
-        // notFoundContent: selectLoading ? <Spin size="small" /> : null, 
+        onSelect: v => this.selectDataTypeSource(v),
+        notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
     }, {
@@ -117,22 +116,22 @@ export default class GroupBackConfig extends Component {
         onSelect: v => this.selectDataSource(v),
         notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
-      selectLoading, // 下拉框loading效果
       component: 'select',
     }]
   }
   render() {
     const {store} = this
     const {
-      initVisible,
       list,
     } = store
+
     const formConfig = {
       // selectContent: visible && this.selectContent(),
       labelAlign: 'right',
       selectContent: this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
     }
+
     const listConfig = {
       columns: this.columns,
       bordered: true,
@@ -140,8 +139,9 @@ export default class GroupBackConfig extends Component {
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
+
     return (
-      <div style={{display: initVisible ? 'none' : 'block'}} className="back-config">
+      <div className="back-config">
         <div className="cloud-config">
           <p className="config-title">云资源配置</p>
           <ModalForm {...formConfig} />

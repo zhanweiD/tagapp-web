@@ -197,10 +197,10 @@ class Store {
   }
 
   // 获取实体信息
-  @action async getEntityInfo(id) {
+  @action async getEntityInfo(objId) {
     try {
       // await io.getEntityInfo({
-      //   id,
+      //   objId,
       // })
       // this.store.detail = res
     } catch (e) {

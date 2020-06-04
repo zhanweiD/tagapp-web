@@ -38,7 +38,7 @@ export default class ConfigModal extends Component {
     return [{
       label: '数据源类型',
       key: 'type',
-      // initialValue: 'hive',
+      // initialValue: detail.type,
       placeholder: '请选择',
       rules: [
         '@requiredSelect',

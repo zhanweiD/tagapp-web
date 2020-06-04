@@ -91,7 +91,7 @@ class GroupManage extends Component {
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status !== 1 ? true : false} href>个体列表</a>
+            <a disabled={record.status !== 1 ? true : false} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
@@ -132,11 +132,11 @@ class GroupManage extends Component {
   }
 
   /**
-   * @description 跳转到标签管理
+   * @description 跳转到个体列表
    */
-  goTagManage = id => {
-    storage.set('tag_projectId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/tag-warehouse`
+  goUnitList = id => {
+    storage.set('objId', id)
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit`
   }
 
   /**

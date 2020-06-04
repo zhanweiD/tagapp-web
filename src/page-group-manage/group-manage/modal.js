@@ -30,7 +30,7 @@ export default class ModalGroup extends Component {
     }
     
     return (
-      <Modal {...modalConfig}>
+      <Modal {...modalConfig} className="add-group">
         <Fragment>
           <div className="create-flex">
             <div className="create-icon">

@@ -35,14 +35,27 @@ class GroupConfig extends Component {
     }
     return (
       <div className="config">
-        <div style={{display: store.initVisible ? 'block' : 'none'}}>
+        {
+          store.initVisible ? (
+            <div>
+              <NoData
+                // isLoading={tableLoading}
+                {...noDataConfig}
+              />
+              <ConfigModal store={store} />
+            </div>
+          ) : (
+            <BackConfig store={store} />
+          )
+        }
+        {/* <div style={{display: store.initVisible ? 'block' : 'none'}}>
           <NoData
             // isLoading={tableLoading}
             {...noDataConfig}
           />
           <ConfigModal store={store} />
         </div>
-        <BackConfig store={store} />
+        <BackConfig store={store} /> */}
       </div>
     )
   }
