@@ -1,5 +1,3 @@
-
-// 数据查询
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {
@@ -8,7 +6,7 @@ import {
 
 import Frame from '../frame'
 
-import DataSearch from './data-search'
+import MySearch from './my-search'
 
 @observer
 export default class Page extends Component {
@@ -17,7 +15,7 @@ export default class Page extends Component {
       <Router>
         <Frame page="space">
           <Switch>
-            <Route exact path="/data-search" component={DataSearch} />
+            <Route exact path="/my-search" component={MySearch} />
             <Route
               render={() => {
                 window.location.href = '/404'

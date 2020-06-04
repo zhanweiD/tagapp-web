@@ -16,6 +16,7 @@ import OmitTooltip from './omit-tooltip'
 import StatusImg from './status-img'
 import ModalStotageDetail from './modal-stroage-detail'
 import projectProvider from './project-provider'
+import Card from './dt-card'
 
 export {
   DetailHeader,
@@ -37,4 +38,5 @@ export {
   StatusImg,
   ModalStotageDetail,
   projectProvider,
+  Card,
 }
