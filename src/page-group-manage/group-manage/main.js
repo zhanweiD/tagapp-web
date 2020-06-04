@@ -4,9 +4,7 @@
 import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {
-  Popconfirm, Badge, Icon, Dropdown, Menu,
-} from 'antd'
+import { Popconfirm, Badge, Dropdown, Menu } from 'antd';
 import {Link} from 'react-router-dom'
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'

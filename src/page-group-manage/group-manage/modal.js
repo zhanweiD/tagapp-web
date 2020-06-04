@@ -1,7 +1,8 @@
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import {Modal, Spin, Icon} from 'antd'
+import { PlusCircleFilled } from '@ant-design/icons';
+import { Modal, Spin } from 'antd';
 
 @observer
 export default class ModalGroup extends Component {
@@ -34,7 +35,7 @@ export default class ModalGroup extends Component {
         <Fragment>
           <div className="create-flex">
             <div className="create-icon">
-              <Icon type="plus-circle" theme="filled" style={{fontSize: '85px', color: '#3396DB'}} />
+              <PlusCircleFilled style={{fontSize: '85px', color: '#3396DB'}} />
             </div>
             <div className="create-type">
               <p className="create-group">
@@ -47,7 +48,7 @@ export default class ModalGroup extends Component {
           </div>
           <div className="create-flex">
             <div className="create-icon">
-              <Icon type="plus-circle" theme="filled" style={{fontSize: '85px', color: '#D49621'}} />
+              <PlusCircleFilled style={{fontSize: '85px', color: '#D49621'}} />
             </div>
             <div className="create-type">
               <p className="create-group">
@@ -60,7 +61,7 @@ export default class ModalGroup extends Component {
           </div>
           <div className="create-flex">
             <div className="create-icon">
-              <Icon type="plus-circle" theme="filled" style={{fontSize: '85px', color: '#33AE06'}} />
+              <PlusCircleFilled style={{fontSize: '85px', color: '#33AE06'}} />
             </div>
             <div className="create-type">
               <p className="create-group">
@@ -73,6 +74,6 @@ export default class ModalGroup extends Component {
           </div>
         </Fragment>
       </Modal>
-    )
+    );
   }
 }

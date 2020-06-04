@@ -1,7 +1,9 @@
 import {Component} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import {Modal, Spin, Form, Select, Button, Upload, Icon, message} from 'antd'
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Spin, Select, Button, Upload, message } from 'antd';
 import {ModalForm} from '../../component'
 import {
   errorTip,
@@ -131,7 +133,7 @@ class EModal extends Component {
 
     const uploadButton = (
       <div>
-        <Icon type={uploadLoading ? 'loading' : 'plus'} />
+        <LegacyIcon type={uploadLoading ? 'loading' : 'plus'} />
         <div className="ant-upload-text">Upload</div>
       </div>
     )
