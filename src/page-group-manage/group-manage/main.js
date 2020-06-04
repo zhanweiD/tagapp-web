@@ -35,14 +35,13 @@ class GroupManage extends Component {
       key: 'name',
       title: '群体名称',
       dataIndex: 'name',
-      render: text => <a href>{text}</a>,
-      // render: (text, record) => (record.config === 1
-      //   ? (
-      //     <Link to={`/project/${record.id}`}>
-      //       <OmitTooltip maxWidth={100} text={text} />
-      //     </Link>
-      //   ) : <OmitTooltip maxWidth={100} text={text} />)
-      // ,
+      // render: 
+      // text => <a href>{text}</a>,
+      render: (text, record) => (
+        <Link to={`/group/manage/${record.objId}`}>
+          <OmitTooltip maxWidth={100} text={text} />
+        </Link>
+      ),
     }, {
       key: 'objName',
       title: '实体',

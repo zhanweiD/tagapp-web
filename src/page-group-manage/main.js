@@ -6,6 +6,7 @@ import {
 
 import Frame from '../frame'
 import GroupConfig from './group-manage'
+import GroupDetail from './group-detail'
 import UnitList from './unit-list'
 import './main.styl'
 
@@ -17,6 +18,7 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/group/manage" component={GroupConfig} />
+            <Route exact path="/group/manage/:objId" component={GroupDetail} />
             <Route exact path="/group/unit" component={UnitList} />
             <Route
               render={() => {
