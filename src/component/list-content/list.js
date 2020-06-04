@@ -142,8 +142,7 @@ export default class ListContent extends Component {
           loading={tableLoading}
           dataSource={toJS(list)}
           onChange={handleTableChange}
-          // {...rest}
-          columns={rest.columns}
+          {...rest}
           className="table"
         />
         {
