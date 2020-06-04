@@ -5,9 +5,9 @@
 
 import {Component} from 'react'
 import PropTypes from 'prop-types'
-import {
-  Form, Button, Row, Col,
-} from 'antd'
+import {Form} from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import {Button, Row, Col} from 'antd'
 import ControlComponent, {mergeRules} from '../form-component-config'
 
 
@@ -30,7 +30,6 @@ const formItemLayout = {
   },
 }
 
-@Form.create()
 export default class SearchContent extends Component {
   static propTypes = {
     params: PropTypes.instanceOf(Array),
@@ -55,17 +54,18 @@ export default class SearchContent extends Component {
     control,
     ...rest
   }) => {
-    const {form} = this.props
-    const {getFieldDecorator} = form
-
     return (
       <Col span={8}>
-        <FormItem {...formItemLayout} key={key} label={label}>
-          {getFieldDecorator(key, {
-            initialValue, 
-            rules: mergeRules(rules, label),
-            validateFirst: true,
-          })(<ControlComponent type={type || 'input'} label={label} {...control} {...rest} />)}
+        <FormItem 
+          {...formItemLayout} 
+          key={key} 
+          label={label}
+          name={key}
+          initialValue={initialValue}
+          rules={mergeRules(rules, label)}
+          validateFirst
+        >
+          <ControlComponent type={type || 'input'} label={label} {...control} {...rest} />
         </FormItem>
       </Col>
     )

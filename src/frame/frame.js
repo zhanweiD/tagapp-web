@@ -3,7 +3,7 @@ import {action} from 'mobx'
 import {observer} from 'mobx-react'
 import {withRouter} from 'react-router-dom'
 // 国际化
-import {LocaleProvider, Layout, Select} from 'antd'
+import {ConfigProvider, Layout, Select} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import {DtFrame} from '@dtwave/uikit'
 
@@ -80,7 +80,7 @@ class Frame extends Component {
   render() {
     const {children} = this.props
     return (
-      <LocaleProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN}>
         <DtFrame
           {...this.props}
           removeNode
@@ -99,7 +99,7 @@ class Frame extends Component {
             </Content>
           </Layout>
         </DtFrame>
-      </LocaleProvider>
+      </ConfigProvider>
     )
   }
 }
