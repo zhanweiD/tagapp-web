@@ -7,6 +7,7 @@ import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
 import {AuthBox, Tag, DetailHeader, TimeRange} from '../../component'
 import TagHistory from './tab-history'
+import TabApi from './tab-api'
 
 import store from './store'
 
@@ -131,7 +132,7 @@ export default class GroupDetail extends Component {
               <TagHistory store={store} />
             </TabPane>
             <TabPane tab="API列表" key="2">
-              2
+              <TabApi store={store} />
             </TabPane>
           </Tabs>
           {/* <ModalEditScene store={store} /> */}

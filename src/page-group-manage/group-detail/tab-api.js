@@ -1,64 +1,73 @@
 import {Component} from 'react'
 import {action} from 'mobx'
-import {TimeRange} from '../../component'
-import {getApiTrendOpt} from './charts-options'
+import {TimeRange, NoData, ListContent, AuthBox} from '../../component'
+import {Time} from '../../common/util'
 
-export default class TrendApi extends Component {
-  defStartTime = moment().subtract(7, 'day').format('YYYY-MM-DD')
-  defEndTime = moment().subtract(1, 'day').format('YYYY-MM-DD')
-  chartLine = null
+import ApiModal from './apiModal'
 
-  componentDidMount() {
-    this.chartLine = echarts.init(this.lineRef)
-    this.getData()
-    window.addEventListener('resize', () => this.resize())
+export default class TabApi extends Component {
+  constructor(props) {
+    super(props)
+    this.store = this.props.store
+  }
+  columns = [
+    {
+      key: 'name',
+      title: 'API名称',
+      dataIndex: 'name',
+    }, {
+      key: 'objName',
+      title: 'API路径',
+      dataIndex: 'objName',
+    }, {
+      key: 'lastCount',
+      title: '创建人',
+      dataIndex: 'lastCount',
+    }, {
+      key: 'lastTime',
+      title: '创建时间',
+      dataIndex: 'lastTime',
+      render: text => <Time timestamp={text} />,
+    },
+  ]
+
+  componentWillMount() {
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
+    // store.getGroupList()
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      tagId,
-    } = this.props
-    
-    if (tagId && tagId !== nextProps.tagId) {
-      this.getData()
-    }
+  @action openModal = () => {
+    this.store.visible = true
   }
 
-  drawChart = data => {
-    this.chartLine.setOption(getApiTrendOpt(
-      data
-    ))
-  }
-
-
-  @action getData(gte = this.defStartTime, lte = this.defEndTime) {
-    const {store} = this.props
-    const params = {
-      startDate: gte,
-      endDate: lte,
-    }
-
-    store.getApiTrend(params, res => {
-      if (res.length) this.drawChart(res)
-    })
-  }
-
-  @action resize() {
-    if (this.chartLine) this.chartLine.resize()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', () => this.resize())
-    if (this.chartLine) this.chartLine.dispose()
-    this.chartLine = null
-  }
 
   render() {
-    const {tagId} = this.props
+    const {store} = this
+    const {
+      list, tableLoading, searchParams,
+    } = store
+
+    const listConfig = {
+      columns: this.columns,
+      buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal()}>新建API</AuthBox>],
+      initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
+      store, // 必填属性
+    }
 
     return (
-      <div className="bgf p24">
-        
+      <div className="page-group">
+        {
+          list.length || JSON.stringify(searchParams) !== '{}' ? (
+            <div className="list-content">
+              <ListContent {...listConfig} />
+            </div>
+          ) : (
+            <NoData />
+            // isLoading={tableLoading}
+          )
+        }
+        <ApiModal store={store} />
       </div>
     )
   }
