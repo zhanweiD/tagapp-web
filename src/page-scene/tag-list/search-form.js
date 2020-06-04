@@ -27,7 +27,7 @@ const formItemLayout = {
 //   label: '未使用',
 // }]
 
-exports.SearchForm = Form.create({
+exports.SearchForm = ({
   onFieldsChange: props => {
     props.onChange()
   },

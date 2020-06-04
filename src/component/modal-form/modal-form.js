@@ -9,7 +9,6 @@ import ControlComponent, {mergeRules} from '../form-component-config'
 
 const FormItem = Form.Item
 
-@Form.create()
 export default class ModalForm extends Component {
   static propTypes = {
     selectContent: PropTypes.instanceOf(Array),
