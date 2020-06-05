@@ -36,7 +36,7 @@ export default class ApiModal extends Component {
       ],
       component: 'input',
     }, {
-      label: '数据源',
+      label: '输出标签',
       key: 'dataStorageId',
       mode: 'multiple',
       rules: [
@@ -67,23 +67,12 @@ export default class ApiModal extends Component {
     const {store} = this
     this.form.validateFields((err, values) => {
       if (!err) {
-        const data = {
-          ...values,
-          groupIdList: [values.groupIdList],
-        }
-
-        // 编辑 
-        if (store.modalType === 'edit') {
-          const params = {id: store.detail.id, ...data}
-          store.editList(params, () => {
-            this.handleCancel()
-          })
-        } else {
-          // 新增
-          store.addList(data, () => {
-            this.handleCancel()
-          })
-        }
+        // 新增
+        // store.addList(values, () => {
+        //   this.handleCancel()
+        // })
+        console.log(values)
+        this.handleCancel()
       }
     })
   }
@@ -99,6 +88,7 @@ export default class ApiModal extends Component {
       maskClosable: false,
       closable: true,
       onCancel: this.handleCancel,
+      onOk: this.submit,
       width: 525,
       destroyOnClose: true,
     }

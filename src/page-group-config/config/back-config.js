@@ -94,9 +94,6 @@ export default class GroupBackConfig extends Component {
       key: 'type',
       initialValue: dataStorageTypeName,
       disabled: true,
-      rules: [
-        '@requiredSelect',
-      ],
       control: {
         options: dataTypeSource,
         onSelect: v => this.selectDataTypeSource(v),
@@ -108,9 +105,6 @@ export default class GroupBackConfig extends Component {
       key: 'storageId',
       initialValue: dataStorageName,
       disabled: true,
-      rules: [
-        '@requiredSelect',
-      ],
       control: {
         options: dataSource,
         onSelect: v => this.selectDataSource(v),

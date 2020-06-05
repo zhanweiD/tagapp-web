@@ -161,6 +161,21 @@ export function listToTree(data) {
   return newData.filter(item => item.parentId === 0)
 }
 
+/**
+ * @description 拼接完整类目名称 一级类目/二级类目。。。
+ * @param {*} data 未打平类目树数据
+ * @param category 当前选中的类目对象
+ * @param allCateName 用来
+ */
+// export function categoryName(data, category) {
+//   const parent = _.find(data, item => item.id === category.parentId)
+//   if (parent) {
+//     category.name = `${parent.name}/${category.name}`
+//     this.categoryName(data, parent)
+//   }
+//   return category.name
+// }
+
 // 标签、对象英文名校验正则
 export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
 

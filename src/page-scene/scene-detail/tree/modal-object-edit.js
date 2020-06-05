@@ -101,4 +101,4 @@ class ModalObjectEdit extends Component {
   }
 }
 
-export default ModalObjectEdit
+export default Form.create()(ModalObjectEdit)

@@ -98,4 +98,4 @@ class ModalTagMove extends Component {
   }
 }
 
-export default ModalTagMove
+export default Form.create()(ModalTagMove)

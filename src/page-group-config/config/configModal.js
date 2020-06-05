@@ -28,6 +28,13 @@ export default class ConfigModal extends Component {
     // this.store.getDataTypeSource()
   }
 
+  formItemLayout = () => {
+    return ({
+      labelCol: {span: 6},
+      wrapperCol: {span: 18},
+      colon: false,
+    })
+  }
 
   selectContent= () => {
     const {
@@ -102,6 +109,7 @@ export default class ConfigModal extends Component {
     
     const formConfig = {
       selectContent: visible && this.selectContent(),
+      formItemLayout: visible && this.formItemLayout(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
     }
     return (

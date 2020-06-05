@@ -10,7 +10,8 @@ import ControlComponent, {mergeRules} from '../form-component-config'
 
 const FormItem = Form.Item
 
-class MForm extends Component {
+@Form.create()
+export default class ModalForm extends Component {
   static propTypes = {
     selectContent: PropTypes.instanceOf(Array),
     formItemLayout: PropTypes.instanceOf(Object),
@@ -26,7 +27,7 @@ class MForm extends Component {
   }
 
   createItemContent = () => {
-    const {selectContent, formItemLayout} = this.props
+    const {selectContent, formItemLayout, form: {getFieldDecorator}} = this.props
     if (!selectContent && !selectContent.length) return null
     return selectContent.map(({
       label,
@@ -55,14 +56,13 @@ class MForm extends Component {
                 </span>
               ) : label}
               extra={extra}
-              
-              name={key}
-              initialValue={initialValue}
-              valuePropName={valuePropName}
-              rules={mergeRules(rules, label)}
-              validateFirst
             >
-              <ControlComponent mode={mode} type={type} label={label} {...control} {...rest} />
+              {getFieldDecorator(key, {
+                initialValue, 
+                valuePropName,
+                rules: mergeRules(rules, label),
+                validateFirst: true,
+              })(<ControlComponent mode={mode} type={type} label={label} {...control} {...rest} />)}
             </FormItem>
           )
         }
@@ -82,5 +82,3 @@ class MForm extends Component {
     )
   }
 }
-const ModalForm = Form.create()(MForm)
-export default ModalForm

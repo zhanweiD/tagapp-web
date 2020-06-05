@@ -24,6 +24,7 @@ class EModal extends Component {
     reader.addEventListener('load', () => callback(reader.result))
     reader.readAsDataURL(img)
   }
+
   handleChange = info => {
     if (info.file.status === 'uploading') {
       this.store.uploadLoading = true
@@ -36,6 +37,7 @@ class EModal extends Component {
       })
     }
   }
+
   beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
@@ -128,7 +130,7 @@ class EModal extends Component {
 
     const formItemLayout = {
       labelCol: {span: 6},
-      wrapperCol: {span: 14},
+      wrapperCol: {span: 16},
     }
 
     const uploadButton = (

@@ -143,4 +143,4 @@ class ModalEditCategory extends Component {
   }
 }
 
-export default ModalEditCategory
+export default Form.create()(ModalEditCategory)
