@@ -2,9 +2,9 @@
  * 场景详情标签树-类目(编辑/添加)弹窗
  */
 import {Component} from 'react'
-import {
-  Modal, Form, Input, Spin,
-} from 'antd'
+import {Form} from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import {Modal, Input, Spin} from 'antd'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {getNamePattern, trimFormValues} from '../../../common/util'
@@ -143,4 +143,4 @@ class ModalEditCategory extends Component {
   }
 }
 
-export default ModalEditCategory
+export default Form.create()(ModalEditCategory)
