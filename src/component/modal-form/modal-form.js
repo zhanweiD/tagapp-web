@@ -27,7 +27,7 @@ export default class ModalForm extends Component {
   }
 
   createItemContent = () => {
-    const {selectContent, formItemLayout, form: {getFieldDecorator}} = this.props
+    const {selectContent, formItemLayout} = this.props
     if (!selectContent && !selectContent.length) return null
 
     return selectContent.map(({
@@ -56,13 +56,13 @@ export default class ModalForm extends Component {
                 </span>
               ) : label}
               extra={extra}
+              name={key}
+              initialValue={initialValue}
+              valuePropName={valuePropName}
+              rules={mergeRules(rules, label)}
+              validateFirst
             >
-              {getFieldDecorator(key, {
-                initialValue, 
-                valuePropName,
-                rules: mergeRules(rules, label),
-                validateFirst: true,
-              })(<ControlComponent type={type} label={label} {...control} {...rest} />)}
+              <ControlComponent type={type} label={label} {...control} {...rest} />
             </FormItem>
           )
         }
