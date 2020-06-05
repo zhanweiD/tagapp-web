@@ -4,7 +4,7 @@
  */
 import {Component} from 'react'
 import PropTypes from 'prop-types'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Table, Pagination} from 'antd'
 import SearchContent from './search'
@@ -140,7 +140,7 @@ export default class ListContent extends Component {
           // @see {@link antd/table}
           pagination={false}
           loading={tableLoading}
-          dataSource={list.slice()}
+          dataSource={toJS(list)}
           onChange={handleTableChange}
           {...rest}
           className="table"
