@@ -1,5 +1,5 @@
-import ioContext from '../../common/io-context'
-import {derivativeApi, get, post} from '../../common/util'
+import ioContext from '../../../common/io-context'
+import {derivativeApi, get, post} from '../../../common/util'
 
 const api = {
   getTagTree: post(`${derivativeApi}/schema/tagsTreeSearch`), // 逻辑配置 - 标签树

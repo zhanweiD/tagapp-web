@@ -1,8 +1,8 @@
 import ioContext from '../../common/io-context'
-import {get, post} from '../../common/util'
+import {get, post, baseApi} from '../../common/util'
 
 const api = {
-  
+  queryInstanceResult: post(`${baseApi}/task/instance/result`),
 } 
 
 ioContext.create('mySearch', api) 

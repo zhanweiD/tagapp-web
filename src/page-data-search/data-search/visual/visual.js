@@ -1,21 +1,22 @@
 /**
- * @description 我的查询-TQL
+ * @description 可视化
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action} from 'mobx'
 
 // import store from './store'
+import './visual.styl'
 
 @observer
-export default class TqlCode extends Component {
+export default class Visual extends Component {
   componentWillMount() {
 
   }
 
   render() {
     return (
-      <div>123</div>
+      <div className="visual">123</div>
     )
   }
 }

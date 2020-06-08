@@ -7,7 +7,7 @@ import {action} from 'mobx'
 import {Tabs} from 'antd'
 import {projectProvider} from '../../component'
 import DataSearchInit from './init'
-import Tql from './tql'
+import Tql from './tql/tql'
 
 import store from './store'
 
@@ -28,7 +28,7 @@ class MySearch extends Component {
       <div>
         {
           isInit ? (
-            <Tabs defaultActiveKey="1" className="comp-tab">
+            <Tabs defaultActiveKey="1" type="card" className="bgf">
               <TabPane tab="可视化方式" key="1">
                 <div className="bgf">
                   123

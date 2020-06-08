@@ -4,10 +4,10 @@
 import {Component} from 'react'
 import {action} from 'mobx'
 import {observer} from 'mobx-react'
-import {NoBorderInput} from '../../component'
+import {NoBorderInput} from '../../../component'
 import {
   IconRefresh, IconUnExtend, IconExtend,
-} from '../../icon-comp'
+} from '../../../icon-comp'
 
 @observer
 export default class Action extends Component {

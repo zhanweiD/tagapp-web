@@ -8,9 +8,9 @@ import {Button} from 'antd'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 
-import store from './store-tql'
+import store from './store'
 import './tql.styl'
-
+import './code.styl'
 @observer
 export default class Tql extends Component {
   componentWillMount() {
@@ -21,7 +21,7 @@ export default class Tql extends Component {
   render() {
     return (
       <div className="tql">
-        <div>
+        <div className="pb16 far">
           <Button className="mr8">清空数据查询</Button>
           <Button className="mr8">保存数据查询</Button>
           <Button className="mr8" type="primary">生成API</Button>

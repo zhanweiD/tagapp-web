@@ -7,9 +7,9 @@ import {observer} from 'mobx-react'
 import {action, observable} from 'mobx'
 import {Tabs} from 'antd'
 import {DtTree} from '@dtwave/uikit'
-import {Loading} from '../../component'
+import {Loading} from '../../../component'
 import Action from './tree-action'
-import functionIcon from '../../icon/function-icon.svg'
+import functionIcon from '../../../icon/geshihua.svg'
 
 const {TabPane} = Tabs
 const {DtTreeNode, DtTreeBox} = DtTree
@@ -78,7 +78,7 @@ export default class TqlTree extends Component {
           <TabPane tab="基础标签" key="0" />
           <TabPane tab="函数" key="1" />
         </Tabs>
-        {/* <div style={{marginTop: '-24px', height: 'calc(100% - 38px)', overflow: 'auto'}}>
+        <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
           <DtTreeBox {...treeBoxConfig}>
             {treeLoading
               ? <Loading mode="block" height={100} />
@@ -91,7 +91,7 @@ export default class TqlTree extends Component {
               )
             }
           </DtTreeBox>
-        </div> */}
+        </div>
       </div>
     )
   }
