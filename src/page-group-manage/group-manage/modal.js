@@ -15,6 +15,11 @@ export default class ModalGroup extends Component {
     this.store.visible = false
   }
 
+  @action idCreate = () => {
+    this.store.drawerVisible = true
+    this.store.visible = false
+  }
+
   render() {
     const {
       visible,
@@ -59,7 +64,7 @@ export default class ModalGroup extends Component {
               </p>
             </div>
           </div>
-          <div className="create-flex">
+          <div className="create-flex" onClick={this.idCreate}>
             <div className="create-icon">
               <PlusCircleFilled style={{fontSize: '85px', color: '#33AE06'}} />
             </div>

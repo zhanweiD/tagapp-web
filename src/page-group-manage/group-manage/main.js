@@ -4,7 +4,7 @@
 import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import { Popconfirm, Badge, Dropdown, Menu } from 'antd';
+import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
 import {Link} from 'react-router-dom'
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
@@ -15,6 +15,7 @@ import storage from '../../common/nattyStorage'
 
 import seach from './search'
 import ModalGroup from './modal'
+import IdCreateGroup from './id-create-group'
 
 import store from './store'
 
@@ -48,7 +49,7 @@ class GroupManage extends Component {
       key: 'type',
       title: '群体类型',
       dataIndex: 'type',
-      render: text => text === 1 ? '离线实体' : '实时实体',
+      render: text => (text === 1 ? '离线实体' : '实时实体'),
     }, {
       key: 'lastCount',
       title: '群体数量',
@@ -60,7 +61,7 @@ class GroupManage extends Component {
       render: v => {
         if (v === 1) {
           return (<Badge color="green" text="正常" />)
-        } else if (v === 2) {
+        } if (v === 2) {
           return (<Badge color="red" text="失败" />)
         }
         return (<Badge color="yellow" text="计算中" />)
@@ -74,7 +75,7 @@ class GroupManage extends Component {
       key: 'mode',
       title: '创建方式',
       dataIndex: 'mode',
-      render: text => text === 1 ? '规则创建' : 'ID集合创建',
+      render: text => (text === 1 ? '规则创建' : 'ID集合创建'),
     }, {
       key: 'action',
       title: '操作',
@@ -84,27 +85,26 @@ class GroupManage extends Component {
         <div className="FBH FBAC">
           <Fragment>
             {/* <Link to={`/project/${record.id}`}>群体分析</Link> */}
-            <a disabled={record.status !== 1 ? true : false} href>群体分析</a>
+            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status !== 1 ? true : false} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
+            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status === 3 ? true : false} href>执行</a>
+            <a disabled={record.status === 3} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status === 3 ? true : false} href>编辑</a>
+            <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record.objId)}>编辑</a>
             <span className="table-action-line" />
           </Fragment>
                
           <Fragment>
             <Popconfirm placement="topRight" title="你确定要删除该群体吗？" onConfirm={() => this.delItem(record.id)}>
-              <a disabled={record.status === 3 ? true : false} href>删除</a>
+              <a disabled={record.status === 3} href>删除</a>
             </Popconfirm>
-            <span className="table-action-line" />
           </Fragment>
         </div>
       ),
@@ -129,27 +129,23 @@ class GroupManage extends Component {
   }
 
   /**
+   * @description 跳转到群体分析
+   */
+  goGroupAnalyze = id => {
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
+  }
+  
+  /**
    * @description 跳转到个体列表
    */
   goUnitList = id => {
-    storage.set('objId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit`
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
   }
-
   /**
-   * @description 跳转到标签加工
+   * @description 跳转到群体编辑
    */
-  goTagProcess = id => {
-    storage.set('tag_projectId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/tag-schema`
-  }
-
-  /**
-   * @description 跳转到标签应用
-   */
-  goTagApplication = id => {
-    storage.set('tag_projectId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/scene`
+  goGroupEdit = id => {
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
   }
 
   /**
@@ -206,6 +202,7 @@ class GroupManage extends Component {
           )
         }
         <ModalGroup store={store} />
+        <IdCreateGroup store={store} />
       </div>
     )
   }

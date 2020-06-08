@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react'
 import {action, toJS, observe} from 'mobx'
 import {observer} from 'mobx-react'
-import {Modal, Spin, Popconfirm} from 'antd'
+import {Modal, Spin, Popconfirm, Badge} from 'antd'
 import {ModalForm, ListContent, NoData, AuthBox} from '../../component'
 import {Time} from '../../common/util'
 
@@ -33,7 +33,7 @@ export default class GroupBackConfig extends Component {
       key: 'isUsed',
       title: '使用状态',
       dataIndex: 'isUsed',
-      render: text => <span style={{color: text ? 'green' : ''}}>{text ? '使用中' : '未使用'}</span>,
+      render: use => <Badge status={use ? 'success' : 'default'} text={use ? '使用中' : '未使用'} />,
     }, {
       key: 'action',
       title: '操作',
@@ -43,6 +43,7 @@ export default class GroupBackConfig extends Component {
         <div className="FBH FBAC">
           <Fragment>
             <a href onClick={() => this.openModal('edit', record)} style={{marginRight: '6px'}}>编辑</a>
+            <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <Popconfirm placement="topRight" title="你确认要移除该实体吗？" onConfirm={() => this.delItem(record.id)}>
@@ -121,7 +122,7 @@ export default class GroupBackConfig extends Component {
 
     const formConfig = {
       // selectContent: visible && this.selectContent(),
-      labelAlign: 'right',
+      labelAlign: 'left',
       selectContent: this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
     }

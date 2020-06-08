@@ -4,7 +4,7 @@ import {groupConfigApi, get, post} from '../../common/util'
 const api = {
   getPortrayal: get(`${groupConfigApi}/relGroup/project_storage`), // 获取画像信息
   groupInit: post(`${groupConfigApi}/relGroup/init`), // 初始化云资源
-  getDataTypeSource: get(`${groupConfigApi}/relGroup/storage_type`), // 数据源类型下拉列表
+  getDataTypeSource: get(`${groupConfigApi}/relGroup/storage_type`), // 数据源类型列表
   getDataSource: get(`${groupConfigApi}/relGroup/storage_list`), // 数据源列表
   getEntityList: get(`${groupConfigApi}/relGroup/obj_list`), // 实体列表
   getTagList: get(`${groupConfigApi}/relGroup/tag_list`), // 标签列表

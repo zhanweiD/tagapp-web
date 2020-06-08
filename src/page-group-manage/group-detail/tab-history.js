@@ -40,7 +40,7 @@ export default class TagHistory extends Component {
       render: v => {
         if (v === 1) {
           return (<Badge color="green" text="正常" />)
-        } else if (v === 2) {
+        } if (v === 2) {
           return (<Badge color="red" text="失败" />)
         }
         return (<Badge color="yellow" text="计算中" />)
@@ -55,12 +55,11 @@ export default class TagHistory extends Component {
         <div className="FBH FBAC">
           <Fragment>
             {/* <Link to={`/project/${record.id}`}>群体分析</Link> */}
-            <a disabled={record.status !== 1 ? true : false} href>群体分析</a>
+            <a disabled={record.status !== 1} href onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status !== 1 ? true : false} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
-            <span className="table-action-line" />
+            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
           </Fragment>
         </div>
       ),
@@ -90,12 +89,19 @@ export default class TagHistory extends Component {
     this.chartBar.setOption(getOptions())
   }
 
-    /**
+  /**
    * @description 跳转到个体列表
    */
   goUnitList = id => {
     storage.set('objId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit`
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
+  }
+  /**
+   * @description 跳转到群体分析
+   */
+  goGroupAnalyze = id => {
+    storage.set('objId', id)
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
   }
 
   @action getData(gte = this.defStartTime, lte = this.defEndTime) {

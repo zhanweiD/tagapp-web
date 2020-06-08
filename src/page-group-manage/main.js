@@ -20,6 +20,7 @@ export default class Page extends Component {
             <Route exact path="/group/manage" component={GroupConfig} />
             <Route exact path="/group/manage/:objId" component={GroupDetail} />
             <Route exact path="/group/unit" component={UnitList} />
+            {/* <Route exact path="/group/unit/:objId" component={UnitList} /> */}
             <Route
               render={() => {
                 window.location.href = '/404'

@@ -12,6 +12,9 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable cUser = [] // 项目所有者 
   @observable searchParams = [] // 搜索内容
   @observable visible = false // 新建群体
+  @observable drawerVisible = false // id新建群体
+  @observable modalVisible = false // 文件解析结果
+  @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
   @observable pagination = {
     totalCount: 1,
@@ -52,6 +55,22 @@ class Store extends ListContentStore(io.getGroupList) {
       })
     } catch (e) {
       errorTip(e.message)
+    }
+  }
+  @action async recheckName(name, callback) {
+    try {
+      const res = await io.recheckName({
+        name,
+      })
+      runInAction(() => {
+        if (res) {
+          callback('群体名称重复')
+        } else {
+          callback()
+        }
+      })
+    } catch (error) {
+      errorTip(error)
     }
   }
 }

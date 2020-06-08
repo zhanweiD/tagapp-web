@@ -52,7 +52,7 @@ class Store {
   @observable entityVisible = false // 控制实体弹窗
   @observable initVisible = true // 初始化页面是否显示
   @observable uploadLoading = false // 图片上传
-  @observable selectLoading = false 
+  @observable selectLoading = false // 下拉框加载
   @observable confirmLoading = false
   @observable pagination = {
     totalCount: 1,

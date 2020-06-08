@@ -66,10 +66,9 @@ class UnitList extends Component {
   }
 
   /**
-   * @description 跳转到标签管理
+   * @description 跳转到个体画像
    */
   goTagManage = id => {
-    storage.set('objId', id)
     window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit`
   }
 
