@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import { PlusCircleFilled } from '@ant-design/icons';
-import { Modal, Spin } from 'antd';
+import {PlusCircleFilled} from '@ant-design/icons'
+import {Modal, Spin} from 'antd' 
 
 @observer
 export default class ModalGroup extends Component {
@@ -79,6 +79,6 @@ export default class ModalGroup extends Component {
           </div>
         </Fragment>
       </Modal>
-    );
+    )
   }
 }

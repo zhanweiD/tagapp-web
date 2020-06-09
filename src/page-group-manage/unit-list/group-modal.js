@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import { Modal, Spin } from 'antd';
+import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
 
 @observer

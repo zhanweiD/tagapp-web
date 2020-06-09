@@ -7,12 +7,12 @@ export default function getOptions() {
     tooltip: {
       // trigger: 'axis',
     },
-    // grid: {
-    //     left: '3%',
-    //     right: '4%',
-    //     bottom: '5%',
-    //     containLabel: true
-    // },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '5%',
+      containLabel: true,
+    },
     xAxis: [{
       // type: 'category',
       // axisTick: {
@@ -32,12 +32,6 @@ export default function getOptions() {
       // },
       data: ['低能见度1', '低能见度2', '低能见度3', '低能见度4'],
     }],
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '5%',
-      containLabel: true,
-    },
     yAxis: {
       show: true,
       type: 'value',

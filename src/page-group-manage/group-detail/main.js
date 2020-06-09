@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import { Tabs, Button, Spin, Alert } from 'antd';
+import {Tabs, Button, Spin, Alert} from 'antd' 
 
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'

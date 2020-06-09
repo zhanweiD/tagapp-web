@@ -1,5 +1,4 @@
 import {Component} from 'react'
-import {withRouter, Link} from 'react-router-dom'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
@@ -12,10 +11,6 @@ export default class ConfigModal extends Component {
     this.store = props.store
   }
 
-  /**
-   * @description 选择数据源；请求计算引擎
-   * @param {*} storageId 数据源id
-   */
   @action.bound selectDataSource(storageId) {
     // this.form.resetFields(['engineId'])
     // this.store.getEnginesSource(storageId)

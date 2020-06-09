@@ -1,9 +1,9 @@
 import {Component} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Modal, Spin, Select, Button, Upload, message } from 'antd';
+import {Form, Icon as LegacyIcon} from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css' 
+import {Modal, Spin, Select, Button, Upload, message} from 'antd'
 import {ModalForm} from '../../component'
 import {
   errorTip,
@@ -150,7 +150,7 @@ class EModal extends Component {
             })(
               <Select
                 placeholder="请选择实体名称"
-                disabled={modalType === 'add' ? false : true}
+                disabled={modalType !== 'add'}
                 onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>

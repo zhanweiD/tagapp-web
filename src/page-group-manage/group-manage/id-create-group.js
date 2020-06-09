@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import {PlusCircleFilled, UploadOutlined} from '@ant-design/icons'
-import {Drawer, Spin, Form, message, Select, Input, Upload, Button, Modal} from 'antd'
+import {UploadOutlined} from '@ant-design/icons'
+import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal} from 'antd'
 
 import {errorTip} from '../../common/util'
 
