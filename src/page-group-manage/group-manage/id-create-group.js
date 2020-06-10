@@ -64,14 +64,15 @@ export default class IdCreateGroup extends Component {
   
   @action handleCancel = () => {
     this.store.drawerVisible = false
+    this.store.recordObj = {}
     this.store.uploadList = []
   }
 
   @action onOK = () => {
-    console.log(1)
     this.form = this.formRef.current
     this.formRef.current.validateFields().then(value => {
       this.store.drawerVisible = false
+      this.store.recordObj = {}
       this.store.uploadList = []
       console.log(value)
     }).catch(err => {
@@ -90,6 +91,7 @@ export default class IdCreateGroup extends Component {
     const {
       drawerVisible,
       modalVisible,
+      recordObj,
     } = this.store
 
     const props = {
@@ -107,7 +109,7 @@ export default class IdCreateGroup extends Component {
       placement: 'right',
       maskClosable: false,
       closable: true,
-      width: 700,
+      width: 600,
       destroyOnClose: true,
       onClose: this.handleCancel,
       footer: (
@@ -137,9 +139,18 @@ export default class IdCreateGroup extends Component {
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">
-          <Form {...formItemLayout} ref={this.formRef} labelAlign="right">
+          <Form 
+            {...formItemLayout} 
+            ref={this.formRef} 
+            labelAlign="right"
+            initialValues={{
+              objName: recordObj.objName,
+              name: recordObj.name,
+              descr: recordObj.descr,
+            }}
+          >
             <Item
-              name="group"
+              name="objName"
               label="所属实体"
               
               rules={[
@@ -161,6 +172,20 @@ export default class IdCreateGroup extends Component {
             >
               <Input placeholder="请输入名称" />
             </Item>
+            {
+              recordObj.objId ? (
+                <Item
+                  name="groupLog"
+                  label="群体标识"
+                  rules={[
+                    {required: true, message: '请输入标识'},
+                  ]}
+                >
+                  <Input placeholder="请输入标识" />
+                </Item>
+              ) : null
+            }
+            
             <Item
               label="描述"
               name="descr"
@@ -191,6 +216,22 @@ export default class IdCreateGroup extends Component {
                 下载模版
               </a>
             </Item>
+            {
+              recordObj.objId ? (
+                <Item
+                  name="label"
+                  label="输出标签"
+                  rules={[
+                    {required: true, message: '请选择标签'},
+                  ]}
+                >
+                  <Select placeholder="请选择标签">
+                    <Option key="1">1</Option>
+                    <Option key="2">2</Option>
+                  </Select>
+                </Item>
+              ) : null
+            }
           </Form>
           
         </Drawer>

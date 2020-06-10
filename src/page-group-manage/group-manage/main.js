@@ -2,10 +2,12 @@
  * @description 群体管理
  */
 import {Component, Fragment} from 'react'
+import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
-import {Link} from 'react-router-dom'
+import {DownOutlined} from '@ant-design/icons'
+
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
 import {
@@ -16,7 +18,6 @@ import storage from '../../common/nattyStorage'
 import seach from './search'
 import ModalGroup from './modal'
 import IdCreateGroup from './id-create-group'
-
 import store from './store'
 
 // 面包屑设置
@@ -29,6 +30,16 @@ import store from './store'
 // ]
 @observer
 class GroupManage extends Component {
+  menu = record => (
+    <Menu>
+      <Menu.Item>
+        <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
+      </Menu.Item>
+    </Menu>
+  )
   columns = [
     {
       key: 'name',
@@ -83,29 +94,36 @@ class GroupManage extends Component {
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          <Fragment>
-            {/* <Link to={`/project/${record.id}`}>群体分析</Link> */}
+          {/* <Fragment>
+            <Link to={`/project/${record.id}`}>群体分析</Link>
             <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
             <span className="table-action-line" />
-          </Fragment>
+          </Fragment> */}
           <Fragment>
             <a disabled={record.status === 3} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record.objId)}>编辑</a>
+            <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
           </Fragment>
                
           <Fragment>
             <Popconfirm placement="topRight" title="你确定要删除该群体吗？" onConfirm={() => this.delItem(record.id)}>
               <a disabled={record.status === 3} href>删除</a>
+              <span className="table-action-line" />
             </Popconfirm>
           </Fragment>
+          <Dropdown overlay={() => this.menu(record)}>
+            <a href>
+              更多
+              <DownOutlined />
+            </a>
+          </Dropdown>
         </div>
       ),
     },
@@ -120,32 +138,30 @@ class GroupManage extends Component {
     store.visible = true
   }
 
-  /**
-   * @description 删除项目
-   * @param id 项目ID
-   */
+  // 删除群体
   delItem = id => {
     store.delList(id)
   }
 
-  /**
-   * @description 跳转到群体分析
-   */
+  // 跳转到群体分析
   goGroupAnalyze = id => {
     window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
   }
   
-  /**
-   * @description 跳转到个体列表
-   */
+  // 跳转到个体列表
   goUnitList = id => {
     window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
   }
-  /**
-   * @description 跳转到群体编辑
-   */
-  goGroupEdit = id => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
+
+  // 跳转到群体编辑
+  goGroupEdit = record => {
+    if (record.mode === 2) {
+      store.drawerVisible = true
+      store.recordObj = record
+      console.log(record)
+    } else {
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${record.id}`
+    }
   }
 
   /**

@@ -1,7 +1,8 @@
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Tabs, Button, Spin, Alert} from 'antd' 
+import {Tabs, Button, Spin, Alert} from 'antd'
+import {EditOutlined} from '@ant-design/icons' 
 
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
@@ -72,6 +73,7 @@ export default class GroupDetail extends Component {
       objName,
       descr,
       lastTime,
+      status,
     } = info
 
     // 详情信息
@@ -105,26 +107,38 @@ export default class GroupDetail extends Component {
         value: descr,
       },
     ]
+    // 不同状态的相应map
+    const tagMap = {
+      1: <Tag status="success" text="正常" />,
+      2: <Tag status="error" text="失败" />,
+      3: <Tag status="process" text="计算中" />,
+    }
 
+    const actions = [
+      <a className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>查看规则</a>,
+    ]
     return (
-      <div className="group-detail">    
+      <div className="group-detail">
         <Spin spinning={false}>
           {/* <Spin> */}
           <DetailHeader
             name={(
               <Fragment>
-                <p>大额优惠卷刺激会员</p>
-                <div className="detail-action">
-                  <span>3312</span>
-                  <span className="detail-time"><Time timestamp={lastTime} /></span>
-                  <a href>查看规则</a>
-                </div>
+                <span style={{marginRight: '16px'}}>大额优惠卷刺激会员</span>
               </Fragment>
             )}
             // descr={descr}
             btnMinWidth={230}
             baseInfo={baseInfo}
+            tag={tagMap[status]}
+            actions={actions}
           />
+          {/* <a className="pat21" href>查看规则</a> */}
+          <div className="detail-action">
+            <span className="fz24">{1234}</span>
+            <span>人</span>
+            <div className="detail-time"><Time timestamp={lastTime} /></div>
+          </div>
         </Spin>
         <Fragment>
           <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>

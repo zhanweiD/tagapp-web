@@ -14,6 +14,8 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable visible = false // 新建群体
   @observable drawerVisible = false // id新建群体
   @observable modalVisible = false // 文件解析结果
+  @observable createId = 0 // 如何创建群体 1 规则离线 2 规则实时 3 id集合
+  @observable recordObj = {} // 当前编辑群体
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
   @observable pagination = {
@@ -23,14 +25,14 @@ class Store extends ListContentStore(io.getGroupList) {
   }
   @observable list = [
     {
-      name: "testgrouop",
-      enName: "group",
+      name: 'testgrouop',
+      enName: 'group',
       objId: 7025450323959360,
-      objName: "实体",
+      objName: '实体',
       type: 1,      
       status: 1,
-      mode: 1,
-      descr: "test",
+      mode: 2,
+      descr: 'test',
       lastCount: 123,
       lastTime: 1590560398000,
     },

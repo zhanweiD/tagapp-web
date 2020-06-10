@@ -48,7 +48,7 @@ export default class LabelTab extends Component {
           </Tooltip>
         </div>
         <div>
-          <div className="mt24">
+          <div className="mt16">
             <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
             <span>{`兴趣偏好（${11}）`}</span>
           </div>
@@ -60,7 +60,7 @@ export default class LabelTab extends Component {
           </Tooltip>
         </div>
         <div>
-          <div className="mt24">
+          <div className="mt16">
             <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
             <span>{`购物偏好（${11}）`}</span>
           </div>
