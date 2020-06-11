@@ -31,6 +31,8 @@ export const tagWarehouseApi = `${pathPrefix}/map` // 标签仓库
 export const syncApi =  `${pathPrefix}/transfer` // 标签同步
 export const targetSourceApi =  `${pathPrefix}/targetSource` // 目的数据源
 
+export const dataSearch =  `${pathPrefix}/search` // 数据查询
+
 const createRequestFn = method => (url, config) => ({
   url,
   method,

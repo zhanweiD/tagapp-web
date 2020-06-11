@@ -1,9 +1,9 @@
 import {Component, Fragment} from 'react'
 import {observer} from 'mobx-react'
 import {toJS} from 'mobx'
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Tabs, Spin, Tooltip } from 'antd';
+import {Icon as LegacyIcon} from '@ant-design/compatible'
+import {DeleteOutlined} from '@ant-design/icons'
+import {Button, Tabs, Tooltip} from 'antd'
 import cls from 'classnames'
 import ResultTable from './result-table'
 
@@ -27,7 +27,7 @@ export default class LogPanel extends Component {
             'all-window': store.logBoxToAllFlag,
           })}
           id={`log_${taskId}`}
-          style={{width: '640px'}}
+          // style={{width: '640px'}}
         >
           <Button
             key="allwindow"
@@ -149,6 +149,6 @@ export default class LogPanel extends Component {
         </div>
   
       </Fragment>
-    );
+    )
   }
 }

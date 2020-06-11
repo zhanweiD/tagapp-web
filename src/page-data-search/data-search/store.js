@@ -9,7 +9,7 @@ class Store {
   @observable loading = false
 
   // 初始化
-  @observable isInit = false
+  @observable isInit = true
   @observable visibleInit = false
   
   // example

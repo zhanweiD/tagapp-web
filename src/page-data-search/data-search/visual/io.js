@@ -1,10 +1,11 @@
 import ioContext from '../../../common/io-context'
-import {approvalApi, get, post} from '../../../common/util'
+import {dataSearch, get, post} from '../../../common/util'
 
 const api = {
- 
-} 
+  getTagTree: post(`${dataSearch}/visual_tag_tree`), // 对象标签树（可视化）
+  getObjectList: post(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
+}
 
-ioContext.create('mySearchVisaul', api) 
+ioContext.create('dataSearchVisaul', api) 
 
-export default ioContext.api.mySearchVisaul
+export default ioContext.api.dataSearchVisaul

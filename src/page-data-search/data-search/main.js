@@ -8,13 +8,14 @@ import {Tabs} from 'antd'
 import {projectProvider} from '../../component'
 import DataSearchInit from './init'
 import Tql from './tql/tql'
+import Visual from './visual/visual'
 
 import store from './store'
 
 const {TabPane} = Tabs
 
 @observer
-class MySearch extends Component {
+class DataSearch extends Component {
   componentWillMount() {
 
   }
@@ -25,19 +26,15 @@ class MySearch extends Component {
     } = store
 
     return (
-      <div>
+      <div className="data-search">
         {
           isInit ? (
             <Tabs defaultActiveKey="1" type="card" className="bgf">
               <TabPane tab="可视化方式" key="1">
-                <div className="bgf">
-                  123
-                </div>
+                <Visual />
               </TabPane>
               <TabPane tab="TQL方式" key="2">
-                <div className="bgf">
-                  <Tql />
-                </div>
+                <Tql />
               </TabPane>
             </Tabs>
           ) : (
@@ -49,4 +46,4 @@ class MySearch extends Component {
   }
 }
 
-export default projectProvider(MySearch)
+export default projectProvider(DataSearch)
