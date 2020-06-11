@@ -1,8 +1,8 @@
 import {
-  action, runInAction, observable,
+  action, runInAction, observable, toJS,
 } from 'mobx'
 import {Select} from 'antd'
-import {errorTip} from '../../common/util'
+import {errorTip, changeToOptions} from '../../common/util'
 import {ListContentStore} from '../../component/list-content'
 import io from './io'
 
@@ -18,6 +18,8 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable recordObj = {} // 当前编辑群体
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
+  @observable mode = 0 // 创建方式
+  @observable type = 0 // 群体类型
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -37,6 +39,8 @@ class Store extends ListContentStore(io.getGroupList) {
       lastTime: 1590560398000,
     },
   ]
+
+  // 获取群体分页列表
   @action async getGroupList() {
     try {
       const res = await io.getGroupList()
@@ -47,18 +51,48 @@ class Store extends ListContentStore(io.getGroupList) {
       errorTip(e.message)
     }
   }
+
+  // 获取实体列表
   @action async getEntityList() {
     try {
-      const res = await io.getEntityList()
+      const res = await io.getEntityList({
+        projectId: window.projectId,
+      })
       runInAction(() => {
-        this.entityList = res.map(item => {
-          return (<Option value={item.objId}>{item.objName}</Option>)
-        })
+        this.entityList = changeToOptions(toJS(res || []))('objName', 'objId')
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
+
+  // 添加群体
+  @action async addGroup(obj, objId) {
+    try {
+      const res = await io.addGroup({
+        ...this.oneForm,
+        ...this.threeForm,
+        objId, // 实体ID
+        ...obj,
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  
+  // 编辑群体
+  @action async editGroup(obj, objId) {
+    try {
+      const res = await io.editGroup({
+        objId, // 实体ID
+        ...obj,
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 重命名校验
   @action async recheckName(name, callback) {
     try {
       const res = await io.recheckName({

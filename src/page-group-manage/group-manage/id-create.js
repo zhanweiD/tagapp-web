@@ -12,12 +12,14 @@ const {Option} = Select
 const apiPrefix = ''
 
 @observer
-export default class IdCreateGroup extends Component {
+export default class IdCreate extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
   }
-
+  componentWillMount() {
+    this.store.getEntityList()
+  }
   formRef = React.createRef()
 
   // 自定义验证上传
@@ -71,10 +73,12 @@ export default class IdCreateGroup extends Component {
   @action onOK = () => {
     this.form = this.formRef.current
     this.formRef.current.validateFields().then(value => {
+      // this.store.addGroup(value)
+      // this.store.editGroup(value)
+      console.log(value)
       this.store.drawerVisible = false
       this.store.recordObj = {}
       this.store.uploadList = []
-      console.log(value)
     }).catch(err => {
       errorTip(err)
     })
@@ -172,19 +176,6 @@ export default class IdCreateGroup extends Component {
             >
               <Input placeholder="请输入名称" />
             </Item>
-            {
-              recordObj.objId ? (
-                <Item
-                  name="groupLog"
-                  label="群体标识"
-                  rules={[
-                    {required: true, message: '请输入标识'},
-                  ]}
-                >
-                  <Input placeholder="请输入标识" />
-                </Item>
-              ) : null
-            }
             
             <Item
               label="描述"
@@ -216,22 +207,19 @@ export default class IdCreateGroup extends Component {
                 下载模版
               </a>
             </Item>
-            {
-              recordObj.objId ? (
-                <Item
-                  name="label"
-                  label="输出标签"
-                  rules={[
-                    {required: true, message: '请选择标签'},
-                  ]}
-                >
-                  <Select placeholder="请选择标签">
-                    <Option key="1">1</Option>
-                    <Option key="2">2</Option>
-                  </Select>
-                </Item>
-              ) : null
-            }
+
+            <Item
+              name="label"
+              label="输出标签"
+              rules={[
+                {required: true, message: '请选择标签'},
+              ]}
+            >
+              <Select placeholder="请选择标签">
+                <Option key="1">1</Option>
+                <Option key="2">2</Option>
+              </Select>
+            </Item>
           </Form>
           
         </Drawer>

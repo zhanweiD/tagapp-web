@@ -24,7 +24,6 @@ const navList = [
   {text: navListMap.sceneDetail.text},
 ]
 
-
 @inject('frameChange')
 @observer
 export default class GroupDetail extends Component {
@@ -34,10 +33,11 @@ export default class GroupDetail extends Component {
   constructor(props) {
     super(props)
     const {spaceInfo} = window
-    // store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = spaceInfo && spaceInfo.projectId
 
-    // const {match: {params}} = props
-    // store.sceneId = params.sceneId
+    const {match: {params}} = props
+    store.id = params.id
+    console.log(store.id)
   }
 
   componentWillMount() {

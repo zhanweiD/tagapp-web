@@ -1,11 +1,11 @@
 import ioContext from '../../common/io-context'
-import {get, post, unitListApi} from '../../common/util'
+import {get, post, groupManageApi} from '../../common/util'
 
 const api = {
-  groupCheckName: get(`${unitListApi}/group/checkName`), // 个体列表
-  outputUnitList: get(`${unitListApi}/group/checkName`), // 导出个体列表
+  groupCheckName: get(`${groupManageApi}/group/checkName`), // 个体列表
+  outputUnitList: get(`${groupManageApi}/group/checkName`), // 导出个体列表
 } 
 
-ioContext.create('unitList', api) 
+ioContext.create('groupManage', api) 
 
-export default ioContext.api.unitList
+export default ioContext.api.groupManage

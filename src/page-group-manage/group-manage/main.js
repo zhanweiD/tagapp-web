@@ -17,7 +17,7 @@ import storage from '../../common/nattyStorage'
 
 import seach from './search'
 import ModalGroup from './modal'
-import IdCreateGroup from './id-create-group'
+import IdCreate from './id-create'
 import store from './store'
 
 // 面包屑设置
@@ -218,7 +218,7 @@ class GroupManage extends Component {
           )
         }
         <ModalGroup store={store} />
-        <IdCreateGroup store={store} />
+        <IdCreate store={store} />
       </div>
     )
   }

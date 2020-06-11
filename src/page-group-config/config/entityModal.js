@@ -88,7 +88,7 @@ class EModal extends Component {
 
   // 基本特征选择
   @action basicChange = value => {
-    if (value.length > 20) {
+    if (value.length > 19) {
       this.store.basicFeatureTags = value.slice(0, 20)
     } else {
       this.store.basicFeatureTags = value
@@ -96,7 +96,7 @@ class EModal extends Component {
   }
   // 显著特征选择
   @action obviousChange = value => {
-    if (value.length > 20) {
+    if (value.length > 19) {
       this.store.markedFeatureTag = value.slice(0, 20)
     } else {
       this.store.markedFeatureTag = value

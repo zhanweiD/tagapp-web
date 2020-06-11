@@ -7,6 +7,6 @@ const api = {
   getDetail: get(`${groupManageApi}/detail`), // 场景详情
 }
 
-ioContext.create('groupDetail', api)
+ioContext.create('groupManage', api)
 
-export default ioContext.api.groupDetail
+export default ioContext.api.groupManage
