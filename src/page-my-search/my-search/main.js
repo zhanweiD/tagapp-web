@@ -13,8 +13,8 @@ import store from './store'
 
 @observer
 class MySearch extends Component {
-  componentWillMount() {
-
+  addSearch = () => {
+    window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/data-search`
   }
 
   render() {
@@ -22,10 +22,7 @@ class MySearch extends Component {
 
     const noDataConfig = {
       btnText: '添加查询',
-      onClick: () => this.handleModalVisible(),
-      // code: 'asset_tag_project_occ_operator',
-      // noAuthText: '暂无数据',
-      // myFunctionCodes: functionCodes,
+      onClick: this.addSearch,
     }
     
     return (
