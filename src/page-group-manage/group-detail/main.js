@@ -38,6 +38,7 @@ export default class GroupDetail extends Component {
     const {match: {params}} = props
     store.id = params.id
     console.log(store.id)
+    // store.getDetail()
   }
 
   componentWillMount() {
@@ -65,7 +66,8 @@ export default class GroupDetail extends Component {
   }
 
   render() {
-    const info = store.list[0]
+    const {modeType, list} = store
+    const info = list[0]
     const {
       name,
       enName,
@@ -131,7 +133,7 @@ export default class GroupDetail extends Component {
             btnMinWidth={230}
             baseInfo={baseInfo}
             tag={tagMap[status]}
-            actions={actions}
+            actions={modeType === 3 ? [] : actions}
           />
           {/* <a className="pat21" href>查看规则</a> */}
           <div className="detail-action">
@@ -141,14 +143,24 @@ export default class GroupDetail extends Component {
           </div>
         </Spin>
         <Fragment>
-          <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
-            <TabPane tab="历史记录" key="1">
-              <TagHistory store={store} />
-            </TabPane>
-            <TabPane tab="API列表" key="2">
-              <TabApi store={store} />
-            </TabPane>
-          </Tabs>
+          {
+            modeType === 1 ? (
+              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+                <TabPane tab="历史记录" key="1">
+                  <TagHistory store={store} />
+                </TabPane>
+                <TabPane tab="API列表" key="2">
+                  <TabApi store={store} />
+                </TabPane>
+              </Tabs>
+            ) : (
+              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+                <TabPane tab="API列表" key="2">
+                  <TabApi store={store} />
+                </TabPane>
+              </Tabs>
+            ) 
+          }
           {/* <ModalEditScene store={store} /> */}
         </Fragment>
       </div>

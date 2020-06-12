@@ -48,7 +48,7 @@ class GroupManage extends Component {
       // render: 
       // text => <a href>{text}</a>,
       render: (text, record) => (
-        <Link to={`/group/manage/${record.objId}`}>
+        <Link to={`/group/manage/${record.id}`}>
           <OmitTooltip maxWidth={100} text={text} />
         </Link>
       ),

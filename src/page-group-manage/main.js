@@ -19,7 +19,7 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/group/manage" component={GroupConfig} />
-            <Route exact path="/group/manage/:objId" component={GroupDetail} />
+            <Route exact path="/group/manage/:id" component={GroupDetail} />
             <Route exact path="/group/unit" component={UnitList} />
             {/* <Route exact path="/group/unit/:id" component={UnitList} /> */}
             <Route exact path="/group/rule-create/:id/:type" component={RuleCreate} />
