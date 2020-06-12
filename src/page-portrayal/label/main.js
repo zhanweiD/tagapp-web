@@ -8,6 +8,7 @@ import {Select, Input, Button, Layout} from 'antd'
 import {
   projectProvider,
 } from '../../component'
+import './main.styl'
 
 import store from './store'
 import DetailSidebar from './detail-sidebar'
