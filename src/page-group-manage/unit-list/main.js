@@ -14,6 +14,15 @@ import store from './store'
 
 @observer
 class UnitList extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+
+    const {match: {params}} = props
+    store.id = params.id
+    console.log(store.id)
+  }
   columns = [
     {
       key: 'objId',

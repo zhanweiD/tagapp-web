@@ -13,32 +13,33 @@ export default class ModalGroup extends Component {
 
   @action handleCancel = () => {
     this.store.visible = false
-    this.store.createId = 0
+    this.store.isCreate = 0
   }
 
   @action createGroup = () => {
-    const {type} = this.store
+    const {type, recordObj} = this.store
+    const id = recordObj.id || 0
     if (this.store.mode === 2) {
       this.store.drawerVisible = true
-      this.store.visible = false
-      this.store.mode = 0
-      this.store.type = 0
     } else if (this.store.mode === 1) {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}`
-      this.store.mode = 0
-      this.store.type = 0
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }
+    this.store.isCreate = 0
+    this.store.mode = 0
+    this.store.type = 0
+    this.store.visible = false
   }
 
   @action createType = (mode, type) => {
     this.store.mode = mode
     this.store.type = type
+    this.store.isCreate = 1
   }
 
   render() {
     const {
       visible,
-      createId,
+      isCreate,
     } = this.store
     const modalConfig = {
       title: '群体创建方式',
@@ -55,8 +56,8 @@ export default class ModalGroup extends Component {
         </Button>,
         <Button 
           type="primary" 
-          style={{color: createId ? '#fff' : 'rgba(0,0,0,.25)', fontSize: '12px'}} 
-          disabled={!createId} 
+          style={{color: isCreate ? '#fff' : 'rgba(0,0,0,.25)', fontSize: '12px'}} 
+          disabled={!isCreate} 
           onClick={this.createGroup}
         >
           确定
@@ -67,7 +68,7 @@ export default class ModalGroup extends Component {
     return (
       <Modal {...modalConfig} className="add-group">
         <Fragment>
-          <Button className="create-flex" onClick={() => this.createType(1, 0)}>
+          <Button className="create-flex" onClick={() => this.createType(1, 1)}>
             <div className="create-icon">
               <PlusCircleFilled style={{fontSize: '85px', color: '#3396DB'}} />
             </div>
@@ -93,7 +94,7 @@ export default class ModalGroup extends Component {
               </p>
             </div>
           </Button>
-          <Button className="create-flex" onClick={() => this.createType(1, 1)}>
+          <Button className="create-flex" onClick={() => this.createType(2, 0)}>
             <div className="create-icon">
               <PlusCircleFilled style={{fontSize: '85px', color: '#33AE06'}} />
             </div>

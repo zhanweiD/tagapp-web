@@ -1,15 +1,17 @@
 import {Component, Fragment} from 'react'
+import {Link} from 'react-router-dom'
 import {observer, Provider} from 'mobx-react'
 import {action} from 'mobx'
 import {Steps, Button, message, Modal} from 'antd'
 import {CheckCircleFilled, CloseCircleFilled} from '@ant-design/icons'
+import {errorTip} from '../../common/util'
+
 
 import store from './store'
 import StepOne from './step-one'
 import StepTwo from './step-two'
 import StepThree from './step-three'
 import './main.styl'
-import {errorTip} from '../../common/util'
 
 const {Step} = Steps
 const dateFormat = 'YYYY/MM/DD'
@@ -21,7 +23,8 @@ export default class RuleCreate extends Component {
     store.projectId = spaceInfo && spaceInfo.projectId
     const {match: {params}} = props
     store.type = parseInt(params.type)
-    console.log(store.type)
+    store.id = parseInt(params.id)
+    console.log(store.type, store.id)
   }
 
   @action cancel = () => {
@@ -41,6 +44,7 @@ export default class RuleCreate extends Component {
     store.modalVisible = false
     store.current = 0
   }
+
   @action oneValidate = () => {
     this.oneForm.form.validateFields().then(value => {
       console.log(value)
@@ -52,12 +56,11 @@ export default class RuleCreate extends Component {
   }
   @action threeValidate = () => {
     this.threeForm.form.validateFields().then(value => {
-      value.startTime = value.setTime[0].format(dateFormat)
-      value.endTime = value.setTime[1].format(dateFormat)
-      value.outputTags = store.outputLabels // 替换输出标签集合
-      if (value.outputTags > 19) {
-        value.outputTags = value.outputTags.slice(0, 20)
+      if (store.type === 1) {
+        value.startTime = value.setTime[0].format(dateFormat)
+        value.endTime = value.setTime[1].format(dateFormat)
       }
+      value.outputTags = store.outputLabels // 替换输出标签集合
       console.log(value, 1)
       store.modalVisible = true
       store.threeForm = value
@@ -70,7 +73,7 @@ export default class RuleCreate extends Component {
     })
   }
   render() {
-    const {current} = store
+    const {current, oneForm, id} = store
     console.log(this, 1)
     return (
       <Provider store={store}>
@@ -111,25 +114,28 @@ export default class RuleCreate extends Component {
             visible={store.modalVisible}
             onCancel={this.handleCancel}
             footer={[
-              <Button type="primary" onClick={this.handleCancel}>知道了</Button>,
+              <Button type="primary">
+                <Link to="/group/manage" onClick={this.handleCancel}>知道了</Link>
+                {/* 知道了 */}
+              </Button>,
             ]}
           >
-            {/* <div className="modal-content">
+            <div className="modal-content">
               <CheckCircleFilled style={{color: '#2096ff', fontSize: '24px'}} />
               <p className="tip-text">
-                群体 大额优惠券刺激会员 编辑成功您可以去 
-                <a>群体管理</a>
+                {`群体${oneForm.name}${id ? '编辑' : '创建'}成功您可以去`} 
+                <Link to="/group/manage">群体管理</Link>
                 中查看
               </p>
-            </div> */}
-            <div className="modal-content">
+            </div>
+            {/* <div className="modal-content">
               <CloseCircleFilled style={{color: 'red', fontSize: '24px'}} />
               <p className="tip-text">
-                群体 大额优惠券刺激会员 创建失败 
+                {`群体${oneForm.name}${id ? '编辑' : '创建'}失败`} 
                 <br />
-                <a>重新创建</a>
+                <a>{`重新${id ? '编辑' : '创建'}`}</a>
               </p>
-            </div>
+            </div> */}
           </Modal>
         </div>
       </Provider>

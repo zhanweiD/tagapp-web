@@ -7,6 +7,7 @@ import {Modal, Spin, Select, Button, Upload, message} from 'antd'
 import {ModalForm} from '../../component'
 import {
   errorTip,
+  limitSelect,
 } from '../../common/util'
 
 const {Option} = Select
@@ -89,6 +90,7 @@ class EModal extends Component {
   // 基本特征选择
   @action basicChange = value => {
     if (value.length > 19) {
+      message.warning('最多可选择20个标签')
       this.store.basicFeatureTags = value.slice(0, 20)
     } else {
       this.store.basicFeatureTags = value
@@ -97,6 +99,7 @@ class EModal extends Component {
   // 显著特征选择
   @action obviousChange = value => {
     if (value.length > 19) {
+      message.warning('最多可选择20个标签')
       this.store.markedFeatureTag = value.slice(0, 20)
     } else {
       this.store.markedFeatureTag = value
@@ -164,14 +167,17 @@ class EModal extends Component {
           >
             {getFieldDecorator('basicFeatureTag', {
               initialValue: detail.basicFeatureTag,
-              rules: [{required: true, message: '请选择标签！'}],
+              rules: [
+                {required: true, message: '请选择标签！'},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+              ],
             })(
               <Select
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
                 value={basicFeatureTags}
-                onChange={value => console.log(value)}
+                // onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>
@@ -184,14 +190,17 @@ class EModal extends Component {
           >
             {getFieldDecorator('markedFeatureTag', {
               initialValue: detail.markedFeatureTag,
-              rules: [{required: true, message: '请选择标签！'}],
+              rules: [
+                {required: true, message: '请选择标签！'},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+              ],
             })(
               <Select
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
                 value={markedFeatureTag}
-                onChange={value => console.log(value)}
+                // onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>

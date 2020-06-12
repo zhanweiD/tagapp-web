@@ -17,6 +17,8 @@ class Store {
   @observable threeForm = {} // 第三步表单
   @observable outputLabels = [] // 输出标签集合
   @observable type = 0 // 群体类型
+  @observable projectId = 0 // 项目ID
+  @observable id = 0 // 群体ID
   @observable dataTypeSource = [
     {
       value: 1,

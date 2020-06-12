@@ -33,7 +33,7 @@ class GroupManage extends Component {
   menu = record => (
     <Menu>
       <Menu.Item>
-        <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
+        <a disabled={record.status !== 1} href onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
       </Menu.Item>
       <Menu.Item>
         <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
@@ -155,12 +155,13 @@ class GroupManage extends Component {
 
   // 跳转到群体编辑
   goGroupEdit = record => {
-    if (record.mode === 2) {
+    const {mode, id, type} = record
+    if (mode === 2) {
       store.drawerVisible = true
       store.recordObj = record
       console.log(record)
     } else {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${record.id}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }
   }
 

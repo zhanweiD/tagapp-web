@@ -136,6 +136,26 @@ export function trimFormValues(values) {
   })
   return values
 }
+/**
+ * @description 将对象中的value值进行trim()转换
+ * @number 不能超过number个
+ */
+export function limitSelect(rule, values, callback, number) {
+  // const {setFieldsValue} = this.form
+  // let newArr
+  if (values.length > number) {
+    // newArr = [].concat(values.slice(0, number-1), values.slice(-1))
+    // setFieldsValue({
+    //   outputTags: newArr,
+    // })
+    callback(`最多可选择${number}个标签`)
+  } 
+  // else {
+  //   newArr = value
+  //   callback()
+  // }
+  callback()
+}
 
 export function isJsonFormat(str) {
   try {

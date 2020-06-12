@@ -22,7 +22,7 @@ export default class Page extends Component {
             <Route exact path="/group/manage/:objId" component={GroupDetail} />
             <Route exact path="/group/unit" component={UnitList} />
             {/* <Route exact path="/group/unit/:id" component={UnitList} /> */}
-            <Route exact path="/group/rule-create/:type" component={RuleCreate} />
+            <Route exact path="/group/rule-create/:id/:type" component={RuleCreate} />
             {/* <Route exact path="/group/unit/:objId" component={UnitList} /> */}
             <Route
               render={() => {

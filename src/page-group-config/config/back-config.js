@@ -60,9 +60,6 @@ export default class GroupBackConfig extends Component {
    * @param type 弹窗类型 编辑 / 添加(edit / add)
    */
   @action openModal = (type, data = {}) => {
-    // this.store.detail = data
-    this.store.entityVisible = true
-    this.store.modalType = type
     if (type === 'add') {
       // this.store.getEntityList(data.objId)
       // this.store.getTagList(data.objId)
@@ -70,6 +67,9 @@ export default class GroupBackConfig extends Component {
     if (type === 'edit') {
       // this.store.getEntityInfo(data.objId)
     }
+    // this.store.detail = data
+    this.store.entityVisible = true
+    this.store.modalType = type
   }
 
   /**

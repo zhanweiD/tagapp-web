@@ -11,12 +11,12 @@ const {Option} = Select
 class Store {
   @observable dataSource = [
     {
-      value: "1583289421353fdnk",
-      name: "testdatasource",
+      value: '1583289421353fdnk',
+      name: 'testdatasource',
     },
     {
-      value: "15839289253985ouc",
-      name: "1234",
+      value: '15839289253985ouc',
+      name: '1234',
     },
   ] // 数据源 
   @observable dataTypeSource = [
@@ -45,6 +45,7 @@ class Store {
   @observable dataStorageName = 'test' // 配置页面数据源id
   @observable dataStorageTypeId = '1583289421353fdnk' // 配置页面数据源类型id
   @observable dataStorageTypeName = 'MySQL' // 配置页面数据源类型id
+  @observable projectId = 0 // 项目ID
   @observable entityList = [] // 实体列表
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
@@ -62,12 +63,12 @@ class Store {
   @observable list = [
     {
       objId: 7025450323959360,
-      objName: "实体",
+      objName: '实体',
       objDescr: null,
-      basicFeatureTag: "6873122232241152",
-      markedFeatureTag: "7025450326318656,7025602576644544",
+      basicFeatureTag: '6873122232241152',
+      markedFeatureTag: '7025450326318656,7025602576644544',
       addTime: 1590486038000,
-      picture: "base64up",
+      picture: 'base64up',
       isUsed: 1,
     },
   ]
@@ -91,9 +92,8 @@ class Store {
       })
       runInAction(() => {
         this.getPortrayal()
-        // this.initVisible = res.dataStorageType ? false : true
-        // this.dataStorageId = res.dataStorageId
-        // this.dataStorageTypeId = res.dataStorageTypeName
+        // this.dataStorageName = res.dataStorageName
+        // this.dataStorageTypeName = res.dataStorageTypeName
       })
     } catch (e) {
       errorTip(e.message)
@@ -102,11 +102,15 @@ class Store {
   // 获取云资源信息
   @action async getPortrayal() {
     try {
-      const res = await io.getPortrayal()
+      const res = await io.getPortrayal({
+        project: this.projectId,
+      })
       runInAction(() => {
         // this.initVisible = res.dataStorageType ? false : true
-        // this.dataStorageId = res.dataStorageId || 1
-        // this.dataStorageTypeId = res.dataStorageType || '1583289421353fdnk'
+        // this.dataStorageId = res.dataStorageId
+        // this.dataStorageName = res.dataStorageName
+        // this.dataStorageTypeId = res.dataStorageType
+        // this.dataStorageTypeName = res.dataStorageTypeName
       })
     } catch (e) {
       errorTip(e.message)

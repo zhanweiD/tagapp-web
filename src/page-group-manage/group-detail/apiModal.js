@@ -3,6 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
+import {limitSelect} from '../../common/util'
 
 @observer
 export default class ApiModal extends Component {
@@ -40,6 +41,7 @@ export default class ApiModal extends Component {
       mode: 'multiple',
       rules: [
         '@requiredSelect',
+        {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
       ],
       control: {
         options: dataSource,

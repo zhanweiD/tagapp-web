@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {Form, Select, Radio} from 'antd'
+import {Form, Select, Radio, message} from 'antd'
 import {observer, inject, Spin} from 'mobx-react'
 import {action} from 'mobx'
 import moment from 'moment'
 
 import {ModalForm, ListContent, NoData, AuthBox} from '../../component'
+import {limitSelect} from '../../common/util'
 
 const {Item} = Form
 const {Option} = Select
@@ -103,11 +104,12 @@ export default class StepThree extends Component {
       placeholder: '请选择输出标签',
       rules: [
         '@requiredSelect',
+        {validator: (rule, values, callback) => limitSelect(rule, values, callback, 3)},
       ],
       mode: 'multiple',
       control: {
         options: dataTypeSource,
-        onSelect: v => this.labelChange(v),
+        // onSelect: v => this.labelChange(v),
         // notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
@@ -125,24 +127,34 @@ export default class StepThree extends Component {
       placeholder: '请选择输出标签',
       rules: [
         '@requiredSelect',
+        {validator: (rule, values, callback) => limitSelect(rule, values, callback, 3)},
       ],
       mode: 'multiple',
       control: {
         options: dataTypeSource,
-        onSelect: v => this.labelChange(v),
+        // onSelect: v => this.labelChange(v),
         // notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
     }]
   }
-  // label选择
-  @action labelChange = value => {
-    if (value.length > 19) {
-      this.store.outputLabels = value.slice(0, 20)
+  // 输出label选择
+  labelChange = (rule, value, callback) => {
+    const {setFieldsValue} = this.form
+    let newArr
+    if (value.length > 2) {
+      newArr = [].concat(value.slice(0, 2), value.slice(-1))
+      callback('最多可选择20个标签')
+      setFieldsValue({
+        outputTags: newArr,
+      })
     } else {
-      this.store.outputLabels = value
+      newArr = value
+      callback()
     }
+    callback()
   }
+
   render() {
     this.store.stepThreeForm = this.form
     const {current, type} = this.store

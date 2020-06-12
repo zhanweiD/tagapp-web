@@ -31,7 +31,8 @@ export default class GroupModal extends Component {
         '@max32',
         {validator: this.checkName},
       ],
-    }, {
+    }, 
+    {
       label: '群体标识',
       key: 'queueName',
       component: 'input',
@@ -40,7 +41,8 @@ export default class GroupModal extends Component {
         '@required',
         '@max32',
       ],
-    }, {
+    },
+    {
       label: '描述',
       key: 'descr',
       component: 'textArea',
@@ -70,8 +72,8 @@ export default class GroupModal extends Component {
       name: value,
     }
 
-    if (this.store.detail.id) {
-      params.id = this.store.detail.id
+    if (this.store.id) {
+      params.id = this.store.id
     }
 
     this.store.checkName(params, callback)

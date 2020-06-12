@@ -15,6 +15,12 @@ import ConfigModal from './configModal'
 
 @observer
 class GroupConfig extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+    // store.getPortrayal()
+  }
   componentWillMount() {
     // store.getPortrayal()
   }
