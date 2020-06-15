@@ -176,7 +176,7 @@ class EModal extends Component {
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
-                value={basicFeatureTags}
+                // value={basicFeatureTags}
                 // onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
@@ -199,7 +199,7 @@ class EModal extends Component {
                 mode="multiple"
                 className="h96"
                 placeholder="请选择实体下的标签"
-                value={markedFeatureTag}
+                // value={markedFeatureTag}
                 // onChange={value => console.log(value)}
               >
                 <Option value="male">male</Option>
@@ -210,7 +210,6 @@ class EModal extends Component {
           <Form.Item 
             label="图片"
             extra="图片在个体画像中显示"
-            // key={Math.random()}
           >
             {getFieldDecorator('picture', {
               initialValue: detail.picture,

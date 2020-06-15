@@ -46,6 +46,7 @@ class Store {
   @observable dataStorageTypeId = '1583289421353fdnk' // 配置页面数据源类型id
   @observable dataStorageTypeName = 'MySQL' // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
+  @observable objId = 0 // 实体ID
   @observable entityList = [] // 实体列表
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
@@ -73,27 +74,18 @@ class Store {
     },
   ]
 
-  @action.bound closeModal() {
-    // this.dataSource.clear()
-    // this.dataEnginesSource.clear()
-    // this.dataGroupData.clear()
-    // this.detail = {}
-  }
-
-
   // 初始化云资源
   @action async groupInit(data) {
     try {
       const res = await io.groupInit({
-        tenantId: global.tenantId,
-        userId: global.userId,
+        projectId: this.projectId,
         dataStorageId: data.storageId,
         dataStorageType: data.type,
       })
       runInAction(() => {
         this.getPortrayal()
-        // this.dataStorageName = res.dataStorageName
-        // this.dataStorageTypeName = res.dataStorageTypeName
+        this.dataStorageName = res.dataStorageName
+        this.dataStorageTypeName = res.dataStorageTypeName
       })
     } catch (e) {
       errorTip(e.message)
@@ -103,14 +95,14 @@ class Store {
   @action async getPortrayal() {
     try {
       const res = await io.getPortrayal({
-        project: this.projectId,
+        projectId: this.projectId,
       })
       runInAction(() => {
-        // this.initVisible = res.dataStorageType ? false : true
-        // this.dataStorageId = res.dataStorageId
-        // this.dataStorageName = res.dataStorageName
-        // this.dataStorageTypeId = res.dataStorageType
-        // this.dataStorageTypeName = res.dataStorageTypeName
+        this.initVisible = !res.dataStorageType
+        this.dataStorageId = res.dataStorageId
+        this.dataStorageName = res.dataStorageName
+        this.dataStorageTypeId = res.dataStorageType
+        this.dataStorageTypeName = res.dataStorageTypeName
       })
     } catch (e) {
       errorTip(e.message)
@@ -120,12 +112,13 @@ class Store {
   // 获取实体分页列表
   @action async getEntityPage() {
     try {
-      // const res = await io.getEntityPage({
-      //   currentPage: 1,
-      //   pageSize: 10,
-      // })
+      const res = await io.getEntityPage({
+        projectId: this.projectId,
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+      })
       runInAction(() => {
-        // this.list = res.data
+        this.list = res.data
       })
     } catch (e) {
       errorTip(e.message)
@@ -151,6 +144,8 @@ class Store {
   @action async getTagList() {
     try {
       const res = await io.getTagList({
+        objId: this.objId,
+        projectId: this.proejctId,
       })
       runInAction(() => {
         this.TagList = res.map(item => {
@@ -166,7 +161,11 @@ class Store {
   @action async getDataTypeSource() {
     this.selectLoading = true
     try {
-      const res = await io.getDataTypeSource()
+      const res = await io.getDataTypeSource({
+        projectId: this.projectId,
+        tenantId: 1,
+        userId: 1,
+      })
       runInAction(() => {
         if (res) {
           this.dataTypeSource = changeToOptions(toJS(res || []))('name', 'type')
@@ -182,10 +181,13 @@ class Store {
   }
 
   // 获取数据源列表
-  @action async getDataSource() {
+  @action async getDataSource(dataStorageType) {
     this.selectLoading = true
     try {
-      const res = await io.getDataSource()
+      const res = await io.getDataSource({
+        projectId: this.projectId,
+        dataStorageType,
+      })
       runInAction(() => {
         if (res) {
           this.dataSource = changeToOptions(toJS(res || []))('storageName', 'storageId')
@@ -203,10 +205,13 @@ class Store {
   // 获取实体信息
   @action async getEntityInfo(objId) {
     try {
-      // await io.getEntityInfo({
-      //   objId,
-      // })
-      // this.store.detail = res
+      const res = await io.getEntityInfo({
+        objId,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.store.detail = res
+      })
     } catch (e) {
       errorTip(e.message)
     }
@@ -215,10 +220,15 @@ class Store {
   // 添加实体
   @action async addEntity(data, cb) {
     try {
-      // await io.addEntity({...data})
+      await io.addEntity({
+        ...data,
+        projectId: this.projectId,
+        dataStorageId: this.dataStorageId,
+        dataStorageType: this.dataStorageTypeId,
+      })
       runInAction(() => {
         successTip('添加成功')
-        this.getList({currentPage: 1})
+        this.getEntityPage()
         cb()
       })
     } catch (e) {
@@ -229,18 +239,13 @@ class Store {
   // 编辑实体
   @action async editEntity(data, cb) {
     try {
-      // await io.editEntity({
-      //   "tenantId": 512635,
-      //   "userId": 243724,
-      //   "proejctId": 1234,
-      //   "objId": 123,
-      //   "basicFeatureTag": "213,231",
-      //   "markedFeatureTag": "234,441",
-      //   "picture": "base64"
-      // })
+      await io.editEntity({
+        proejctId: this.projectId,
+        ...data,
+      })
       runInAction(() => {
         successTip('编辑成功')
-        this.getList({currentPage: 1})
+        this.getEntityPage()
         cb()
       })
     } catch (e) {
@@ -251,10 +256,10 @@ class Store {
   // 删除实体
   @action async delEntity(id) {
     try {
-      // await io.delEntity({id})
+      await io.delEntity({id})
       runInAction(() => {
         successTip('删除成功')
-        this.getList({currentPage: 1})
+        this.getEntityPage()
       })
     } catch (e) {
       errorTip(e.message)

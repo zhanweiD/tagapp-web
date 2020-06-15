@@ -19,7 +19,7 @@ class GroupConfig extends Component {
     super(props)
     const {spaceInfo} = window
     store.projectId = spaceInfo && spaceInfo.projectId
-    // store.getPortrayal()
+    store.getPortrayal()
     console.log(store.projectId)
   }
   componentWillMount() {
@@ -27,9 +27,8 @@ class GroupConfig extends Component {
   }
 
   @action openModal = () => {
-    // store.detail = data
     store.visible = true
-    // store.getDataSource()
+    store.getDataSource()
   }
 
   render() {
