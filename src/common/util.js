@@ -11,6 +11,10 @@ const {pathPrefix} = window.__keeper
 
 // 接口前缀
 
+export const groupConfigApi = `${pathPrefix}/group-config` // 群体配置
+export const groupManageApi = `${pathPrefix}/group/manage` // 群体管理
+export const unitListApi = `${pathPrefix}/group/unit` // 个体列表
+
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览
 export const projectApi = `/api/be-tag/1_0_0/project` // 项目列表
@@ -156,6 +160,21 @@ export function listToTree(data) {
 
   return newData.filter(item => item.parentId === 0)
 }
+
+/**
+ * @description 拼接完整类目名称 一级类目/二级类目。。。
+ * @param {*} data 未打平类目树数据
+ * @param category 当前选中的类目对象
+ * @param allCateName 用来
+ */
+// export function categoryName(data, category) {
+//   const parent = _.find(data, item => item.id === category.parentId)
+//   if (parent) {
+//     category.name = `${parent.name}/${category.name}`
+//     this.categoryName(data, parent)
+//   }
+//   return category.name
+// }
 
 // 标签、对象英文名校验正则
 export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/

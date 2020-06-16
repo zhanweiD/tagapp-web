@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 
 import Frame from '../frame'
-import GroupConfig from './config'
+import PortrayalLabel from './label'
 import './main.styl'
 @observer
 export default class Page extends Component {
@@ -14,7 +14,7 @@ export default class Page extends Component {
       <Router>
         <Frame page="space">
           <Switch>
-            <Route exact path="/group-config" component={GroupConfig} />
+            <Route exact path="/portrayal-label" component={PortrayalLabel} />
             <Route
               render={() => {
                 window.location.href = '/404'

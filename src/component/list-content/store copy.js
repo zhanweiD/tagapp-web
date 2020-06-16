@@ -39,7 +39,7 @@ export default function combineStore(store, api, apiName) {
       }
       this.getList()
     }
-    
+
     /**
      * 表格操作函数
      * @param {number} curPage   

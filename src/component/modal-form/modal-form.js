@@ -29,7 +29,6 @@ export default class ModalForm extends Component {
   createItemContent = () => {
     const {selectContent, formItemLayout, form: {getFieldDecorator}} = this.props
     if (!selectContent && !selectContent.length) return null
-
     return selectContent.map(({
       label,
       labelTooltip,
@@ -41,6 +40,7 @@ export default class ModalForm extends Component {
       control,
       hide,
       extra,
+      mode,
       ...rest
     }) => (
       <Fragment>
@@ -62,7 +62,7 @@ export default class ModalForm extends Component {
                 valuePropName,
                 rules: mergeRules(rules, label),
                 validateFirst: true,
-              })(<ControlComponent type={type} label={label} {...control} {...rest} />)}
+              })(<ControlComponent mode={mode} type={type} label={label} {...control} {...rest} />)}
             </FormItem>
           )
         }

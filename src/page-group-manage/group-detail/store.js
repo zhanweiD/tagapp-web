@@ -1,11 +1,22 @@
 import {
-  action, runInAction, observable
+  action, runInAction, observable,
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
 
 class Store {
-  @observable visible = false // 保存群体窗口
+  @observable dataSource = [
+    {
+      value: "1583289421353fdnk",
+      name: "testdatasource",
+    },
+    {
+      value: "15839289253985ouc",
+      name: "1234",
+    },
+  ] // 数据源 
+  @observable visible = false // 新建API
+  @observable currentKey = 1 // tabs显示
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -27,7 +38,7 @@ class Store {
   ]
   @action async get() {
     try {
-      const res = await io.get()
+      // const res = await io.get()
       runInAction(() => {
        
       })

@@ -11,6 +11,7 @@ import * as dict from './common/dict'
 import DataSearch from './page-data-search'
 import GroupConfig from './page-group-config'
 import GroupManage from './page-group-manage'
+import PortrayalLabel from './page-portrayal'
 import Scene from './page-scene'
 import Project from './page-project'
 
@@ -29,6 +30,7 @@ export default class Entry extends React.Component {
           <Route path="/data-search" component={DataSearch} />
           <Route path="/group-config" component={GroupConfig} />
           <Route path="/group" component={GroupManage} />
+          <Route path="/portrayal-label" component={PortrayalLabel} />
           <Route path="/scene" component={Scene} />
           <Route path="/project" component={Project} />
           <Redirect to="/project" />

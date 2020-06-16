@@ -6,7 +6,9 @@ import {
 
 import Frame from '../frame'
 import GroupConfig from './group-manage'
+import GroupDetail from './group-detail'
 import UnitList from './unit-list'
+import './main.styl'
 
 @observer
 export default class Page extends Component {
@@ -16,7 +18,9 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/group/manage" component={GroupConfig} />
+            <Route exact path="/group/manage/:objId" component={GroupDetail} />
             <Route exact path="/group/unit" component={UnitList} />
+            {/* <Route exact path="/group/unit/:objId" component={UnitList} /> */}
             <Route
               render={() => {
                 window.location.href = '/404'
