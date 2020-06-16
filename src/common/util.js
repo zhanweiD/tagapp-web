@@ -16,7 +16,7 @@ export const groupManageApi = `${pathPrefix}/group` // 群体管理
 
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览
-export const projectApi = `${pathPrefix}/project` // 项目列表
+export const projectApi = `/api/be-tag/1_0_0/project` // 项目列表
 export const approvalApi = `${pathPrefix}/apply` // 审批管理
 
 export const tagClassApi = `${pathPrefix}/cate` // 标签类目

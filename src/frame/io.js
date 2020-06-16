@@ -1,8 +1,8 @@
 import ioContext from '../common/io-context'
-import {get, projectApi} from '../common/util'
+import {get} from '../common/util'
 
 const api = {
-  getProjectList: get(`${projectApi}/list`), // 项目列表
+  getProjectList: get(`/api/be-tag/1_0_0/project/list`), // 项目列表
 } 
 
 ioContext.create('frame', api) 
