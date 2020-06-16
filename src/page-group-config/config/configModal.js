@@ -85,7 +85,6 @@ export default class ConfigModal extends Component {
   }
 
   render() {
-    console.log(this)
     const {
       visible, 
       confirmLoading,

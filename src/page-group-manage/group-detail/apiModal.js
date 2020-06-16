@@ -18,6 +18,7 @@ export default class ApiModal extends Component {
       dataSource = [], 
       dataEnginesSource = [], 
       dataGroupData = [],
+      apiGroupList = [],
     } = this.store
     return [{
       label: 'API名称',
@@ -27,6 +28,21 @@ export default class ApiModal extends Component {
         '@transformTrim',
         '@required',
       ],
+    }, {
+      label: 'API分组',
+      key: 'apiGroup',
+      initialValue: '',
+      rules: [
+        '@requiredSelect',
+      ],
+      control: {
+        // defaultAll: true,
+        options: [
+          {name: '默认分组', value: ''},
+          apiGroupList,
+        ],
+      },
+      component: 'select',
     }, {
       label: 'API路径',
       key: 'path',

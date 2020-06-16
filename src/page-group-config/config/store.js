@@ -9,70 +9,30 @@ import io from './io'
 
 const {Option} = Select
 class Store {
-  @observable dataSource = [
-    {
-      value: '1583289421353fdnk',
-      name: 'testdatasource',
-    },
-    {
-      value: '15839289253985ouc',
-      name: '1234',
-    },
-  ] // 数据源 
-  @observable dataTypeSource = [
-    {
-      value: 1,
-      name: 'Mysql',
-    },
-    {
-      value: 2,
-      name: 'Oracle',
-    },
-    {
-      value: 11,
-      name: 'PostgreSQL',
-    },
-    {
-      value: 10,
-      name: 'Greenplum',
-    },
-    {
-      value: 4,
-      name: 'Hive',
-    },
-  ] // 数据源类型
-  @observable dataStorageId = 1 // 配置页面数据源id
-  @observable dataStorageName = 'test' // 配置页面数据源id
-  @observable dataStorageTypeId = '1583289421353fdnk' // 配置页面数据源类型id
-  @observable dataStorageTypeName = 'MySQL' // 配置页面数据源类型id
+  @observable dataSource = [] // 数据源 
+  @observable dataTypeSource = [] // 数据源类型
+  @observable dataStorageId = 0 // 配置页面数据源id
+  @observable dataStorageName = '' // 配置页面数据源id
+  @observable dataStorageTypeId = '' // 配置页面数据源类型id
+  @observable dataStorageTypeName = '' // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
   @observable entityList = [] // 实体列表
+  @observable list = [] // 实体表格数组
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
   @observable visible = false // 控制配置弹窗
   @observable entityVisible = false // 控制实体弹窗
   @observable initVisible = true // 初始化页面是否显示
   @observable uploadLoading = false // 图片上传
+  @observable imageUrl = null // 图片上传数组
   @observable selectLoading = false // 下拉框加载
-  @observable confirmLoading = false
+  @observable loading = false
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
     pageSize: 10,
   }
-  @observable list = [
-    {
-      objId: 7025450323959360,
-      objName: '实体',
-      objDescr: null,
-      basicFeatureTag: '6873122232241152',
-      markedFeatureTag: '7025450326318656,7025602576644544',
-      addTime: 1590486038000,
-      picture: 'base64up',
-      isUsed: 1,
-    },
-  ]
 
   // 初始化云资源
   @action async groupInit(data) {
@@ -111,6 +71,7 @@ class Store {
 
   // 获取实体分页列表
   @action async getEntityPage() {
+    this.loading = true
     try {
       const res = await io.getEntityPage({
         projectId: this.projectId,
@@ -119,9 +80,11 @@ class Store {
       })
       runInAction(() => {
         this.list = res.data
+        this.loading = false
       })
     } catch (e) {
       errorTip(e.message)
+      this.loading = false
     }
   }
 
@@ -129,10 +92,11 @@ class Store {
   @action async getEntityList() {
     try {
       const res = await io.getEntityList({
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.entityList = res.map(item => {
-          return (<Option value={item.objId}>{item.objName}</Option>)
+          return (<Option key={item.objId} disabled={item.isUsed}>{item.objName}</Option>)
         })
       })
     } catch (e) {
@@ -141,15 +105,15 @@ class Store {
   }
 
   // 获取标签列表
-  @action async getTagList() {
+  @action.bound async getTagList(objId) {
     try {
       const res = await io.getTagList({
-        objId: this.objId,
-        projectId: this.proejctId,
+        objId,
+        projectId: this.projectId,
       })
       runInAction(() => {
-        this.TagList = res.map(item => {
-          return (<Option value={item.tagId}>{item.tagName}</Option>)
+        this.tagList = res.map(item => {
+          return (<Option key={item.tagId.toString()}>{item.tagName}</Option>)
         })
       })
     } catch (e) {
@@ -181,12 +145,12 @@ class Store {
   }
 
   // 获取数据源列表
-  @action async getDataSource(dataStorageType) {
+  @action async getDataSource() {
     this.selectLoading = true
     try {
       const res = await io.getDataSource({
         projectId: this.projectId,
-        dataStorageType,
+        dataStorageType: this.dataStorageTypeId,
       })
       runInAction(() => {
         if (res) {
@@ -210,7 +174,10 @@ class Store {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.store.detail = res
+        this.imageUrl = res.picture
+        res.basicFeatureTag = res.basicFeatureTag.split(',')
+        res.markedFeatureTag = res.markedFeatureTag.split(',')
+        this.detail = res
       })
     } catch (e) {
       errorTip(e.message)
@@ -218,7 +185,7 @@ class Store {
   }
 
   // 添加实体
-  @action async addEntity(data, cb) {
+  @action async addEntity(data) {
     try {
       await io.addEntity({
         ...data,
@@ -229,7 +196,6 @@ class Store {
       runInAction(() => {
         successTip('添加成功')
         this.getEntityPage()
-        cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -237,16 +203,15 @@ class Store {
   }
 
   // 编辑实体
-  @action async editEntity(data, cb) {
+  @action async editEntity(data) {
     try {
       await io.editEntity({
-        proejctId: this.projectId,
+        projectId: this.projectId,
         ...data,
       })
       runInAction(() => {
         successTip('编辑成功')
         this.getEntityPage()
-        cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -254,9 +219,12 @@ class Store {
   }
 
   // 删除实体
-  @action async delEntity(id) {
+  @action async delEntity(objId) {
     try {
-      await io.delEntity({id})
+      await io.delEntity({
+        objId,
+        projectId: this.projectId,
+      })
       runInAction(() => {
         successTip('删除成功')
         this.getEntityPage()

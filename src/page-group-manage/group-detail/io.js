@@ -1,12 +1,12 @@
 import ioContext from '../../common/io-context'
 import {
-  groupManageApi, get, post,
+  groupDetailsApi, get, post,
 } from '../../common/util'
 
 const api = {
-  getDetail: get(`${groupManageApi}/detail`), // 场景详情
+  getDetail: get(`${groupDetailsApi}/detail`), // 场景详情
 }
 
-ioContext.create('groupManage', api)
+ioContext.create('groupDetails', api)
 
-export default ioContext.api.groupManage
+export default ioContext.api.groupDetails

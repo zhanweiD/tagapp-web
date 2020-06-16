@@ -25,8 +25,6 @@ export default class ModalGroup extends Component {
       window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }
     this.store.isCreate = 0
-    this.store.mode = 0
-    this.store.type = 0
     this.store.visible = false
   }
 
@@ -94,7 +92,7 @@ export default class ModalGroup extends Component {
               </p>
             </div>
           </Button>
-          <Button className="create-flex" onClick={() => this.createType(2, 0)}>
+          <Button className="create-flex" onClick={() => this.createType(2, 1)}>
             <div className="create-icon">
               <PlusCircleFilled style={{fontSize: '85px', color: '#33AE06'}} />
             </div>

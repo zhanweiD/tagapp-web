@@ -1,18 +1,19 @@
 import {Component, Fragment} from 'react'
 import {action, toJS, observe} from 'mobx'
-import {observer} from 'mobx-react'
+import {observer, inject} from 'mobx-react'
 import {Modal, Spin, Popconfirm, Badge} from 'antd'
 import {ModalForm, ListContent, NoData, AuthBox} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
 
+@inject('store')
 @observer
 export default class GroupBackConfig extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
-    console.log(this.props)
+    this.store.getEntityPage()
   }
 
   columns = [
@@ -46,7 +47,7 @@ export default class GroupBackConfig extends Component {
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <Popconfirm placement="topRight" title="你确认要移除该实体吗？" onConfirm={() => this.delItem(record.id)}>
+            <Popconfirm placement="topRight" title="你确认要移除该实体吗？" onConfirm={() => this.delItem(record.objId)}>
               <a disabled={record.isUsed} href>移除</a>
             </Popconfirm>
           </Fragment>
@@ -60,14 +61,11 @@ export default class GroupBackConfig extends Component {
    * @param type 弹窗类型 编辑 / 添加(edit / add)
    */
   @action openModal = (type, data = {}) => {
-    if (type === 'add') {
-      // this.store.getEntityList(data.objId)
-      // this.store.getTagList(data.objId)
-    }
     if (type === 'edit') {
-      // this.store.getEntityInfo(data.objId)
+      this.store.getTagList(data.objId)
+      this.store.getEntityInfo(data.objId)
     }
-    // this.store.detail = data
+    this.store.getEntityList()
     this.store.entityVisible = true
     this.store.modalType = type
   }
@@ -118,6 +116,7 @@ export default class GroupBackConfig extends Component {
     const {store} = this
     const {
       list,
+      loading,
     } = store
 
     const formConfig = {
@@ -138,20 +137,16 @@ export default class GroupBackConfig extends Component {
     return (
       <div className="back-config">
         <div className="cloud-config">
-          <p className="config-title">云资源配置</p>
+          <p className="config-title">数据源配置</p>
           <ModalForm {...formConfig} />
         </div>
         <div className="entity-config">
           <p className="config-title">实体配置</p>
-          {
-            list.length ? (
-              <div className="list-content">
-                <ListContent {...listConfig} />
-              </div>
-            ) : (
-              <NoData />
-            )
-          }
+          <div className="list-content">
+            <Spin spinning={loading} tip="Loading">
+              <ListContent {...listConfig} />
+            </Spin>
+          </div>
         </div>
         <EntityModal store={store} />
       </div>

@@ -16,6 +16,7 @@ class Store {
     },
   ] // 数据源 
   @observable visible = false // 新建API
+  @observable apiGroupList = [] // 新建API分组列表
   @observable currentKey = 1 // tabs显示
   @observable modeType = 1 // 1 规则离线 2 规则实时 3 ID集合
   @observable pagination = {

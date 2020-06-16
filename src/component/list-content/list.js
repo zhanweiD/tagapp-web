@@ -69,7 +69,7 @@ export default class ListContent extends Component {
 
   @action remoteSearch = (value = {}) => {
     const {
-      onSearch, beforeSearch, paginationConfig,
+      onSearch, beforeSearch, paginationConfig, projectId,
     } = this.props
     let newVal = value
 
@@ -86,6 +86,7 @@ export default class ListContent extends Component {
       this.store.getList({
         pageSize: paginationConfig.pageSize || 10, // 默认pageSize 10
         currentPage: 1, // 搜索重置列表
+        projectId, // 额外参数
         // ...newVal,
       })
     }

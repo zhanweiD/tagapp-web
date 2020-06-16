@@ -20,7 +20,6 @@ class GroupConfig extends Component {
     const {spaceInfo} = window
     store.projectId = spaceInfo && spaceInfo.projectId
     store.getPortrayal()
-    console.log(store.projectId)
   }
   componentWillMount() {
     // store.getPortrayal()
@@ -54,14 +53,6 @@ class GroupConfig extends Component {
             <BackConfig store={store} />
           )
         }
-        {/* <div style={{display: store.initVisible ? 'block' : 'none'}}>
-          <NoData
-            // isLoading={tableLoading}
-            {...noDataConfig}
-          />
-          <ConfigModal store={store} />
-        </div>
-        <BackConfig store={store} /> */}
       </div>
     )
   }

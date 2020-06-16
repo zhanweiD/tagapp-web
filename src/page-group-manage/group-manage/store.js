@@ -9,47 +9,46 @@ import io from './io'
 const {Option} = Select
 class Store extends ListContentStore(io.getGroupList) {
   // example
-  @observable cUser = [] // 项目所有者 
+  @observable projectId = 0 // 项目id
+  @observable objId = 0 // 实体id
   @observable searchParams = [] // 搜索内容
   @observable visible = false // 新建群体
   @observable drawerVisible = false // id新建群体
   @observable modalVisible = false // 文件解析结果
   @observable isCreate = 0 // 是否选中创建群体方式
   @observable recordObj = {} // 当前编辑群体
+  @observable list = [] // 群体表格数组
+  @observable uploadData = {} // 上传的文件
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
+  @observable entityOptions = [] // 实体option列表
+  @observable tagOptions = [] // 标签option列表
   @observable mode = 0 // 创建方式
   @observable type = 0 // 群体类型
+  @observable isAdd = true // 判断编辑还是新建
+  @observable tableLoading = false // 表格数据加载
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
     pageSize: 10,
   }
-  @observable list = [
-    {
-      name: 'testgrouop',
-      enName: 'group',
-      objId: 7025450323959360,
-      objName: '实体',
-      id: 1,
-      type: 1,      
-      status: 1,
-      mode: 1,
-      descr: 'test',
-      lastCount: 123,
-      lastTime: 1590560398000,
-    },
-  ]
 
   // 获取群体分页列表
   @action async getGroupList() {
     try {
-      const res = await io.getGroupList()
+      this.tableLoading = true
+      const res = await io.getGroupList({
+        projectId: this.projectId,
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+      })
       runInAction(() => {
         this.list = res.data
+        this.tableLoading = false
       })
     } catch (e) {
       errorTip(e.message)
+      this.tableLoading = false
     }
   }
 
@@ -57,10 +56,29 @@ class Store extends ListContentStore(io.getGroupList) {
   @action async getEntityList() {
     try {
       const res = await io.getEntityList({
-        projectId: window.projectId,
+        projectId: this.projectId,
       })
       runInAction(() => {
+        this.entityOptions = res.map(item => {
+          return (<Option key={item.objId}>{item.objName}</Option>)
+        })
         this.entityList = changeToOptions(toJS(res || []))('objName', 'objId')
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  // 获取标签列表
+  @action async getTagList() {
+    try {
+      const res = await io.getTagList({
+        projectId: this.projectId,
+        objId: this.objId,
+      })
+      runInAction(() => {
+        this.tagOptions = res.map(item => {
+          return (<Option key={item.tagId}>{item.tagName}</Option>)
+        })
       })
     } catch (e) {
       errorTip(e.message)
@@ -68,12 +86,9 @@ class Store extends ListContentStore(io.getGroupList) {
   }
 
   // 添加群体
-  @action async addGroup(obj, objId) {
+  @action async addGroup(obj) {
     try {
       const res = await io.addGroup({
-        ...this.oneForm,
-        ...this.threeForm,
-        objId, // 实体ID
         ...obj,
       })
     } catch (e) {
@@ -82,10 +97,10 @@ class Store extends ListContentStore(io.getGroupList) {
   }
   
   // 编辑群体
-  @action async editGroup(obj, objId) {
+  @action async editGroup(obj) {
     try {
       const res = await io.editGroup({
-        objId, // 实体ID
+        id: this.recordObj.id, // 群体ID
         ...obj,
       })
     } catch (e) {
@@ -97,10 +112,12 @@ class Store extends ListContentStore(io.getGroupList) {
   @action async recheckName(name, callback) {
     try {
       const res = await io.recheckName({
+        projectId: this.projectId,
+        objId: this.objId,
         name,
       })
       runInAction(() => {
-        if (res) {
+        if (res.isExist) {
           callback('群体名称重复')
         } else {
           callback()

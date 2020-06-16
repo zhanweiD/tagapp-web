@@ -2,14 +2,13 @@ import React, {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
-import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal} from 'antd'
+import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message} from 'antd'
 
-import {errorTip} from '../../common/util'
+import {errorTip, baseApi, get, post} from '../../common/util'
 
 const {Item} = Form
 const {TextArea} = Input
 const {Option} = Select
-const apiPrefix = ''
 
 @observer
 export default class IdCreate extends Component {
@@ -18,7 +17,7 @@ export default class IdCreate extends Component {
     this.store = props.store
   }
   componentWillMount() {
-    this.store.getEntityList()
+    // this.store.getEntityList()
   }
   formRef = React.createRef()
 
@@ -34,15 +33,18 @@ export default class IdCreate extends Component {
 
   // 上传状态发生变化
   uploadChange = ({file, fileList}) => {
+    // fileList = fileList.slice(-1)
+    console.log(file.status)
+    this.store.uploadList = fileList.slice(-1)
     if (file.status !== 'uploading') {
-      console.log(file, fileList)
-      this.store.uploadList = fileList
       this.formRef.current.validateFields(['excel'])
-      if (fileList.length !== 0) {
+      if (file.response.success) {
+        // 返回正确
         this.store.modalVisible = true
+      } else {
+        errorTip(file.response.message)
       }
     }
-    console.log(1)
   }
 
   @action removeFile() {
@@ -55,13 +57,12 @@ export default class IdCreate extends Component {
     if (!isLt10M) {
       errorTip('文件不能大于100MB!')
     }
+    // this.store.uploadData.fileData = file
     return isLt10M
   }
 
   @action checkName = (rule, value, callback) => {
-    console.log(value)
-    // this.store.recheckName(value, callback)
-    callback()
+    this.store.recheckName(value, callback)
   }
   
   @action handleCancel = () => {
@@ -72,9 +73,17 @@ export default class IdCreate extends Component {
 
   @action onOK = () => {
     this.form = this.formRef.current
+    const {isAdd, mode, type} = this.store
     this.formRef.current.validateFields().then(value => {
-      // this.store.addGroup(value)
-      // this.store.editGroup(value)
+      value.outputTags = value.outputTags.toString()
+      value.objId = parseInt(value.objId)
+      value.mode = mode
+      value.type = type
+      if (isAdd) {
+        this.store.addGroup(value)
+      } else {
+        this.store.editGroup(value)
+      }
       console.log(value)
       this.store.drawerVisible = false
       this.store.recordObj = {}
@@ -90,20 +99,38 @@ export default class IdCreate extends Component {
   @action uploadCancel = () => {
     this.store.modalVisible = false
   }
+  @action selectEntity = objId => {
+    this.store.objId = objId
+    this.store.getTagList()
+    this.formRef.current.resetFields(['outputTags'])
+  }
 
   render() {
     const {
       drawerVisible,
       modalVisible,
+      entityOptions,
       recordObj,
+      tagOptions,
+      uploadList,
+      projectId,
+      objId,
     } = this.store
 
     const props = {
-      accept: '.xls, .xlsx',
-      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-      // action: `${apiPrefix}/import/import_id_collection`,
+      accept: '.xls, .xlsx, .txt',
+      method: 'post',
+      data: file => ({
+        fileName: file.name,
+        fileData: file,
+        projectId,
+        objId,
+      }),
+      fileList: uploadList,
+      // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      action: `${baseApi}/import/import_id_collection`,
       onChange: this.uploadChange,
-      onRemove: file => this.removeFile(file),
+      // onRemove: file => this.removeFile(file),
       beforeUpload: file => this.beforeUpload(file),
     }
 
@@ -154,16 +181,14 @@ export default class IdCreate extends Component {
             }}
           >
             <Item
-              name="objName"
+              name="objId"
               label="所属实体"
-              
               rules={[
                 {required: true, message: '请选择实体'},
               ]}
             >
-              <Select placeholder="会员">
-                <Option key="1">1</Option>
-                <Option key="2">2</Option>
+              <Select placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
+                {entityOptions}
               </Select>
             </Item>
             <Item
@@ -201,7 +226,11 @@ export default class IdCreate extends Component {
               <a 
                 style={{marginTop: '12px', display: 'block'}}
                 onClick={() => {
-                  window.open(`${apiPrefix}/import/import_id_collection?objId=${1}&projectId=${1}&userId${1}&tenantId=${1}&fileName=${1}`)
+                  if (objId) {
+                    window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)
+                  } else {
+                    this.formRef.current.validateFields(['objId'])
+                  }
                 }}
               >
                 下载模版
@@ -209,15 +238,14 @@ export default class IdCreate extends Component {
             </Item>
 
             <Item
-              name="label"
+              name="outputTags"
               label="输出标签"
               rules={[
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select placeholder="请选择标签">
-                <Option key="1">1</Option>
-                <Option key="2">2</Option>
+              <Select placeholder="请选择标签" mode="multiple">
+                {tagOptions}
               </Select>
             </Item>
           </Form>
