@@ -16,8 +16,10 @@ const {TabPane} = Tabs
 
 @observer
 class DataSearch extends Component {
-  componentWillMount() {
-
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
   }
 
   render() {

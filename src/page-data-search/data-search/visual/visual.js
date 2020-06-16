@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import {observer} from 'mobx-react'
-import {action, observable} from 'mobx'
+import {action, observable, toJS} from 'mobx'
 import {
   Button,
   Tabs,
@@ -32,11 +32,16 @@ import {outValueLogic, screenValueLogic, comparison} from './util'
 import store from './store'
 import './visual.styl'
 
-const {TabPane} = Tabs
 const {Option} = Select
 
 @observer
 export default class Visual extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+  }
+
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
 
@@ -45,7 +50,11 @@ export default class Visual extends Component {
   // @observable showScreenErrorMessage = false
 
   componentWillMount() {
+    store.getObjList()
+  }
 
+  @action.bound selectObj(e) {
+    store.objId = e
   }
 
   @action.bound save() {
@@ -161,7 +170,8 @@ export default class Visual extends Component {
   }
 
   render() {
-    const {outConfig, screenConfig} = store
+    const {outConfig, screenConfig, objList, objId, tagTreeData} = store
+    console.log(objId)
     return (
       <div className="visual">
         <div className="header-button">
@@ -169,18 +179,22 @@ export default class Visual extends Component {
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
         </div>
-        <div className="FBH" style={{height: '100%'}}>
-          <Tree />
+        <div className="FBH pt16 pb16">
+          <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
+          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj}>
+            {
+              objList.map(d => <Option value={d.id}>{d.name}</Option>)
+            }
+          </Select>
+        </div>
+        <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
+          <Tree tagTreeData={toJS(tagTreeData)} />
           <div className="visual-content-warp">
             <div className="code-menu">
               <span className="code-menu-item mr16" onClick={() => this.search()}>
                 <img src={yunxing} alt="img" />
                 <span>查询</span>
               </span>
-              {/* <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
-                <img src={geshihua} alt="img" />
-                <span>暂停</span>
-              </span> */}
             </div>
             <div className="visual-content">
               <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
@@ -202,7 +216,6 @@ export default class Visual extends Component {
                         {/* {
                           this.showOutErrorMessage ? <Alert message="请完善输出设置" type="error" showIcon style={{width: '60%', marginBottom: '16px'}} /> : null
                         } */}
-                        
                         <Button type="primary" onClick={this.delAllOutConfig} className="mb16">清除输出设置</Button>
                         <Form name="out" ref={this.outConfigRef}>
                           {

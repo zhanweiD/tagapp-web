@@ -17,6 +17,7 @@ import StatusImg from './status-img'
 import ModalStotageDetail from './modal-stroage-detail'
 import projectProvider from './project-provider'
 import Card from './dt-card'
+import DtGrid from './dt-grid'
 
 export {
   DetailHeader,
@@ -39,4 +40,5 @@ export {
   ModalStotageDetail,
   projectProvider,
   Card,
+  DtGrid,
 }

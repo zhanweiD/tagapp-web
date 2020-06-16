@@ -16,6 +16,7 @@ export default class DataSearchInit extends Component {
 
   @action.bound init() {
     this.store.visibleInit = true
+    this.store.getStorageType()
   }
 
   render() {

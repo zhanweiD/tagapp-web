@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal} from 'antd'
 import {ModalForm} from '../../component'
@@ -11,45 +11,53 @@ export default class ModalInit extends Component {
     this.store = props.store
   }
 
+  @action.bound selectStorageType(type) {
+    this.form.resetFields(['dataStorageId'])
+    this.store.getStorageList({
+      dataStorageType: type,
+    })
+  }
+
+
   selectContent= () => {
+    const {storageType, storageList} = this.store
+    
     return [{
-      label: '用户名',
-      key: 'memberId',
+      label: '数据源类型',
+      key: 'dataStorageType',
       component: 'select',
       rules: [
         '@requiredSelect',
       ],
       control: {
-        options: [],
+        options: toJS(storageType),
+        onSelect: v => this.selectStorageType(v),
       },
     }, {
-      label: '角色',
-      key: 'roleId',
+      label: '数据源',
+      key: 'dataStorageId',
       component: 'select',
       rules: [
         '@requiredSelect',
       ],
       control: {
-        options: [],
+        options: toJS(storageList),
       },
     }]
   }
 
   @action handleCancel = () => {
     this.store.visibleInit = false
+    this.store.loadingInit = false
   }
 
   submit = () => {
-    const t = this
-    const {store} = t
     this.store.isInit = true
-    // this.form.validateFields((err, values) => {
-    //   if (!err) {
-    //     // store.editList(params, () => {
-    //     //   t.handleCancel()
-    //     // })
-    //   }
-    // })
+    this.form.validateFields((err, values) => {
+      if (!err) {
+        this.store.initSearch(values)
+      }
+    })
   }
 
   render() {

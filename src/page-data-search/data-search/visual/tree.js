@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import {Tree, Switch, Select} from 'antd'
 import {CarryOutOutlined, FormOutlined} from '@ant-design/icons'
-import {NoBorderInput} from '../../../component'
+import {NoBorderInput, OmitTooltip} from '../../../component'
 import {
   IconRefresh, IconTreeAdd, IconUnExtend, IconExtend,
 } from '../../../icon-comp'
 
+const {TreeNode} = Tree
 const {Option} = Select
 
 const treeData = [
@@ -70,12 +71,36 @@ const treeData = [
   },
 ]
 
-const TagTree = () => {
+const TagTree = ({tagTreeData, refreshTree}) => {
   const onSelect = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info)
   }
 
-  const refreshTree = () => {}
+  const searchTree = () => refreshTree()
+
+  const renderTreeNodes = data => data.map(item => {
+    if (item.children) {
+      return (
+        <TreeNode
+          title={<OmitTooltip maxWidth={120} text={item.name} />}
+          key={item.aId}
+          dataRef={item}
+          selectable={false}
+        >
+          {renderTreeNodes(item.children)}
+        </TreeNode>
+      )
+    }
+
+    return (
+      <TreeNode
+        key={item.aId}
+        title={<OmitTooltip maxWidth={120} text={item.name} />}
+        selectable={false}
+        data={item}
+      />
+    )
+  })
 
   return (
     <div className="visual-tree">
@@ -87,7 +112,7 @@ const TagTree = () => {
         />
 
         <div className="FBH pr6 pl6" style={{maxWidth: 70}}>
-          <IconRefresh size="14" className="mr8" onClick={refreshTree} />
+          <IconRefresh size="14" className="mr8" onClick={searchTree} />
           {/* {
             this.dropdownDom()
           }
@@ -98,22 +123,17 @@ const TagTree = () => {
           )} */}
         </div>
       </div>
-      <div>
-        <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-        <Select defaultValue="lucy" style={{width: 180, marginLeft: '8px'}} onChange={() => {}}>
-          <Option value="jack">Jack</Option>
-          <Option value="lucy">Lucy</Option>
-          <Option value="Yiminghe">yiminghe</Option>
-        </Select>
-      </div>
       <div className="p8"> 
         <Tree
           showLine
           showIcon={false}
-          defaultExpandedKeys={['0-0-0']}
-          onSelect={onSelect}
-          treeData={treeData}
-        />
+          // onSelect={onSelect}
+          // treeData={tagTreeData}
+        >
+          {
+            renderTreeNodes(tagTreeData)
+          }
+        </Tree>
       </div>
     
     </div>
