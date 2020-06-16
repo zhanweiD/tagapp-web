@@ -24,7 +24,6 @@ export default class LabelTab extends Component {
           showInfo 
           strokeWidth={4} 
           strokeColor="#00d5af" 
-          strokeLinecap="square" 
           percent={75} 
           color="#fff"
           style={{color: '#fff'}}

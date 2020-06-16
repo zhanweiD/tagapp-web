@@ -11,9 +11,9 @@ const {pathPrefix} = window.__keeper
 
 // 接口前缀
 
-export const groupConfigApi = `${pathPrefix}/group-config` // 群体配置
-export const groupManageApi = `${pathPrefix}/group/manage` // 群体管理
-export const unitListApi = `${pathPrefix}/group/unit` // 个体列表
+export const groupConfigApi = `${pathPrefix}/relGroup` // 群体配置
+export const groupApi = `${pathPrefix}/group` // 群体管理
+export const groupDetailsApi = `${pathPrefix}/groupDetails` // 群体详情
 
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览
@@ -135,6 +135,26 @@ export function trimFormValues(values) {
     }
   })
   return values
+}
+/**
+ * @description 将对象中的value值进行trim()转换
+ * @number 不能超过number个
+ */
+export function limitSelect(rule, values, callback, number) {
+  // const {setFieldsValue} = this.form
+  // let newArr
+  if (values.length > number) {
+    // newArr = [].concat(values.slice(0, number-1), values.slice(-1))
+    // setFieldsValue({
+    //   outputTags: newArr,
+    // })
+    callback(`最多可选择${number}个标签`)
+  } 
+  // else {
+  //   newArr = value
+  //   callback()
+  // }
+  callback()
 }
 
 export function isJsonFormat(str) {

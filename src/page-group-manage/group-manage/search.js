@@ -1,11 +1,16 @@
-const serach = ({cUser = []}) => [
+import {toJS} from 'mobx'
+
+const serach = store => [
   {
     label: '实体',
     key: 'objId',
     initialValue: '',
     control: {
       defaultAll: true,
-      options: cUser.length ? cUser : [{name: '全部', value: ''}],
+      options: [
+        {name: '全部', value: ''},
+        ...toJS(store.entityList),
+      ],
     },
     component: 'select',
   }, {
@@ -14,7 +19,7 @@ const serach = ({cUser = []}) => [
     initialValue: '',
     control: {
       defaultAll: true,
-      options: cUser.length ? cUser : [
+      options: [
         {name: '全部', value: ''},
         {name: '离线实体', value: 1},
         {name: '实时群体', value: 2},
@@ -28,7 +33,7 @@ const serach = ({cUser = []}) => [
     initialValue: '',
     control: {
       defaultAll: true,
-      options: cUser.length ? cUser : [
+      options: [
         {name: '全部', value: ''},
         {name: '规则创建', value: 1},
         {name: '集合创建', value: 2},
@@ -42,7 +47,7 @@ const serach = ({cUser = []}) => [
   //   initialValue: '',
   //   control: {
   //     defaultAll: true,
-  //     options: cUser.length ? cUser : [{name: '全部', value: ''}],
+  //     options: [{name: '全部', value: ''}],
   //   },
   //   component: 'select',
   // },
@@ -52,7 +57,7 @@ const serach = ({cUser = []}) => [
     initialValue: '',
     control: {
       defaultAll: true,
-      options: cUser.length ? cUser : [
+      options: [
         {name: '全部', value: ''},
         {name: '正常', value: 1},
         {name: '失败', value: 2},

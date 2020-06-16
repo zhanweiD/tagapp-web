@@ -1,11 +1,13 @@
 import {
-  action, runInAction, observable
+  action, runInAction, observable,
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
 
 class Store {
   @observable visible = false // 保存群体窗口
+  @observable id = 0 // 群体ID
+  @observable projectId = 0 // 项目ID
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -13,14 +15,14 @@ class Store {
   }
   @observable list = [
     {
-      name: "testgrouop",
-      enName: "group",
+      name: 'testgrouop',
+      enName: 'group',
       objId: 7025450323959360,
-      objName: "实体",
+      objName: '实体',
       type: 1,      
       status: 1,
       mode: 1,
-      descr: "test",
+      descr: 'test',
       lastCount: 123,
       lastTime: 1590560398000,
     },

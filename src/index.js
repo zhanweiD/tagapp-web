@@ -30,7 +30,7 @@ export default class Entry extends React.Component {
           <Route path="/data-search" component={DataSearch} />
           <Route path="/group-config" component={GroupConfig} />
           <Route path="/group" component={GroupManage} />
-          <Route path="/portrayal-label" component={PortrayalLabel} />
+          <Route path="/portrayal" component={PortrayalLabel} />
           <Route path="/scene" component={Scene} />
           <Route path="/project" component={Project} />
           <Redirect to="/project" />

@@ -15,14 +15,19 @@ import ConfigModal from './configModal'
 
 @observer
 class GroupConfig extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+    store.getPortrayal()
+  }
   componentWillMount() {
     // store.getPortrayal()
   }
 
   @action openModal = () => {
-    // store.detail = data
     store.visible = true
-    // store.getDataSource()
+    store.getDataSource()
   }
 
   render() {
@@ -48,14 +53,6 @@ class GroupConfig extends Component {
             <BackConfig store={store} />
           )
         }
-        {/* <div style={{display: store.initVisible ? 'block' : 'none'}}>
-          <NoData
-            // isLoading={tableLoading}
-            {...noDataConfig}
-          />
-          <ConfigModal store={store} />
-        </div>
-        <BackConfig store={store} /> */}
       </div>
     )
   }

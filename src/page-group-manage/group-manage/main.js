@@ -5,7 +5,7 @@ import {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
+import {Popconfirm, Badge, Dropdown, Menu, Spin} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
 import * as navListMap from '../../common/navList'
@@ -15,9 +15,9 @@ import {
 } from '../../component'
 import storage from '../../common/nattyStorage'
 
-import seach from './search'
+import search from './search'
 import ModalGroup from './modal'
-import IdCreateGroup from './id-create-group'
+import IdCreate from './id-create'
 import store from './store'
 
 // 面包屑设置
@@ -30,10 +30,22 @@ import store from './store'
 // ]
 @observer
 class GroupManage extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+    store.getGroupList()
+    store.getEntityList()
+  }
+  componentWillMount() {
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
+  }
+
   menu = record => (
     <Menu>
       <Menu.Item>
-        <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
+        <a disabled={record.status !== 1} href onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
       </Menu.Item>
       <Menu.Item>
         <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
@@ -48,7 +60,7 @@ class GroupManage extends Component {
       // render: 
       // text => <a href>{text}</a>,
       render: (text, record) => (
-        <Link to={`/group/manage/${record.objId}`}>
+        <Link to={`/group/manage/${record.id}`}>
           <OmitTooltip maxWidth={100} text={text} />
         </Link>
       ),
@@ -128,13 +140,9 @@ class GroupManage extends Component {
       ),
     },
   ]
-  componentWillMount() {
-    // const {frameChange} = this.props
-    // frameChange('nav', navList)
-    // store.getGroupList()
-  }
 
   @action openModal = () => {
+    store.isAdd = true
     store.visible = true
   }
 
@@ -155,12 +163,14 @@ class GroupManage extends Component {
 
   // 跳转到群体编辑
   goGroupEdit = record => {
-    if (record.mode === 2) {
+    store.isAdd = false
+    const {mode, id, type} = record
+    if (mode === 2) {
       store.drawerVisible = true
       store.recordObj = record
       console.log(record)
     } else {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${record.id}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }
   }
 
@@ -179,7 +189,7 @@ class GroupManage extends Component {
 
   render() {
     const {
-      cUser, list, tableLoading, searchParams,
+      list, tableLoading, searchParams, projectId,
     } = store
 
     const noDataConfig = {
@@ -191,8 +201,9 @@ class GroupManage extends Component {
     }
 
     const listConfig = {
+      projectId,
       columns: this.columns,
-      searchParams: seach({cUser}),
+      searchParams: search(store),
       beforeSearch: this.beforeSearch,
       buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal()}>新建群体</AuthBox>],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
@@ -208,17 +219,18 @@ class GroupManage extends Component {
         {
           list.length || JSON.stringify(searchParams) !== '{}' ? (
             <div className="list-content">
-              <ListContent {...listConfig} />
+              <Spin tip="Loading" spinning={tableLoading}>
+                <ListContent {...listConfig} />
+              </Spin>
             </div>
           ) : (
             <NoData
-              // isLoading={tableLoading}
               {...noDataConfig}
             />
           )
         }
         <ModalGroup store={store} />
-        <IdCreateGroup store={store} />
+        <IdCreate store={store} />
       </div>
     )
   }

@@ -12,15 +12,14 @@ export default class ConfigModal extends Component {
   }
 
   @action.bound selectDataSource(storageId) {
-    // this.form.resetFields(['engineId'])
-    // this.store.getEnginesSource(storageId)
     console.log(storageId)
+    this.store.dataStorageId = storageId
   }
   @action.bound selectDataTypeSource(storageTypeId) {
-    // this.form.resetFields(['engineId'])
-    // this.store.getEnginesSource(storageId)
+    this.form.resetFields(['storageId'])
     console.log(storageTypeId)
-    // this.store.getDataTypeSource()
+    this.store.dataStorageTypeId = storageTypeId
+    this.store.getDataSource()
   }
 
   formItemLayout = () => {
@@ -77,7 +76,7 @@ export default class ConfigModal extends Component {
   @action submit = () => {
     this.form.validateFields((err, value) => {
       if (!err) {
-        // this.store.groupInit(value)
+        this.store.groupInit(value)
         this.store.initVisible = false
         this.store.visible = false
         this.store.closeModal()
@@ -86,7 +85,6 @@ export default class ConfigModal extends Component {
   }
 
   render() {
-    console.log(this)
     const {
       visible, 
       confirmLoading,
