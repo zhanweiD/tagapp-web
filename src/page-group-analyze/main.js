@@ -1,13 +1,10 @@
-
-// 数据查询
 import {Component} from 'react'
 import {
   HashRouter as Router, Route, Switch,
 } from 'react-router-dom'
 
 import Frame from '../frame'
-
-import DataSearch from './data-search'
+import GroupAnalyze from './group-analyze'
 
 export default class Page extends Component {
   render() {
@@ -15,7 +12,7 @@ export default class Page extends Component {
       <Router>
         <Frame page="space">
           <Switch>
-            <Route exact path="/data-search" component={DataSearch} />
+            <Route exact path="/group-analyze" component={GroupAnalyze} />
             <Route
               render={() => {
                 window.location.href = '/404'
