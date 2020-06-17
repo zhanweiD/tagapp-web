@@ -38,7 +38,7 @@ export default class GroupBackConfig extends Component {
     }, {
       key: 'action',
       title: '操作',
-      width: 250,
+      width: 200,
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
@@ -120,7 +120,6 @@ export default class GroupBackConfig extends Component {
     } = store
 
     const formConfig = {
-      // selectContent: visible && this.selectContent(),
       labelAlign: 'left',
       selectContent: this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
@@ -128,7 +127,6 @@ export default class GroupBackConfig extends Component {
 
     const listConfig = {
       columns: this.columns,
-      // bordered: true,
       buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal('add')}>添加实体</AuthBox>],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性

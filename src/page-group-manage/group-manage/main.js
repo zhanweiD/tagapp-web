@@ -1,7 +1,7 @@
 /**
  * @description 群体管理
  */
-import {Component, Fragment} from 'react'
+import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
@@ -37,6 +37,7 @@ class GroupManage extends Component {
     store.getGroupList()
     store.getEntityList()
   }
+  formRef = React.createRef()
   componentWillMount() {
     // const {frameChange} = this.props
     // frameChange('nav', navList)
@@ -116,13 +117,21 @@ class GroupManage extends Component {
             <span className="table-action-line" />
           </Fragment> */}
           <Fragment>
+            <a onClick={() => this.goPerform(record)} href>执行</a>
+            <span className="table-action-line" />
+          </Fragment>
+          <Fragment>
+            <a href onClick={() => this.goGroupEdit(record)}>编辑</a>
+            <span className="table-action-line" />
+          </Fragment>
+          {/* <Fragment>
             <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment>
+          </Fragment> */}
                
           <Fragment>
             <Popconfirm placement="topRight" title="你确定要删除该群体吗？" onConfirm={() => this.delItem(record.id)}>
@@ -155,7 +164,10 @@ class GroupManage extends Component {
   goPerform = record => {
     const {mode, type, id} = record
     if (mode === 2) {
+      store.isPerform = true
+      record.objId = record.objId.toString()
       store.recordObj = record
+      store.getTagList()
       store.drawerVisible = true
     } else if (mode === 1) {
       if (type === 1) {
@@ -181,9 +193,11 @@ class GroupManage extends Component {
     store.isAdd = false
     const {mode, id, type} = record
     if (mode === 2) {
-      store.drawerVisible = true
+      record.objId = record.objId.toString()
       store.recordObj = record
-      console.log(record)
+      store.uploadData = true
+      store.getTagList()
+      store.drawerVisible = true
     } else {
       window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }

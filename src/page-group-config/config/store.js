@@ -22,6 +22,7 @@ class Store {
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
   @observable visible = false // 控制配置弹窗
+  @observable confirmLoading = false // 确认按钮loading
   @observable entityVisible = false // 控制实体弹窗
   @observable initVisible = true // 初始化页面是否显示
   @observable uploadLoading = false // 图片上传
@@ -34,6 +35,13 @@ class Store {
     pageSize: 10,
   }
 
+  @action modalCancel = () => {
+    this.entityVisible = false
+    this.uploadLoading = false
+    this.confirmLoading = false
+    this.imageUrl = null
+    this.detail = {}
+  }
   // 初始化云资源
   @action async groupInit(data) {
     try {
@@ -46,9 +54,13 @@ class Store {
         this.getPortrayal()
         this.dataStorageName = res.dataStorageName
         this.dataStorageTypeName = res.dataStorageTypeName
+        this.confirmLoading = false
+        this.initVisible = false
+        this.visible = false
       })
     } catch (e) {
       errorTip(e.message)
+      this.confirmLoading = false
     }
   }
   // 获取云资源信息
@@ -177,6 +189,7 @@ class Store {
         this.imageUrl = res.picture
         res.basicFeatureTag = res.basicFeatureTag.split(',')
         res.markedFeatureTag = res.markedFeatureTag.split(',')
+        res.objId = res.objId.toString()
         this.detail = res
       })
     } catch (e) {
@@ -195,6 +208,7 @@ class Store {
       })
       runInAction(() => {
         successTip('添加成功')
+        this.modalCancel()
         this.getEntityPage()
       })
     } catch (e) {
@@ -211,6 +225,7 @@ class Store {
       })
       runInAction(() => {
         successTip('编辑成功')
+        this.modalCancel()
         this.getEntityPage()
       })
     } catch (e) {

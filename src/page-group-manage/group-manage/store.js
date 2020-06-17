@@ -19,7 +19,7 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable recordObj = {} // 当前编辑群体
   @observable list = [] // 群体表格数组
   @observable fileRes = '' // 上传的文件返回数据
-  @observable uploadData = {} // 上传的文件
+  @observable uploadData = false // 是否有上传文件
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
   @observable entityOptions = [] // 实体option列表
@@ -27,11 +27,23 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable mode = 0 // 创建方式
   @observable type = 0 // 群体类型
   @observable isAdd = true // 判断编辑还是新建
+  @observable isPerform = false // id集合执行
   @observable tableLoading = false // 表格数据加载
+  @observable confirmLoading = false // 确认按钮loading
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
     pageSize: 10,
+  }
+
+  @action handleCancel = () => {
+    this.drawerVisible = false
+    this.isPerform = false
+    this.recordObj = {}
+    this.objId = 0
+    this.uploadList = []
+    this.uploadData = false
+    this.confirmLoading = false
   }
 
   // 获取群体分页列表
@@ -74,7 +86,7 @@ class Store extends ListContentStore(io.getGroupList) {
     try {
       const res = await io.getTagList({
         projectId: this.projectId,
-        objId: this.objId,
+        objId: this.objId || this.recordObj.objId,
       })
       runInAction(() => {
         this.tagOptions = res.map(item => {
@@ -95,6 +107,7 @@ class Store extends ListContentStore(io.getGroupList) {
       })
       runInAction(() => {
         successTip('添加成功')
+        this.handleCancel()
         this.getGroupList()
       })
     } catch (e) {
@@ -112,6 +125,7 @@ class Store extends ListContentStore(io.getGroupList) {
       })
       runInAction(() => {
         successTip('编辑成功')
+        this.handleCancel()
         this.getGroupList()
       })
     } catch (e) {

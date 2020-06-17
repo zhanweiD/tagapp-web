@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
-import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message} from 'antd'
+import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message, Alert} from 'antd'
 
 import {errorTip, baseApi, get, post} from '../../common/util'
 
@@ -16,16 +16,15 @@ export default class IdCreate extends Component {
     super(props)
     this.store = props.store
   }
+  formRef = React.createRef()
   componentWillMount() {
     // this.store.getEntityList()
   }
-  formRef = React.createRef()
 
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
-    const {uploadList} = this.store
-    console.log(1)
-    if (uploadList.length === 0) {
+    const {uploadList, uploadData} = this.store
+    if (!uploadData) {
       callback('请上传文件')
     }
     callback()
@@ -33,8 +32,10 @@ export default class IdCreate extends Component {
 
   // 上传状态发生变化
   uploadChange = ({file, fileList}) => {
+    if (fileList.length === 0) return
     this.store.uploadList = fileList.slice(-1)
     if (file.status !== 'uploading') {
+      this.store.uploadData = true
       this.formRef.current.validateFields(['excel'])
       if (file.response.success) {
         // 返回正确
@@ -63,37 +64,37 @@ export default class IdCreate extends Component {
     this.store.recheckName(value, callback)
   }
   
-  @action handleCancel = () => {
-    this.store.drawerVisible = false
-    this.store.recordObj = {}
-    this.store.uploadList = []
-  }
+  // @action handleCancel = () => {
+  //   this.store.drawerVisible = false
+  //   this.store.isPerform = false
+  //   this.store.recordObj = {}
+  //   this.store.objId = 0
+  //   this.store.uploadList = []
+  //   this.store.uploadData = false
+  // }
 
   @action onOK = () => {
     this.form = this.formRef.current
-    const {isAdd, mode, type, fileRes} = this.store
+    const {isAdd, mode, type, fileRes, recordObj} = this.store
     this.formRef.current.validateFields().then(value => {
+      this.store.confirmLoading = true
       value.outputTags = value.outputTags.toString()
       value.objId = parseInt(value.objId)
-      value.mode = mode
-      value.type = type
-      value.importKey = fileRes.importKey
+      value.mode = mode || recordObj.mode
+      value.type = type || recordObj.type
+      value.importKey = fileRes.importKey || ''
       if (isAdd) {
         this.store.addGroup(value)
       } else {
         this.store.editGroup(value)
       }
-      this.store.drawerVisible = false
-      this.store.recordObj = {}
-      this.store.uploadList = []
+      // this.handleCancel()
     }).catch(err => {
+      this.store.confirmLoading = false
       errorTip(err)
     })
   }
 
-  @action onUpload = () => {
-    this.store.modalVisible = false
-  }
   @action uploadCancel = () => {
     this.store.modalVisible = false
   }
@@ -115,6 +116,9 @@ export default class IdCreate extends Component {
       objId,
       fileRes,
       isAdd,
+      isPerform,
+      confirmLoading,
+      handleCancel,
     } = this.store
 
     const props = {
@@ -141,11 +145,11 @@ export default class IdCreate extends Component {
       closable: true,
       width: 600,
       destroyOnClose: true,
-      onClose: this.handleCancel,
+      onClose: handleCancel,
       footer: (
         <div className="drawer-footer">
-          <Button onClick={this.handleCancel}>取消</Button>
-          <Button type="primary" className="footer-btn" onClick={this.onOK}>确定</Button>
+          <Button onClick={handleCancel}>取消</Button>
+          <Button loading={confirmLoading} type="primary" className="footer-btn" onClick={this.onOK}>确定</Button>
         </div>
       ),
     }
@@ -169,9 +173,15 @@ export default class IdCreate extends Component {
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">
+          {
+            isPerform ? (
+              <Alert style={{marginBottom: '16px'}} message="请重新上传文件" type="info" showIcon />
+            ) : null
+          }
           <Form 
             {...formItemLayout} 
             ref={this.formRef} 
+            // ref={this.refForm} 
             labelAlign="right"
             initialValues={{
               objName: recordObj.objName,
@@ -182,32 +192,35 @@ export default class IdCreate extends Component {
             <Item
               name="objId"
               label="所属实体"
+              initialValue={recordObj.objId}
               rules={[
                 {required: true, message: '请选择实体'},
               ]}
             >
-              <Select disabled={!isAdd} placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
+              <Select disabled={!isAdd || isPerform} placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
                 {entityOptions}
               </Select>
             </Item>
             <Item
               name="name"
               label="群体名称"
+              initialValue={recordObj.name}
               rules={[
                 {required: true, message: '请输入名称'},
                 {validator: this.checkName},
               ]}
             >
-              <Input placeholder="请输入名称" />
+              <Input disabled={!isAdd || isPerform} placeholder="请输入名称" />
             </Item>
             
             <Item
               label="描述"
               name="descr"
+              initialValue={recordObj.descr}
               rules={[
               ]}
             >
-              <TextArea style={{minHeight: '8em'}} placeholder="请输入" />
+              <TextArea disabled={isPerform} style={{minHeight: '8em'}} placeholder="请输入" />
             </Item>
             <Item
               label="上传"
@@ -239,11 +252,12 @@ export default class IdCreate extends Component {
             <Item
               name="outputTags"
               label="输出标签"
+              initialValue={recordObj.outputTags}
               rules={[
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select placeholder="请选择标签" mode="multiple">
+              <Select disabled={isPerform} placeholder="请选择标签" mode="multiple">
                 {tagOptions}
               </Select>
             </Item>

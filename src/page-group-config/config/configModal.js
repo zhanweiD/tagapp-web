@@ -3,6 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
+import {errorTip} from '../../common/util'
 
 @observer
 export default class ConfigModal extends Component {
@@ -39,7 +40,6 @@ export default class ConfigModal extends Component {
     return [{
       label: '数据源类型',
       key: 'type',
-      // initialValue: detail.type,
       placeholder: '请选择',
       rules: [
         '@requiredSelect',
@@ -53,7 +53,6 @@ export default class ConfigModal extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      // initialValue: detail.dataStorageId,
       placeholder: '请选择',
       rules: [
         '@requiredSelect',
@@ -70,16 +69,16 @@ export default class ConfigModal extends Component {
 
   @action handleCancel = () => {
     this.store.visible = false
-    this.store.closeModal()
   }
 
   @action submit = () => {
     this.form.validateFields((err, value) => {
       if (!err) {
+        this.store.confirmLoading = true
         this.store.groupInit(value)
-        this.store.initVisible = false
-        this.store.visible = false
-        this.store.closeModal()
+      } else {
+        this.store.confirmLoading = false
+        errorTip(err)
       }
     })
   }

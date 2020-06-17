@@ -27,7 +27,7 @@ class GroupConfig extends Component {
 
   @action openModal = () => {
     store.visible = true
-    store.getDataSource()
+    store.getDataTypeSource()
   }
 
   render() {
