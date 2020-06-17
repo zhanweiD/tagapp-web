@@ -116,7 +116,7 @@ class GroupManage extends Component {
             <span className="table-action-line" />
           </Fragment> */}
           <Fragment>
-            <a disabled={record.status === 3} href>执行</a>
+            <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
@@ -148,7 +148,22 @@ class GroupManage extends Component {
 
   // 删除群体
   delItem = id => {
-    store.delList(id)
+    store.removeGroup(id)
+  }
+
+  // 群体执行
+  goPerform = record => {
+    const {mode, type, id} = record
+    if (mode === 2) {
+      store.recordObj = record
+      store.drawerVisible = true
+    } else if (mode === 1) {
+      if (type === 1) {
+        store.performGroup(id)
+      } else {
+        store.getGroupList()
+      }
+    }
   }
 
   // 跳转到群体分析

@@ -37,8 +37,8 @@ export default class GroupDetail extends Component {
 
     const {match: {params}} = props
     store.id = params.id
-    console.log(store.id)
     // store.getDetail()
+    // store.getHistoryList()
   }
 
   componentWillMount() {
@@ -46,15 +46,8 @@ export default class GroupDetail extends Component {
     // const {frameChange} = this.props
     // frameChange('nav', navList)
    
-    // if (store.projectId) {
-    //   store.getDetail()
-    //   store.getAuthCode()
-    // }
-  }
-
-  @action.bound sceneDetailVisible() {
-    store.isEdit = true
-    store.modalVisible = true
+    store.getDetail()
+    store.getHistoryList()
   }
 
   @action.bound onTabChange(e) {
@@ -62,47 +55,47 @@ export default class GroupDetail extends Component {
   }
 
   componentWillUnmount() {
-    store.info = {}
   }
 
   render() {
-    const {modeType, list} = store
-    const info = list[0]
+    const {modeType, groupDetial} = store
     const {
       name,
-      enName,
-      objId,
+      id,
+      type,
+      ctime,
       objName,
+      mode,
+      cuserName,
       descr,
-      lastTime,
+      lastCount,
       status,
-    } = info
-
+    } = groupDetial
     // 详情信息
     const baseInfo = [
-      {
-        title: '群体标识',
-        value: objId,
-      }, 
+      // {
+      //   title: '群体标识',
+      //   value: id,
+      // }, 
       {
         title: '实体',
-        value: name,
-      },
-      {
-        title: '群体类型',
-        value: enName,
-      },
-      {
-        title: '创建方式',
         value: objName,
       },
       {
+        title: '群体类型',
+        value: type === 1 ? '离线群体' : '实时群体',
+      },
+      {
+        title: '创建方式',
+        value: mode === 1 ? '规则创建' : 'ID集合创建',
+      },
+      {
         title: '创建人',
-        value: descr,
+        value: cuserName,
       },
       {
         title: '创建时间',
-        value: <Time timestamp={lastTime} />,
+        value: <Time timestamp={ctime} />,
       },
       {
         title: '描述',
@@ -126,7 +119,7 @@ export default class GroupDetail extends Component {
           <DetailHeader
             name={(
               <Fragment>
-                <span style={{marginRight: '16px'}}>大额优惠卷刺激会员</span>
+                <span style={{marginRight: '16px'}}>{name}</span>
               </Fragment>
             )}
             // descr={descr}
@@ -137,9 +130,9 @@ export default class GroupDetail extends Component {
           />
           {/* <a className="pat21" href>查看规则</a> */}
           <div className="detail-action">
-            <span className="fz24">{1234}</span>
+            <span className="fz24">{lastCount}</span>
             <span>人</span>
-            <div className="detail-time"><Time timestamp={lastTime} /></div>
+            <div className="detail-time"><Time timestamp={ctime} /></div>
           </div>
         </Spin>
         <Fragment>
@@ -161,8 +154,8 @@ export default class GroupDetail extends Component {
               </Tabs>
             ) 
           }
-          {/* <ModalEditScene store={store} /> */}
         </Fragment>
+        {/* <ModalEditScene store={store} /> */}
       </div>
     )
   }

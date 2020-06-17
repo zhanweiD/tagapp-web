@@ -33,13 +33,12 @@ export default class IdCreate extends Component {
 
   // 上传状态发生变化
   uploadChange = ({file, fileList}) => {
-    // fileList = fileList.slice(-1)
-    console.log(file.status)
     this.store.uploadList = fileList.slice(-1)
     if (file.status !== 'uploading') {
       this.formRef.current.validateFields(['excel'])
       if (file.response.success) {
         // 返回正确
+        this.store.fileRes = file.response.content
         this.store.modalVisible = true
       } else {
         errorTip(file.response.message)
@@ -47,17 +46,16 @@ export default class IdCreate extends Component {
     }
   }
 
-  @action removeFile() {
-    // this.store.nextDisabled = true
-    console.log(1)
-  }
+  // @action removeFile() {
+  //   // this.store.nextDisabled = true
+  //   console.log(1)
+  // }
 
   @action beforeUpload = file => {
     const isLt10M = file.size / 1024 / 1024 < 100
     if (!isLt10M) {
       errorTip('文件不能大于100MB!')
     }
-    // this.store.uploadData.fileData = file
     return isLt10M
   }
 
@@ -73,18 +71,18 @@ export default class IdCreate extends Component {
 
   @action onOK = () => {
     this.form = this.formRef.current
-    const {isAdd, mode, type} = this.store
+    const {isAdd, mode, type, fileRes} = this.store
     this.formRef.current.validateFields().then(value => {
       value.outputTags = value.outputTags.toString()
       value.objId = parseInt(value.objId)
       value.mode = mode
       value.type = type
+      value.importKey = fileRes.importKey
       if (isAdd) {
         this.store.addGroup(value)
       } else {
         this.store.editGroup(value)
       }
-      console.log(value)
       this.store.drawerVisible = false
       this.store.recordObj = {}
       this.store.uploadList = []
@@ -115,6 +113,8 @@ export default class IdCreate extends Component {
       uploadList,
       projectId,
       objId,
+      fileRes,
+      isAdd,
     } = this.store
 
     const props = {
@@ -127,7 +127,6 @@ export default class IdCreate extends Component {
         objId,
       }),
       fileList: uploadList,
-      // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
       action: `${baseApi}/import/import_id_collection`,
       onChange: this.uploadChange,
       // onRemove: file => this.removeFile(file),
@@ -187,7 +186,7 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择实体'},
               ]}
             >
-              <Select placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
+              <Select disabled={!isAdd} placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
                 {entityOptions}
               </Select>
             </Item>
@@ -249,10 +248,9 @@ export default class IdCreate extends Component {
               </Select>
             </Item>
           </Form>
-          
         </Drawer>
         <Modal {...modalConfig}>
-          <p style={{marginTop: '1em'}}>{`总记录${2340}条，重复记录${3}条，入库记录数${2337}条`}</p>
+          <p style={{marginTop: '1em'}}>{`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条`}</p>
         </Modal>
       </Fragment>
     )

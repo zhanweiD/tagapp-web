@@ -5,6 +5,6 @@ const api = {
   getEntityList: get(`${groupConfigApi}/obj_list`), // 实体列表
 } 
 
-ioContext.create('groupConfig', api) 
+ioContext.create('unitPortrait', api) 
 
-export default ioContext.api.groupConfig
+export default ioContext.api.unitPortrait

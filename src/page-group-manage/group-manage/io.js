@@ -6,8 +6,10 @@ const api = {
   getEntityList: get(`${groupApi}/obj_list`), // 实体列表
   getTagList: get(`${baseApi}/relGroup/tag_list`), // 标签列表
   recheckName: post(`${groupApi}/checkName`), // 群体名称查重
-  addGroup: post(`${groupApi}/add_group`), // 新建群体
-  editGroup: post(`${groupApi}/edit_group`), // 编辑群体
+  addGroup: post(`${groupApi}/add_id_group`), // 新建群体
+  editGroup: post(`${groupApi}/edit_id_group`), // 编辑群体
+  removeGroup: post(`${groupApi}/delete_group`), // 删除群体
+  performGroup: post(`${groupApi}/manual_run`), // 规则实时执行
 } 
 
 ioContext.create('group', api) 

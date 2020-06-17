@@ -1,7 +1,8 @@
 const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
 // 标签调用次数趋势图配置
-export default function getOptions() {
+export default function getOptions(dataX, dataY) {
+  console.log(dataX, dataY)
   // data, legend = []
   return {
     tooltip: {
@@ -30,13 +31,13 @@ export default function getOptions() {
       //         color: '#707070'
       //     }
       // },
-      data: ['低能见度1', '低能见度2', '低能见度3', '低能见度4'],
+      data: dataX,
     }],
     yAxis: {
       show: true,
       type: 'value',
       min: 0,
-		  splitNumber: 4,
+      splitNumber: 4,
       axisTick: {// y轴刻度线
         show: false,  
       },
@@ -50,43 +51,16 @@ export default function getOptions() {
         },
       },
     },
-    series: [{
-      name: '直接访问',
-      type: 'bar',
-      barWidth: '10%',
-      data: [
-        {
-          name: '1',
-          value: '70',
-          symbol: 'none',
-          itemStyle: {
-            color: '#429ff7',
-          },
+    series: [
+      {
+        type: 'bar',
+        symbol: 'none',
+        barWidth: '5%',
+        itemStyle: {
+          color: '#429ff7',
         },
-        {
-          name: '2',
-          value: '50',
-          symbol: 'none',
-          itemStyle: {
-            color: '#429ff7',
-          },
-        },
-        {
-          name: '3',
-          value: '30',
-          symbol: 'none',
-          itemStyle: {
-            color: '#429ff7',
-          },
-        },
-        {
-          name: '4',
-          value: '25',
-          itemStyle: {
-            color: '#429ff7',
-          },
-        },
-      ],
-    }],
+        data: dataY,
+      },
+    ],
   }
 }

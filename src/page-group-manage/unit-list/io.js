@@ -6,6 +6,6 @@ const api = {
   outputUnitList: get(`${groupApi}/checkName`), // 导出个体列表
 } 
 
-ioContext.create('group', api) 
+ioContext.create('groupUnit', api) 
 
-export default ioContext.api.group
+export default ioContext.api.groupUnit

@@ -8,6 +8,6 @@ const api = {
   checkName: post(`${groupApi}/group/checkName`), // 群体名称查重
 } 
 
-ioContext.create('group', api) 
+ioContext.create('groupRule', api) 
 
-export default ioContext.api.group
+export default ioContext.api.groupRule

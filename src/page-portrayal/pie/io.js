@@ -5,6 +5,6 @@ const api = {
   getEntityList: get(`${groupConfigApi}/relGroup/obj_list`), // 实体列表
 } 
 
-ioContext.create('groupConfig', api) 
+ioContext.create('testPie', api) 
 
-export default ioContext.api.groupConfig
+export default ioContext.api.testPie

@@ -2,7 +2,7 @@ import {
   action, runInAction, observable, toJS,
 } from 'mobx'
 import {Select} from 'antd'
-import {errorTip, changeToOptions} from '../../common/util'
+import {errorTip, changeToOptions, successTip} from '../../common/util'
 import {ListContentStore} from '../../component/list-content'
 import io from './io'
 
@@ -18,6 +18,7 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable isCreate = 0 // 是否选中创建群体方式
   @observable recordObj = {} // 当前编辑群体
   @observable list = [] // 群体表格数组
+  @observable fileRes = '' // 上传的文件返回数据
   @observable uploadData = {} // 上传的文件
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
@@ -90,6 +91,11 @@ class Store extends ListContentStore(io.getGroupList) {
     try {
       const res = await io.addGroup({
         ...obj,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('添加成功')
+        this.getGroupList()
       })
     } catch (e) {
       errorTip(e.message)
@@ -102,6 +108,42 @@ class Store extends ListContentStore(io.getGroupList) {
       const res = await io.editGroup({
         id: this.recordObj.id, // 群体ID
         ...obj,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('编辑成功')
+        this.getGroupList()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 删除群体
+  @action async removeGroup(id) {
+    try {
+      const res = await io.removeGroup({
+        id, // 群体ID
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('删除成功')
+        this.getGroupList()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  // 规则实时执行
+  @action async performGroup(id) {
+    try {
+      const res = await io.performGroup({
+        id, // 群体ID
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('正在执行')
+        this.getGroupList()
       })
     } catch (e) {
       errorTip(e.message)
