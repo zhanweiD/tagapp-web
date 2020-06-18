@@ -128,7 +128,6 @@ export default class ListContent extends Component {
     const {
       tableLoading, list = [], pagination, handlePageChange, handleTableChange,
     } = this.store
-
     return (
       <div className="comp-list-content">  
         {

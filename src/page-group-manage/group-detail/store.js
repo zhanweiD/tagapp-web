@@ -1,20 +1,22 @@
 import {
-  action, runInAction, observable,
+  action, runInAction, observable, toJS,
 } from 'mobx'
-import {errorTip} from '../../common/util'
+import {errorTip, successTip, changeToOptions} from '../../common/util'
 import io from './io'
 
 class Store {
-  @observable dataSource = [] // 数据源 
+  @observable id = 0 // 群体ID
+  @observable objId = 0 // 实体ID
   @observable visible = false // 新建API
   @observable apiGroupList = [] // 新建API分组列表
   @observable currentKey = 1 // tabs显示
   @observable groupDetial = {} // 群体详情
   @observable barList =[] // 群体详情柱状图
   @observable list = [] // 群体详情列表
+  @observable tagList = [] // 标签列表
   @observable barDataX = [] // 群体详情柱状图横坐标
   @observable barDataY = [] // 群体详情柱图纵坐标
-  @observable modeType = 1 // 1 规则离线 2 规则实时 3 ID集合离线
+  @observable modeType = -1 // 1 规则离线 2 规则实时 0 ID集合离线
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -35,6 +37,7 @@ class Store {
       })
       runInAction(() => {
         this.groupDetial = res
+        this.modeType = res.mode === 2 ? 0 : res.type
       })
     } catch (e) {
       errorTip(e.message)
@@ -48,14 +51,12 @@ class Store {
         id: this.id,
         ...params,
       })
-      console.log(res)
       const data = res || []
       runInAction(() => {
         res.forEach(item => {
           this.barDataX.push(item.x)
           this.barDataY.push(item.y)
         })
-        console.log(this.barDataX, this.barDataY)
         cb(this.barDataX, this.barDataY)
       })
     } catch (e) {
@@ -100,6 +101,54 @@ class Store {
       }
     } catch (e) {
       // ErrorEater(e, '校验失败')
+      errorTip(e.message)
+    }
+  }
+
+  // 获取api列表
+  @action async getApiList() {
+    try {
+      const res = await io.getApiList({
+        id: this.id,
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+      })
+      runInAction(() => {
+        this.list = res.data
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 创建api
+  @action async createApi(params) {
+    try {
+      const res = await io.createApi({
+        id: this.id,
+        ...params,
+      })
+      runInAction(() => {
+        successTip('创建成功')
+        this.groupDetial = res
+        this.visible = false
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取标签列表
+  @action.bound async getTagList() {
+    try {
+      const res = await io.getTagList({
+        objId: this.objId,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.tagList = changeToOptions(toJS(res || []))('tagName', 'tagId')
+      })
+    } catch (e) {
       errorTip(e.message)
     }
   }

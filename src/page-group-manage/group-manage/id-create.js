@@ -19,8 +19,14 @@ export default class IdCreate extends Component {
   formRef = React.createRef()
   componentWillMount() {
     // this.store.getEntityList()
+    this.props.onRef(this)
   }
 
+  setOutputTags = value => {
+    this.formRef.current.setFieldsValue({
+      outputTags: value,
+    })
+  }
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
     const {uploadList, uploadData} = this.store
@@ -63,15 +69,6 @@ export default class IdCreate extends Component {
   @action checkName = (rule, value, callback) => {
     this.store.recheckName(value, callback)
   }
-  
-  // @action handleCancel = () => {
-  //   this.store.drawerVisible = false
-  //   this.store.isPerform = false
-  //   this.store.recordObj = {}
-  //   this.store.objId = 0
-  //   this.store.uploadList = []
-  //   this.store.uploadData = false
-  // }
 
   @action onOK = () => {
     this.form = this.formRef.current
@@ -181,13 +178,7 @@ export default class IdCreate extends Component {
           <Form 
             {...formItemLayout} 
             ref={this.formRef} 
-            // ref={this.refForm} 
             labelAlign="right"
-            initialValues={{
-              objName: recordObj.objName,
-              name: recordObj.name,
-              descr: recordObj.descr,
-            }}
           >
             <Item
               name="objId"
@@ -252,7 +243,6 @@ export default class IdCreate extends Component {
             <Item
               name="outputTags"
               label="输出标签"
-              initialValue={recordObj.outputTags}
               rules={[
                 {required: true, message: '请选择标签'},
               ]}

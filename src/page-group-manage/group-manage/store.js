@@ -16,7 +16,8 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable drawerVisible = false // id新建群体
   @observable modalVisible = false // 文件解析结果
   @observable isCreate = 0 // 是否选中创建群体方式
-  @observable recordObj = {} // 当前编辑群体
+  @observable recordObj = {} // 当前编辑群体 无输出标签信息
+  @observable nowGroup = {} // 当前编辑群体 有输出标签信息
   @observable list = [] // 群体表格数组
   @observable fileRes = '' // 上传的文件返回数据
   @observable uploadData = false // 是否有上传文件
@@ -40,6 +41,7 @@ class Store extends ListContentStore(io.getGroupList) {
     this.drawerVisible = false
     this.isPerform = false
     this.recordObj = {}
+    this.nowGroup = {}
     this.objId = 0
     this.uploadList = []
     this.uploadData = false
@@ -92,6 +94,9 @@ class Store extends ListContentStore(io.getGroupList) {
         this.tagOptions = res.map(item => {
           return (<Option key={item.tagId}>{item.tagName}</Option>)
         })
+        // if (!this.isAdd) {
+        //   this.getEditIdGroup()
+        // }
       })
     } catch (e) {
       errorTip(e.message)
@@ -127,6 +132,37 @@ class Store extends ListContentStore(io.getGroupList) {
         successTip('编辑成功')
         this.handleCancel()
         this.getGroupList()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取规则编辑群体信息
+  @action async getEditGroup() {
+    try {
+      const res = await io.getEditGroup({
+        id: this.recordObj.id, // 群体ID
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.nowGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取ID编辑群体信息
+  @action async getEditIdGroup(cb) {
+    try {
+      const res = await io.getEditIdGroup({
+        id: this.recordObj.id, // 群体ID
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        res.outputTags = res.outputTags.split(',')
+        cb(res.outputTags)
       })
     } catch (e) {
       errorTip(e.message)

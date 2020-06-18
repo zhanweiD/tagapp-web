@@ -37,8 +37,7 @@ export default class GroupDetail extends Component {
 
     const {match: {params}} = props
     store.id = params.id
-    // store.getDetail()
-    // store.getHistoryList()
+    store.objId = params.objId
   }
 
   componentWillMount() {
@@ -51,6 +50,11 @@ export default class GroupDetail extends Component {
   }
 
   @action.bound onTabChange(e) {
+    if (e === 1) {
+      store.getHistoryList()
+    } else {
+      store.getApiList()
+    }
     store.currentKey = e
   }
 
@@ -126,7 +130,7 @@ export default class GroupDetail extends Component {
             btnMinWidth={230}
             baseInfo={baseInfo}
             tag={tagMap[status]}
-            actions={modeType === 3 ? [] : actions}
+            actions={modeType === 0 ? [] : actions}
           />
           {/* <a className="pat21" href>查看规则</a> */}
           <div className="detail-action">

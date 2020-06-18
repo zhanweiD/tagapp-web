@@ -3,7 +3,7 @@
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 
 import {projectProvider, NoData, AuthBox, ListContent} from '../../component'
 import {Time} from '../../common/util'
@@ -21,51 +21,10 @@ class UnitList extends Component {
 
     const {match: {params}} = props
     store.id = params.id
-    console.log(store.id)
+    store.queryDate = params.queryDate
+    store.getUnitList()
   }
-  columns = [
-    {
-      key: 'objId',
-      title: '会员ID',
-      dataIndex: 'objId',
-      render: text => <a href>{text}</a>,
-      // render: (text, record) => (record.config === 1
-      //   ? (
-      //     <Link to={`/project/${record.id}`}>
-      //       <OmitTooltip maxWidth={100} text={text} />
-      //     </Link>
-      //   ) : <OmitTooltip maxWidth={100} text={text} />)
-      // ,
-    }, {
-      key: 'objName',
-      title: '姓名',
-      dataIndex: 'objName',
-    }, {
-      key: 'type',
-      title: '年龄',
-      dataIndex: 'type',
-    }, {
-      key: 'lastCount',
-      title: '性别',
-      dataIndex: 'lastCount',
-    }, {
-      key: 'lastTime',
-      title: '注册日期',
-      dataIndex: 'lastTime',
-      render: text => <Time timestamp={text} />,
-    }, {
-      key: 'mode',
-      title: '省份',
-      dataIndex: 'mode',
-    }, {
-      key: 'mode',
-      title: '学历',
-      dataIndex: 'mode',
-    }, {
-      key: 'mode',
-      title: '会员等级',
-      dataIndex: 'mode',
-    }]
+
   componentWillMount() {
 
   }
@@ -83,7 +42,7 @@ class UnitList extends Component {
 
   render() {
     const {
-      cUser, list, tableLoading, searchParams,
+      list, tableLoading, searchParams, titleList,
     } = store
 
     const noDataConfig = {
@@ -93,12 +52,12 @@ class UnitList extends Component {
       code: 'asset_tag_project_add',
       noAuthText: '没有任何个体',
     }
-
     const listConfig = {
-      columns: this.columns,
+      columns: toJS(titleList),
+      tableLoading,
       // beforeSearch: this.beforeSearch,
       buttons: [
-        <AuthBox code="asset_tag_project_add" type="primary" onClick={() => console.log(1)}>导出个体列表</AuthBox>,
+        <AuthBox code="asset_tag_project_add" type="primary" onClick={() => store.outputUnitList()}>导出个体列表</AuthBox>,
         <AuthBox code="asset_tag_project_add" type="primary" onClick={this.openModal}>保存群体</AuthBox>,
       ],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
