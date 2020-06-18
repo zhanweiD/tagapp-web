@@ -1,58 +1,28 @@
 import React, {useState} from 'react'
-
-import {Table, Tabs, Button} from 'antd'
+import {Table, Spin} from 'antd'
 import cls from 'classnames'
 
 import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
 // import xiazai from '../../../icon/geshihua.svg'
 
+const SearchResult = ({loading, expend, resultInfo}) => {
+  const [isExpend, changeExpend] = useState(0) 
+ 
+  const getColumns = col => {
+    if (col && col.length) {
+      return col.map(d => ({
+        title: d,
+        dataIndex: d,
+        key: d,
+      }))
+    }
+    return []
+  }
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-]
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-]
-
-const SearchResult = () => {
-  const [isExpend, changeExpend] = useState(false) 
+  if (expend && isExpend === 0) {
+    changeExpend(true)
+  }
 
   return (
     <div className={cls({
@@ -64,14 +34,25 @@ const SearchResult = () => {
         <div className="result-header-text">查询结果</div>
         <div className="result-header-icon">
           {
-            isExpend 
-              ? <img src={icondown} alt="img" onClick={() => changeExpend(!isExpend)} />
-              : <img src={iconup} alt="img" onClick={() => changeExpend(!isExpend)} />
+            isExpend
+              ? <img src={icondown} alt="img" onClick={() => changeExpend(false)} />
+              : <img src={iconup} alt="img" onClick={() => changeExpend(true)} />
           }
         </div>
       </div>
       <div className="p16" style={{display: isExpend ? 'block' : 'none'}}>
-        <Table columns={columns} size="small" dataSource={data} />
+        <Spin spinning={loading}>
+          <Table 
+            columns={getColumns(resultInfo.title)}
+            size="small" 
+            dataSource={resultInfo.data} 
+            pagination={{
+              total: resultInfo.totalSize,
+              pageSize: 5,
+              showTotal: () => `合计${resultInfo.totalSize}条记录`,
+            }}
+          />
+        </Spin>
       </div>
     </div>
   )

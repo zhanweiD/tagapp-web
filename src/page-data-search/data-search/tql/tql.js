@@ -3,18 +3,50 @@
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
-import {Button} from 'antd'
+import {action} from 'mobx'
+import {Button, Modal} from 'antd'
+import {ExclamationCircleOutlined} from '@ant-design/icons'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 
 import store from './store'
 import './tql.styl'
 import './code.styl'
+
+const {confirm} = Modal
 @observer
 export default class Tql extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+  }
+
   componentWillMount() {
     store.getFunTree()
     store.getTagTree()
+  }
+
+  @action.bound createApi() {
+    store.getApiParams()
+    store.visibleApi = true
+  }
+
+  @action.bound clearAll() {
+    confirm({
+      title: '确认清空?',
+      icon: <ExclamationCircleOutlined />,
+      content: '确认清空数据查询？',
+      onOk() {
+        store.outConfig.clear()
+        store.screenConfig.clear()
+        store.showResult = false
+        store.resultInfo = {}
+      },
+      onCancel() {
+        console.log('Cancel')
+      },
+    })
   }
 
   render() {

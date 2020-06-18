@@ -53,7 +53,7 @@ export default class TqlTree extends Component {
 
   render() {
     const {
-      treeLoading, treeData, expandAll, searchExpandedKeys,
+      treeLoading, treeData, expandAll, searchExpandedKeys, treeFunData,
     } = this.store
 
     const treeConfig = {
@@ -75,23 +75,41 @@ export default class TqlTree extends Component {
     return (
       <div className="processe-tree">
         <Tabs onChange={this.tabChange}>
-          <TabPane tab="基础标签" key="0" />
-          <TabPane tab="函数" key="1" />
+          <TabPane tab="基础标签" key="0" style={{height: '100%'}}>
+            <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
+              <DtTreeBox {...treeBoxConfig}>
+                {treeLoading
+                  ? <Loading mode="block" height={100} />
+                  : (
+                    <DtTree {...treeConfig}>
+                      {
+                        this.processNodeData(treeData)
+                      }
+                    </DtTree>
+                  )
+                }
+              </DtTreeBox>
+            </div>
+          </TabPane>
+          <TabPane tab="函数" key="1" style={{height: '100%'}}>
+            <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
+              <DtTreeBox {...treeBoxConfig}>
+                {treeLoading
+                  ? <Loading mode="block" height={100} />
+                  : (
+                    <DtTree {...treeConfig}>
+                      {
+                        this.processNodeData(treeFunData)
+                      }
+                    </DtTree>
+                  )
+                }
+              </DtTreeBox>
+                 
+            </div>
+          </TabPane>
         </Tabs>
-        <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
-          <DtTreeBox {...treeBoxConfig}>
-            {treeLoading
-              ? <Loading mode="block" height={100} />
-              : (
-                <DtTree {...treeConfig}>
-                  {
-                    this.processNodeData(treeData)
-                  }
-                </DtTree>
-              )
-            }
-          </DtTreeBox>
-        </div>
+
       </div>
     )
   }

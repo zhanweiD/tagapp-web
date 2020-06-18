@@ -71,10 +71,10 @@ class ApiResponseParams extends React.Component {
     this.columns = [
       {
         title: '参数名称',
-        dataIndex: 'name1',
+        dataIndex: 'fieldName',
       }, {
         title: '数据类型',
-        dataIndex: 'name2',
+        dataIndex: 'fieldType',
       }, {
         title: '是否必填',
         dataIndex: 'name5',
@@ -88,29 +88,14 @@ class ApiResponseParams extends React.Component {
         compType: 'input',
       }, {
         title: '描述',
-        dataIndex: 'name4',
+        dataIndex: 'descr',
         width: '30%',
         editable: true,
         compType: 'input',
       },
     ]
     this.state = {
-      dataSource: [
-        {
-          key: '0',
-          name1: 'Edward King 0',
-          name2: '32',
-          name3: 'London, Park Lane no. 0',
-          name4: 'London, Park Lane no. 0',
-        },
-        {
-          key: '1',
-          name1: 'Edward King 0',
-          name2: '32',
-          name3: 'London, Park Lane no. 0',
-          name4: 'London, Park Lane no. 0',
-        },
-      ],
+      dataSource: [],
     }
   }
 

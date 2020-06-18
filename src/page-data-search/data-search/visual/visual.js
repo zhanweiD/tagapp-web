@@ -6,33 +6,29 @@ import {observer} from 'mobx-react'
 import {action, observable, toJS} from 'mobx'
 import {
   Button,
-  Tabs,
   Menu,
-  Alert,
   Form,
   Input,
-  Tooltip,
   Select,
   Radio,
   message,
+  Popconfirm,
+  Modal,
 } from 'antd'
-import {
-  PlusOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons'
+import {ExclamationCircleOutlined} from '@ant-design/icons'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
-import geshihua from '../../../icon/geshihua.svg'
 import SearchResult from './search-result'
 import ModalSave from './modal-save'
 import DrewerApi from './modal-api'
-import {outValueLogic, screenValueLogic, comparison} from './util'
+import {outValueLogic, screenValueLogic, comparison, getOutConfig, getScreenConfig} from './util'
 
 import store from './store'
 import './visual.styl'
 
 const {Option} = Select
+const {confirm} = Modal
 
 @observer
 export default class Visual extends Component {
@@ -46,23 +42,63 @@ export default class Visual extends Component {
   screenConfigRef = React.createRef()
 
   @observable menuCode = 'out'
-  // @observable showOutErrorMessage = false
-  // @observable showScreenErrorMessage = false
 
   componentWillMount() {
     store.getObjList()
   }
 
-  @action.bound selectObj(e) {
-    store.objId = e
+  @action.bound selectObj(objId) {
+    store.objId = objId
+    store.getTagTree({id: objId})
+    store.getExpressionTag({id: objId})
+  }
+
+  @action.bound refreshTree(searchKey) {
+    store.getTagTree({id: store.objId, searchKey})
   }
 
   @action.bound save() {
-    store.visibleSave = true
+    const t = this
+
+    this.checkOutConfig(outConfig => {
+      if (t.screenConfigRef.current) {
+        t.checkScreenConfig(screenConfig => {
+          store.saveParams.outputList = outConfig
+          store.saveParams.where = screenConfig
+
+          store.visibleSave = true
+        }, () => {
+          message.error('筛选设置信息尚未完善！')
+        }) 
+      } else {
+        store.saveParams.outputList = outConfig
+        store.visibleSave = true
+      }
+    }, () => {
+      message.error('输出设置信息尚未完善！')
+    })
   }
 
   @action.bound createApi() {
+    store.getApiParams()
     store.visibleApi = true
+  }
+
+  @action.bound clearAll() {
+    confirm({
+      title: '确认清空?',
+      icon: <ExclamationCircleOutlined />,
+      content: '确认清空数据查询？',
+      onOk() {
+        store.outConfig.clear()
+        store.screenConfig.clear()
+        store.showResult = false
+        store.resultInfo = {}
+      },
+      onCancel() {
+        console.log('Cancel')
+      },
+    })
   }
 
   @action.bound menuClick(e) {
@@ -75,7 +111,6 @@ export default class Visual extends Component {
     store.outConfig.push({
       id,
     })
-    // this.showOutErrorMessage = true
   }
 
   @action.bound delAllOutConfig() {
@@ -88,7 +123,6 @@ export default class Visual extends Component {
     this.checkOutConfig(() => {
       const id = Math.floor(Math.random() * 1000)
       store.outConfig.splice(index + 1, 0, {id})
-      // t.showOutErrorMessage = true
     })
   }
 
@@ -101,7 +135,6 @@ export default class Visual extends Component {
     store.screenConfig.push({
       id,
     })
-    // this.showScreenErrorMessage = true
   }
 
   @action.bound delAllScreenConfig() {
@@ -109,10 +142,10 @@ export default class Visual extends Component {
   }
 
   @action.bound addScreenConfig(index) {
+    const t = this
     this.checkScreenConfig(() => {
       const id = Math.floor(Math.random() * 1000)
       store.screenConfig.splice(index + 1, 0, {id})
-      // this.showScreenErrorMessage = true
     })
   }
 
@@ -122,14 +155,28 @@ export default class Visual extends Component {
 
   @action.bound search() {
     const t = this
-    this.checkOutConfig(() => {
-      t.checkScreenConfig(() => {
-        console.log('chenggong')
-      }, () => {
-        message.error('输出配置信息尚未完善！')
-      }) 
+
+    this.checkOutConfig(outConfig => {
+      if (t.screenConfigRef.current) {
+        t.checkScreenConfig(screenConfig => {
+          const params = {
+            outputList: outConfig,
+            where: screenConfig,
+          }
+          store.showResult = true
+          store.runSearch(params)
+        }, () => {
+          message.error('筛选设置信息尚未完善！')
+        }) 
+      } else {
+        const params = {
+          outputList: outConfig,
+        }
+        store.showResult = true
+        store.runSearch(params)
+      }
     }, () => {
-      message.error('筛选配置信息尚未完善！')
+      message.error('输出设置信息尚未完善！')
     }) 
   }
 
@@ -138,16 +185,15 @@ export default class Visual extends Component {
       this.outConfigRef.current
         .validateFields()
         .then(values => {
-          console.log(values)
-          if (successCb) {
-            successCb()
-          }
+          successCb(getOutConfig(values))
         })
         .catch(info => {
           if (errorCb) {
             errorCb()
           }
         })
+    } else {
+      message.error('输出设置信息尚未填写！')
     }
   }
 
@@ -156,10 +202,7 @@ export default class Visual extends Component {
       this.screenConfigRef.current
         .validateFields()
         .then(values => {
-          console.log(values)
-          if (successCb) {
-            successCb()
-          }
+          successCb(getScreenConfig(values))
         })
         .catch(info => {
           if (errorCb) {
@@ -170,25 +213,36 @@ export default class Visual extends Component {
   }
 
   render() {
-    const {outConfig, screenConfig, objList, objId, tagTreeData} = store
-    console.log(objId)
+    const {
+      outConfig, 
+      screenConfig, 
+      objList, 
+      objId,
+      treeLoading, 
+      tagTreeData, 
+      expressionTag, 
+      showResult, 
+      resultInfo,
+      resultLoading,
+    } = store
+
     return (
       <div className="visual">
         <div className="header-button">
-          <Button className="mr8">清空数据查询</Button>
+          <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
         </div>
         <div className="FBH pt16 pb16">
           <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj}>
+          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} showSearch>
             {
               objList.map(d => <Option value={d.id}>{d.name}</Option>)
             }
           </Select>
         </div>
         <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
-          <Tree tagTreeData={toJS(tagTreeData)} />
+          <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
           <div className="visual-content-warp">
             <div className="code-menu">
               <span className="code-menu-item mr16" onClick={() => this.search()}>
@@ -197,6 +251,7 @@ export default class Visual extends Component {
               </span>
             </div>
             <div className="visual-content">
+              <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
               <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                 <Menu.Item key="out">
                   输出设置
@@ -206,48 +261,56 @@ export default class Visual extends Component {
                 </Menu.Item>
               </Menu>
               <div className="visual-config">
-                <SearchResult />
+               
                 {/* 渲染输出设置 */}
-                {/* <Form.Provider onFormChange={this.onFormChange}> */}
                 <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
                   {
                     outConfig.length ? (
                       <div>
-                        {/* {
-                          this.showOutErrorMessage ? <Alert message="请完善输出设置" type="error" showIcon style={{width: '60%', marginBottom: '16px'}} /> : null
-                        } */}
-                        <Button type="primary" onClick={this.delAllOutConfig} className="mb16">清除输出设置</Button>
+                        <Popconfirm
+                          placement="bottomLeft"
+                          title="确认清除输出设置？"
+                          onConfirm={this.delAllOutConfig}
+                          okText="确实"
+                          cancelText="取消"
+                        >
+                          <Button type="primary" className="mb16">清除输出设置</Button>
+                        </Popconfirm>
                         <Form name="out" ref={this.outConfigRef}>
                           {
                             outConfig.map((d, i) => (
                               <Form.Item key={d.id}>
                                 <Input.Group compact>
                                   <Form.Item
-                                    name={[d.id, 'province']}
+                                    name={[d.id, 'function']}
                                     noStyle
                                     rules={[{required: true, message: '请选择取值逻辑'}]}
+                                    initialValue="标签值"
                                   >
-                                    <Select placeholder="请选择取值逻辑" style={{width: '200px'}}>
+                                    <Select placeholder="请选择取值逻辑" style={{width: '200px'}} showSearch>
                                       {
                                         outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
                                       }
                                     </Select>
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street']}
+                                    name={[d.id, 'params']}
                                     noStyle
                                     rules={[{required: true, message: '请选择标签'}]}
+                                    // initialValue={d.conditionUnit.params && d.conditionUnit.params[0]}
                                   >
-                                    <Select placeholder="请选择标签" style={{width: '200px'}}>
-                                      <Option value="Zhejiang">Zhejiang</Option>
-                                      <Option value="Jiangsu">Jiangsu</Option>
+                                    <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
+                                      {
+                                        expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+                                      } 
                                     </Select>
 
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street1']}
+                                    name={[d.id, 'alias']}
                                     noStyle
                                     rules={[{required: true, message: '请输入显示名称'}]}
+                                    // initialValue={d.alias}
                                   >
                                     <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" />
                                   </Form.Item>
@@ -273,48 +336,59 @@ export default class Visual extends Component {
                   {
                     screenConfig.length ? (
                       <div>
-                        {/* {
-                          this.showScreenErrorMessage ? <Alert message="请完善筛选设置" type="error" showIcon /> : null
-                        } */}
                         <div>
-                          <Button type="primary" onClick={this.delAllScreenConfig} className="mb16 mr16">清除筛选设置</Button>
-                          <Radio.Group onChange={this.onChange} value={1}>
-                            <Radio value={1}>符合全部以下条件</Radio>
-                            <Radio value={2}>符合任何以下条件</Radio>
-                          </Radio.Group>
+                          <Popconfirm
+                            placement="bottomLeft"
+                            title="确认清除筛选设置？"
+                            onConfirm={this.delAllOutConfig}
+                            okText="确实"
+                            cancelText="取消"
+                          >
+                            <Button type="primary" className="mb16">清除筛选设置</Button>
+                          </Popconfirm>
                         </div>
-                        <Form name="srceen" onFinish={() => { }} ref={this.screenConfigRef}>
+                        <Form name="srceen" ref={this.screenConfigRef}>
+                          <Form.Item name="whereType" initialValue="and">
+                            <Radio.Group>
+                              <Radio value="and">符合全部以下条件</Radio>
+                              <Radio value="or">符合任何以下条件</Radio>
+                            </Radio.Group>
+                          </Form.Item>
                           <Form.Item>
                             {
                               screenConfig.map((d, i) => (
                                 <Input.Group compact key={d.id}>
                                   <Form.Item
-                                    name={[d.id, 'province']}
+                                    name={[d.id, 'leftFunction']}
                                     noStyle
-                                    rules={[{required: true, message: '请选择'}]}
+                                    rules={[{required: true, message: '请选择取值逻辑'}]}
+                                    initialValue="标签值"
                                   >
-                                    <Select placeholder="请选择" style={{width: '150px'}}>
-                                      <Option value="Zhejiang">Zhejiang</Option>
-                                      <Option value="Jiangsu">Jiangsu</Option>
+                                    <Select placeholder="请选择" style={{width: '150px'}} showSearch>
+                                      {
+                                        outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
+                                      }
                                     </Select>
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street']}
+                                    name={[d.id, 'leftParams']}
                                     noStyle
                                     rules={[{required: true, message: '请选择标签'}]}
                                   >
-                                    <Select placeholder="请选择" style={{width: '200px'}}>
-                                      <Option value="Zhejiang">Zhejiang</Option>
-                                      <Option value="Jiangsu">Jiangsu</Option>
+                                    <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
+                                      {
+                                        expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+                                      } 
                                     </Select>
 
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street1']}
+                                    name={[d.id, 'comparision']}
                                     noStyle
                                     rules={[{required: true, message: '请选择'}]}
+                                    initialValue="="
                                   >
-                                    <Select placeholder="请选择" style={{width: '100px'}}>
+                                    <Select placeholder="请选择" style={{width: '100px'}} showSearchs>
                                       {
                                         comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
                                       }                               
@@ -322,11 +396,12 @@ export default class Visual extends Component {
 
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street2']}
+                                    name={[d.id, 'rightFunction']}
                                     noStyle
                                     rules={[{required: true, message: '请选择'}]}
+                                    initialValue="固定值"
                                   >
-                                    <Select placeholder="请选择" style={{width: '100px'}}>
+                                    <Select placeholder="请选择" style={{width: '100px'}} showSearch>
                                       {
                                         screenValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
                                       } 
@@ -334,7 +409,7 @@ export default class Visual extends Component {
 
                                   </Form.Item>
                                   <Form.Item
-                                    name={[d.id, 'street3']}
+                                    name={[d.id, 'rightParams']}
                                     noStyle
                                     rules={[{required: true, message: '请输入'}]}
                                   >

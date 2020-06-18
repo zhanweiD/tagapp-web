@@ -23,6 +23,7 @@ export default class ModalEdit extends Component {
         '@transformTrim',
         '@required',
         '@max32',
+        {validator: this.checkName}, // here warning
       ],
     }, {
       label: '描述',
@@ -36,11 +37,13 @@ export default class ModalEdit extends Component {
   }
 
   @action handleCancel = () => {
+    this.store.detail = {}
     this.store.visibleEdit = false
   }
 
   submit = () => {
     const {detail} = this.store
+    const t = this
 
     this.form.validateFields((err, values) => {
       if (!err) {
@@ -49,9 +52,23 @@ export default class ModalEdit extends Component {
           ...values,
         }
 
-        this.store.edit(params)
+        this.store.edit(params, () => {
+          t.handleCancel()
+          t.props.refresh()
+        })
       }
     })
+  }
+
+  @action checkName = (rule, value, callback) => {
+    const {detail} = this.store
+
+    const params = {
+      id: detail.id,
+      name: value,
+    }
+
+    this.store.checkName(params, callback)
   }
 
   render() {

@@ -5,6 +5,7 @@ const api = {
   getTagTree: get(`${dataSearch}/tql_tag_tree`), // 对象标签树（TQL）
   getFunTree: get(`${dataSearch}/function_list`), // 函数树
 
+  runSearch: post(`${dataSearch}/run_search`), // 运行查询
   // // 运行相关
   // runInstance: post(`${derivativeApi}/schema/runTql`), // 启动运行任务
   // searchLog: get(`${baseApi}/task/instance/log`), // 查询任务实例运行日志

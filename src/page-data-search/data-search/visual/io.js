@@ -6,7 +6,13 @@ const api = {
   getTagTree: get(`${dataSearch}/visual_tag_tree`), // 对象标签树（可视化）
   getObjectList: post(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
 
-  
+  getExpressionTag: get(`${dataSearch}/tag_list`), // 获取表达式标签
+
+  runSearch: post(`${dataSearch}/run_search`), // 运行查询
+  saveSearch: post(`${dataSearch}/save_search`), // 保存数据查询
+  checkName: post(`${dataSearch}/checkName`), // 查询重名校验
+  getApiParams: post(`${dataSearch}/visual_api_param`), // 获取api请求返回参数
+
 }
 
 ioContext.create('dataSearchVisaul', api) 

@@ -4,7 +4,8 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
-import {Button, Spin, Select, Input} from 'antd'
+import {Button, Spin, Select, Input, Modal} from 'antd'
+import {ExclamationCircleOutlined} from '@ant-design/icons'
 import {Card, NoData, projectProvider, DtGrid} from '../../component'
 import {IconDel, IconEdit} from '../../icon-comp'
 import ModalEdit from './modal'
@@ -12,27 +13,64 @@ import ModalEdit from './modal'
 import store from './store'
 
 const {Option} = Select
+const {confirm} = Modal
 
 @observer
 class MySearch extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+  }
+  
+  searchType
+  name
+
   componentWillMount() {
     store.getsearchList()
   }
 
   @action.bound selectType(searchType) {
+    this.searchType = searchType
     store.getsearchList({
       searchType,
+      name: this.name,
     })
   }
 
   @action.bound searchName(e) {
+    this.name = e.target.value
     store.getsearchList({
       name: e.target.value,
+      searchType: this.searchType,
     })
   }
 
-  @action.bound edit() {
+  @action.bound edit(data) {
+    store.detail = data
     store.visibleEdit = true
+  }
+
+  @action.bound del(id) {
+    const t = this
+    confirm({
+      title: '确认删除 ？',
+      icon: <ExclamationCircleOutlined />,
+      content: '数据查询被删除后不可恢复，确定删除？',
+      onOk: () => {
+        store.del({id}, () => {
+          t.refresh()
+        })
+      },
+      onCancel: () => {},
+    })
+  }
+
+  @action.bound refresh() {
+    store.getsearchList({
+      name: this.name,
+      searchType: this.searchType,
+    })
   }
 
   render() {
@@ -69,61 +107,63 @@ class MySearch extends Component {
             {
               toJS(cardList).length ? (
                 <div>
-                  { 
-                    cardList.map(d => (
-                      <DtGrid row={3} fixedHeight={192}>
-                        {
-                          cardList.map(({
-                            id,
-                            name,
-                            // cuser,
-                            cdate,
-                            used,
-                            type,
-                            descr,
-                          }) => (
-                            <Card 
-                              className="card"
-                              title={name}
-                              labelList={[{
-                                label: '查询类型',
-                                value: type,
-                              }, {
-                                label: '创建时间',
-                                value: moment(+cdate).format('YYYY-MM-DD HH-MM-SS'),
-                              }]}
-                              descr={descr}
-                              // countList={[{
-                              //   label: '标签数',
-                              //   value: tagCount,
-                              // }, {
-                              //   label: 'API数',
-                              //   value: apiCount,
-                              // }]}
-                              actions={[
-                                <Button 
-                                  type="link" // antd@Button 属性
-                                  disabled={used}
-                                  className="p0"
-                                  onClick={() => this.edit()}
-                                >
-                                  <IconEdit size="14" className={used ? 'i-used' : ''} />
-                                </Button>,
-                                <Button 
-                                  type="link" // antd@Button 属性
-                                  disabled={used} 
-                                  className="p0"
-                                  onClick={() => this.handleDel(id)}
-                                >
-                                  <IconDel size="14" className={used ? 'i-used' : ''} />
-                                </Button>,
-                              ]}
-                            />
-                          )) 
-                        }
-                      </DtGrid>
-                    ))
-                  }
+                
+                  <DtGrid row={3} fixedHeight={192}>
+                    {
+                      cardList.map(({
+                        id,
+                        name,
+                        ctime,
+                        used,
+                        type,
+                        descr,
+                      }) => (
+                        <Card 
+                          className="card"
+                          title={name}
+                          labelList={[{
+                            label: '查询类型',
+                            value: type,
+                          }, {
+                            label: '创建时间',
+                            value: ctime,
+                          }]}
+                          descr={descr}
+                          // countList={[{
+                          //   label: '标签数',
+                          //   value: tagCount,
+                          // }, {
+                          //   label: 'API数',
+                          //   value: apiCount,
+                          // }]}
+                          actions={[
+                            <Button 
+                              type="link" // antd@Button 属性
+                              disabled={used}
+                              className="p0"
+                              onClick={() => this.edit({
+                                id,
+                                name,
+                                used,
+                                descr,
+                              })}
+                            >
+                              <IconEdit size="14" className={used ? 'i-used' : ''} />
+                            </Button>,
+                            <Button 
+                              type="link" // antd@Button 属性
+                              disabled={used} 
+                              className="p0"
+                              onClick={() => this.del(id)}
+                            >
+                              <IconDel size="14" className={used ? 'i-used' : ''} />
+                            </Button>,
+                          ]}
+                        />
+                      )) 
+                    }
+                  </DtGrid>
+
                 </div>
               ) : (
                 <NoData
@@ -133,7 +173,7 @@ class MySearch extends Component {
               )
          
             }
-            <ModalEdit store={store} />
+            <ModalEdit store={store} refresh={this.refresh} />
           </Spin>
          
         </div>

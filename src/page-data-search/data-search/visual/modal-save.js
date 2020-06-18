@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal} from 'antd'
 import {ModalForm} from '../../../component'
@@ -14,12 +14,13 @@ export default class ModalSave extends Component {
   selectContent= () => {
     return [{
       label: '数据查询名称',
-      key: 'queueName',
+      key: 'name',
       component: 'input',
       rules: [
         '@transformTrim',
         '@required',
         '@max32',
+        {validator: this.checkName}, // here warning
       ],
     }, {
       label: '描述',
@@ -32,29 +33,36 @@ export default class ModalSave extends Component {
   }
 
   @action handleCancel = () => {
+    this.store.saveParams = {}
     this.store.visibleSave = false
+    this.store.modalSaveLoading = false
   }
 
-  submit = () => {
+  @action submit = () => {
     const t = this
     const {store} = t
 
     this.form.validateFields((err, values) => {
       if (!err) {
-        // 编辑 
-        // if (store.modalType === 'edit') {
-        //   const params = {id: store.detail.id, ...values}
-        //   store.editList(params, () => {
-        //     t.handleCancel()
-        //   })
-        // } else {
-        //   // 新增
-        //   store.addList(values, () => {
-        //     t.handleCancel()
-        //   })
-        // }
+        const params = {
+          ...values,
+          ...toJS(store.saveParams),
+        }
+
+        store.saveSearch(params, () => {
+          t.handleCancel()
+        })
       }
     })
+  }
+
+
+  @action checkName = (rule, value, callback) => {
+    const params = {
+      name: value,
+    }
+
+    this.store.checkName(params, callback)
   }
 
   render() {

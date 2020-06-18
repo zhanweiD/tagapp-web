@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Drawer, Button, Form, Input, Tabs, Table} from 'antd'
 import ApiResponseParams from './api-response-params'
@@ -10,7 +10,7 @@ const {TabPane} = Tabs
 const {TextArea} = Input
 
 const formItemLayout = {
-  labelCol: {span: 3},
+  labelCol: {span: 2},
   wrapperCol: {span: 12},
 }
 
@@ -21,6 +21,7 @@ export default class DrewerApi extends Component {
     this.store = props.store
     this.response = React.createRef()
     this.request = React.createRef()
+    this.formRef = React.createRef()
   }
 
   @action handleCancel = () => {
@@ -32,20 +33,21 @@ export default class DrewerApi extends Component {
   }
 
   submit = () => {
-    if (this.request.current) {
-      console.log(this.request.current.state.dataSource)
-    }
-   
-    if (this.response.current) {
-      console.log(this.response.current.state.dataSource)
-    }
+    this.formRef.current
+      .validateFields()
+      .then(values => {
+        console.log(values)
+      })
+      .catch(info => {
+        console.log(info)
+      })
   }
 
   render() {
     const {
-      visibleApi, modalApiLoading,
+      visibleApi, modalApiLoading, apiParamsInfo = {},
     } = this.store
-    
+
     const drawerConfig = {
       width: 1120,
       title: '生成API',
@@ -67,7 +69,7 @@ export default class DrewerApi extends Component {
           initialValues={{
             remember: true,
           }}
-          onFinish={this.onFinish}
+          ref={this.formRef}
         >
           <FormItem
             label="API名称"
@@ -110,10 +112,10 @@ export default class DrewerApi extends Component {
         <div className="chart-title">配置参数</div>
         <Tabs defaultActiveKey="1">
           <TabPane tab="请求参数" key="1">
-            <ApiRequsetParams ref={this.request} />
+            <ApiRequsetParams ref={this.request} data={toJS(apiParamsInfo).filedList} />
           </TabPane>
           <TabPane tab="返回参数" key="2">
-            <ApiResponseParams ref={this.response} />
+            <ApiResponseParams ref={this.response} data={toJS(apiParamsInfo).varList} />
           </TabPane>
         </Tabs>
         <div style={{
@@ -128,7 +130,7 @@ export default class DrewerApi extends Component {
         }}
         >
           <Button style={{marginRight: 8}} onClick={this.handleCancel}>取消</Button>
-          <Button type="primary" loading={modalApiLoading} onClick={this.submit}>确定</Button>
+          <Button type="primary" loading={modalApiLoading} onClick={this.submit} htmlType="submit">确定</Button>
         </div>
       </Drawer>
     )

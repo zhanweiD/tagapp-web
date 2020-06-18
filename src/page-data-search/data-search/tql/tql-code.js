@@ -9,7 +9,8 @@ import cls from 'classnames'
 import {message} from 'antd'
 
 import sqlFormatter from 'sql-formatter'
-import LogPanel from '../code-component/log-panel'
+// import LogPanel from '../code-component/log-panel'
+import SearchResult from './search-result'
 
 import yunxing from '../../../icon/yunxing.svg'
 import geshihua from '../../../icon/geshihua.svg'
@@ -22,7 +23,7 @@ export default class TqlCode extends Component {
   }
 
   componentDidMount() {
-    this.store.getHeight()
+    // this.store.getHeight()
 
     if (document.getElementById('codeArea')) {
       this.store.editor = window.CodeMirror.fromTextArea(document.getElementById('codeArea'), {
@@ -53,27 +54,28 @@ export default class TqlCode extends Component {
   @action checkIsCanHint = (instance, change) => {
     const {text} = change
     const {origin} = change
-    let flag = false
+    // let flag = false
     if (origin === '+input' && /\w|\./g.test(text[0]) && change.text[0].length === 1) {
-      flag = true
+      // flag = true
 
       this.store.editor.showHint(instance, {hint: window.CodeMirror.hint.sql}, true)
     }
 
-    if (flag && this.store.runStatusMessage.status === 'success') {
-      this.store.runStatusMessage.status = 'error'
-    }
+    // if (flag && this.store.runStatusMessage.status === 'success') {
+    //   this.store.runStatusMessage.status = 'error'
+    // }
   }
 
   // 运行
   @action operationCode() {
-    // const {operationCode} = this.props  
-
     const code = this.store.editor.getValue()
     if (!code) {
       message.error('请输入运行代码')
     } else {
-      // operationCode(code)
+      this.store.showResult = true
+      this.store.runSearch({
+        tql: code,
+      })
     }
   }
 
@@ -93,13 +95,13 @@ export default class TqlCode extends Component {
   }
 
   render() {
-    const {taskId, tqlDetail} = this.store
-
-    const logPanelConfig = {
-      taskId,
-      store: this.store,
-    }
-
+    const {
+      tqlDetail,
+      resultLoading,
+      showResult, 
+      resultInfo,
+      log,
+    } = this.store
 
     return (
       <div className="code-content">
@@ -132,7 +134,12 @@ export default class TqlCode extends Component {
             }
           </textarea>
         </form>
-        <LogPanel {...logPanelConfig} />
+        <SearchResult 
+          log={toJS(log)}
+          expend={showResult} 
+          loading={resultLoading} 
+          resultInfo={toJS(resultInfo)}
+        />
       </div>
     )
   }

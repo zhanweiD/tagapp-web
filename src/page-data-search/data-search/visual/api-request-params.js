@@ -72,10 +72,10 @@ class ApiResponseParams extends React.Component {
     this.columns = [
       {
         title: '参数名称',
-        dataIndex: 'name1',
+        dataIndex: 'fieldName',
       }, {
         title: '数据类型',
-        dataIndex: 'name2',
+        dataIndex: 'fieldType',
       }, {
         title: '示例值',
         dataIndex: 'name3',
@@ -84,34 +84,21 @@ class ApiResponseParams extends React.Component {
         compType: 'input',
       }, {
         title: '描述',
-        dataIndex: 'name4',
+        dataIndex: 'descr',
         width: '30%',
         editable: true,
         compType: 'input',
       },
     ]
+
     this.state = {
-      dataSource: [
-        {
-          key: '0',
-          name1: 'Edward King 0',
-          name2: '32',
-          name3: 'London, Park Lane no. 0',
-          name4: 'London, Park Lane no. 0',
-        },
-        {
-          key: '1',
-          name1: 'Edward King 0',
-          name2: '32',
-          name3: 'London, Park Lane no. 0',
-          name4: 'London, Park Lane no. 0',
-        },
-      ],
+      dataSource: [],
     }
+    console.log(props)
   }
 
+
   handleSave = row => {
-    console.log(row)
     const newData = [...this.state.dataSource]
     const index = newData.findIndex(item => row.key === item.key)
     const item = newData[index]
