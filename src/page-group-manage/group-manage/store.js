@@ -119,11 +119,46 @@ class Store extends ListContentStore(io.getGroupList) {
       errorTip(e.message)
     }
   }
+
+  // 添加id群体
+  @action async addIdGroup(obj) {
+    try {
+      const res = await io.addIdGroup({
+        ...obj,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('添加成功')
+        this.handleCancel()
+        this.getGroupList()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
   
   // 编辑群体
   @action async editGroup(obj) {
     try {
       const res = await io.editGroup({
+        id: this.recordObj.id, // 群体ID
+        ...obj,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        successTip('编辑成功')
+        this.handleCancel()
+        this.getGroupList()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  
+  // 编辑id群体
+  @action async editIdGroup(obj) {
+    try {
+      const res = await io.editIdGroup({
         id: this.recordObj.id, // 群体ID
         ...obj,
         projectId: this.projectId,

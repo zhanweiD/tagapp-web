@@ -4,6 +4,7 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
+import moment from 'moment'
 
 import {projectProvider, NoData, AuthBox, ListContent} from '../../component'
 import {Time} from '../../common/util'
@@ -21,23 +22,16 @@ class UnitList extends Component {
 
     const {match: {params}} = props
     store.id = params.id
-    store.queryDate = params.queryDate
+    store.objId = params.objId
+    store.queryDate = moment(parseInt(params.queryDate)).format('YYYY-MM-DD')
     store.getUnitList()
   }
 
   componentWillMount() {
-
   }
 
   @action openModal = () => {
     store.visible = true
-  }
-
-  /**
-   * @description 跳转到个体画像
-   */
-  goTagManage = id => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit`
   }
 
   render() {
@@ -66,6 +60,7 @@ class UnitList extends Component {
 
     return (
       <div className="page-unit">
+        {/* {store.test()} */}
         {/* <div className="content-header">群体管理</div> */}
         {/* <div className="list-content">
           <ListContent {...listConfig} />

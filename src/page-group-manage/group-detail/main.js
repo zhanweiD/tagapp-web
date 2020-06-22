@@ -50,7 +50,8 @@ export default class GroupDetail extends Component {
   }
 
   @action.bound onTabChange(e) {
-    if (e === 1) {
+    console.log(typeof e)
+    if (e === '1') {
       store.getHistoryList()
     } else {
       store.getApiList()
@@ -62,7 +63,7 @@ export default class GroupDetail extends Component {
   }
 
   render() {
-    const {modeType, groupDetial} = store
+    const {modeType, groupDetial, currentKey} = store
     const {
       name,
       id,
@@ -152,7 +153,7 @@ export default class GroupDetail extends Component {
               </Tabs>
             ) : (
               <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
-                <TabPane tab="API列表" key="2">
+                <TabPane tab="API列表" key="1">
                   <TabApi store={store} />
                 </TabPane>
               </Tabs>

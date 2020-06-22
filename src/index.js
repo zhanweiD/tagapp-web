@@ -31,6 +31,7 @@ export default class Entry extends React.Component {
           <Route path="/group-config" component={GroupConfig} />
           <Route path="/group" component={GroupManage} />
           <Route path="/portrayal" component={PortrayalLabel} />
+          {/* <Route exact path="/portrayal/:objId/:mainLabel" component={PortrayalLabel} /> */}
           <Route path="/scene" component={Scene} />
           <Route path="/project" component={Project} />
           <Redirect to="/project" />

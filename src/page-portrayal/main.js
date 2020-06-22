@@ -16,6 +16,7 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/portrayal" component={PortrayalLabel} />
+            <Route exact path="/portrayal/:objId/:mainLabel" component={PortrayalLabel} />
             <Route exact path="/portrayal/pie" component={Pie} />
             <Route
               render={() => {

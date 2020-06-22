@@ -81,9 +81,9 @@ export default class IdCreate extends Component {
       value.type = type || recordObj.type
       value.importKey = fileRes.importKey || ''
       if (isAdd) {
-        this.store.addGroup(value)
+        this.store.addIdGroup(value)
       } else {
-        this.store.editGroup(value)
+        this.store.editIdGroup(value)
       }
       // this.handleCancel()
     }).catch(err => {

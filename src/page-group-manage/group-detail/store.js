@@ -9,7 +9,7 @@ class Store {
   @observable objId = 0 // 实体ID
   @observable visible = false // 新建API
   @observable apiGroupList = [] // 新建API分组列表
-  @observable currentKey = 1 // tabs显示
+  @observable currentKey = '1' // tabs显示
   @observable groupDetial = {} // 群体详情
   @observable barList =[] // 群体详情柱状图
   @observable list = [] // 群体详情列表

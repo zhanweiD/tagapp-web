@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 import {
   action, runInAction, observable, toJS,
 } from 'mobx'
@@ -7,6 +8,7 @@ import io from './io'
 class Store {
   @observable visible = false // 保存群体窗口
   @observable id = 0 // 群体ID
+  @observable objId = 0 // 实体ID
   @observable queryDate = 0 // 群体日期
   @observable projectId = 0 // 项目ID
   @observable titleList = [] // 个体列表表头
@@ -18,6 +20,10 @@ class Store {
   }
   @observable list = []
 
+  // 跳转到微观画像
+  goPortrayal = value => {
+    window.location.href = `${window.__keeper.pathHrefPrefix}/portrayal/${this.objId}/${value}`
+  }
   // 获取个体列表
   @action async getUnitList() {
     try {
@@ -33,9 +39,10 @@ class Store {
             key: title[i],
             title: title[i],
             dataIndex: title[i],
-            render: text => (i === 0 ? <a href>{text}</a> : text),
+            render: text => (i === 0 ? (<a onClick={() => this.goPortrayal(title[0])}>{text}</a>) : text),
           })
         }
+        console.log(`/portrayal/${this.objId}/${title[0]}`)
         this.list = res.data
         this.tableLoading = false
       })

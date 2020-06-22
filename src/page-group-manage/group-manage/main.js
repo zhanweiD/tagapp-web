@@ -57,7 +57,7 @@ class GroupManage extends Component {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to={`/group/unit/${record.id}/${record.lastTime}`}>
+        <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
           <a href>个体列表</a>
         </Link>
       </Menu.Item>
@@ -183,7 +183,9 @@ class GroupManage extends Component {
       store.isPerform = true
       record.objId = record.objId.toString()
       store.recordObj = record
+      store.isAdd = false
       store.getTagList()
+      store.getEntityList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else if (mode === 1) {
@@ -195,16 +197,16 @@ class GroupManage extends Component {
     }
   }
 
-  // 跳转到群体分析
-  goGroupAnalyze = id => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
-  }
+  // // 跳转到群体分析
+  // goGroupAnalyze = id => {
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
+  // }
   
-  // 跳转到个体列表
-  goUnitList = (id, lastTime) => {
-    console.log(1)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}/${lastTime}`
-  }
+  // // 跳转到个体列表
+  // goUnitList = (id, lastTime) => {
+  //   console.log(1)
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}/${lastTime}`
+  // }
 
   // 跳转到群体编辑
   goGroupEdit = record => {
@@ -215,6 +217,7 @@ class GroupManage extends Component {
       store.recordObj = record
       store.uploadData = true
       store.getTagList()
+      store.getEntityList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else {
