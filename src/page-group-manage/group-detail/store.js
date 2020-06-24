@@ -22,12 +22,12 @@ class Store {
     currentPage: 1,
     pageSize: 10,
   }
-  @observable barData = [
-    {
-      x: '2020-06-12',
-      y: 0,
-    },
-  ]
+  // @observable barData = [
+  //   {
+  //     x: '2020-06-12',
+  //     y: 0,
+  //   },
+  // ]
 
   // 获取群体详情
   @action async getDetail() {

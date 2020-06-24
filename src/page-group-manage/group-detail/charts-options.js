@@ -9,9 +9,9 @@ export default function getOptions(dataX, dataY) {
       // trigger: 'axis',
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '5%',
+      left: '24px',
+      right: '24px',
+      bottom: '4%',
       containLabel: true,
     },
     xAxis: [{
