@@ -5,7 +5,6 @@ import {Badge} from 'antd'
 import {TimeRange, ListContent, NoData} from '../../component'
 import getOptions from './charts-options'
 import {Time} from '../../common/util'
-import storage from '../../common/nattyStorage'
 
 export default class TagHistory extends Component {
   constructor(props) {

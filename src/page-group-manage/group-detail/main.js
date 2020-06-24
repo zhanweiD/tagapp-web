@@ -36,8 +36,8 @@ export default class GroupDetail extends Component {
     store.projectId = spaceInfo && spaceInfo.projectId
 
     const {match: {params}} = props
-    store.id = params.id
-    store.objId = params.objId
+    store.id = parseInt(params.id) 
+    store.objId = parseInt(params.objId) 
   }
 
   componentWillMount() {

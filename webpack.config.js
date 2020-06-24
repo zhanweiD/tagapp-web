@@ -38,6 +38,7 @@ module.exports = {
     ],
     quiet: true,
     overlay: true,
+    disableHostCheck: true,
   },
   entry: './src/index',
   output: {
