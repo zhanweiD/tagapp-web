@@ -7,8 +7,6 @@ import {action, toJS} from 'mobx'
 import moment from 'moment'
 
 import {projectProvider, NoData, AuthBox, ListContent} from '../../component'
-import {Time} from '../../common/util'
-import storage from '../../common/nattyStorage'
 import GroupModal from './group-modal'
 
 import store from './store'
@@ -39,13 +37,13 @@ class UnitList extends Component {
       list, tableLoading, searchParams, titleList,
     } = store
 
-    const noDataConfig = {
-      btnText: '暂无个体',
-      // onClick: () => this.openModal(),
-      text: '该群体暂无个体！',
-      code: 'asset_tag_project_add',
-      noAuthText: '没有任何个体',
-    }
+    // const noDataConfig = {
+    //   btnText: '暂无个体',
+    //   // onClick: () => this.openModal(),
+    //   text: '该群体暂无个体！',
+    //   code: 'asset_tag_project_add',
+    //   noAuthText: '没有任何个体',
+    // }
     const listConfig = {
       columns: toJS(titleList),
       tableLoading,
@@ -66,15 +64,14 @@ class UnitList extends Component {
           <ListContent {...listConfig} />
         </div> */}
         {
-          list.length || JSON.stringify(searchParams) !== '{}' ? (
+          list.length ? (
             <div className="list-content">
               <ListContent {...listConfig} />
             </div>
           ) : (
-            <NoData
-              // isLoading={tableLoading}
-              {...noDataConfig}
-            />
+            <NoData />
+            // isLoading={tableLoading}
+            // {...noDataConfig}
           )
         }
         <GroupModal store={store} />

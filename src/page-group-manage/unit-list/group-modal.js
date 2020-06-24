@@ -20,19 +20,9 @@ export default class GroupModal extends Component {
         '@transformTrim',
         '@required',
         '@max32',
-        {validator: this.checkName},
+        // {validator: this.checkName},
       ],
     }, 
-    // {
-    //   label: '群体标识',
-    //   key: 'queueName',
-    //   component: 'input',
-    //   rules: [
-    //     '@transformTrim',
-    //     '@required',
-    //     '@max32',
-    //   ],
-    // },
     {
       label: '描述',
       key: 'descr',

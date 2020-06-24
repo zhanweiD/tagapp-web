@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react'
-import {Tooltip, Button, Progress} from 'antd'
+import {Progress} from 'antd'
 import {action, observe, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {TagFilled} from '@ant-design/icons'
+
+import {NoData} from '../../component'
 
 @inject('store')
 @observer
@@ -33,10 +34,18 @@ export default class LabelTab extends Component {
     )
   }
   render() {
-    const {markedLabel, allLabels} = this.store
+    const {allLabels} = this.store
     return (
       <div className="pl24 pt-0">
-        {toJS(allLabels)}
+        {
+          allLabels.length ? (
+            toJS(allLabels)
+          ) : (
+            <NoData />
+            // isLoading={tableLoading}
+            // {...noDataConfig}
+          )
+        }
         {/* <div className="tab-content">
           <div>
             <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />

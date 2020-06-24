@@ -9,18 +9,20 @@ import io from './io'
 
 const {Option} = Select
 class Store {
-  @observable dataSource = [] // 数据源 
-  @observable dataTypeSource = [] // 数据源类型
   @observable dataStorageId = 0 // 配置页面数据源id
   @observable dataStorageName = '' // 配置页面数据源id
   @observable dataStorageTypeId = '' // 配置页面数据源类型id
   @observable dataStorageTypeName = '' // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
+
+  @observable dataSource = [] // 数据源 
+  @observable dataTypeSource = [] // 数据源类型
   @observable entityList = [] // 实体列表
   @observable list = [] // 实体表格数组
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
+
   @observable visible = false // 控制配置弹窗
   @observable confirmLoading = false // 确认按钮loading
   @observable entityVisible = false // 控制实体弹窗
@@ -35,6 +37,7 @@ class Store {
     pageSize: 10,
   }
 
+  // 重置
   @action modalCancel = () => {
     this.entityVisible = false
     this.uploadLoading = false

@@ -6,7 +6,6 @@ import {Steps, Button, message, Modal} from 'antd'
 import {CheckCircleFilled, CloseCircleFilled} from '@ant-design/icons'
 import {errorTip} from '../../common/util'
 
-
 import store from './store'
 import StepOne from './step-one'
 import StepTwo from './step-two'

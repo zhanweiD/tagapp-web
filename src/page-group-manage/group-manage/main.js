@@ -8,12 +8,10 @@ import {observer, inject} from 'mobx-react'
 import {Popconfirm, Badge, Dropdown, Menu, Spin} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
-import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
 import {
   ListContent, NoData, OmitTooltip, AuthBox, projectProvider,
 } from '../../component'
-import storage from '../../common/nattyStorage'
 
 import search from './search'
 import ModalGroup from './modal'
@@ -52,7 +50,7 @@ class GroupManage extends Component {
         <a href disabled={record.status !== 1} onClick={() => this.goUnitList(record.objId, record.lastTime)}>个体列表</a>
       </Menu.Item> */}
       <Menu.Item>
-        <Link to={`/group/manage/${record.id}`}>
+        <Link to={`/group/manage/${record.id}/${record.objId}`}>
           <a href>群体分析</a>
         </Link>
       </Menu.Item>
@@ -117,15 +115,6 @@ class GroupManage extends Component {
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          {/* <Fragment>
-            <Link to={`/project/${record.id}`}>群体分析</Link>
-            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
-            <span className="table-action-line" />
-          </Fragment>
-          <Fragment>
-            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId, record.lastTime)}>个体列表</a>
-            <span className="table-action-line" />
-          </Fragment> */}
           <Fragment>
             <a onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
@@ -185,7 +174,6 @@ class GroupManage extends Component {
       store.recordObj = record
       store.isAdd = false
       store.getTagList()
-      store.getEntityList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else if (mode === 1) {
@@ -204,7 +192,6 @@ class GroupManage extends Component {
   
   // // 跳转到个体列表
   // goUnitList = (id, lastTime) => {
-  //   console.log(1)
   //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}/${lastTime}`
   // }
 
@@ -217,7 +204,6 @@ class GroupManage extends Component {
       store.recordObj = record
       store.uploadData = true
       store.getTagList()
-      store.getEntityList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else {
@@ -244,14 +230,6 @@ class GroupManage extends Component {
       list, tableLoading, searchParams, projectId,
     } = store
 
-    const noDataConfig = {
-      btnText: '新建群体',
-      onClick: () => this.openModal(),
-      text: '没有任何群体，请在当前页面创建群体！',
-      code: 'asset_tag_project_add',
-      noAuthText: '没有任何群体',
-    }
-
     const listConfig = {
       projectId,
       columns: this.columns,
@@ -276,9 +254,7 @@ class GroupManage extends Component {
               </Spin>
             </div>
           ) : (
-            <NoData
-              {...noDataConfig}
-            />
+            <NoData />
           )
         }
         <ModalGroup store={store} />

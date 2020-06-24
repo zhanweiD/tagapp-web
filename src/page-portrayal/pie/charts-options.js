@@ -1,5 +1,3 @@
-// import {dateFormat} from '../../common/constants'
-
 // 元数据分布饼图配置
 
 export default function getPieOpt(chartsCount, data, legendName) {
@@ -21,9 +19,10 @@ export default function getPieOpt(chartsCount, data, legendName) {
       },
     },
     tooltip: {
-      trigger: 'item',
-      // formatter: '类目：{b.treeName}\n占比{b}\n个数{c}',
-      formatter: '{b}',
+      formatter: params => {
+        const info = params.name.split(' ')
+        return `标签名称: ${info[0]}<br />标签占比: ${info[1]}<br />标签数量: ${info[2]}`
+      },
     },
     legend: {
       orient: 'vertical',

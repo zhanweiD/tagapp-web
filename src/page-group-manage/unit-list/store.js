@@ -28,22 +28,24 @@ class Store {
   @action async getUnitList() {
     try {
       const res = await io.getUnitList({
-        id: this.id,
-        projectId: this.projectId,
-        queryDate: this.queryDate,
+        // id: this.id,
+        // projectId: this.projectId,
+        // queryDate: this.queryDate,
+        id: 7381038078254400,
+        projectId: 7195117436885248,
+        queryDate: '2020-06-23',
       })
       runInAction(() => {
+        this.list = res.data || []
         const {title} = res
         for (let i = 0; i < title.length; i++) {
           this.titleList.push({
             key: title[i],
             title: title[i],
             dataIndex: title[i],
-            render: text => (i === 0 ? (<a onClick={() => this.goPortrayal(title[0])}>{text}</a>) : text),
+            render: (text, record) => (i === 0 ? (<a onClick={() => this.goPortrayal(record[title[0]])}>{text}</a>) : text),
           })
         }
-        console.log(`/portrayal/${this.objId}/${title[0]}`)
-        this.list = res.data
         this.tableLoading = false
       })
     } catch (e) {
@@ -55,9 +57,12 @@ class Store {
   @action async outputUnitList() {
     try {
       const res = await io.outputUnitList({
-        projectId: this.projectId,
-        groupId: this.id,
-        queryDate: this.queryDate,
+        // projectId: this.projectId,
+        // groupId: this.id,
+        // queryDate: this.queryDate,
+        id: 7381038078254400,
+        projectId: 7195117436885248,
+        queryDate: '2020-06-23',
       })
       successTip('导出成功')
     } catch (e) {

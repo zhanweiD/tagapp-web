@@ -81,16 +81,6 @@ export default class TagHistory extends Component {
     window.addEventListener('resize', () => this.resize())
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const {
-  //     tagId,
-  //   } = this.props
-
-  //   if (tagId && tagId !== nextProps.tagId) {
-  //     this.getData()
-  //   }
-  // }
-
   @action getData(gte = this.defStartTime, lte = this.defEndTime) {
     const {store} = this.props
     const params = {

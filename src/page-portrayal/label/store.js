@@ -13,10 +13,8 @@ class Store {
   @observable nowTab = '1' // 当前tab页面
   @observable objId = null // 实体id
   @observable projectId = null // 项目id
-  // @observable personalityUniqueKey = null // 主标签id
   @observable entityList = [] // 实体option列表
   @observable mainLabel = '' // 实体主标签
-  @observable markedLabel = [] // 显著特征
   @observable basicLabel = [] // 基本特征
   @observable allLabels = [] // 全部标签
   @observable tooltipTitle = [] // 单个标签分析提示
@@ -52,6 +50,7 @@ class Store {
         for (let i = 0; i < labelRes.length; i++) {
           const nowRes = res[i].tags || []
           const nowCategoryName = res[i].categoryName || []
+
           this.itemLabels = nowRes.map((item, index) => {
             return (
               <Tooltip 
@@ -64,11 +63,12 @@ class Store {
               </Tooltip>
             )
           })
+
           this.allLabels.push(
             <div className="tab-content">
               <div>
                 <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
-                <span>{`${nowCategoryName}(${nowRes.length})`}</span>
+                <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
               </div>
               {this.itemLabels}
             </div>
@@ -110,25 +110,6 @@ class Store {
     )
   }
 
-  // tooltipTitle(i) {
-  //   const {tooltipLabel} = this
-  //   return (
-  //     <div>
-  //       <div>
-  //         <span>{tooltipLabel[i].x}</span>
-  //       </div>
-  //       <Progress 
-  //         showInfo 
-  //         strokeWidth={4} 
-  //         strokeColor="#00d5af" 
-  //         percent={parseInt(tooltipLabel[i].y2)} 
-  //         color="#fff"
-  //         style={{color: '#fff'}}
-  //       />
-  //     </div>
-  //   )
-  // }
-
   // 获取基本+显著特征
   @action async getLabel() {
     try {
@@ -138,7 +119,6 @@ class Store {
         personalityUniqueKey: this.mainLabel,
       })
       const basicRes = res.basic_feature || []
-      const markedRes = res.marked_feature || []
       runInAction(() => {
         this.basicLabel = basicRes.map(item => {
           return (
@@ -148,13 +128,6 @@ class Store {
             </p>
           )
         })
-      //   this.markedLabel = markedRes.map((item, index) => {
-      //     return (
-      //       <Tooltip title={this.tooltipTitle(index)} color="#639dd1">
-      //         <Button className="label-btn">{item.value}</Button>
-      //       </Tooltip>
-      //     )
-      //   })
       })
     } catch (e) {
       errorTip(e.message)
@@ -168,11 +141,6 @@ class Store {
         objId: this.objId || this.defaultObjId,
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
-      })
-      const labelRes = res || []
-      runInAction(() => {
-        // this.tooltipLabel = labelRes
-        this.getLabel()
       })
     } catch (e) {
       errorTip(e.message)

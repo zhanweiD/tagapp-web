@@ -11,22 +11,24 @@ class Store extends ListContentStore(io.getGroupList) {
   // example
   @observable projectId = 0 // 项目id
   @observable objId = 0 // 实体id
-  @observable searchParams = [] // 搜索内容
-  @observable visible = false // 新建群体
-  @observable drawerVisible = false // id新建群体
-  @observable modalVisible = false // 文件解析结果
+  @observable mode = 0 // 创建方式
+  @observable type = 0 // 群体类型
   @observable isCreate = 0 // 是否选中创建群体方式
+
+  @observable searchParams = [] // 搜索内容
   @observable recordObj = {} // 当前编辑群体 无输出标签信息
   @observable nowGroup = {} // 当前编辑群体 有输出标签信息
   @observable list = [] // 群体表格数组
   @observable fileRes = '' // 上传的文件返回数据
-  @observable uploadData = false // 是否有上传文件
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
   @observable entityOptions = [] // 实体option列表
   @observable tagOptions = [] // 标签option列表
-  @observable mode = 0 // 创建方式
-  @observable type = 0 // 群体类型
+
+  @observable uploadData = false // 是否有上传文件
+  @observable visible = false // 新建群体
+  @observable drawerVisible = false // id新建群体
+  @observable modalVisible = false // 文件解析结果
   @observable isAdd = true // 判断编辑还是新建
   @observable isPerform = false // id集合执行
   @observable tableLoading = false // 表格数据加载

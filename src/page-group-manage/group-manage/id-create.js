@@ -22,11 +22,13 @@ export default class IdCreate extends Component {
     this.props.onRef(this)
   }
 
+  // 设置输出标签
   setOutputTags = value => {
     this.formRef.current.setFieldsValue({
       outputTags: value,
     })
   }
+
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
     const {uploadList, uploadData} = this.store
@@ -52,11 +54,6 @@ export default class IdCreate extends Component {
       }
     }
   }
-
-  // @action removeFile() {
-  //   // this.store.nextDisabled = true
-  //   console.log(1)
-  // }
 
   @action beforeUpload = file => {
     const isLt10M = file.size / 1024 / 1024 < 100
