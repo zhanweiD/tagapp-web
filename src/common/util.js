@@ -14,6 +14,7 @@ const {pathPrefix} = window.__keeper
 export const groupConfigApi = `${pathPrefix}/relGroup` // 群体配置
 export const groupApi = `${pathPrefix}/group` // 群体管理
 export const groupDetailsApi = `${pathPrefix}/groupDetails` // 群体详情
+export const groupAnalysis = `${pathPrefix}/groupAnalysis` // 群体分析
 
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览

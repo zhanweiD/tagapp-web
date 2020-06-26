@@ -1,22 +1,20 @@
 import {
   action, runInAction, observable, toJS,
 } from 'mobx'
-import {Select} from 'antd'
 import {errorTip, changeToOptions} from '../../common/util'
-import {ListContentStore} from '../../component/list-content'
 import io from './io'
 
-const {Option} = Select
 class Store {
-  // example
-  @observable current = 0 // 步骤条
+  projectId
+
+  @observable current = 1 // 步骤条
   @observable createId = 0 // 如何创建群体 1 规则离线 2 规则实时 3 id集合
-  @observable modalVisible = false // 创建结束弹窗
+  // @observable modalVisible = false // 创建结束弹窗
   @observable recordObj = {} // 当前编辑群体
   @observable oneForm = {} // 第一步表单
   @observable threeForm = {} // 第三步表单
   @observable outputLabels = [] // 输出标签集合
-  @observable type = 0 // 群体类型
+  @observable type = 1 // 群体类型
   @observable projectId = 0 // 项目ID
   @observable id = 0 // 群体ID
   @observable dataTypeSource = [
@@ -40,7 +38,8 @@ class Store {
       value: 4,
       name: 'Hive',
     },
-  ] // 数据源类型
+  ] 
+  // 数据源类型
   @observable dataSource = [
     {
       value: '1583289421353fdnk',
@@ -52,12 +51,25 @@ class Store {
     },
   ] // 数据源 
 
+  // 第一步 设置基础信息
+  @observable entityList = []
+  @observable objId
+
+
+  // 编辑
+  @observable detail = {}
+
+  @action.bound close() {
+    this.current = 0
+  }
+
   // 获取实体列表
   @action async getEntityList() {
     try {
       const res = await io.getEntityList({
-        projectId: window.projectId,
+        projectId: this.projectId,
       })
+      
       runInAction(() => {
         this.entityList = changeToOptions(toJS(res || []))('objName', 'objId')
       })

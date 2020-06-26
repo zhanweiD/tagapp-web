@@ -15,6 +15,8 @@ class Store {
   @observable unitOption // 实体列表
   @observable unitLabel = '' // 实体主标签
 
+  @observable statistics = [] // 显著特征分析(百分比)
+
   // 获取实体列表
   @action async getEntityList() {
     try {
@@ -34,6 +36,35 @@ class Store {
         if (res) {
           this.dataTypeSource = changeToOptions(toJS(res || []))('name', 'type')
         }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 显著特征分析
+  @action async getStatistics() {
+    try {
+      // const res = await io.getStatistics({
+      //   objId: this.unitId,
+      //   personalityUniqueKey: this.unitLabel,
+      // })
+
+      const res = [
+        {
+          x: '性别：男',
+          y1: '100',
+          y2: '24%',
+        },
+        {
+          x: '城市：杭州',
+          y1: '100',
+          y2: '24%',
+        },
+      ]
+
+      runInAction(() => {
+        this.statistics = res
       })
     } catch (e) {
       errorTip(e.message)

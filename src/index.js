@@ -12,6 +12,7 @@ import DataSearch from './page-data-search'
 import GroupConfig from './page-group-config'
 import GroupManage from './page-group-manage'
 import PortrayalLabel from './page-portrayal'
+import GroupAnalyze from './page-group-analyze'
 import Scene from './page-scene'
 import Project from './page-project'
 
@@ -33,6 +34,7 @@ export default class Entry extends React.Component {
           <Route path="/portrayal" component={PortrayalLabel} />
           <Route path="/scene" component={Scene} />
           <Route path="/project" component={Project} />
+          <Route path="/group-analyze" component={GroupAnalyze} />
           <Redirect to="/project" />
         </Switch>
       </Router>

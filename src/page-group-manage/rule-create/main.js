@@ -4,7 +4,6 @@ import {observer, Provider} from 'mobx-react'
 import {action} from 'mobx'
 import {Steps, Button, message, Modal} from 'antd'
 import {CheckCircleFilled, CloseCircleFilled} from '@ant-design/icons'
-import {errorTip} from '../../common/util'
 
 
 import store from './store'
@@ -22,71 +21,69 @@ export default class RuleCreate extends Component {
     const {spaceInfo} = window
     store.projectId = spaceInfo && spaceInfo.projectId
     const {match: {params}} = props
-    store.type = parseInt(params.type)
-    store.id = parseInt(params.id)
-    console.log(store.type, store.id)
+    
+    store.type = +params.type
+    store.id = +params.id
   }
 
-  @action cancel = () => {
-    store.current = 0
-  }
+  // @action cancel = () => {
+  //   store.current = 0
+  // }
+
   @action prev = () => {
     store.current -= 1
   }
-  @action next = () => {
-    store.current += 1
-  }
+  // @action next = () => {
+  //   store.current += 1
+  // }
   @action submit = () => {
     store.modalVisible = true
     console.log(1)
   }
-  @action handleCancel = () => {
-    store.modalVisible = false
-    store.current = 0
-  }
 
-  @action oneValidate = () => {
-    this.oneForm.form.validateFields().then(value => {
-      console.log(value)
-      store.current += 1
-      store.oneForm = value
-    }).catch(err => {
-      errorTip(err)
-    })
-  }
-  @action threeValidate = () => {
-    this.threeForm.form.validateFields().then(value => {
-      if (store.type === 1) {
-        value.startTime = value.setTime[0].format(dateFormat)
-        value.endTime = value.setTime[1].format(dateFormat)
-      }
-      value.outputTags = store.outputLabels // 替换输出标签集合
-      console.log(value, 1)
-      store.modalVisible = true
-      store.threeForm = value
-      // store.addGroup()
-      // store.editGroup()
-      this.oneForm.form.resetFields()
-      this.threeForm.form.resetFields()
-    }).catch(err => {
-      errorTip(err)
-    })
-  }
+  // @action oneValidate = () => {
+  //   this.oneForm.form.validateFields().then(value => {
+  //     console.log(value)
+  //     store.current += 1
+  //     store.oneForm = value
+  //   }).catch(err => {
+  //     errorTip(err)
+  //   })
+  // }
+
+  // @action threeValidate = () => {
+  //   this.threeForm.form.validateFields().then(value => {
+  //     if (store.type === 1) {
+  //       value.startTime = value.setTime[0].format(dateFormat)
+  //       value.endTime = value.setTime[1].format(dateFormat)
+  //     }
+  //     value.outputTags = store.outputLabels // 替换输出标签集合
+  //     console.log(value, 1)
+  //     store.modalVisible = true
+  //     store.threeForm = value
+  //     // store.addGroup()
+  //     // store.editGroup()
+  //     this.oneForm.form.resetFields()
+  //     this.threeForm.form.resetFields()
+  //   }).catch(err => {
+  //     errorTip(err)
+  //   })
+  // }
   render() {
     const {current, oneForm, id} = store
-    console.log(this, 1)
+
     return (
       <Provider store={store}>
         <div className="rule-create">
-          <Steps current={current}>
+          <Steps current={current} style={{width: '80%', margin: '0 auto'}}>
             <Step title="设置基础信息" />
             <Step title="设置群体圈选规则" />
             <Step title="设置群体参数" />
           </Steps>
-          <StepOne oneRef={ref => { this.oneForm = ref }} />
+          <StepOne />
           <StepTwo />
-          <StepThree threeRef={ref => { this.threeForm = ref }} />
-          <div className="steps-action">
+          <StepThree current={current} prev={this.prev} />
+          {/* <div className="steps-action">
             {current === 0 && (
               <Button style={{margin: '0 8px'}} onClick={() => this.cancel()}>
                 取消
@@ -107,7 +104,7 @@ export default class RuleCreate extends Component {
                 完成
               </Button>
             )}
-          </div>
+          </div> */}
           <Modal
             title="圈定群体"
             className="create-modal"

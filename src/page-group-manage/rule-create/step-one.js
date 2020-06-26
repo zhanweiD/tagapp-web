@@ -1,12 +1,15 @@
 import React, {Component} from 'react'
-import {Form, Select} from 'antd'
-import {observer, inject, Spin} from 'mobx-react'
+import {Button} from 'antd'
+import {observer, inject} from 'mobx-react'
+import {action, toJS} from 'mobx'
+import {ModalForm} from '../../component'
 
-import {observe, action} from 'mobx'
-import {ModalForm, ListContent, NoData, AuthBox} from '../../component'
 
-const {Item} = Form
-const {Option} = Select
+const formItemLayout = {
+  labelCol: {span: 7},
+  wrapperCol: {span: 10},
+  colon: false,
+}
 
 @inject('store')
 @observer
@@ -16,33 +19,23 @@ export default class StepOne extends Component {
     this.store = props.store
   }
   componentDidMount() {
-    this.props.oneRef(this)
-    // this.store.getEntityList()
+    this.store.getEntityList()
   }
 
-  formItemLayout = () => {
-    return ({
-      labelCol: {span: 2, offset: 8},
-      wrapperCol: {span: 6},
-      colon: false,
-    })
-  }
   selectContent= () => {
     const {
-      // selectLoading, 
-      dataTypeSource = [],
+      entityList = [], objId,
     } = this.store
+
     return [{
       label: '所属实体',
       key: 'objId',
-      // initialValue: '',
       rules: [
         '@requiredSelect',
       ],
       control: {
-        options: dataTypeSource,
-        onSelect: v => console.log(v),
-        // notFoundContent: selectLoading ? <Spin size="small" /> : null, 
+        options: toJS(entityList),
+        onSelect: v => this.selectEntity(v),
       },
       component: 'select',
     }, {
@@ -55,6 +48,7 @@ export default class StepOne extends Component {
         '@max32',
         {validator: this.checkName},
       ],
+      disabled: !objId,
       component: 'input',
     }, {
       label: '描述',
@@ -67,30 +61,59 @@ export default class StepOne extends Component {
     }]
   }
 
-  checkName = (rule, value, callback) => {
+
+  @action.bound selectEntity(e) {
+    this.store.objId = e
+  } 
+
+  @action close = () => {
+    this.store.close()
+  }
+
+  @action next = () => {
+    this.store.current += 1
+    // this.form.validateFields().then(value => {
+    //   console.log(value)
+    //   this.store.current += 1
+    //   // store.oneForm = value
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+  }
+
+  @action checkName = (rule, value, callback) => {
     const params = {
       name: value,
+      objId: this.store.objId,
     }
-    console.log(value)
-    // if (this.store.detail.id) {
-    //   params.id = this.store.detail.id
-    // }
 
-    // this.store.checkName(params, callback)
-    callback()
+    if (this.store.detail.id) {
+      params.id = this.store.detail.id
+    }
+    
+    this.store.checkName(params, callback)
   }
 
   render() {
     const {current} = this.store
     const formConfig = {
       selectContent: this.selectContent(),
-      formItemLayout: this.formItemLayout(),
+      formItemLayout,
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
     }
     
     return (
-      <div className="step-one mt100" style={{display: current === 0 ? 'block' : 'none'}}>
+      <div className="step-one" style={{display: current === 0 ? 'block' : 'none'}}>
         <ModalForm {...formConfig} />
+        <div className="steps-action">
+          <Button style={{marginRight: 16}} onClick={this.close}>关闭</Button>
+          <Button
+            type="primary"
+            onClick={this.next}
+          >
+            下一步
+          </Button>
+        </div>
       </div>
     )
   }
