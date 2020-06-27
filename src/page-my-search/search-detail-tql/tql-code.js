@@ -12,8 +12,8 @@ import sqlFormatter from 'sql-formatter'
 // import LogPanel from '../code-component/log-panel'
 import SearchResult from './search-result'
 
-import yunxing from '../../../icon/yunxing.svg'
-import geshihua from '../../../icon/geshihua.svg'
+import yunxing from '../../icon/yunxing.svg'
+import geshihua from '../../icon/geshihua.svg'
 
 @observer
 export default class TqlCode extends Component {
@@ -73,7 +73,6 @@ export default class TqlCode extends Component {
       message.error('请输入运行代码')
     } else {
       this.store.showResult = true
-
       this.store.runSearch({
         tql: code,
       })

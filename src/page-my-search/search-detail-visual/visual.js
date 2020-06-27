@@ -13,12 +13,12 @@ import {
   Radio,
   message,
   Popconfirm,
-  Modal,
+  // Modal,
 } from 'antd'
-import {ExclamationCircleOutlined} from '@ant-design/icons'
+// import {ExclamationCircleOutlined} from '@ant-design/icons'
 // import {IconDel, IconTreeAdd} from '../../../icon-comp'
 import Tree from './tree'
-import yunxing from '../../../icon/yunxing.svg'
+import yunxing from '../../icon/yunxing.svg'
 import SearchResult from './search-result'
 import ModalSave from './modal-save'
 import DrewerApi from './modal-api'
@@ -30,10 +30,9 @@ import {
 } from './util'
 
 import store from './store'
-import './visual.styl'
 
 const {Option} = Select
-const {confirm} = Modal
+// const {confirm} = Modal
 
 @observer
 export default class Visual extends Component {
@@ -41,6 +40,9 @@ export default class Visual extends Component {
     super(props)
     const {spaceInfo} = window
     store.projectId = spaceInfo && spaceInfo.projectId
+
+    const {match: {params}} = props
+    store.searchId = params.id
   }
 
   outConfigRef = React.createRef()
@@ -50,6 +52,7 @@ export default class Visual extends Component {
 
   componentWillMount() {
     store.getObjList()
+    store.getDetail()
   }
 
   @action.bound selectObj(objId) {
@@ -89,22 +92,22 @@ export default class Visual extends Component {
     store.visibleApi = true
   }
 
-  @action.bound clearAll() {
-    confirm({
-      title: '确认清空?',
-      icon: <ExclamationCircleOutlined />,
-      content: '确认清空数据查询？',
-      onOk() {
-        store.outConfig.clear()
-        store.screenConfig.clear()
-        store.showResult = false
-        store.resultInfo = {}
-      },
-      onCancel() {
-        console.log('Cancel')
-      },
-    })
-  }
+  // @action.bound clearAll() {
+  //   confirm({
+  //     title: '确认清空?',
+  //     icon: <ExclamationCircleOutlined />,
+  //     content: '确认清空数据查询？',
+  //     onOk() {
+  //       store.outConfig.clear()
+  //       store.screenConfig.clear()
+  //       store.showResult = false
+  //       store.resultInfo = {}
+  //     },
+  //     onCancel() {
+  //       console.log('Cancel')
+  //     },
+  //   })
+  // }
 
   @action.bound menuClick(e) {
     console.log(e)
@@ -233,18 +236,19 @@ export default class Visual extends Component {
       showResult, 
       resultInfo,
       resultLoading,
+      detail,
     } = store
 
     return (
       <div className="visual">
         <div className="header-button">
-          <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
+          {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
         </div>
         <div className="FBH pt16 pb16">
           <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} showSearch>
+          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} disabled>
             {
               objList.map(d => <Option value={d.id}>{d.name}</Option>)
             }
@@ -321,7 +325,7 @@ export default class Visual extends Component {
                           </Popconfirm>
                         </div>
                         <Form name="srceen" ref={this.screenConfigRef}>
-                          <Form.Item name="whereType" initialValue="and">
+                          <Form.Item name="whereType" initialValue={detail.whereCondition.whereType || 'and'}>
                             <Radio.Group>
                               <Radio value="and">符合全部以下条件</Radio>
                               <Radio value="or">符合任何以下条件</Radio>
@@ -346,7 +350,6 @@ export default class Visual extends Component {
                       : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
                   }
                 </div>
-                {/* </Form.Provider> */}
               </div>
             </div>
           </div>

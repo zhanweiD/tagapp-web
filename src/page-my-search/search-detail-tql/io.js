@@ -1,7 +1,8 @@
-import ioContext from '../../../common/io-context'
-import {dataSearch, get, post} from '../../../common/util'
+import ioContext from '../../common/io-context'
+import {dataSearch, get, post} from '../../common/util'
 
 const api = {
+  // getObjList: get(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
   getTagTree: get(`${dataSearch}/tql_tag_tree`), // 对象标签树（TQL）
   getFunTree: get(`${dataSearch}/function_list`), // 函数树
 

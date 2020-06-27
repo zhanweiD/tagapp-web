@@ -7,6 +7,8 @@ import {
 import Frame from '../frame'
 
 import MySearch from './my-search'
+import Tql from './search-detail-tql'
+import Visual from './search-detail-visual'
 
 @observer
 export default class Page extends Component {
@@ -16,6 +18,8 @@ export default class Page extends Component {
         <Frame page="space">
           <Switch>
             <Route exact path="/my-search" component={MySearch} />
+            <Route exact path="/my-search/tql/:id" component={Tql} />
+            <Route exact path="/my-search/visual/:id" component={Visual} />
             <Route
               render={() => {
                 window.location.href = '/404'

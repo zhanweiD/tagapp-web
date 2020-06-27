@@ -64,7 +64,7 @@ export default class Tql extends Component {
     return (
       <div className="tql">
         <div className="header-button">
-          <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
+          {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           <Button className="mr8" type="primary">生成API</Button>
         </div>

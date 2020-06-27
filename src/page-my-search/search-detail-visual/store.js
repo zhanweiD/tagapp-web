@@ -1,21 +1,15 @@
 import {
   action, runInAction, observable,
 } from 'mobx'
-import {successTip, errorTip, listToTree, failureTip} from '../../../common/util'
+import {successTip, errorTip, listToTree, failureTip} from '../../common/util'
 import io from './io'
 
 class Store {
   projectId
+  searchId
 
   // 输出设置
-  @observable outConfig = [{
-    aggregateType: 0, 
-    alias: '1', 
-    conditionUnit: {
-      function: '标签值', 
-      params: ['7195132603422976.7195138167822592'],
-    }},
-  ] // 输出设置配置信息
+  @observable outConfig = [] // 输出设置配置信息
 
   @observable expressionTag = [] // 表达式标签
 
@@ -43,8 +37,8 @@ class Store {
   @observable resultInfo = {}
   @observable resultLoading = false
 
-  // 生成api 
-  // getApiParams
+  // 详情
+  @observable detail = {}
 
   // 获取标签树
   @action async getTagTree(params) {
@@ -305,6 +299,74 @@ class Store {
     } catch (e) {
       errorTip(e.message)
     }
+  }
+
+  
+  // 获取详情 
+  @action async getDetail() {
+    try {
+      // const res = await io.getDetail({
+      //   id: this.searchId,
+      // })
+
+      const res = {
+        tenantId: null,
+        userId: null,
+        id: null,
+        projectId: 7195117436885248,
+        name: null,
+        objId: 0,
+        type: null,
+        source: null,
+        outputCondition: [
+          {
+            aggregateType: 0, // 0非聚合  1聚合
+            alias: 'test',
+            conditionUnit: {
+              function: '标签值',
+              params: [
+                '7195132603422976.7195138167822592',
+              ],
+            },
+          },
+        ],
+        whereCondition: {
+          comparisionList: [
+            {
+              comparision: '=',
+              left: {
+                function: '标签值',
+                params: [
+                  '7195132603422976.7195138167822592',
+                ],
+              },
+              right: {
+                function: '固定值',
+                params: [
+                  '1',
+                ],
+              },
+            },
+          ],
+          whereType: 'and', // and符合全部以下条件   or符合任何以下条件
+        },
+        descr: null,
+        ctime: null,
+      }
+      runInAction(() => {
+        this.detail = res
+
+        this.objId = res.objId
+
+        this.outConfig = res.outputCondition
+        this.screenConfig = res.whereCondition && res.whereCondition.comparisionList
+
+        this.getTagTree({id: res.objId})
+        this.getExpressionTag({id: res.objId})
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } 
   }
 }
 

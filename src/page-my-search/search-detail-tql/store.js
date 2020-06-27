@@ -1,5 +1,5 @@
 import {action, runInAction, observable, toJS} from 'mobx'
-import {errorTip, listToTree, successTip, failureTip} from '../../../common/util'
+import {errorTip, listToTree, successTip, failureTip} from '../../common/util'
 
 import io from './io'
 
