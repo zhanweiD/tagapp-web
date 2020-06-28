@@ -1,10 +1,10 @@
 {
-  "name": "asset-tag",
-  "version": "2.2.0",
-  "description": "标签中心",
+  "name": "tag_app",
+  "version": "1.0.0",
+  "description": "标签应用",
   "main": "app.js",
   "scripts": {
-    "k9": "kill `lsof -t -i:9998`",
+    "k9": "kill `lsof -t -i:9995`",
     "k3": "kill `lsof -t -i:3000`",
     "start": "NODE_ENV=dev webpack-dev-server --progress --hot",
     "watch": "cross-env CLIENT_ENV=development NODE_ENV=development webpack-dev-server --config webpack.config.js",

@@ -23,7 +23,7 @@ module.exports = {
     compress: true,
     inline: true,
     hot: true,
-    port: '9998',
+    port: '9995',
     host: '0.0.0.0',
     headers: {
       'Access-Control-Allow-Origin': '*',

@@ -1,0 +1,55 @@
+.tql
+  position relative
+
+  .header-button
+    top -37px
+    text-align right
+    position absolute
+    right 0
+
+.tql-content
+  display flex
+  border 1px solid #d9d9d9
+  height calc(100vh - 92px)
+
+.code-content
+  position relative
+
+  .hide-result
+    bottom 38px
+
+  .search-result
+    position absolute
+    width 100%
+    background #ffffff
+    z-index 100
+    bottom 0px
+    left 0px
+    border-left 1px solid #dddddd
+
+    .search-result-header
+      background #f8f8f8
+      height 30px
+      line-height 30px
+      border-top 1px solid #dddddd
+
+      .ant-tabs-tab
+        padding 3px 16px !important
+
+      .result-header-icon
+        position absolute
+        top 0
+        right 16px
+        
+        img 
+          width 16px
+          height 16px
+          cursor pointer
+
+    .log
+      height 164px
+      overflow-y auto
+  
+    .result-table
+      height 164px
+      overflow-y auto

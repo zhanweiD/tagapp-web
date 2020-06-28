@@ -147,7 +147,7 @@ class Store extends ListContentStore(io.getList) {
   @action async checkName(params, callbak) {
     try {
       const res = await io.checkName(params)
-      if (res.isExit) {
+      if (res.isExist) {
         callbak('项目名称已存在')
       } else {
         callbak()
