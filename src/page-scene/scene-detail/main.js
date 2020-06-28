@@ -25,13 +25,12 @@ const navList = [
   {text: navListMap.sceneDetail.text},
 ]
 
-@inject('frameChange')
+// @inject('frameChange')
 @observer
 export default class SceneDetail extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
 
     const {match: {params}} = props
     store.sceneId = params.sceneId
@@ -39,8 +38,8 @@ export default class SceneDetail extends Component {
 
   componentWillMount() {
     // 面包屑设置
-    const {frameChange} = this.props
-    frameChange('nav', navList)
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
    
     if (store.projectId) {
       store.getDetail()

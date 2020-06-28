@@ -22,13 +22,13 @@ import store from './store'
 // 面包屑设置
 // eslint-disable-next-line no-underscore-dangle
 
-const navList = [
-  navListMap.tagCenter,
-  navListMap.common,
-  {text: navListMap.project.text},
-]
+// const navList = [
+//   navListMap.tagCenter,
+//   navListMap.common,
+//   {text: navListMap.project.text},
+// ]
 
-@inject('frameChange')
+// @inject('frameChange')
 @observer
 export default class ProjectList extends Component {
   menu = data => (
@@ -156,8 +156,8 @@ export default class ProjectList extends Component {
 
   componentWillMount() {
     // 面包屑设置
-    const {frameChange} = this.props
-    frameChange('nav', navList)
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
 
     // 页面初始化
     store.getCuser() // 获取项目所有者列表

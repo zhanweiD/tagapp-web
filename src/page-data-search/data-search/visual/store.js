@@ -68,15 +68,15 @@ class Store {
   // 获取对象下拉
   @action async getObjList() {
     try {
-      // const res = await io.getObjList({
-      //   projectId: this.projectId,
-      // })
-      const res = [
-        {
-          objId: 12312312,
-          objName: 'fsadfa',
-        },
-      ]
+      const res = await io.getObjList({
+        projectId: this.projectId,
+      })
+      // const res = [
+      //   {
+      //     objId: 12312312,
+      //     objName: 'fsadfa',
+      //   },
+      // ]
       
       runInAction(() => {
         if (res.length) {
