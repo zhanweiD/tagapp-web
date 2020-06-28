@@ -18,12 +18,18 @@ export default class ShowLabel extends Component {
 
   }
   @action tabSwitch = value => {
+    this.store.allLabels = []
+    if (value === '2') {
+      this.store.getAllTags()
+    } else {
+      this.store.getLabel()
+    }
     this.store.nowTab = value    
   } 
   render() {
     return (
       <Fragment>
-        <Tabs defaultActiveKey="2" onChange={value => this.tabSwitch(value)} className="label-tab">
+        <Tabs defaultActiveKey="1" onChange={value => this.tabSwitch(value)} className="label-tab">
           <TabPane tab="标签分析" key="1" className="fz14">
             <AnalyzeTab />
           </TabPane>

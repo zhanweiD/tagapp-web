@@ -18,31 +18,48 @@ const {Option} = Select
 const {Sider, Content} = Layout
 @observer
 class PortrayalLabel extends Component {
+  constructor(props) {
+    super(props)
+    const {spaceInfo} = window
+    store.projectId = spaceInfo && spaceInfo.projectId
+
+    const {match: {params}} = props
+    if (params.objId) {
+      store.mainLabel = params.mainLabel
+      store.objId = params.objId.toString()
+    }
+  }
   componentWillMount() {
+    store.getEntityList()
+    store.getAnalysis()
+    store.getLabel()
     // store.getPortrayal()
   }
 
   @action selectValue = value => {
-    store.unitId = value
-    console.log(store.unitId)
+    store.objId = value
+    console.log(store.objId)
   }
 
   @action inputValue = value => {
-    store.unitLabel = value.target.value
-    console.log(store.unitLabel)
+    store.mainLabel = value.target.value
+    console.log(store.mainLabel)
   }
 
   @action onSearch = () => {
-    console.log(store.unitId, store.unitLabel)
+    store.getAnalysis()
+    console.log(store.objId, store.mainLabel)
   }
 
   @action resetSearch = () => {
-    store.unitId = undefined
-    store.unitLabel = undefined
-    console.log(store.unitId, store.unitLabel)
+    store.objId = undefined
+    store.mainLabel = null
+    store.defaultObjId = undefined
+    console.log(store.objId, store.mainLabel)
   }
 
   render() {
+    const {entityList, defaultObjId} = store
     return (
       <Provider store={store}>
         <div className="show-label">
@@ -51,14 +68,13 @@ class PortrayalLabel extends Component {
             <div className="search-df">
               <div className="mr16">
                 <span className="mr8">实体</span>
-                <Select style={{width: '196px'}} placeholder="会员" value={store.unitId} onChange={value => this.selectValue(value)}>
-                  <Option key="1">会员1</Option>
-                  <Option key="2">会员2</Option>
+                <Select style={{width: '196px'}} placeholder="请选择实体" value={store.objId || defaultObjId} onChange={value => this.selectValue(value)}>
+                  {entityList}
                 </Select>
               </div>
               <div className="mr16">
                 <span className="mr8">实体主标签</span>
-                <Input style={{width: '196px'}} placeholder="请输入" value={store.unitLabel} onChange={value => this.inputValue(value)} />
+                <Input style={{width: '196px'}} placeholder="请输入主标签" value={store.mainLabel} onChange={value => this.inputValue(value)} />
               </div>
               <div className="mr16">
                 <Button type="primary" className="mr8" onClick={this.onSearch}>查询</Button>

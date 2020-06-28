@@ -1,10 +1,10 @@
 import {Component, Fragment} from 'react'
+import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {Badge} from 'antd'
 import {TimeRange, ListContent, NoData} from '../../component'
 import getOptions from './charts-options'
 import {Time} from '../../common/util'
-import storage from '../../common/nattyStorage'
 
 export default class TagHistory extends Component {
   constructor(props) {
@@ -17,21 +17,21 @@ export default class TagHistory extends Component {
 
   columns = [
     {
-      key: 'lastTime',
+      key: 'recordDate',
       title: '业务时间',
-      dataIndex: 'lastTime',
-      render: text => <Time timestamp={text} />,
+      dataIndex: 'recordDate',
+      // render: text => <Time timestamp={text} />,
     }, 
     {
-      key: 'lastTime',
+      key: 'computeTime',
       title: '计算时间',
-      dataIndex: 'lastTime',
+      dataIndex: 'computeTime',
       render: text => <Time timestamp={text} />,
     }, 
     {
-      key: 'lastCount',
+      key: 'count',
       title: '群体数量',
-      dataIndex: 'lastCount',
+      dataIndex: 'count',
     }, 
     {
       key: 'status',
@@ -40,7 +40,8 @@ export default class TagHistory extends Component {
       render: v => {
         if (v === 1) {
           return (<Badge color="green" text="正常" />)
-        } if (v === 2) {
+        } 
+        if (v === 2) {
           return (<Badge color="red" text="失败" />)
         }
         return (<Badge color="yellow" text="计算中" />)
@@ -55,11 +56,15 @@ export default class TagHistory extends Component {
         <div className="FBH FBAC">
           <Fragment>
             {/* <Link to={`/project/${record.id}`}>群体分析</Link> */}
-            <a disabled={record.status !== 1} href onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
+            <Link to={`/group/manage/${record.id}`}>
+              <a href>群体分析</a>
+            </Link>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
+            <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+              <a href>个体列表</a>
+            </Link>
           </Fragment>
         </div>
       ),
@@ -68,40 +73,11 @@ export default class TagHistory extends Component {
 
   componentDidMount() {
     this.chartBar = echarts.init(this.barRef)
-    this.drawChart()
-
-    this.getData()
-
-    window.addEventListener('resize', () => this.resize())
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      tagId,
-    } = this.props
-
-    if (tagId && tagId !== nextProps.tagId) {
+    if (this.store.modeType === 1) {
       this.getData()
     }
-  }
 
-  drawChart = () => {
-    this.chartBar.setOption(getOptions())
-  }
-
-  /**
-   * @description 跳转到个体列表
-   */
-  goUnitList = id => {
-    storage.set('objId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
-  }
-  /**
-   * @description 跳转到群体分析
-   */
-  goGroupAnalyze = id => {
-    storage.set('objId', id)
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
+    window.addEventListener('resize', () => this.resize())
   }
 
   @action getData(gte = this.defStartTime, lte = this.defEndTime) {
@@ -110,10 +86,9 @@ export default class TagHistory extends Component {
       startDate: gte,
       endDate: lte,
     }
-    
-    // store.getTagTrend(params, (data, legend) => {
-    //   this.drawChart(data, legend)
-    // })
+    store.getHistoryBar(params, (dataX, dataY) => {
+      this.chartBar.setOption(getOptions(dataX, dataY))
+    })
   }
 
   @action resize() {
@@ -125,6 +100,17 @@ export default class TagHistory extends Component {
     if (this.chartBar) this.chartBar.dispose()
     this.chartBar = null
   }
+
+  // // 跳转到个体列表
+  // goUnitList = (id, computeTime) => {
+  //   storage.set('objId', id)
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}/${computeTime}`
+  // }
+  // // 跳转到群体分析
+  // goGroupAnalyze = id => {
+  //   storage.set('objId', id)
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
+  // }
 
   render() {
     const {tagId, store} = this.props
@@ -153,8 +139,8 @@ export default class TagHistory extends Component {
           />
         </div>
         <div style={{height: '300px'}} ref={ref => this.barRef = ref} />
-        {
-          list.length || JSON.stringify(searchParams) !== '{}' ? (
+        {/* {
+          list.length ? (
             <div className="list-content">
               <ListContent {...listConfig} />
             </div>
@@ -162,7 +148,10 @@ export default class TagHistory extends Component {
             <NoData />
             // isLoading={tableLoading}
           )
-        }
+        } */}
+        <div className="list-content">
+          <ListContent {...listConfig} />
+        </div>
       </div>
     )
   }

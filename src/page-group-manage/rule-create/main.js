@@ -5,7 +5,6 @@ import {action} from 'mobx'
 import {Steps, Button, message, Modal} from 'antd'
 import {CheckCircleFilled, CloseCircleFilled} from '@ant-design/icons'
 
-
 import store from './store'
 import StepOne from './step-one'
 import StepTwo from './step-two'

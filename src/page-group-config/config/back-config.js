@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react'
 import {action, toJS, observe} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Modal, Spin, Popconfirm, Badge} from 'antd'
-import {ModalForm, ListContent, NoData, AuthBox} from '../../component'
+import {Spin, Popconfirm, Badge} from 'antd'
+import {ModalForm, ListContent, AuthBox} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
@@ -38,7 +38,7 @@ export default class GroupBackConfig extends Component {
     }, {
       key: 'action',
       title: '操作',
-      width: 250,
+      width: 200,
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
@@ -56,10 +56,7 @@ export default class GroupBackConfig extends Component {
     },
   ]
 
-  /**
-   * @description 打开弹窗
-   * @param type 弹窗类型 编辑 / 添加(edit / add)
-   */
+  // 添加实体弹窗
   @action openModal = (type, data = {}) => {
     if (type === 'edit') {
       this.store.getTagList(data.objId)
@@ -70,10 +67,7 @@ export default class GroupBackConfig extends Component {
     this.store.modalType = type
   }
 
-  /**
-   * @description 删除项目
-   * @param id 项目ID
-   */
+  // 删除实体
   delItem = id => {
     this.store.delEntity(id)
   }
@@ -95,8 +89,6 @@ export default class GroupBackConfig extends Component {
       disabled: true,
       control: {
         options: dataTypeSource,
-        onSelect: v => this.selectDataTypeSource(v),
-        notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
     }, {
@@ -106,8 +98,6 @@ export default class GroupBackConfig extends Component {
       disabled: true,
       control: {
         options: dataSource,
-        onSelect: v => this.selectDataSource(v),
-        notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       component: 'select',
     }]
@@ -120,7 +110,6 @@ export default class GroupBackConfig extends Component {
     } = store
 
     const formConfig = {
-      // selectContent: visible && this.selectContent(),
       labelAlign: 'left',
       selectContent: this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
@@ -128,7 +117,6 @@ export default class GroupBackConfig extends Component {
 
     const listConfig = {
       columns: this.columns,
-      // bordered: true,
       buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal('add')}>添加实体</AuthBox>],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性

@@ -15,9 +15,7 @@ export default class ApiModal extends Component {
   selectContent= () => {
     const {
       selectLoading, 
-      dataSource = [], 
-      dataEnginesSource = [], 
-      dataGroupData = [],
+      tagList,
       apiGroupList = [],
     } = this.store
     return [{
@@ -31,14 +29,13 @@ export default class ApiModal extends Component {
     }, {
       label: 'API分组',
       key: 'apiGroup',
-      initialValue: '',
+      initialValue: '1',
       rules: [
         '@requiredSelect',
       ],
       control: {
-        // defaultAll: true,
         options: [
-          {name: '默认分组', value: ''},
+          {name: '默认分组', value: '1'},
           apiGroupList,
         ],
       },
@@ -60,8 +57,7 @@ export default class ApiModal extends Component {
         {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
       ],
       control: {
-        options: dataSource,
-        onSelect: v => console.log(v),
+        options: tagList,
         notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       selectLoading, // 下拉框loading效果
@@ -84,12 +80,8 @@ export default class ApiModal extends Component {
     const {store} = this
     this.form.validateFields((err, values) => {
       if (!err) {
-        // 新增
-        // store.addList(values, () => {
-        //   this.handleCancel()
-        // })
+        store.createApi(values)
         console.log(values)
-        this.handleCancel()
       }
     })
   }

@@ -27,7 +27,7 @@ class GroupConfig extends Component {
 
   @action openModal = () => {
     store.visible = true
-    store.getDataSource()
+    store.getDataTypeSource()
   }
 
   render() {
@@ -35,8 +35,8 @@ class GroupConfig extends Component {
       btnText: '去初始化',
       onClick: () => this.openModal(),
       text: '初始化',
-      code: 'asset_tag_project_add',
-      noAuthText: '没有任何项目',
+      // code: 'asset_tag_project_add',
+      // noAuthText: '没有任何项目',
     }
     return (
       <div className="config">

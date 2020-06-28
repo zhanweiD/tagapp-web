@@ -1,12 +1,21 @@
 import ioContext from '../../common/io-context'
-import {groupConfigApi, get, post, baseApi} from '../../common/util'
+import {baseApi, get, post, groupConfigApi} from '../../common/util'
 
 const api = {
+  // getLabel: get(`${baseApi}/personalityAnalysis/features`), // 获取基本+显著特征
+  // getAllTags: get(`${baseApi}/personalityAnalysis/allTags`), // 获取全部标签
+  // tagAnalysis: get(`${baseApi}/personalityAnalysis/tag`), // 获取单个标签分析
+  getAnalysis: get(`${baseApi}/personalityAnalysis/statistics`), // 获取特征分析
+
   getEntityList: get(`${groupConfigApi}/obj_list`), // 实体列表
-  getStatistics: get(`${baseApi}/personalityAnalysis/features`),
-  getStatistics: get(`${baseApi}/personalityAnalysis/statistics`), // 显著特征分析
+
+  getLabel: get('http://192.168.90.129:3000/mock/119/personalityAnalysis/features'), // 获取特征
+  getAllTags: get('http://192.168.90.129:3000/mock/119/personalityAnalysis/allTags'), // 获取全部标签
+  tagAnalysis: get('http://192.168.90.129:3000/mock/119/personalityAnalysis/tag'), // 获取单个标签分析
+
+  // getAnalysis: get('http://192.168.90.129:3000/mock/119/personalityAnalysis/statistics'), // 获取特征分析
 } 
 
-ioContext.create('groupConfig', api) 
+ioContext.create('unitPortrait', api) 
 
-export default ioContext.api.groupConfig
+export default ioContext.api.unitPortrait

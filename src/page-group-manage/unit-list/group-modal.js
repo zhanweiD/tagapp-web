@@ -12,15 +12,6 @@ export default class GroupModal extends Component {
   }
 
   selectContent= () => {
-    const {
-      detail, 
-      selectLoading, 
-      selectEnginesLoading,
-      selectGroupsLoading,
-      dataSource = [], 
-      dataEnginesSource = [], 
-      dataGroupData = [],
-    } = this.store
     return [{
       label: '群体名称',
       key: 'name',
@@ -29,19 +20,9 @@ export default class GroupModal extends Component {
         '@transformTrim',
         '@required',
         '@max32',
-        {validator: this.checkName},
+        // {validator: this.checkName},
       ],
     }, 
-    {
-      label: '群体标识',
-      key: 'queueName',
-      component: 'input',
-      rules: [
-        '@transformTrim',
-        '@required',
-        '@max32',
-      ],
-    },
     {
       label: '描述',
       key: 'descr',
@@ -56,6 +37,7 @@ export default class GroupModal extends Component {
     const {store} = this
     this.form.validateFields((err, values) => {
       if (!err) {
+        store.saveUnitList(values)
         store.addList(values, () => {
           this.handleCancel()
         })
@@ -68,15 +50,7 @@ export default class GroupModal extends Component {
   }
 
   checkName = (rule, value, callback) => {
-    const params = {
-      name: value,
-    }
-
-    if (this.store.id) {
-      params.id = this.store.id
-    }
-
-    this.store.checkName(params, callback)
+    this.store.groupCheckName(value, callback)
   }
 
   render() {

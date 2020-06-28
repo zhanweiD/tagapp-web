@@ -38,6 +38,7 @@ export default class TabApi extends Component {
   }
 
   @action openModal = () => {
+    this.store.getTagList()
     this.store.visible = true
   }
 

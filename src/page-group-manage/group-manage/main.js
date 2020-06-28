@@ -1,19 +1,17 @@
 /**
  * @description 群体管理
  */
-import {Component, Fragment} from 'react'
+import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Popconfirm, Badge, Dropdown, Menu, Spin} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
-import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
 import {
   ListContent, NoData, OmitTooltip, AuthBox, projectProvider,
 } from '../../component'
-import storage from '../../common/nattyStorage'
 
 import search from './search'
 import ModalGroup from './modal'
@@ -37,6 +35,7 @@ class GroupManage extends Component {
     store.getGroupList()
     store.getEntityList()
   }
+  formRef = React.createRef()
   componentWillMount() {
     // const {frameChange} = this.props
     // frameChange('nav', navList)
@@ -44,11 +43,21 @@ class GroupManage extends Component {
 
   menu = record => (
     <Menu>
-      <Menu.Item>
-        <a disabled={record.status !== 1} href onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
+      {/* <Menu.Item>
+        <a href disabled={record.status !== 1} onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
       </Menu.Item>
       <Menu.Item>
-        <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
+        <a href disabled={record.status !== 1} onClick={() => this.goUnitList(record.objId, record.lastTime)}>个体列表</a>
+      </Menu.Item> */}
+      <Menu.Item>
+        <Link to={`/group/manage/${record.id}/${record.objId}`}>
+          <a href>群体分析</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+          <a href>个体列表</a>
+        </Link>
       </Menu.Item>
     </Menu>
   )
@@ -60,7 +69,7 @@ class GroupManage extends Component {
       // render: 
       // text => <a href>{text}</a>,
       render: (text, record) => (
-        <Link to={`/group/manage/${record.id}`}>
+        <Link to={`/group/manage/${record.id}/${record.objId}`}>
           <OmitTooltip maxWidth={100} text={text} />
         </Link>
       ),
@@ -102,31 +111,36 @@ class GroupManage extends Component {
     }, {
       key: 'action',
       title: '操作',
-      width: 300,
+      width: 200,
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          {/* <Fragment>
-            <Link to={`/project/${record.id}`}>群体分析</Link>
-            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>群体分析</a>
+          <Fragment>
+            <a onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <a disabled={record.status !== 1} href onClick={() => this.goUnitList(record.objId)}>个体列表</a>
+            <a href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment> */}
-          <Fragment>
-            <a disabled={record.status === 3} href>执行</a>
+          </Fragment>
+          {/* <Fragment>
+            <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment>
+          </Fragment> */}
                
           <Fragment>
-            <Popconfirm placement="topRight" title="你确定要删除该群体吗？" onConfirm={() => this.delItem(record.id)}>
-              <a disabled={record.status === 3} href>删除</a>
+            <Popconfirm 
+              placement="topRight" 
+              title="你确定要删除该群体吗？" 
+              // disabled={record.status === 3}
+              onConfirm={() => this.delItem(record.id)}
+            >
+              <a href>删除</a>
+              {/* <a disabled={record.status === 3} href>删除</a> */}
               <span className="table-action-line" />
             </Popconfirm>
           </Fragment>
@@ -148,28 +162,52 @@ class GroupManage extends Component {
 
   // 删除群体
   delItem = id => {
-    store.delList(id)
+    store.removeGroup(id)
   }
 
-  // 跳转到群体分析
-  goGroupAnalyze = id => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
+  // 群体执行
+  goPerform = record => {
+    const {mode, type, id} = record
+    if (mode === 2) {
+      store.isPerform = true
+      record.objId = record.objId.toString()
+      store.recordObj = record
+      store.isAdd = false
+      store.getTagList()
+      store.getEditIdGroup(this.childForm.setOutputTags)
+      store.drawerVisible = true
+    } else if (mode === 1) {
+      if (type === 1) {
+        store.performGroup(id)
+      } else {
+        store.getGroupList()
+      }
+    }
   }
+
+  // // 跳转到群体分析
+  // goGroupAnalyze = id => {
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
+  // }
   
-  // 跳转到个体列表
-  goUnitList = id => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}`
-  }
+  // // 跳转到个体列表
+  // goUnitList = (id, lastTime) => {
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}/${lastTime}`
+  // }
 
   // 跳转到群体编辑
   goGroupEdit = record => {
     store.isAdd = false
     const {mode, id, type} = record
     if (mode === 2) {
-      store.drawerVisible = true
+      record.objId = record.objId.toString()
       store.recordObj = record
-      console.log(record)
+      store.uploadData = true
+      store.getTagList()
+      store.getEditIdGroup(this.childForm.setOutputTags)
+      store.drawerVisible = true
     } else {
+      // store.getEditGroup()
       window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
     }
   }
@@ -191,14 +229,6 @@ class GroupManage extends Component {
     const {
       list, tableLoading, searchParams, projectId,
     } = store
-
-    const noDataConfig = {
-      btnText: '新建群体',
-      onClick: () => this.openModal(),
-      text: '没有任何群体，请在当前页面创建群体！',
-      code: 'asset_tag_project_add',
-      noAuthText: '没有任何群体',
-    }
 
     const listConfig = {
       projectId,
@@ -224,13 +254,11 @@ class GroupManage extends Component {
               </Spin>
             </div>
           ) : (
-            <NoData
-              {...noDataConfig}
-            />
+            <NoData />
           )
         }
         <ModalGroup store={store} />
-        <IdCreate store={store} />
+        <IdCreate onRef={ref => this.childForm = ref} store={store} />
       </div>
     )
   }

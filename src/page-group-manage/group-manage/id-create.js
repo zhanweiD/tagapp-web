@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
-import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message} from 'antd'
+import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message, Alert} from 'antd'
 
 import {errorTip, baseApi, get, post} from '../../common/util'
 
@@ -16,16 +16,23 @@ export default class IdCreate extends Component {
     super(props)
     this.store = props.store
   }
+  formRef = React.createRef()
   componentWillMount() {
     // this.store.getEntityList()
+    this.props.onRef(this)
   }
-  formRef = React.createRef()
+
+  // 设置输出标签
+  setOutputTags = value => {
+    this.formRef.current.setFieldsValue({
+      outputTags: value,
+    })
+  }
 
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
-    const {uploadList} = this.store
-    console.log(1)
-    if (uploadList.length === 0) {
+    const {uploadList, uploadData} = this.store
+    if (!uploadData) {
       callback('请上传文件')
     }
     callback()
@@ -33,13 +40,14 @@ export default class IdCreate extends Component {
 
   // 上传状态发生变化
   uploadChange = ({file, fileList}) => {
-    // fileList = fileList.slice(-1)
-    console.log(file.status)
+    if (fileList.length === 0) return
     this.store.uploadList = fileList.slice(-1)
     if (file.status !== 'uploading') {
+      this.store.uploadData = true
       this.formRef.current.validateFields(['excel'])
       if (file.response.success) {
         // 返回正确
+        this.store.fileRes = file.response.content
         this.store.modalVisible = true
       } else {
         errorTip(file.response.message)
@@ -47,55 +55,40 @@ export default class IdCreate extends Component {
     }
   }
 
-  @action removeFile() {
-    // this.store.nextDisabled = true
-    console.log(1)
-  }
-
   @action beforeUpload = file => {
     const isLt10M = file.size / 1024 / 1024 < 100
     if (!isLt10M) {
       errorTip('文件不能大于100MB!')
     }
-    // this.store.uploadData.fileData = file
     return isLt10M
   }
 
   @action checkName = (rule, value, callback) => {
     this.store.recheckName(value, callback)
   }
-  
-  @action handleCancel = () => {
-    this.store.drawerVisible = false
-    this.store.recordObj = {}
-    this.store.uploadList = []
-  }
 
   @action onOK = () => {
     this.form = this.formRef.current
-    const {isAdd, mode, type} = this.store
+    const {isAdd, mode, type, fileRes, recordObj} = this.store
     this.formRef.current.validateFields().then(value => {
+      this.store.confirmLoading = true
       value.outputTags = value.outputTags.toString()
       value.objId = parseInt(value.objId)
-      value.mode = mode
-      value.type = type
+      value.mode = mode || recordObj.mode
+      value.type = type || recordObj.type
+      value.importKey = fileRes.importKey || ''
       if (isAdd) {
-        this.store.addGroup(value)
+        this.store.addIdGroup(value)
       } else {
-        this.store.editGroup(value)
+        this.store.editIdGroup(value)
       }
-      console.log(value)
-      this.store.drawerVisible = false
-      this.store.recordObj = {}
-      this.store.uploadList = []
+      // this.handleCancel()
     }).catch(err => {
+      this.store.confirmLoading = false
       errorTip(err)
     })
   }
 
-  @action onUpload = () => {
-    this.store.modalVisible = false
-  }
   @action uploadCancel = () => {
     this.store.modalVisible = false
   }
@@ -115,6 +108,11 @@ export default class IdCreate extends Component {
       uploadList,
       projectId,
       objId,
+      fileRes,
+      isAdd,
+      isPerform,
+      confirmLoading,
+      handleCancel,
     } = this.store
 
     const props = {
@@ -127,7 +125,6 @@ export default class IdCreate extends Component {
         objId,
       }),
       fileList: uploadList,
-      // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
       action: `${baseApi}/import/import_id_collection`,
       onChange: this.uploadChange,
       // onRemove: file => this.removeFile(file),
@@ -142,11 +139,11 @@ export default class IdCreate extends Component {
       closable: true,
       width: 600,
       destroyOnClose: true,
-      onClose: this.handleCancel,
+      onClose: handleCancel,
       footer: (
         <div className="drawer-footer">
-          <Button onClick={this.handleCancel}>取消</Button>
-          <Button type="primary" className="footer-btn" onClick={this.onOK}>确定</Button>
+          <Button onClick={handleCancel}>取消</Button>
+          <Button loading={confirmLoading} type="primary" className="footer-btn" onClick={this.onOK}>确定</Button>
         </div>
       ),
     }
@@ -170,45 +167,48 @@ export default class IdCreate extends Component {
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">
+          {
+            isPerform ? (
+              <Alert style={{marginBottom: '16px'}} message="请重新上传文件" type="info" showIcon />
+            ) : null
+          }
           <Form 
             {...formItemLayout} 
             ref={this.formRef} 
             labelAlign="right"
-            initialValues={{
-              objName: recordObj.objName,
-              name: recordObj.name,
-              descr: recordObj.descr,
-            }}
           >
             <Item
               name="objId"
               label="所属实体"
+              initialValue={recordObj.objId}
               rules={[
                 {required: true, message: '请选择实体'},
               ]}
             >
-              <Select placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
+              <Select disabled={!isAdd || isPerform} placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
                 {entityOptions}
               </Select>
             </Item>
             <Item
               name="name"
               label="群体名称"
+              initialValue={recordObj.name}
               rules={[
                 {required: true, message: '请输入名称'},
                 {validator: this.checkName},
               ]}
             >
-              <Input placeholder="请输入名称" />
+              <Input disabled={!isAdd || isPerform} placeholder="请输入名称" />
             </Item>
             
             <Item
               label="描述"
               name="descr"
+              initialValue={recordObj.descr}
               rules={[
               ]}
             >
-              <TextArea style={{minHeight: '8em'}} placeholder="请输入" />
+              <TextArea disabled={isPerform} style={{minHeight: '8em'}} placeholder="请输入" />
             </Item>
             <Item
               label="上传"
@@ -244,15 +244,14 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select placeholder="请选择标签" mode="multiple">
+              <Select disabled={isPerform} placeholder="请选择标签" mode="multiple">
                 {tagOptions}
               </Select>
             </Item>
           </Form>
-          
         </Drawer>
         <Modal {...modalConfig}>
-          <p style={{marginTop: '1em'}}>{`总记录${2340}条，重复记录${3}条，入库记录数${2337}条`}</p>
+          <p style={{marginTop: '1em'}}>{`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条`}</p>
         </Modal>
       </Fragment>
     )

@@ -37,34 +37,25 @@ class EModal extends Component {
     return false
   }
 
-  @action modalCancel = () => {
-    this.store.entityVisible = false
-    this.store.uploadLoading = false
-    this.store.imageUrl = null
-    this.store.detail = {}
-    this.form.resetFields()
-  }
-
   submit = () => {
     const {store} = this
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
+      values.objId = parseInt(values.objId) 
       values.basicFeatureTag = values.basicFeatureTag.toString()
       values.markedFeatureTag = values.markedFeatureTag.toString()
-      console.log(values)
       if (!err) {
-        const data = {
-          ...values,
-        }
+        store.confirmLoading = true
         // 编辑 
         if (store.modalType === 'edit') {
-          const params = {objId: store.detail.objId, ...data}
-          store.editEntity(params)
+          store.editEntity(values)
         } else {
           // 新增
-          store.addEntity(data)
+          store.addEntity(values)
         }
-        this.modalCancel()
+      } else {
+        store.confirmLoading = false
+        errorTip(err)
       }
     })
   }
@@ -83,13 +74,13 @@ class EModal extends Component {
       entityList,
       tagList,
       detail,
-      optionKey,
+      modalCancel,
     } = this.store
     const {getFieldDecorator} = this.form
     const modalConfig = {
       title: modalType === 'edit' ? '编辑实体' : '添加实体',
       visible: entityVisible,
-      onCancel: this.modalCancel,
+      onCancel: modalCancel,
       onOk: this.submit,
       maskClosable: false,
       width: 525,
@@ -98,8 +89,8 @@ class EModal extends Component {
     }
 
     const formItemLayout = {
-      labelCol: {span: 6},
-      wrapperCol: {span: 16},
+      labelCol: {span: 4},
+      wrapperCol: {span: 20},
     }
 
     const uploadButton = (
@@ -140,7 +131,6 @@ class EModal extends Component {
               <Select
                 mode="multiple"
                 placeholder="请选择实体下的标签"
-                // defaultValue={detail.basicFeatureTag}
               >
                 {tagList}
               </Select>
@@ -160,7 +150,6 @@ class EModal extends Component {
               <Select
                 mode="multiple"
                 placeholder="请选择实体下的标签"
-                // defaultValue={detail.markedFeatureTag}
               >
                 {tagList}
               </Select>
