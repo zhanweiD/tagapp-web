@@ -1,6 +1,5 @@
 const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
-
 const colors = [
   'rgba(0,197,122, 0.6)', 
   'rgba(10,192,220, 0.6)', 
@@ -42,7 +41,7 @@ export const roportionOpt = data => {
             position: 'center',
             textStyle: {
               fontSize: 14,
-              // fontWeight: 'bold',
+              color: 'rgba(0, 0, 0, 0.45)',
             },
             formatter: `${percent}%`,
           },
@@ -59,26 +58,15 @@ export const roportionOpt = data => {
 export const pieOpt = info => {
   const data = info.xy
 
-  // const legendData = data.map(d => d.x)
   const renderData = data.map(d => ({
     name: d.x,
     value: d.y1,
   }))
-  console.log(getColors(data.length))
+
   return {
-    // tooltip: {
-    //   trigger: 'item',
-    //   formatter: '{a} <br/>{b}: {c} ({d}%)',
-    // },
-    // legend: {
-    //   orient: 'vertical',
-    //   left: 10,
-    //   data: legendData,
-    // },
     color: getColors(data.length),
     series: [
       {
-        // name: '访问来源',
         type: 'pie',
         radius: ['50%', '70%'],
         // avoidLabelOverlap: true,
@@ -109,9 +97,17 @@ export const barOpt = data => {
   const yAxisData = data.xy.map(d => d.y1)
 
   return {
+    // grid: {
+    //   left: 50,
+    //   top: 10,
+    // },
+
     grid: {
-      left: 50,
-      top: 10,
+      top: 20,
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
     },
     color: ['#3899FF'],
     xAxis: {
@@ -155,12 +151,11 @@ export const barOpt = data => {
 }
 
 export const acrossBarOpt = data => {
-  console.log(data)
+  const xAxisData = data.xy.map(d => d.y1)
+  const yAxisData = data.xy.map(d => d.x)
+
   return {
-    // title: {
-    //   text: '世界人口总量',
-    //   subtext: '数据来自网络',
-    // },
+    color: colors,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -175,33 +170,75 @@ export const acrossBarOpt = data => {
     },
     xAxis: {
       type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#E9E9E9',
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: nameTextStyleColor,
+        },
+      },
     },
     yAxis: {
       type: 'category',
-      data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+      data: yAxisData,
+      axisLine: {
+        lineStyle: {
+          color: '#E9E9E9',
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: nameTextStyleColor,
+        },
+      },
     },
     series: [
       {
-        name: '2011年',
         type: 'bar',
-        data: [18203, 23489, 29034, 104970, 131744, 630230],
+        data: xAxisData,
       },
     ],
   }
 }
 
 export const lineOpt = data => {
-  console.log(data)
+  const xAxisData = data.xy.map(d => d.x)
+  const yAxisData = data.xy.map(d => d.y1)
+
   return {
+    color: colors,
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: xAxisData,
+      axisLine: {
+        lineStyle: {
+          color: '#E9E9E9',
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: nameTextStyleColor,
+        },
+      },
     },
     yAxis: {
       type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#E9E9E9',
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: nameTextStyleColor,
+        },
+      },
     },
     series: [{
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      data: yAxisData,
       type: 'line',
     }],
   }

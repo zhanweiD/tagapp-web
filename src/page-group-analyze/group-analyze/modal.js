@@ -15,12 +15,12 @@ class ModalAdd extends React.Component {
   }
 
   @observable type = 0 // 0 文本 1 枚举 2 数值 3 日期
+  @observable tagId
 
   @action.bound handleOk() {
     this.formRef.current
       .validateFields()
       .then(values => {
-        // this.formRef.current.resetFields()
         this.props.add(values) 
       })
       .catch(info => {
@@ -30,6 +30,9 @@ class ModalAdd extends React.Component {
 
   @action.bound handleCancel() {
     this.store.modalVis = false
+    this.store.modalEditInfo = {}
+    this.tagId = undefined
+    this.type = 0
   }
 
   @action.bound onSelect(e) {
@@ -38,13 +41,17 @@ class ModalAdd extends React.Component {
     const obj = tagList.filter(d => d.tagId === e)[0]
 
     this.type = obj.type
+    this.tagId = e
   }
 
   render() {
-    const {modalVis, tagList} = this.store
+    const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
+
+    const typeList = chartTypeList[+this.tagId] || []
+
     return (
       <Modal
-        title="添加分析维度"
+        title={modalEditInfo.type === 'edit' ? '编辑分析维度' : '添加分析维度'}
         visible={modalVis}
         onCancel={this.handleCancel}
         onOk={this.handleOk}
@@ -57,7 +64,9 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="标签" 
             name="tagId"
-            rules={[{required: true, message: '请选择标签'}]}
+            // rules={[{required: true, message: '请选择标签'}]}
+            initialValue={modalEditInfo.tagId}
+
           >
             <Select
               showSearch
@@ -77,7 +86,7 @@ class ModalAdd extends React.Component {
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue="3"
+                initialValue={modalEditInfo.groupType || '3'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -93,7 +102,7 @@ class ModalAdd extends React.Component {
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue="0"
+                initialValue={modalEditInfo.groupType || '0'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -108,22 +117,22 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="图标" 
             name="chartType"
-            initialValue="bar"
+            initialValue={modalEditInfo.chartType || 'bar'}
             rules={[{required: true, message: '请选择图标'}]}
           >
             <Radio.Group>
-              <Radio value="bar">柱状图</Radio>
+              <Radio value="bar" disabled={typeList.includes('bar')}>柱状图</Radio>
 
               {
                 this.type !== 3 ? (
                   <Fragment>
-                    <Radio value="loop">环形图</Radio>
-                    <Radio value="acrossBar">条形图</Radio>
+                    <Radio value="loop" disabled={typeList.includes('loop')}>环形图</Radio>
+                    <Radio value="acrossBar" disabled={typeList.includes('acrossBar')}>条形图</Radio>
                     {/* <Radio value="pie">环形图</Radio> */}
                   </Fragment>
                 ) : null
               }
-              <Radio value="line">折线图</Radio>
+              <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio>
             </Radio.Group>
           </Form.Item>
         </Form>

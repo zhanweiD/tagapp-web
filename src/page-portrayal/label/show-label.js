@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {Tabs} from 'antd'
-import {action, observe} from 'mobx'
+import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 
 import AnalyzeTab from './analyze-tab'
@@ -14,22 +14,21 @@ export default class ShowLabel extends Component {
     super(props)
     this.store = props.store
   }
-  conponentWillMount() {
-
-  }
-  @action tabSwitch = value => {
+  
+  @action.bound tabSwitch(value) {
     this.store.allLabels = []
+    
     if (value === '2') {
       this.store.getAllTags()
     } else {
       this.store.getLabel()
     }
-    this.store.nowTab = value    
   } 
+
   render() {
     return (
       <Fragment>
-        <Tabs defaultActiveKey="1" onChange={value => this.tabSwitch(value)} className="label-tab">
+        <Tabs defaultActiveKey="1" onChange={this.tabSwitch} className="label-tab">
           <TabPane tab="标签分析" key="1" className="fz14">
             <AnalyzeTab />
           </TabPane>

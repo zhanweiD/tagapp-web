@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import {Select, Input, Form} from 'antd'
 // import {Form} from '@ant-design/compatible'
-import {IconDel} from '../../icon-comp'
+import {IconDel, IconTreeAdd} from '../../icon-comp'
 // import '@ant-design/compatible/assets/index.css'
 
 const {Option} = Select
@@ -110,14 +110,14 @@ export default class RuleItem extends Component {
     const {
       pos = [], 
       delCon, 
-      // funcList = [], 
       tagList = [],
-      // form: {
-      //   getFieldDecorator,
-      // },
       info,
       type,
-      key,
+      flag,
+      addCombineCon,
+      addCombineItem,
+      ruleIfBoxKey,
+      ...rest
     } = this.props
 
     const posStyle = {
@@ -125,20 +125,19 @@ export default class RuleItem extends Component {
       top: pos[1],
     }
 
-    const {level} = info
+    const levelEnd = rest.level[rest.level.length - 1]
 
-    const {leftFunction, typeList, leftTagId} = this.state
-
-    const tags = leftFunction === 'count' ? tagList.filter(d => d.objMainTag === 1) : tagList.filter(d => typeList.includes(d.tagType))
+    // const {leftFunction, typeList, leftTagId} = this.state
+    console.log(`${ruleIfBoxKey}-${flag}`)
+    const key = `${ruleIfBoxKey}-${flag}`
+    //  const tags = leftFunction === 'count' ? tagList.filter(d => d.objMainTag === 1) : tagList.filter(d => typeList.includes(d.tagType))
     return (  
       <div className="rule-item" style={posStyle}>
-        <Form
-          name={key}
-          {...formItemLayout}
-        > 
+        <Form.Item 
+          key={key}
+        >
           <Input.Group compact>
             <FormItem
-              // {...formItemLayout}
               label={null}
               name={[key, 'leftFunction']}
               rules={[{required: true, message: '请选择函数'}]}
@@ -148,7 +147,7 @@ export default class RuleItem extends Component {
                 style={{width: 100}}
                 optionFilterProp="children"
                 placeholder="选择函数"
-                // onSelect={onSelect} 
+              // onSelect={onSelect} 
               >
                 {
                   true
@@ -159,10 +158,9 @@ export default class RuleItem extends Component {
               </Select>
             </FormItem>
             <FormItem
-              // {...formItemLayout}
               label={null}
               name={[key, 'leftTagId']}
-              rules={[{required: true, message: '请选择标签'}]}
+            // rules={[{required: true, message: '请选择标签'}]}
             >
               <Select 
                 showSearch
@@ -180,9 +178,7 @@ export default class RuleItem extends Component {
               </Select>
             </FormItem>
             <FormItem
-              // {...formItemLayout}
               label={null}
-              // initialValue={leftTagId}
               name={[key, 'comparision']}
             >
               <Select 
@@ -197,7 +193,6 @@ export default class RuleItem extends Component {
               </Select>
             </FormItem>
             <FormItem
-              // {...formItemLayout}
               label={null}
               name={[key, 'rightFunction']}
             >
@@ -207,24 +202,35 @@ export default class RuleItem extends Component {
             </FormItem>
 
             <FormItem
-              // {...formItemLayout}
               label={null}
-              name="rightParams"
+              name={[key, 'rightParams']}
               rules={[{required: true, message: '不能为空'}]}
             >
               <Input placeholder="请输入" style={{width: 120}} />
             </FormItem>
-            <FormItem>
-              {/* <IconDel size="16" className="rule-item-action" onClick={del} style={{right: '0px'}} /> */}
-              {/* <Button onClick={add}>➕</Button> */}
+
+            <FormItem label={null}>
+              <div className="FBH fs14" style={{color: '#919eab'}}>
+                {
+
+                  rest.level.length === 1 ? null : rest.level.length === 3 
+                    ? <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> 
+
+                    : <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" />
+
+                }
+
+                {
+                  levelEnd === 0 || levelEnd === 1 ? null : <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} />
+                }
+              </div>
+            
             </FormItem>
+          
           </Input.Group>
-        </Form>
        
-        {
-          level[level.length - 1] > 0 && type !== 'detail' ? <IconDel size="16" className="rule-item-action" onClick={() => delCon()} style={{right: '0px'}} /> : null
-        }
-       
+        </Form.Item>
+        
       </div>
     )
   }

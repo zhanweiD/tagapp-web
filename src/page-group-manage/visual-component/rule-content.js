@@ -59,72 +59,9 @@ export default class RuleContent extends Component {
     })
   }
 
-  addGroupItem = (info, cb) => {
-    
-  }
-
-  // addGroupItem = (info, cb) => {
-  //   const {index, type} = info
-  //   const {renderData} = this.state
-  //   const current = _.cloneDeep(renderData)
-
-  //   const len = current[index][type].length
-
-  //   const obj = {
-  //     flag: [index, len].join('-'),
-  //     level: [index, len],
-  //     logic: 1,
-  //   }
-
-  //   if (len === 1) {
-  //     const conObj = {
-  //       flag: '0-0',
-  //       level: [0, 0],
-  //       logic: 1,
-  //       first: '0-0',
-  //       end: '0-1',
-  //     }
-  //     current[index].entityCon.push(conObj)
-  //   }
-
-  //   current[index][type].push(obj)
-
-  //   this.setState({
-  //     renderData: current,
-  //   }, () => {
-  //     this.refreshLineH(current)
-  //     cb()
-  //   })
-  // }
-
-  // delGroupItem = (info, cb) => {
-  //   const {index, type} = info
-  //   const {renderData} = this.state
-  //   const current = _.cloneDeep(renderData)
-
-  //   const len = current[index][type].length
-
-  //   if (len === 1) {
-  //     current[index][type] = []
-  //   } 
-
-  //   if (len === 2) {
-  //     current[index][type] = []
-  //     current[index][`${type}Con`] = []
-  //   }
-
-  //   this.setState({
-  //     renderData: current,
-  //   }, () => {
-  //     this.refreshLineH(current)
-  //     cb()
-  //   })
-  // }
-
   render() {
     const {firstConditionH, firstConditionT, renderData} = this.state
 
-    console.log(this.height1, this.height2)
     return (
       <div>
         <div className="mb24">
@@ -140,8 +77,9 @@ export default class RuleContent extends Component {
                 {...d} 
                 index={i} 
                 showLine={renderData.length > 1}
-                // addGroupItem={this.addGroupItem}
-                // delGroupItem={this.delGroupItem}
+                refreshLineH={() => this.refreshLineH(renderData)}
+                formRef={this.props.formRef}
+                changeCondition={this.props.changeCondition}
               />
             ))
           }

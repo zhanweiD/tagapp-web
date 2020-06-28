@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-// import {Tooltip} from 'antd'
-// import {action, observe} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import * as d3 from 'd3'
 import {Progress} from 'antd'
@@ -13,68 +11,6 @@ const width = 700
 
 const colors = ['#00D5AF', '#00BAF7', '#2096FF']
 
-const dataset = {
-  nodes: [
-    {id: 0, name: '是够买保险：有保险'},
-    {id: 1, name: '是够买保险：有保险'},
-    {id: 2, name: '是够买保险：有保险'},
-    {id: 3, name: '是够买保险：有保险'},
-    {id: 4, name: '是够买保险：有保险'},
-    {id: 5, name: '是够买保险：有保险'},
-    {id: 6, name: '很长很长很长很长很长很长很长很长很长很长很长很长'},
-    {id: 7, name: '1'},
-    {id: 8, name: '1'},
-    {id: 9, name: '1'},
-    {id: 10, name: '1'},
-    {id: 11, name: '1'},
-    {id: 12, name: '1'},
-    {id: 13, name: '1'},
-    {id: 14, name: '1'},
-    {id: 15, name: '1'},
-    {id: 16, name: '1'},
-    {id: 17, name: '1'},
-    {id: 18, name: '1'},
-    {id: 19, name: '1'},
-    {id: 20, name: '1'},
-    // {id: 7, name: ''},
-    // {id: 8, name: ''},
-    // {id: 9, name: ''},
-    // {id: 10, name: ''},
-    // {id: 11, name: ''},
-    // {id: 12, name: ''},
-    // {id: 13, name: ''},
-    // {id: 14, name: ''},
-    // {id: 15, name: ''},
-    // {id: 16, name: ''},
-    // {id: 17, name: ''},
-    // {id: 18, name: ''},
-    // {id: 19, name: ''},
-    // {id: 20, name: ''},
-  ],
-  links: [
-    {id: 1, source: 1, target: 0},
-    {id: 2, source: 2, target: 0},
-    {id: 3, source: 3, target: 0},
-    {id: 4, source: 4, target: 0},
-    {id: 5, source: 5, target: 0},
-    {id: 6, source: 6, target: 0},
-    {id: 7, source: 7, target: 0},
-    {id: 8, source: 8, target: 0},
-    {id: 9, source: 9, target: 0},
-    {id: 10, source: 0, target: 0},
-    {id: 11, source: 11, target: 0},
-    {id: 12, source: 12, target: 0},
-    {id: 13, source: 13, target: 0},
-    {id: 14, source: 14, target: 0},
-    {id: 15, source: 15, target: 0},
-    {id: 16, source: 16, target: 0},
-    {id: 17, source: 17, target: 0},
-    {id: 18, source: 18, target: 0},
-    {id: 19, source: 19, target: 0},
-    {id: 20, source: 20, target: 0},
-  ],
-}
-
 @inject('store')
 @observer
 export default class AnalyzeTab extends Component {
@@ -84,14 +20,14 @@ export default class AnalyzeTab extends Component {
   }
   
   componentDidMount() {
-    this.store.getStatistics()
- 
-    this.draw()
+    this.store.getAnalysis()
+    this.store.getMarkedFeature(data => {
+      this.draw(data)
+    })
   }
 
-  draw = () => {
-    const {nodes, links} = dataset
-
+  draw = data => {
+    const {nodes, links} = data
     this.pic = d3.select('#pic')
 
     const simulation = d3.forceSimulation()
@@ -125,7 +61,6 @@ export default class AnalyzeTab extends Component {
       })
       .attr('transform', (d, i) => {
         if (i === 0) {
-          console.log(d.x, d.y, this.pic)
           this.pic
             .style('top', `${d.y}px`)
             .style('left', `${d.x}px`)

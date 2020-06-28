@@ -12,7 +12,7 @@ export default class Page extends Component {
       <Router>
         <Frame page="space">
           <Switch>
-            <Route exact path="/group-analyze" component={GroupAnalyze} />
+            <Route exact path="/group-analyze/:groupId?/:time?" component={GroupAnalyze} />
             <Route
               render={() => {
                 window.location.href = '/404'
