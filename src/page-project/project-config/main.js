@@ -19,12 +19,12 @@ import store from './store'
 // 面包屑设置
 // eslint-disable-next-line no-underscore-dangle
 
-const navList = [
-  navListMap.tagCenter,
-  navListMap.common,
-  navListMap.project,
-  navListMap.projectConfig,
-]
+// const navList = [
+//   navListMap.tagCenter,
+//   navListMap.common,
+//   navListMap.project,
+//   navListMap.projectConfig,
+// ]
 
 const tabs = [
   {name: '人员管理', value: 0}, 
@@ -33,7 +33,7 @@ const tabs = [
   // {name: '资源组', value: 3},
 ]
 
-@inject('frameChange')
+// @inject('frameChange')
 @observer
 class ProjectConfig extends Component {
   constructor(props) {
@@ -45,9 +45,9 @@ class ProjectConfig extends Component {
   @observable tabId = 0 // 当前详情tabID 
 
   componentWillMount() {
-    // 面包屑设置
-    const {frameChange} = this.props
-    frameChange('nav', navList)
+    // // 面包屑设置
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
     if (store.projectId) {
       store.getDetail()
       store.getAuthCode()

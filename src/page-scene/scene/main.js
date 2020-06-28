@@ -15,25 +15,24 @@ import store from './store'
 
 const {confirm} = Modal
 
-const navList = [
-  navListMap.tagCenter,
-  navListMap.application,
-  {text: navListMap.scene.text},
-]
+// const navList = [
+//   navListMap.tagCenter,
+//   navListMap.application,
+//   {text: navListMap.scene.text},
+// ]
 
-@inject('frameChange')
+// @inject('frameChange')
 @observer
 class Scene extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
   }
 
   componentWillMount() {
-    // 面包屑设置
-    const {frameChange} = this.props
-    frameChange('nav', navList)
+    // // 面包屑设置
+    // const {frameChange} = this.props
+    // frameChange('nav', navList)
     
     if (store.projectId) {
       store.getList()

@@ -18,8 +18,7 @@ const {TabPane} = Tabs
 class DataSearch extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
   }
 
   render() {
@@ -27,16 +26,20 @@ class DataSearch extends Component {
       isInit,
     } = store
 
+    const {
+      projectId,
+    } = this.props
+
     return (
       <div className="data-search">
         {
           isInit ? (
             <Tabs defaultActiveKey="1" type="card" className="bgf">
               <TabPane tab="可视化方式" key="1">
-                <Visual />
+                <Visual projectId={projectId} />
               </TabPane>
               <TabPane tab="TQL方式" key="2">
-                <Tql />
+                <Tql projectId={projectId} />
               </TabPane>
             </Tabs>
           ) : (

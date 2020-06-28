@@ -19,8 +19,7 @@ const {confirm} = Modal
 class MySearch extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
   }
   
   searchType
