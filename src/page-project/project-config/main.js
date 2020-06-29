@@ -38,8 +38,7 @@ const tabs = [
 class ProjectConfig extends Component {
   constructor(props) {
     super(props)
-    const {match} = props
-    store.projectId = match.params.projectId // 项目id
+    store.projectId = props.projectId
   }
 
   @observable tabId = 0 // 当前详情tabID 

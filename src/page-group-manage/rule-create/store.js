@@ -51,8 +51,6 @@ class Store {
     },
   ] // 数据源 
 
-  @observable logic = {}
-
   // 第一步 设置基础信息
   @observable entityList = []
   @observable objId

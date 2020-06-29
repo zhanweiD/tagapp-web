@@ -4,7 +4,7 @@
 # 打 提测包
 # eg: sh ./deploy.sh tag_name
 
-package_name="asset-tag"
+package_name="tag-app"
 # 打包命令
 npm run build
 

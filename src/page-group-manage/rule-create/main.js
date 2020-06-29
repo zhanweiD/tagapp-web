@@ -17,8 +17,7 @@ const dateFormat = 'YYYY/MM/DD'
 export default class RuleCreate extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
     const {match: {params}} = props
     
     store.type = +params.type

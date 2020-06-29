@@ -10,7 +10,7 @@ export default class Page extends Component {
   render() {
     return (
       <Router>
-        <Frame page="space">
+        <Frame page="space" roductCode="stream" theme="ocean" logoText="数据开发" showAllProduct showSider showHeaderNav showProject>
           <Switch>
             <Route exact path="/group-analyze/:groupId?/:time?" component={GroupAnalyze} />
             <Route
