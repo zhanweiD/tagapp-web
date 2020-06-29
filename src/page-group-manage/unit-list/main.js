@@ -15,8 +15,7 @@ import store from './store'
 class UnitList extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
 
     const {match: {params}} = props
     store.id = params.id

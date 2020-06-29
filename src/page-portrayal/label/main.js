@@ -20,8 +20,7 @@ const {Sider, Content} = Layout
 class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
 
     const {match: {params}} = props
     if (params.objId) {

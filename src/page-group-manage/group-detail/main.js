@@ -2,7 +2,6 @@ import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Tabs, Button, Spin, Alert} from 'antd'
-import {EditOutlined} from '@ant-design/icons' 
 
 import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
@@ -32,8 +31,7 @@ export default class GroupDetail extends Component {
 
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
+    store.projectId = props.projectId
 
     const {match: {params}} = props
     store.id = parseInt(params.id) 

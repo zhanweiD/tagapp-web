@@ -6,7 +6,6 @@ import {
 
 import Frame from '../frame'
 import PortrayalLabel from './label'
-import Pie from './pie'
 import './main.styl'
 @observer
 export default class Page extends Component {
@@ -17,7 +16,6 @@ export default class Page extends Component {
           <Switch>
             <Route exact path="/portrayal" component={PortrayalLabel} />
             <Route exact path="/portrayal/:objId/:mainLabel" component={PortrayalLabel} />
-            <Route exact path="/portrayal/pie" component={Pie} />
             <Route
               render={() => {
                 window.location.href = '/404'

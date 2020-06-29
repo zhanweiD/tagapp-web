@@ -113,6 +113,8 @@ export default class ListContent extends Component {
 
   renderBtn() {
     const {buttons} = this.props
+    console.log(buttons)
+
     if ((!buttons || buttons.length === 0)) {
       // 如果没有，则返回
       return null
