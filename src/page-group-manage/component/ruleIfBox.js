@@ -63,7 +63,7 @@ export default class RuleIfBox extends Component {
 
   renderRuleCondition = () => {
     const {data} = this.state
-    const {type, ruleIfBoxKey} = this.props
+    const {type} = this.props
 
     return data.map((d, i) => {
       if (d.type === 1) {
@@ -84,21 +84,21 @@ export default class RuleIfBox extends Component {
 
   renderRuleItem = () => {
     const {data} = this.state
-    const {type} = this.props
+    // const {type} = this.props
     
     const {
       // funcList, 
       tagList,
       ruleIfBoxKey,
     } = this.props
-    console.log(this.props)
+
     return (
       data.map((d, i) => {
         if (d.type === 2) {
           return (
             <RuleItem 
               ruleIfBoxKey={ruleIfBoxKey}
-              key={`ruleItem${d.flag}`} 
+              key={`ruleItem${ruleIfBoxKey}-${d.flag}`}  
               pos={[d.x, d.y]} 
               delCon={() => this.delCon(d, i)}
               addCombineCon={() => this.addCombineCon(d, i)}
@@ -145,31 +145,11 @@ export default class RuleIfBox extends Component {
 
   // 添加条件
   addCon = (d, i) => {
-    const data = _.cloneDeep(this.state.data)
+    let data = _.cloneDeep(this.state.data)
     const len = data.length
 
     if (len === 1) {
-      data[0] = {
-        type: 2,
-        flag: '0-0',
-        level: [0, 0],
-        x: 88,
-        y: 0,
-        source: [22, 48],
-        target: [88, 16],
-      }
-
-      const newItem = {
-        type: 2,
-        flag: '0-1',
-        level: [0, 1],
-        x: 88,
-        y: 64,
-        source: [22, 48],
-        target: [88, 80],
-      }
-
-      const firstAction = {
+      data = [{
         type: 1,
         flag: '0',
         level: [0],
@@ -177,10 +157,23 @@ export default class RuleIfBox extends Component {
         y: 32,
         source: null,
         target: null,
-      }
-
-      data.push(firstAction)
-      data.push(newItem)
+      }, {
+        type: 2,
+        flag: '0-0',
+        level: [0, 0],
+        x: 88,
+        y: 0,
+        source: [22, 48],
+        target: [88, 16],
+      }, {
+        type: 2,
+        flag: '0-1',
+        level: [0, 1],
+        x: 88,
+        y: 64,
+        source: [22, 48],
+        target: [88, 80],
+      }]
     } else {
       const itemArr = data.filter(item => item.type === 2)  
       const levelTwoArr = data.filter(item => item.level.length === 2)  
@@ -198,11 +191,10 @@ export default class RuleIfBox extends Component {
         source: [22, lastItem.y + 16],
         target: [88, itemArr.length * 64 + 16],
       }
-      
+
       data.push(newItem)
     }
-
-
+ 
     this.setState({data}, () => {
       this.refreshLineH(data)
     })
@@ -258,7 +250,7 @@ export default class RuleIfBox extends Component {
     newData.push(newItem)
 
     this.setState({data: newData}, () => {
-      this.refreshLineH(data)()
+      this.refreshLineH(newData)
     })
   }
 
@@ -323,9 +315,8 @@ export default class RuleIfBox extends Component {
     newData.push(updateItem)
     newData.push(newChildrenItem)
 
-   
     this.setState({data: newData}, () => {
-      this.refreshLineH(data)()
+      this.refreshLineH(newData)
     })
   }
 

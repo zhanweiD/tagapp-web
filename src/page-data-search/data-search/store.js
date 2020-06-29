@@ -10,7 +10,7 @@ class Store {
   @observable loading = false
 
   // 初始化
-  @observable isInit = true
+  @observable isInit = false
   @observable visibleInit = false
   @observable storageType = []
   @observable storageList = []

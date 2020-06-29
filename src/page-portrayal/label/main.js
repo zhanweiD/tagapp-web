@@ -14,16 +14,16 @@ import store from './store'
 import DetailSidebar from './detail-sidebar'
 import ShowLabel from './show-label'
 
-const {Option} = Select
+// const {Option} = Select
 const {Sider, Content} = Layout
 @observer
 class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-
+    
     const {match: {params}} = props
-    if (params.objId) {
+    if (params && params.objId) {
       store.mainLabel = params.mainLabel
       store.objId = params.objId.toString()
     }

@@ -23,7 +23,7 @@ module.exports = {
     compress: true,
     inline: true,
     hot: true,
-    port: '9995',
+    port: '9992',
     host: '0.0.0.0',
     disableHostCheck: true,
     headers: {
@@ -39,7 +39,6 @@ module.exports = {
     ],
     quiet: true,
     overlay: true,
-    disableHostCheck: true,
   },
   entry: './src/index',
   output: {

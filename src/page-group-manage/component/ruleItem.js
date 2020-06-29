@@ -111,8 +111,6 @@ export default class RuleItem extends Component {
       pos = [], 
       delCon, 
       tagList = [],
-      info,
-      type,
       flag,
       addCombineCon,
       addCombineItem,
@@ -128,7 +126,7 @@ export default class RuleItem extends Component {
     const levelEnd = rest.level[rest.level.length - 1]
 
     // const {leftFunction, typeList, leftTagId} = this.state
-    console.log(`${ruleIfBoxKey}-${flag}`)
+  
     const key = `${ruleIfBoxKey}-${flag}`
     //  const tags = leftFunction === 'count' ? tagList.filter(d => d.objMainTag === 1) : tagList.filter(d => typeList.includes(d.tagType))
     return (  

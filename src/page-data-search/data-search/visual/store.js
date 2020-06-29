@@ -95,101 +95,101 @@ class Store {
   // 获取表达式标签
   @action async getExpressionTag(params) {
     try {
-      // const res = await io.getExpressionTag({
-      //   projectId: this.projectId,
-      //   ...params,
-      // })
+      const res = await io.getExpressionTag({
+        projectId: this.projectId,
+        ...params,
+      })
 
-      const res = [
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275282597881984',
-          objNameTagName: '门商.商品编号',
-          tagType: 2, // 1: 离散型 2：整数型 3: 小数型 4: 文本型 5: 日期型 6: 多值型
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275282601093248',
-          objNameTagName: '门商.门店号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275286538299520',
-          objNameTagName: '门商.mens',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205390118378816',
-          objNameTagName: '门店.门店号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205454747884864',
-          objNameTagName: '门店.门店一号门',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205456285818176',
-          objNameTagName: '门店.门店二号门',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195132607027456',
-          objNameTagName: '商品.商品编号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195138167822592',
-          objNameTagName: '商品.购买地址',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195140533016832',
-          objNameTagName: '商品.购买人',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7320801126843392',
-          objNameTagName: '商品.创建时间11',
-          tagType: 5,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7320801130644480',
-          objNameTagName: '商品.层级',
-          tagType: 2,
-          configType: null,
-        },
-      ]
+      // const res = [
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7275282592311424.7275282597881984',
+      //     objNameTagName: '门商.商品编号',
+      //     tagType: 2, // 1: 离散型 2：整数型 3: 小数型 4: 文本型 5: 日期型 6: 多值型
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7275282592311424.7275282601093248',
+      //     objNameTagName: '门商.门店号',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7275282592311424.7275286538299520',
+      //     objNameTagName: '门商.mens',
+      //     tagType: 4,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7205390117788992.7205390118378816',
+      //     objNameTagName: '门店.门店号',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7205390117788992.7205454747884864',
+      //     objNameTagName: '门店.门店一号门',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7205390117788992.7205456285818176',
+      //     objNameTagName: '门店.门店二号门',
+      //     tagType: 4,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7195132603422976.7195132607027456',
+      //     objNameTagName: '商品.商品编号',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7195132603422976.7195138167822592',
+      //     objNameTagName: '商品.购买地址',
+      //     tagType: 4,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7195132603422976.7195140533016832',
+      //     objNameTagName: '商品.购买人',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7195132603422976.7320801126843392',
+      //     objNameTagName: '商品.创建时间11',
+      //     tagType: 5,
+      //     configType: null,
+      //   },
+      //   {
+      //     tenantId: null,
+      //     userId: null,
+      //     objIdTagId: '7195132603422976.7320801130644480',
+      //     objNameTagName: '商品.层级',
+      //     tagType: 2,
+      //     configType: null,
+      //   },
+      // ]
       runInAction(() => {
         this.expressionTag = res
       })
@@ -267,40 +267,40 @@ class Store {
         objId: this.objId,
         ...params,
       })
-      const res1 = {
-        filedList: [
-          {
-            fieldName: 'id',
-            fieldType: 'java.lang.Long',
-          },
-          {
-            fieldName: 'api_id',
-            fieldType: 'java.lang.String',
-          },
-          {
-            fieldName: 'api_path',
-            fieldType: 'java.lang.String',
-          },
-          {
-            fieldName: 'tenant_id',
-            fieldType: 'java.lang.Long',
-          },
-        ],
-        varList: [
-          {
-            fieldName: 'id',
-            fieldType: 'long',
-          },
-          {
-            fieldName: 'apiId',
-            fieldType: 'string',
-          },
-        ],
-        sql: 'select * from table1',
-      }
+      // const res1 = {
+      //   filedList: [
+      //     {
+      //       fieldName: 'id',
+      //       fieldType: 'java.lang.Long',
+      //     },
+      //     {
+      //       fieldName: 'api_id',
+      //       fieldType: 'java.lang.String',
+      //     },
+      //     {
+      //       fieldName: 'api_path',
+      //       fieldType: 'java.lang.String',
+      //     },
+      //     {
+      //       fieldName: 'tenant_id',
+      //       fieldType: 'java.lang.Long',
+      //     },
+      //   ],
+      //   varList: [
+      //     {
+      //       fieldName: 'id',
+      //       fieldType: 'long',
+      //     },
+      //     {
+      //       fieldName: 'apiId',
+      //       fieldType: 'string',
+      //     },
+      //   ],
+      //   sql: 'select * from table1',
+      // }
 
       runInAction(() => {
-        this.apiParamsInfo = res1
+        this.apiParamsInfo = res
       })
     } catch (e) {
       errorTip(e.message)
