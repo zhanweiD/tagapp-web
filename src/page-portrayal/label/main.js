@@ -21,7 +21,7 @@ class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-    console.log(props)
+    
     const {match: {params}} = props
     if (params && params.objId) {
       store.mainLabel = params.mainLabel
