@@ -1,32 +1,20 @@
 import {Component} from 'react'
 import {Button} from 'antd'
-import RuleCondition from './ruleCondition'
 import RuleItem from './ruleItem'
-import RuleAction from './ruleAction'
+import RuleCondition from './ruleCondition'
 import './index.styl'
-
-const originalData = [
-  {
-    type: 2,
-    flag: '0',
-    level: [0],
-    x: 20,
-    y: 0,
-    source: null,
-    target: null,
-  }, 
-]
 
 export default class RuleIfBox extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      data: props.detail || originalData,
+      data: props.pos,
     }
 
     if (document.getElementById(props.id) && props.detail) {
-      const height = props.detail.filter(d => d.type !== 1).length * 60
-      document.getElementById(props.id).style.height = `${height > 130 ? height : 130}px`
+      const height = props.detail.filter(d => d.type !== 1).length * 64
+      document.getElementById(props.id).style.height = `${height > 50 ? height : 50}px`
     }
   }
 
@@ -63,7 +51,6 @@ export default class RuleIfBox extends Component {
 
   renderRuleCondition = () => {
     const {data} = this.state
-    const {type} = this.props
 
     return data.map((d, i) => {
       if (d.type === 1) {
@@ -74,7 +61,6 @@ export default class RuleIfBox extends Component {
             delCon={() => this.delCombineCon(d, i)} 
             changeCondition={d => this.changeCondition(d, i)}
             info={d}
-            type={type}
           />
         ) 
       }
@@ -84,12 +70,14 @@ export default class RuleIfBox extends Component {
 
   renderRuleItem = () => {
     const {data} = this.state
-    // const {type} = this.props
-    
+
     const {
-      // funcList, 
-      tagList,
       ruleIfBoxKey,
+      configTagList,
+      otherEntity,
+      relList,
+      openDrawer,
+      type,
     } = this.props
 
     return (
@@ -103,7 +91,11 @@ export default class RuleIfBox extends Component {
               delCon={() => this.delCon(d, i)}
               addCombineCon={() => this.addCombineCon(d, i)}
               addCombineItem={() => this.addCombineItem(d, i)}
-              tagList={tagList}
+              configTagList={configTagList}
+              otherEntity={otherEntity}
+              relList={relList}
+              openDrawer={openDrawer}
+              ruleType={type}
               {...d}
             />
           ) 
@@ -113,34 +105,16 @@ export default class RuleIfBox extends Component {
     )
   }
 
-  renderRuleAction = () => {
-    const {data} = this.state
-
-    return data.map((d, i) => {
-      if (d.type === 3) {
-        return (
-          <RuleAction 
-            pos={[d.x, d.y]}
-            addCon={() => this.addCon(d, i)}
-            addCombineCon={() => this.addCombineCon(d, i)}
-            key={`ruleAction${d.flag}`}
-            {...d} 
-          />
-        ) 
-      }
-      return null
-    })
-  }
-
   changeCondition = (sdata, index) => {
     const {data} = this.state
     const newData = _.cloneDeep(data)
     newData[index] = sdata
 
-    this.props.changeCondition(sdata)
     this.setState({
       data: newData,
     })
+    console.log(sdata)
+    this.props.changeCondition(sdata)
   }
 
   // 添加条件
@@ -203,7 +177,7 @@ export default class RuleIfBox extends Component {
   addCombineItem = (itemData, i) => {
     const data = _.cloneDeep(this.state.data)
 
-    const brotherNode = data.filter(d => d.type === 2 && d.source[0] === itemData.source[0] && d.source[1] === itemData.source[1])
+    const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
 
     const current = brotherNode[brotherNode.length - 1]
 
@@ -220,11 +194,23 @@ export default class RuleIfBox extends Component {
         }
       }
 
-      if (d.y > current.y && d.level.length === 2 && current.source[1] !== d.y) {
+      if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
         return {
           flag: d.flag,
           level: d.level,
           source: d.source,
+          target: d.target ? [d.target[0], d.target[1] + 64] : null,
+          type: d.type,
+          x: d.x,
+          y: d.y + 64,
+        }
+      }
+
+      if (d.y > current.y && d.level.length === 2 && d.level[1] !== current.level[1] + 1) {
+        return {
+          flag: d.flag,
+          level: d.level,
+          source: d.source ? [d.source[0], d.source[1] + 64] : null,
           target: d.target ? [d.target[0], d.target[1] + 64] : null,
           type: d.type,
           x: d.x,
@@ -261,6 +247,18 @@ export default class RuleIfBox extends Component {
     const current = _.cloneDeep(itemData) 
 
     const newData = data.map(d => {
+      if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
+        return {
+          flag: d.flag,
+          level: d.level,
+          source: d.source ? [d.source[0], d.source[1] + 32] : null,
+          target: d.target ? [d.target[0], d.target[1] + 64] : null,
+          type: d.type,
+          x: d.x,
+          y: d.y + 64,
+        }
+      }
+
       if (d.y > current.y) {
         return {
           flag: d.flag,
@@ -321,21 +319,151 @@ export default class RuleIfBox extends Component {
   }
 
   // 删除单个条件
-  delCon = (d, i) => {
-    // this.updateLevel({...d}, 'subtract', i)
-  }
+  delCon = (current, i) => {
+    const data = _.cloneDeep(this.state.data)
+    data.splice(i, 1)
 
-  // 删除联合条件
-  delCombineCon = (current, i) => {
+    let newData = []
+    
+    const bortherNode = data.filter(d => d.flag.slice(0, -2) === current.flag.slice(0, -2))
 
+    if (bortherNode.length > 1) {
+      newData = data.map(d => {
+        // 同级
+        if (
+          d.y > current.y 
+          && d.level.length > 1 
+          && d.level.length === current.level.length
+          && d.flag.slice(0, -2) === current.flag.slice(0, -2)) {
+          const {level} = d
+
+          const last = d.flag.slice(-1)
+
+          const len = level.length
+      
+          level[len - 1] = +last - 1
+          
+          return {
+            flag: level.join('-'),
+            level,
+            source: [d.source[0], d.source[1] - 64],
+            target: [d.target[0], d.target[1] - 64],
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+      
+        // 更新三层子节点flag
+        if (
+          d.y > current.y
+          && current.level.length === 2 
+          && d.level.length === 3
+        ) {
+          const {level} = d
+      
+          level[1] = current.level[1]
+
+          return {
+            flag: level.join('-'),
+            level,
+            source: [d.source[0], d.source[1] - 64],
+            target: [d.target[0], d.target[1] - 64],
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+
+        if (
+          d.y > current.y
+          && d.level.length === 2
+          && d.level[1] === current.level[1] - 1
+        ) {
+          return {
+            flag: d.flag,
+            level: d.level,
+            source: d.source,
+            target: [d.target[0], d.target[1] - 64],
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+      
+        if (d.y > current.y && d.level.length > 1) {
+          return {
+            flag: d.flag,
+            level: d.level,
+            source: d.source ? [d.source[0], d.source[1] - 64] : null,
+            target: d.target ? [d.target[0], d.target[1] - 64] : null,
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+      
+        return d
+      })
+    }
+
+    if (bortherNode.length === 1) {
+      const bortherIndex = _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      const fatherIndex = _.findIndex(data, d => d.flag === current.flag.slice(0, -2))
+
+      const {x, y, level} = data[bortherIndex]
+
+      data[bortherIndex].x = x - 88
+      data[bortherIndex].source = data[fatherIndex].source
+      data[bortherIndex].target = [x - 88, y + 16]
+      level.splice(level.length - 1, 1)
+      data[bortherIndex].level = level
+      
+      data[bortherIndex].flag = level.join('-')
+
+      newData = data.map(d => {
+        // 2层2
+        if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
+          return {
+            flag: d.flag,
+            level: d.level,
+            source: d.source ? [d.source[0], data[bortherIndex].y + 16] : null,
+            target: d.target ? [d.target[0], d.target[1] - 64] : null,
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+
+        if (d.y > current.y) {
+          return {
+            flag: d.flag,
+            level: d.level,
+            source: d.source ? [d.source[0], d.source[1] - 64] : null,
+            target: d.target ? [d.target[0], d.target[1] - 64] : null,
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+          }
+        }
+
+        return d
+      })
+
+      newData.splice(fatherIndex, 1)
+    }
+    console.log(newData)
+    this.setState({data: newData}, () => {
+      this.refreshLineH(newData)
+    })
   }
 
   render() {
     const {data} = this.state
 
     const {id} = this.props
-    const heightComp = data.filter(d => d.type !== 1).length * 60
-    const height = `${heightComp > 130 ? heightComp : 130}px`
+    const heightComp = data.filter(d => d.type !== 1).length * 64
+    const height = `${heightComp > 50 ? heightComp : 50}px`
     return (
       <div className="rule-if-box" id={id} style={{height}}>
         <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
@@ -355,9 +483,6 @@ export default class RuleIfBox extends Component {
             this.renderRuleItem()
           }
 
-          {
-            this.renderRuleAction()
-          }
         </div>
       </div>
     )

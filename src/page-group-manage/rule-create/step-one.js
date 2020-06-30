@@ -67,15 +67,18 @@ export default class StepOne extends Component {
   } 
 
   @action close = () => {
-    this.store.close()
+    window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group`
   }
 
   @action next = () => {
+    this.store.getConfigTagList()
+    this.store.getRelList()
     this.store.current += 1
     // this.form.validateFields().then(value => {
-    //   console.log(value)
     //   this.store.current += 1
-    //   // store.oneForm = value
+    //   this.store.getConfigTagList()
+    //   this.store.getRelList()
+    //   this.oneForm = value
     // }).catch(err => {
     //   console.log(err)
     // })
@@ -106,7 +109,7 @@ export default class StepOne extends Component {
       <div className="step-one" style={{display: current === 0 ? 'block' : 'none'}}>
         <ModalForm {...formConfig} />
         <div className="steps-action">
-          <Button style={{marginRight: 16}} onClick={this.close}>关闭</Button>
+          <Button style={{marginRight: 16}} onClick={this.close}>返回</Button>
           <Button
             type="primary"
             onClick={this.next}

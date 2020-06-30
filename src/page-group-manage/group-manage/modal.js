@@ -17,12 +17,15 @@ export default class ModalGroup extends Component {
   }
 
   @action createGroup = () => {
-    const {type, recordObj} = this.store
-    const id = recordObj.id || 0
+    const {
+      type, 
+      // recordObj,
+    } = this.store
+    // const id = recordObj.id || 0
     if (this.store.mode === 2) {
       this.store.drawerVisible = true
     } else if (this.store.mode === 1) {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}`
     }
     this.store.isCreate = 0
     this.store.visible = false

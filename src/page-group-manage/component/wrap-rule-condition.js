@@ -1,28 +1,21 @@
 import {useState} from 'react'
-import {Button, Popconfirm} from 'antd'
-import {IconDel} from '../../icon-comp'
+import {Button} from 'antd'
 
 const RuleCondition = ({
-  info,
+  logic = 1,
   changeCondition,
   pos = [],
-  delCon,
-  type,
   id,
   showLine,
 }) => {
-  const [isAnd, changeIsAnd] = useState(info ? info.logic === 1 : true)
-
+  const [isAnd, changeIsAnd] = useState(logic === 1)
   const change = () => {
     const data = !isAnd
-    const result = {
-      ...info,
-      logic: data === false ? 2 : 1,
-    }
+    const result = data === false ? 2 : 1
+
     changeCondition(result)
     changeIsAnd(data)
   }
-
 
   const height = pos[2] || 120
 

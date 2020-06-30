@@ -22,7 +22,7 @@ export default class Page extends Component {
             <Route exact path="/group/manage/:id/:objId" component={GroupDetail} />
             {/* <Route exact path="/group/unit" component={UnitList} /> */}
             <Route exact path="/group/unit/:objId/:id/:queryDate" component={UnitList} />
-            <Route exact path="/group/rule-create/:id?/:type?" component={RuleCreate} />
+            <Route exact path="/group/rule-create/:type?/:groupId?" component={RuleCreate} />
             <Route
               render={() => {
                 window.location.href = '/404'
