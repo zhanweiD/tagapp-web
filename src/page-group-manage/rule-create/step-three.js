@@ -12,9 +12,17 @@ const formItemLayout = {
   colon: false,
 }
 
-const StepThree = ({current, prev, save}) => {
-  const onFinish = () => {
-    save()
+const StepThree = ({current, configTagList, prev, save, loading}) => {
+  const onFinish = value => {
+    const {scheduleType, scheduleExpression, isStart, rangePicker} = value
+    const params = {
+      scheduleType,
+      scheduleExpression,
+      isStart,
+      startTime: moment(rangePicker[0]).format('x'),
+      endTime: moment(rangePicker[1]).format('x'),
+    }
+    save(params)
   }
 
   return (
@@ -61,7 +69,7 @@ const StepThree = ({current, prev, save}) => {
                   />
                 </Form.Item>
                 <Form.Item
-                  name="radio-group"
+                  name="isStart"
                   label="是否立即执行"
                   {...formItemLayout}
                   initialValue="1"
@@ -73,7 +81,7 @@ const StepThree = ({current, prev, save}) => {
                 </Form.Item>
                 <Form.Item
                   label="更新有效时间"
-                  name="RangePicker"
+                  name="rangePicker"
                   rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
                   {...formItemLayout}
                 >
@@ -93,7 +101,12 @@ const StepThree = ({current, prev, save}) => {
             required: true,
             message: '请选择标签',
           }, {
-            validator: (rule, values, callback) => limitSelect(rule, values, callback, 3),
+            validator: (rule, value) => {
+              if (value && value.length < 20) {
+                return Promise.resolve()
+              }
+              return Promise.reject('最多可选择20个标签')
+            },
           }]}
           {...formItemLayout}
         >
@@ -102,6 +115,9 @@ const StepThree = ({current, prev, save}) => {
             showSearch
             placeholder="请选择标签"
           >
+            {
+              configTagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+            }
             <Option value="1">周期更新</Option>
             <Option value="2">立即运行</Option>
           </Select>

@@ -1,9 +1,15 @@
 
-export const getGroupItemData = (data, parentFlag, formItemData) => {
+export const getGroupItemData = (data, parentFlag, formItemData, logicMap, whereMap) => {
   const newData = _.cloneDeep(data)
 
   if (data.length === 1) {
-    return data 
+    const sOnedata = formItemData[`${parentFlag}-${data[0].flag}`]
+
+    if (whereMap && Object.keys(whereMap).length) {
+      sOnedata.where = whereMap[`${parentFlag}-${data[0].flag}`] || {}
+    }
+
+    return sOnedata 
   }
 
   newData.forEach(d => {
@@ -12,25 +18,32 @@ export const getGroupItemData = (data, parentFlag, formItemData) => {
       && sd.flag.slice(0, -2) === d.flag
     )
 
-    const comparisionListResult = comparisionList.map(sd => ({
-      comparision: sd.comparision,
-      left: {
-        function: sd.leftFunction,
-        params: [
-          sd.leftTagId,
-        ],
-      },
-      right: {
-        function: sd.rightFunction,
-        params: [
-          sd.rightParams,
-        ],
-      },
-    }))
+    const comparisionListResult = comparisionList.map(sd => {
+      const sdata = formItemData[`${parentFlag}-${sd.flag}`]
+
+      return ({
+        comparision: sdata.comparision,
+        left: {
+          function: sdata.leftFunction,
+          params: [
+            sdata.leftTagId,
+          ],
+        },
+        right: {
+          function: sdata.rightFunction,
+          params: [
+            sdata.rightParams,
+          ],
+        },
+        where: (whereMap && whereMap[`${parentFlag}-${sd.flag}`]) || {},
+      })
+    })
 
     d.comparisionList = comparisionListResult
 
     if (comparisionListResult.length) d.comparisionList = comparisionListResult
+
+    if (typeof d.logic === 'undefined') d.logic = logicMap[parentFlag] || 1
 
     const childList = newData.filter(sd => sd.type === 1 
       && sd.source
@@ -58,7 +71,7 @@ export const getGroupItemData = (data, parentFlag, formItemData) => {
   return newData.filter(d => d.x === 0)
 }
 
-export function formatData(formItemData, domRef) {
+export function formatData(formItemData, domRef, whereMap) {
   const {renderData, pos, selfCon, logicMap} = domRef
 
   if (renderData.length === 1) {
@@ -68,21 +81,21 @@ export function formatData(formItemData, domRef) {
       logic: current.logic,
     }
 
-    console.log(resultOne)
-    const entity = getGroupItemData(pos['0-0'], ['0-0'], formItemData)
-    const rel = getGroupItemData(pos['0-1'], ['0-1'], formItemData)
+    const entity = getGroupItemData(pos['0-0'], '0-0', formItemData, logicMap)
+
+    const rel = getGroupItemData(pos['0-1'], '0-1', formItemData, logicMap, whereMap)
 
     const comparisionList = []
     const childList = []
-    console.log(entity, rel)
+
     if (pos['0-0'].length === 1) {
-      comparisionList.push(entity[0])
+      comparisionList.push(entity)
     } else {
       childList.push(...entity)
     }
 
     if (pos['0-1'].length === 1) {
-      comparisionList.push(rel[0])
+      comparisionList.push(rel)
     } else {
       childList.push(...rel)
     }
@@ -101,26 +114,138 @@ export function formatData(formItemData, domRef) {
   
   for (let i = 0; i < renderData.length; i++) {
     const current = renderData[i]
-    // const currentFlag = current.flag
+
     const currentFlagEntity = `${current.flag}-0`
     const currentFlagRel = `${current.flag}-1`
   
-    const entityResult = getGroupItemData(pos[currentFlagEntity], currentFlagEntity, formItemData)
-    const relResult = getGroupItemData(pos[currentFlagRel], currentFlagRel, formItemData)
+    const entityResult = getGroupItemData(pos[currentFlagEntity], currentFlagEntity, formItemData, logicMap)
+    const relResult = getGroupItemData(pos[currentFlagRel], currentFlagRel, formItemData, logicMap, whereMap)
+
+    const groupResult = {
+      logic: current.logic,
+      comparisionList: [],
+      children: [],
+    }
   
     if (pos[currentFlagEntity].length === 1) {
-      result.comparisionList.push(entityResult)
+      groupResult.comparisionList.push(entityResult)
     } else {
-      result.comparisionList.push(...entityResult)
+      groupResult.children.push(...entityResult)
     }
   
     if (pos[currentFlagRel].length === 1) {
-      result.comparisionList.push(relResult)
+      groupResult.comparisionList.push(relResult)
     } else {
-      result.comparisionList.push(...relResult)
+      groupResult.children.push(...relResult)
     }
+
+    result.childList.push(groupResult)
   }
-  
-  console.log(result)
+
   return result
 }
+
+export const getRenderData = (formItemData, domRef, whereMap) => {
+  const {renderData, pos, selfCon, logicMap} = domRef
+
+  const rule = []
+  for (let i = 0; i < renderData.length; i++) {
+    const entityPos = pos[`${i}-0`].map(d => ({
+      ...d,
+      ...formItemData[`${i}-0-${d.flag}`],
+      logic: logicMap[`${i}-0-${d.flag}`] || 1,
+    }))
+
+    const relPos = pos[`${i}-1`].map(d => ({
+      ...d,
+      ...formItemData[`${i}-1-${d.flag}`],
+    }))
+
+    const posInfo = {
+      [`${i}-0`]: entityPos,
+      [`${i}-1`]: relPos,
+    }
+
+    const result = {
+      ...renderData[i],
+      pos: posInfo,
+    }
+
+    rule.push(result)
+  }
+
+  const resule = {
+    whereMap,
+    selfCon,
+    rule,
+  }
+
+  console.log(resule)
+}
+
+export const ruleFunctionList = [{
+  name: '标签值',
+  value: '标签值',
+  tagTypeList: [1, 2, 3, 4, 5, 6],
+}]
+
+export const functionList = [{
+  name: '标签值',
+  value: '标签值',
+  tagTypeList: [1, 2, 3, 4, 5, 6],
+}, {
+  name: '绝对值',
+  value: 'abs',
+  tagTypeList: [2, 3],
+}, {
+  name: '总记录数',
+  value: 'count',
+  tagTypeList: [1, 2, 3, 4, 5, 6],
+}, {
+  name: '求和',
+  value: 'sum',
+  tagTypeList: [2, 3],
+}, {
+  name: '平均数',
+  value: 'avg',
+  tagTypeList: [2, 3],
+}, {
+  name: '最小值',
+  value: 'min',
+  tagTypeList: [2, 3],
+}, {
+  name: '最大值',
+  value: 'max',
+  tagTypeList: [2, 3],
+}]
+
+export const condition = [{
+  value: '=',
+  name: '等于',
+}, {
+  value: '>',
+  name: '大于',
+}, {
+  value: '>=',
+  name: '大于等于',
+}, {
+  value: '<',
+  name: '小于',
+}, {
+  value: '=<',
+  name: '小于等于',
+}, {
+  value: '!=',
+  name: '不等于',
+}, 
+// {
+//   value: 'in',
+//   name: '在集合',
+// }, {
+//   value: 'not in',
+//   name: '不在集合',
+// }, {
+//   value: 'is null',
+//   name: '为空',
+// }
+]

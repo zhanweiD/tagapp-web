@@ -3,28 +3,15 @@ import WrapRuleCondition from './wrap-rule-condition'
 import RuleIfBox from './ruleIfBox'
 
 const titleMap = {
-  1: '实体属性满足',
-  2: '实体关系满足',
+  0: '实体属性满足',
+  1: '实体关系满足',
 }
 
 export default class Group extends Component {
   constructor(props) {
     super(props)
-    this.store = props.store
-  }
-
-  posData = {}
-
-  state = {
-    conditionH: 210,
-  }
-
-  componentDidMount() {
-    const {flag} = this.props
-    this.refreshLineH()
-
-    this.posData = {
-      [`${flag}-0`]: [{
+    this.posData = props.pos || {
+      [`${props.flag}-0`]: [{
         type: 2,
         flag: '0',
         level: [0],
@@ -33,7 +20,7 @@ export default class Group extends Component {
         source: null,
         target: null,
       }],
-      [`${flag}-1`]: [{
+      [`${props.flag}-1`]: [{
         type: 2,
         flag: '0',
         level: [0],
@@ -43,36 +30,44 @@ export default class Group extends Component {
         target: null,
       }],
     }
+
+    this.state = {
+      conditionH: 210,
+    }
+  }
+
+  componentDidMount() {
+    this.refreshLineH()
   }
 
   refreshLineH = (data, id) => {
-    this.posData[id] = data
-    console.log(this.posData)
-    const {flag} = this.props
+    const {flag, type, refreshContentLineH} = this.props
 
-    this.heightFirst = $(`#group-combine-${flag}-0`).height()
-    this.heightEnd = $(`#group-combine-${flag}-1`).height()
+    this.posData[id] = data
+
+    this.heightFirst = $(`#${type}-group-combine-${flag}-0`).height()
+    this.heightEnd = $(`#${type}-group-combine-${flag}-1`).height()
 
     const conditionH = this.heightFirst + 24
- 
+
     this.setState({
       conditionH,
     }, () => {
-      this.props.refreshLineH(this.posData)
+      refreshContentLineH(this.posData)
     })
   }
 
   delGroupItem = type => {
-    const {index, flag, level} = this.props
+    // const {index, flag, level} = this.props
 
-    this.props.delGroupItem({
-      type,
-      index,
-      flag,
-      level,
-    }, () => {
-      this.refreshLineH()
-    })
+    // this.props.delGroupItem({
+    //   type,
+    //   index,
+    //   flag,
+    //   level,
+    // }, () => {
+    //   this.refreshLineH()
+    // })
   }
 
   render() {
@@ -81,7 +76,13 @@ export default class Group extends Component {
       id, 
       flag, 
       showLine,
+      changeCondition,
+      changeSelfCondition,
+      type,
+      logic,
+      pos,
     } = this.props
+    console.log(pos)
     const {conditionH} = this.state
 
     const style = {
@@ -90,45 +91,35 @@ export default class Group extends Component {
 
     return (
       <div className="group-combine" style={style} id={id}>
-        <div className="group-item" style={{marginLeft: `${ml}px`}} id={`group-combine-${flag}-0`}>
-          <div className="line" />
-          <div className="group-item-header">
-            <span>
-              {titleMap[1]}
-            </span>
-          </div>
-          <div className="group-item-content">
-            <RuleIfBox 
-              refreshLineH={this.refreshLineH} 
-              ruleIfBoxKey={`${flag}-0`}
-              changeCondition={data => this.props.changeCondition(data, `${flag}-0`)}
-            />
-          </div>
-        </div>
-
-        <div className="group-item" style={{marginLeft: `${ml}px`}} id={`group-combine-${flag}-1`}>
-          <div className="line" />
-          <div className="group-item-header">
-            <span>
-              {titleMap[2]}
-            </span>
-          </div>
-          <div className="group-item-content">
-            <RuleIfBox 
-              refreshLineH={this.refreshLineH} 
-              ruleIfBoxKey={`${flag}-1`}
-              changeCondition={data => this.props.changeCondition(data, `${flag}-0`)}
-            />
-          </div>
-        </div>
-
+        {
+          [0, 1].map(d => (
+            <div className="group-item" style={{marginLeft: `${ml}px`}} id={`${type}-group-combine-${flag}-${d}`}>
+              <div className="line" />
+              <div className="group-item-header">
+                <span>
+                  {titleMap[d]}
+                </span>
+              </div>
+              <div className="group-item-content">
+                <RuleIfBox 
+                  {...this.props}
+                  refreshLineH={this.refreshLineH} 
+                  ruleIfBoxKey={`${flag}-${d}`}
+                  changeCondition={data => changeCondition(data, `${flag}-${d}`)}
+                  pos={pos ? pos[`${+flag}-${d}`] : this.posData[`${+flag}-${d}`]}
+                />
+              </div>
+            </div>
+          ))
+        }
         <WrapRuleCondition 
-          pos={[24, 21, conditionH]} 
-          id={`second-rule-condition${flag}`}
+          logic={logic}
+          pos={[54, 21, conditionH]} 
+          id={`${type}-second-rule-condition${flag}`}
           showLine={showLine}
-          changeCondition={this.props.changeSelfCondition}
+          changeCondition={changeSelfCondition}
         />
- 
+
       </div>
     )
   }
