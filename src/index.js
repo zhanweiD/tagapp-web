@@ -8,14 +8,14 @@ import {
 } from 'react-router-dom'
 import * as dict from './common/dict'
 
-// import Group from './page-group'
+import Group from './page-group'
 import Search from './page-search'
+import Scene from './page-scene'
 
 // import GroupConfig from './page-group-config'
 // import GroupManage from './page-group-manage'
 // import PortrayalLabel from './page-portrayal'
 // import GroupAnalyze from './page-group-analyze'
-// import Scene from './page-scene'
 
 import Frame from './frame'
 
@@ -43,10 +43,10 @@ function Entry() {
           <Route path="/search" component={Search} />
 
           {/* 场景管理 */}
-          {/* <Route path="/scene" component={Scene} /> */}
+          <Route path="/scene" component={Scene} />
 
           {/* 群体洞察 */}
-          {/* <Route path="/group" component={Group} /> */}
+          <Route path="/group" component={Group} />
 
 
           {/* <Route path="/data-search" component={DataSearch} />
