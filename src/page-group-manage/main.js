@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 
 import Frame from '../frame'
-import GroupConfig from './group-manage'
+import GroupManage from './group-manage'
 import GroupDetail from './group-detail'
 import UnitList from './unit-list'
 import RuleCreate from './rule-create'
@@ -18,7 +18,7 @@ export default class Page extends Component {
       <Router>
         <Frame page="space" roductCode="stream" theme="ocean" logoText="数据开发" showAllProduct showSider showHeaderNav showProject>
           <Switch>
-            <Route exact path="/group" component={GroupConfig} />
+            <Route exact path="/group" component={GroupManage} />
             <Route exact path="/group/manage/:id/:objId" component={GroupDetail} />
             {/* <Route exact path="/group/unit" component={UnitList} /> */}
             <Route exact path="/group/unit/:objId/:id/:queryDate" component={UnitList} />
