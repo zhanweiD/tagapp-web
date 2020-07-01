@@ -67,7 +67,6 @@ export default class ModalForm extends Component {
           )
         }
       </Fragment>
-     
     ))
   }
 

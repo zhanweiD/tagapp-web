@@ -31,7 +31,7 @@ export default class IdCreate extends Component {
 
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
-    const {uploadList, uploadData} = this.store
+    const {uploadData} = this.store
     if (!uploadData) {
       callback('请上传文件')
     }
@@ -43,14 +43,15 @@ export default class IdCreate extends Component {
     if (fileList.length === 0) return
     this.store.uploadList = fileList.slice(-1)
     if (file.status !== 'uploading') {
-      this.store.uploadData = true
-      this.formRef.current.validateFields(['excel'])
       if (file.response.success) {
         // 返回正确
+        this.store.uploadData = true
+        this.formRef.current.validateFields(['excel'])
         this.store.fileRes = file.response.content
         this.store.modalVisible = true
       } else {
         errorTip(file.response.message)
+        // errorTip('上传文件格式错误')
       }
     }
   }
@@ -62,6 +63,9 @@ export default class IdCreate extends Component {
     }
     return isLt10M
   }
+  @action removeFile = file => {
+    this.store.uploadList = []
+  }
 
   @action checkName = (rule, value, callback) => {
     this.store.recheckName(value, callback)
@@ -72,11 +76,13 @@ export default class IdCreate extends Component {
     const {isAdd, mode, type, fileRes, recordObj} = this.store
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
+
       value.outputTags = value.outputTags.toString()
       value.objId = parseInt(value.objId)
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type
       value.importKey = fileRes.importKey || ''
+
       if (isAdd) {
         this.store.addIdGroup(value)
       } else {
@@ -92,6 +98,7 @@ export default class IdCreate extends Component {
   @action uploadCancel = () => {
     this.store.modalVisible = false
   }
+  
   @action selectEntity = objId => {
     this.store.objId = objId
     this.store.getTagList()
@@ -126,8 +133,9 @@ export default class IdCreate extends Component {
       }),
       fileList: uploadList,
       action: `${baseApi}/import/import_id_collection`,
+      // action: 'http://192.168.90.129:3000/mock/119/import/import_id_collection',
       onChange: this.uploadChange,
-      // onRemove: file => this.removeFile(file),
+      onRemove: file => this.removeFile(file),
       beforeUpload: file => this.beforeUpload(file),
     }
 
@@ -218,7 +226,7 @@ export default class IdCreate extends Component {
               ]}
             >
               <Upload {...props}>
-                <Button>
+                <Button disabled={!objId}>
                   <UploadOutlined /> 
                   Upload
                 </Button>

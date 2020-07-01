@@ -118,6 +118,7 @@ class Store extends ListContentStore(io.getGroupList) {
         this.getGroupList()
       })
     } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }
@@ -135,24 +136,7 @@ class Store extends ListContentStore(io.getGroupList) {
         this.getGroupList()
       })
     } catch (e) {
-      errorTip(e.message)
-    }
-  }
-  
-  // 编辑群体
-  @action async editGroup(obj) {
-    try {
-      const res = await io.editGroup({
-        id: this.recordObj.id, // 群体ID
-        ...obj,
-        projectId: this.projectId,
-      })
-      runInAction(() => {
-        successTip('编辑成功')
-        this.handleCancel()
-        this.getGroupList()
-      })
-    } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }
@@ -171,21 +155,7 @@ class Store extends ListContentStore(io.getGroupList) {
         this.getGroupList()
       })
     } catch (e) {
-      errorTip(e.message)
-    }
-  }
-
-  // 获取规则编辑群体信息
-  @action async getEditGroup() {
-    try {
-      const res = await io.getEditGroup({
-        id: this.recordObj.id, // 群体ID
-        projectId: this.projectId,
-      })
-      runInAction(() => {
-        this.nowGroup = res
-      })
-    } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }

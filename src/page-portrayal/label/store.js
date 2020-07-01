@@ -11,14 +11,15 @@ import io from './io'
 const {Option} = Select
 class Store {
   // @observable nowTab = '1' // 当前tab页面
-  @observable objId = null // 实体id
+  @observable objId = undefined // 当前实体id
+  // @observable defaultObjId = undefined // 默认实体ID
   @observable projectId = null // 项目id
-  @observable entityList = [] // 实体option列表
   @observable mainLabel = '' // 实体主标签
+
+  @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
   @observable allLabels = [] // 全部标签
   @observable tooltipTitle = [] // 单个标签分析提示
-  @observable defaultObjId = null // 实体列表
 
   @observable markedFeature = []// 显著特征
   @observable statistics = [] // 显著特征分析(百分比)
@@ -30,7 +31,8 @@ class Store {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.defaultObjId = res[0].objId.toString()
+        if (res.length === 0) return
+        this.objId = res[0].objId.toString()
         this.entityList = res.map(item => {
           return (<Option key={item.objId}>{item.objName}</Option>)
         })
@@ -44,7 +46,7 @@ class Store {
   @action async getAllTags() {
     try {
       const res = await io.getAllTags({
-        objId: this.objId || this.defaultObjId,
+        objId: this.objId,
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
       })
@@ -86,7 +88,7 @@ class Store {
   // 获取单个标签分析信息
   @action async tagAnalysis(obj) {
     const res = await io.tagAnalysis({
-      objId: this.objId || this.defaultObjId,
+      objId: this.objId,
       projectId: this.projectId,
       value: obj.value,
       tagName: obj.tagName,
@@ -117,7 +119,7 @@ class Store {
   @action async getLabel() {
     try {
       const res = await io.getLabel({
-        objId: this.objId || this.defaultObjId,
+        objId: this.objId,
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
       })
@@ -142,7 +144,7 @@ class Store {
   @action async getMarkedFeature(cb) {
     try {
       // const res = await io.getLabel({
-      //   objId: this.objId || this.defaultObjId,
+      //   objId: this.objId,
       //   projectId: this.projectId,
       //   personalityUniqueKey: this.mainLabel,
       // })
@@ -211,7 +213,7 @@ class Store {
     try {
       // const res = await io.getAnalysis({
       //   projectId: this.projectId,
-      //   objId: this.objId || this.defaultObjId,
+      //   objId: this.objId,
       //   personalityUniqueKey: this.mainLabel,
       // })
 

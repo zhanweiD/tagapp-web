@@ -30,13 +30,16 @@ class PortrayalLabel extends Component {
   }
   componentWillMount() {
     store.getEntityList()
-    store.getAnalysis()
-    store.getLabel()
+    if (store.mainLabel) {
+      store.getAnalysis()
+      store.getLabel()
+    }
     // store.getPortrayal()
   }
 
   @action selectValue = value => {
     store.objId = value
+    store.mainLabel = null
     console.log(store.objId)
   }
 
@@ -46,19 +49,21 @@ class PortrayalLabel extends Component {
   }
 
   @action onSearch = () => {
+    if (!store.mainLabel) return
+    store.getLabel()
     store.getAnalysis()
+    store.getAllTags()
     console.log(store.objId, store.mainLabel)
   }
 
   @action resetSearch = () => {
     store.objId = undefined
     store.mainLabel = null
-    store.defaultObjId = undefined
     console.log(store.objId, store.mainLabel)
   }
 
   render() {
-    const {entityList, defaultObjId} = store
+    const {entityList, objId, mainLabel} = store
     return (
       <Provider store={store}>
         <div className="show-label">
@@ -67,13 +72,24 @@ class PortrayalLabel extends Component {
             <div className="search-df">
               <div className="mr16">
                 <span className="mr8">实体</span>
-                <Select style={{width: '196px'}} placeholder="请选择实体" value={store.objId || defaultObjId} onChange={value => this.selectValue(value)}>
+                <Select 
+                  style={{width: '196px'}} 
+                  placeholder="请选择实体" 
+                  value={objId} 
+                  onChange={value => this.selectValue(value)}
+                >
                   {entityList}
                 </Select>
               </div>
               <div className="mr16">
                 <span className="mr8">实体主标签</span>
-                <Input style={{width: '196px'}} placeholder="请输入主标签" value={store.mainLabel} onChange={value => this.inputValue(value)} />
+                <Input 
+                  style={{width: '196px'}} 
+                  placeholder="请输入主标签" 
+                  disabled={!objId}
+                  value={mainLabel} 
+                  onChange={value => this.inputValue(value)} 
+                />
               </div>
               <div className="mr16">
                 <Button type="primary" className="mr8" onClick={this.onSearch}>查询</Button>

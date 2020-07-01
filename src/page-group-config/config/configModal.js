@@ -13,12 +13,10 @@ export default class ConfigModal extends Component {
   }
 
   @action.bound selectDataSource(storageId) {
-    console.log(storageId)
     this.store.dataStorageId = storageId
   }
   @action.bound selectDataTypeSource(storageTypeId) {
     this.form.resetFields(['storageId'])
-    console.log(storageTypeId)
     this.store.dataStorageTypeId = storageTypeId
     this.store.getDataSource()
   }
