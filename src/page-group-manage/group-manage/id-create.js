@@ -50,8 +50,8 @@ export default class IdCreate extends Component {
         this.store.fileRes = file.response.content
         this.store.modalVisible = true
       } else {
-        // this.formRef.current.validateFields(['excel'])
         errorTip(file.response.message)
+        // errorTip('上传文件格式错误')
       }
     }
   }
@@ -226,7 +226,7 @@ export default class IdCreate extends Component {
               ]}
             >
               <Upload {...props}>
-                <Button>
+                <Button disabled={!objId}>
                   <UploadOutlined /> 
                   Upload
                 </Button>
