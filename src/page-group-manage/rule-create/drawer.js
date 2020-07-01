@@ -3,7 +3,7 @@ import {Drawer, Button} from 'antd'
 import {action, toJS} from 'mobx'
 import {inject, observer} from 'mobx-react'
 import {RuleContent} from '../component'
-import {formatData} from '../component/util'
+import {getRenderData, formatData} from '../component/util'
 
 @inject('store')
 @observer
@@ -21,29 +21,15 @@ export default class SetRule extends Component {
     this.formRef.current
       .validateFields()
       .then(values => {
-        submit(formatData(values, this.ruleContentRef))
+        submit(getRenderData(values, this.ruleContentRef), formatData(values, this.ruleContentRef))
       })
       .catch(info => {
         console.log('Validate Failed:', info)
       })
   }
-
-
-  @action next = () => {
-    console.log()
-    this.formRef.current
-      .validateFields()
-      .then(values => {
-        formatData(values, this.ruleContentRef)
-      })
-      .catch(info => {
-        console.log('Validate Failed:', info)
-      })
-  }
-
 
   render() {
-    const {visible, onClose} = this.props
+    const {visible, onClose, posList} = this.props
     const {configTagList, relList, otherEntity} = this.store
 
     const drawerConfig = {
@@ -62,11 +48,11 @@ export default class SetRule extends Component {
       >
         <RuleContent 
           formRef={this.formRef} 
-          // changeCondition={this.changeCondition} 
           onRef={ref => { this.ruleContentRef = ref }}
           configTagList={toJS(configTagList)}
           relList={toJS(relList)}
           otherEntity={toJS(otherEntity)}
+          posList={posList}
           type="set-rule"
         />
         <div className="bottom-button">

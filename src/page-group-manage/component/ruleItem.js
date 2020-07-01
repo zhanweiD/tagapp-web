@@ -61,6 +61,11 @@ const RuleItem = ({
     getRelTagList(id)
   }
 
+  if (rest.relId && typeof relId === 'undefined') {
+    changeRelId(rest.relId)
+    getRelTagList(rest.relId)
+  }
+
   return (  
     <div className="rule-item" style={posStyle}>
       <Form.Item 
@@ -72,11 +77,12 @@ const RuleItem = ({
               <FormItem
                 label={null}
                 name={[key, 'relId']}
+                initialValue={rest.relId}
                 rules={[{required: true, message: '请选择关系'}]}
               >
                 <Select 
                   showSearch
-                  style={{width: 100}}
+                  style={{width: 180}}
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onSelect={onSelectRel}
@@ -99,7 +105,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 100}}
+                  style={{width: 180}}
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onSelect={onSelectRel}

@@ -6,7 +6,8 @@ import zhCn from 'antd/lib/locale-provider/zh_CN'
 import OnerFrame from '@dtwave/oner-frame'
 import 'antd/dist/antd.less'
 import '@dtwave/oner-flexbox/flexbox.css'
-import '../common/common.styl'
+// import '../common/common.styl'
+import '../common/util.styl'
 import './frame.styl'
 
 const {Content} = Layout
@@ -18,8 +19,8 @@ class Frame extends Component {
     return (
       <ConfigProvider locale={zhCn}>
         <OnerFrame {...this.props}>
-          <Layout className="ide-body">
-            <Content className="ide-content">{me.props.children}</Content>
+          <Layout>
+            <Content className="tag-content">{me.props.children}</Content>
           </Layout>
         </OnerFrame>
       </ConfigProvider>

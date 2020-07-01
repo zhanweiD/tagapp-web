@@ -12,7 +12,7 @@ const formItemLayout = {
   colon: false,
 }
 
-const StepThree = ({current, configTagList, prev, save, loading}) => {
+const StepThree = ({current, configTagList, prev, save, loading, detail}) => {
   const onFinish = value => {
     const {scheduleType, scheduleExpression, isStart, rangePicker} = value
     const params = {
@@ -35,26 +35,26 @@ const StepThree = ({current, configTagList, prev, save, loading}) => {
           label="更新类型"
           name="scheduleType"
           rules={[{required: true, message: '请选择更新类型'}]}
-          initialValue="1"
+          initialValue={detail.scheduleType || 1}
           {...formItemLayout}
         >
           <Select
             showSearch
             allowClear
           >
-            <Option value="1">周期更新</Option>
-            <Option value="2">立即运行</Option>
+            <Option value={1}>周期更新</Option>
+            <Option value={2}>立即运行</Option>
           </Select>
         </Form.Item>
         <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.scheduleType !== currentValues.scheduleType}>
           {({getFieldValue}) => {
-            return getFieldValue('scheduleType') === '1' ? (
+            return getFieldValue('scheduleType') === 1 ? (
               <div>
                 <Form.Item
                   label=""
                   name="scheduleExpression"
                   rules={[{required: true, message: '更新周期不能为空'}]}
-                  initialValue={CycleSelect.formatCron({
+                  initialValue={detail.scheduleExpression || CycleSelect.formatCron({
                     cycle: 'day',
                   })
                   }
@@ -72,7 +72,7 @@ const StepThree = ({current, configTagList, prev, save, loading}) => {
                   name="isStart"
                   label="是否立即执行"
                   {...formItemLayout}
-                  initialValue="1"
+                  initialValue={detail.isStart || '1'}
                 >
                   <Radio.Group>
                     <Radio value="1">是</Radio>
@@ -84,6 +84,7 @@ const StepThree = ({current, configTagList, prev, save, loading}) => {
                   name="rangePicker"
                   rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
                   {...formItemLayout}
+                  initialValue={[moment(detail.startTime), moment(detail.endTime)]}
                 >
                   <RangePicker />
                 </Form.Item>
@@ -109,6 +110,7 @@ const StepThree = ({current, configTagList, prev, save, loading}) => {
             },
           }]}
           {...formItemLayout}
+          initialValue={detail.outputTags}
         >
           <Select
             mode="multiple"
@@ -134,6 +136,7 @@ const StepThree = ({current, configTagList, prev, save, loading}) => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={loading}
           >
             保存
           </Button>

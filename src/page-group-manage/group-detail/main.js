@@ -3,9 +3,8 @@ import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Tabs, Button, Spin, Alert} from 'antd'
 
-import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
-import {AuthBox, Tag, DetailHeader, TimeRange} from '../../component'
+import {Tag, DetailHeader, TimeRange} from '../../component'
 import TagHistory from './tab-history'
 import TabApi from './tab-api'
 
@@ -13,17 +12,6 @@ import store from './store'
 
 const {TabPane} = Tabs
 
-// 面包屑设置
-// eslint-disable-next-line no-underscore-dangle
-
-const navList = [
-  navListMap.tagCenter,
-  navListMap.application,
-  navListMap.scene,
-  {text: navListMap.sceneDetail.text},
-]
-
-@inject('frameChange')
 @observer
 export default class GroupDetail extends Component {
   defStartTime = moment().subtract(7, 'day').format('YYYY-MM-DD')

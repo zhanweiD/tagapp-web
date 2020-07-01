@@ -18,18 +18,16 @@ export default class StepOne extends Component {
     super(props)
     this.store = props.store
   }
-  componentDidMount() {
-    this.store.getEntityList()
-  }
-
+  
   selectContent= () => {
     const {
-      entityList = [], objId,
+      entityList = [], objId, groupId, detail,
     } = this.store
 
     return [{
       label: '所属实体',
       key: 'objId',
+      initialValue: detail.objId,
       rules: [
         '@requiredSelect',
       ],
@@ -37,23 +35,24 @@ export default class StepOne extends Component {
         options: toJS(entityList),
         onSelect: v => this.selectEntity(v),
       },
+      // disabled: !objId || groupId,
       component: 'select',
     }, {
       label: '群体名称',
       key: 'name',
-      initialValue: '',
+      initialValue: detail.name,
       rules: [
         '@transformTrim',
         '@required',
         '@max32',
         {validator: this.checkName},
       ],
-      disabled: !objId,
+      // disabled: !objId || groupId,
       component: 'input',
     }, {
       label: '描述',
       key: 'descr',
-      initialValue: '',
+      initialValue: detail.descr,
       rules: [
         '@transformTrim',
       ],

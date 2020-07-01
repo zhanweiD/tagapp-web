@@ -12,74 +12,29 @@ const originalData = {
   rule: [{
     flag: '0',
     logic: 1,
-    pos: {
-      '0-0': [{
-        flag: '0',
-        level: [0],
-        source: null,
-        target: null,
-        type: 1,
-        x: 0,
-        y: 32,
-        logic: 1,
-      }, {
-        flag: '0-0',
-        level: [0, 0],
-        source: [22, 48],
-        target: [88, 16],
-        type: 2,
-        x: 88,
-        y: 0,
-        comparision: '=',
-        leftFunction: '标签值',
-        leftTagId: '7205390117788992.7205454747884864',
-        rightFunction: '固定值',
-        rightParams: '1',
-      }, {
-        flag: '0-1',
-        level: [0, 1],
-        source: [22, 48],
-        target: [88, 80],
-        type: 2,
-        x: 88,
-        y: 64,
-        comparision: '=',
-        leftFunction: '标签值',
-        leftTagId: '7205390117788992.7205454747884864',
-        rightFunction: '固定值',
-        rightParams: '1',
-      }],
-      '0-1': [{
-        flag: '0',
-        level: [0],
-        source: null,
-        target: null,
-        type: 2,
-        x: 20,
-        y: 0,
-        comparision: '=',
-        leftFunction: '标签值',
-        leftTagId: '7205390117788992.7205454747884864',
-        rightFunction: '固定值',
-        rightParams: '1',
-      }],
-    },
   }],
 }
 
 export default class RuleContent extends Component {
-  state = {
-    renderData: originalData.rule,
-    firstConditionH: 0,
-    firstConditionT: 21,
-    key: 0,
+  constructor(props) {
+    super(props)
+
+    const {posList = {}} = props
+
+    const {rule, pos, selfCon, logicMap} = originalData
+
+    this.state = {
+      renderData: posList.rule || rule,
+      firstConditionH: 0,
+      firstConditionT: 21,
+      key: 0,
+    }
+
+    this.renderData = posList.rule || rule || {}
+    this.pos = posList.pos || pos || {}
+    this.selfCon = posList.selfCon || selfCon || 1
+    this.logicMap = posList.logicMap || logicMap || {}
   }
-
-  renderData = originalData.rule
-
-  pos = originalData.pos || {}
-  selfCon = originalData.selfCon || 1
-  logicMap = originalData.logicMap || {}
 
   componentDidMount() {
     if (this.props.onRef) {
@@ -147,6 +102,12 @@ export default class RuleContent extends Component {
   }
 
   reset = () => {
+    const {type, reset} = this.props
+
+    if (type === 'config') {
+      reset()
+    }
+
     this.setState({
       renderData: originalData.rule,
       key: Math.random(),
@@ -157,7 +118,21 @@ export default class RuleContent extends Component {
   }
 
   render() {
-    const {firstConditionH, firstConditionT, renderData, key} = this.state
+    const {
+      key,
+      renderData, 
+      firstConditionH, 
+      firstConditionT, 
+    } = this.state
+
+    const {
+      type,
+      formRef,
+      relList,
+      openDrawer,
+      otherEntity,
+      configTagList,
+    } = this.props
 
     return (
       <div>
@@ -168,7 +143,7 @@ export default class RuleContent extends Component {
         <div className="group">
           <Form
             key={key}
-            ref={this.props.formRef}
+            ref={formRef}
           > 
             {
               renderData.map((d, i) => (
@@ -179,10 +154,14 @@ export default class RuleContent extends Component {
                   changeCondition={this.changeCondition}
                   refreshContentLineH={this.refreshLineH}
                   changeSelfCondition={d => this.changeSelfCondition(d, i)}
+                  openDrawer={openDrawer}
+                  pos={d.pos}
                   flag={d.flag}
                   logic={d.logic}
-                  {...this.props}
-                  pos={d.pos}
+                  configTagList={configTagList}
+                  relList={relList}
+                  otherEntity={otherEntity}
+                  type={type}
                 />
               ))
             }
@@ -192,7 +171,7 @@ export default class RuleContent extends Component {
               <WrapRuleCondition 
                 showLine={false}
                 logic={this.selfCon}
-                pos={[34, firstConditionT, firstConditionH]}
+                pos={[64, firstConditionT, firstConditionH]}
                 changeCondition={this.changeSelfCondition}
               />
             ) : null

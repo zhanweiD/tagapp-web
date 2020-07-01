@@ -3,7 +3,23 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
   const newData = _.cloneDeep(data)
 
   if (data.length === 1) {
-    const sOnedata = formItemData[`${parentFlag}-${data[0].flag}`]
+    const formData = formItemData[`${parentFlag}-${data[0].flag}`]
+
+    const sOnedata = {
+      comparision: formData.comparision,
+      left: {
+        function: formData.leftFunction,
+        params: [
+          formData.leftTagId,
+        ],
+      },
+      right: {
+        function: formData.rightFunction,
+        params: [
+          formData.rightParams,
+        ],
+      },
+    }
 
     if (whereMap && Object.keys(whereMap).length) {
       sOnedata.where = whereMap[`${parentFlag}-${data[0].flag}`] || {}
@@ -102,7 +118,7 @@ export function formatData(formItemData, domRef, whereMap) {
 
     resultOne.comparisionList = comparisionList
     resultOne.childList = childList
-    console.log(resultOne)
+
     return resultOne
   } 
 
@@ -145,7 +161,7 @@ export function formatData(formItemData, domRef, whereMap) {
   return result
 }
 
-export const getRenderData = (formItemData, domRef, whereMap) => {
+export const getRenderData = (formItemData, domRef, wherePosMap) => {
   const {renderData, pos, selfCon, logicMap} = domRef
 
   const rule = []
@@ -175,12 +191,12 @@ export const getRenderData = (formItemData, domRef, whereMap) => {
   }
 
   const resule = {
-    whereMap,
+    wherePosMap,
     selfCon,
     rule,
   }
 
-  console.log(resule)
+  return resule
 }
 
 export const ruleFunctionList = [{

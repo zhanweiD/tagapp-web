@@ -3,8 +3,8 @@ import {action, toJS, observable} from 'mobx'
 import {inject, observer} from 'mobx-react'
 import {Button} from 'antd'
 import {RuleContent} from '../component'
-import {formatData, getRenderData} from '../component/util'
 import SetRule from './drawer'
+import {formatData, getRenderData} from '../component/util'
 
 @inject('store')
 @observer
@@ -14,39 +14,48 @@ export default class StepTwo extends Component {
     this.store = props.store
     this.formRef = React.createRef()
     this.ruleContentRef = React.createRef()
+
+    this.wherePosMap = toJS(props.store.wherePosMap) || {}
+    this.whereMap = toJS(props.store.whereMap) || {}
   }
 
   @observable visible = false
 
-  whereMap = {}
 
   @action pre = () => {
     this.store.current -= 1
   }
 
   @action next = () => {
+    // this.store.current += 1
     this.formRef.current
       .validateFields()
       .then(values => {
         this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
-        getRenderData(values, this.ruleContentRef, this.whereMap)
+        this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap)
+
+        this.store.whereMap = this.whereMap
+        this.store.wherePosMap = this.wherePosMap
+
+        this.store.current += 1
       })
       .catch(info => {
         console.log('Validate Failed:', info)
       })
   }
 
-
   @action openDrawer = (flag, relId) => {
     this.store.getOtherEntity({
       relationId: relId,
     })
-    this.visible = true
     this.drawerFlag = flag
+    this.visible = true
   }
 
-  @action submitRule = data => {
-    this.whereList[this.drawerFlag] = data
+  @action submitRule = (posData, data) => {
+    this.wherePosMap[this.drawerFlag] = posData
+    this.whereMap[this.drawerFlag] = data
+    this.visible = false
   }
 
   @action onClose = () => {
@@ -54,25 +63,32 @@ export default class StepTwo extends Component {
     this.drawerFlag = undefined
   }
 
+  @action reset = () => {
+    this.store.posList = {}
+    this.store.whereMap = {}
+    this.store.wherePosMap = {}
+  }
 
   render() {
-    const {current, configTagList, relList} = this.store
+    const {current, configTagList, relList, posList} = this.store
+
     return (
       <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
         <RuleContent 
           formRef={this.formRef} 
-          // changeCondition={this.changeCondition} 
           onRef={ref => { this.ruleContentRef = ref }}
           configTagList={toJS(configTagList)}
           relList={toJS(relList)}
           openDrawer={this.openDrawer}
+          posList={toJS(posList)}
+          reset={this.reset}
           type="config"
-          // objId={+objId}
         />
         <SetRule 
           visible={this.visible} 
           onClose={this.onClose}
           submit={this.submitRule} 
+          posList={this.wherePosMap[this.drawerFlag]}
         />
         <div className="steps-action">
           <Button style={{marginRight: 16}} onClick={this.pre}>上一步</Button>

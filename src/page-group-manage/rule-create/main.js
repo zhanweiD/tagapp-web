@@ -18,9 +18,22 @@ export default class RuleCreate extends Component {
     store.projectId = props.projectId
 
     const {match: {params}} = props
-    
+
     store.type = params.type
     store.groupId = params.groupId
+  }
+
+  componentWillMount() {
+    store.getEntityList()
+    
+    if (store.groupId) {
+      console.log(store.groupId)
+      store.getDetail(store.groupId)
+    }
+  }
+
+  componentWillUnmount() {
+    store.destroy()
   }
 
   @action prev = () => {
@@ -29,20 +42,26 @@ export default class RuleCreate extends Component {
   }
 
   @action save = values => {
-    const {oneForm, submitLoading} = store
+    const {oneForm, submitLoading, groupId} = store
 
-    message.loading({content: `群体 ${oneForm.name} 创建中...`, submitLoading})
-
-    store.addGroup(values, res => {
-      this.showResult(res)
-    })
+    if (groupId) {
+      message.loading({content: `群体 ${oneForm.name} 编辑中...`, submitLoading})
+      store.editGroup(values, res => {
+        this.showResult(res)
+      })
+    } else {
+      message.loading({content: `群体 ${oneForm.name} 创建中...`, submitLoading})
+      store.addGroup(values, res => {
+        this.showResult(res)
+      })
+    }
   }
 
   @action showResult = result => {
-    const {oneForm} = store
+    const {oneForm, groupId} = store
 
     if (result) {
-      message.success(`群体 ${oneForm.name} 创建成功, 正在前往群体管理`)
+      message.success(`群体 ${oneForm.name} ${groupId ? '编辑' : '创建'}成功, 正在前往群体管理`)
       // window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group`
       // Modal.success({
       //   content: `群体 ${oneForm.name} 创建成功 您可以去 ${<Link to="/group/manage">群体管理</Link>} 中查看`,
@@ -53,40 +72,9 @@ export default class RuleCreate extends Component {
       })
     }
   }
-  // @action submit = () => {
-  //   store.modalVisible = true
-  // }
 
-  // @action oneValidate = () => {
-  //   this.oneForm.form.validateFields().then(value => {
-  //     console.log(value)
-  //     store.current += 1
-  //     store.oneForm = value
-  //   }).catch(err => {
-  //     errorTip(err)
-  //   })
-  // }
-
-  // @action threeValidate = () => {
-  //   this.threeForm.form.validateFields().then(value => {
-  //     if (store.type === 1) {
-  //       value.startTime = value.setTime[0].format(dateFormat)
-  //       value.endTime = value.setTime[1].format(dateFormat)
-  //     }
-  //     value.outputTags = store.outputLabels // 替换输出标签集合
-  //     console.log(value, 1)
-  //     store.modalVisible = true
-  //     store.threeForm = value
-  //     // store.addGroup()
-  //     // store.editGroup()
-  //     this.oneForm.form.resetFields()
-  //     this.threeForm.form.resetFields()
-  //   }).catch(err => {
-  //     errorTip(err)
-  //   })
-  // }
   render() {
-    const {current, configTagList, submitLoading} = store
+    const {current, configTagList, submitLoading, detail} = store
 
     return (
       <Provider store={store}>
@@ -108,6 +96,7 @@ export default class RuleCreate extends Component {
             prev={this.prev}
             save={this.save}
             loading={submitLoading} 
+            detail={toJS(detail)}
           />
         </div>
       </Provider>

@@ -18,14 +18,6 @@ import ModalGroup from './modal'
 import IdCreate from './id-create'
 import store from './store'
 
-// 面包屑设置
-// eslint-disable-next-line no-underscore-dangle
-
-// const navList = [
-//   navListMap.tagCenter,
-//   navListMap.common,
-//   {text: navListMap.project.text},
-// ]
 @observer
 class GroupManage extends Component {
   constructor(props) {
@@ -35,10 +27,7 @@ class GroupManage extends Component {
     store.getEntityList()
   }
   formRef = React.createRef()
-  componentWillMount() {
-    // const {frameChange} = this.props
-    // frameChange('nav', navList)
-  }
+
 
   menu = record => (
     <Menu>
@@ -245,24 +234,26 @@ class GroupManage extends Component {
     }
 
     return (
-      <div className="page-group">
+      <div>
         <div className="content-header">群体管理</div>
+        <div className="common-table">
+          {
+            list.length || JSON.stringify(searchParams) !== '{}' ? (
+              <div className="list-content">
+                <Spin tip="Loading" spinning={tableLoading}>
+                  <ListContent {...listConfig} />
+                </Spin>
+              </div>
+            ) : (
+              <NoData />
+            )
+          }
+          <ModalGroup store={store} />
+          <IdCreate onRef={ref => this.childForm = ref} store={store} />
+        </div>
         {/* <div className="list-content">
           <ListContent {...listConfig} />
         </div> */}
-        {
-          list.length || JSON.stringify(searchParams) !== '{}' ? (
-            <div className="list-content">
-              <Spin tip="Loading" spinning={tableLoading}>
-                <ListContent {...listConfig} />
-              </Spin>
-            </div>
-          ) : (
-            <NoData />
-          )
-        }
-        <ModalGroup store={store} />
-        <IdCreate onRef={ref => this.childForm = ref} store={store} />
       </div>
     )
   }

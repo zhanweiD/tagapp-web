@@ -8,15 +8,17 @@ import {
 } from 'react-router-dom'
 import * as dict from './common/dict'
 
-import MySearch from './page-my-search'
-import DataSearch from './page-data-search'
+// import Group from './page-group'
+import Search from './page-search'
 
-import GroupConfig from './page-group-config'
-import GroupManage from './page-group-manage'
-import PortrayalLabel from './page-portrayal'
-import GroupAnalyze from './page-group-analyze'
-import Scene from './page-scene'
-import Project from './page-project'
+// import GroupConfig from './page-group-config'
+// import GroupManage from './page-group-manage'
+// import PortrayalLabel from './page-portrayal'
+// import GroupAnalyze from './page-group-analyze'
+// import Scene from './page-scene'
+
+import Frame from './frame'
+
 
 const njkData = {
   dict,
@@ -24,25 +26,48 @@ const njkData = {
 
 window.njkData = njkData
 
-export default class Entry extends React.Component {
-  render() {
-    return (
+function Entry() {
+  return (
+    <Frame 
+      productCode="tag_app" 
+      theme="ocean" 
+      logoText="标签应用" 
+      showAllProduct 
+      showSider
+      showHeaderNav 
+      showProject
+    >
       <Router>
         <Switch>
-          <Route path="/my-search" component={MySearch} />
-          <Route path="/data-search" component={DataSearch} />
+          {/* 数据查询 */}
+          <Route path="/search" component={Search} />
+
+          {/* 场景管理 */}
+          {/* <Route path="/scene" component={Scene} /> */}
+
+          {/* 群体洞察 */}
+          {/* <Route path="/group" component={Group} /> */}
+
+
+          {/* <Route path="/data-search" component={DataSearch} />
           <Route path="/group-config" component={GroupConfig} />
           <Route path="/group" component={GroupManage} />
           <Route path="/portrayal" component={PortrayalLabel} />
           {/* <Route exact path="/portrayal/:objId/:mainLabel" component={PortrayalLabel} /> */}
-          <Route path="/scene" component={Scene} />
-          <Route path="/project" component={Project} />
-          <Route path="/group-analyze" component={GroupAnalyze} />
-          <Redirect to="/project" />
+        
+          {/* <Route path="/group-analyze" component={GroupAnalyze} /> */}
+          {/* <Redirect to="/group" /> */}
+          <Route
+            render={() => {
+              window.location.href = '/404'
+            }}
+          />
         </Switch>
       </Router>
-    )
-  }
+
+    </Frame>
+  )
 }
+
 
 ReactDOM.render(<Entry />, document.getElementById('root'))

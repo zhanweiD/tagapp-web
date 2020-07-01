@@ -414,7 +414,12 @@ export default class RuleIfBox extends Component {
       const {x, y, level} = data[bortherIndex]
 
       data[bortherIndex].x = x - 88
-      data[bortherIndex].source = data[fatherIndex].source
+      if (data[bortherIndex].flag === '0-0-0') {
+        data[bortherIndex].source = [data[fatherIndex].source[0], data[fatherIndex].source[1] - 64]
+      } else {
+        data[bortherIndex].source = data[fatherIndex].source
+      }
+     
       data[bortherIndex].target = [x - 88, y + 16]
       level.splice(level.length - 1, 1)
       data[bortherIndex].level = level

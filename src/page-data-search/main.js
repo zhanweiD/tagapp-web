@@ -1,29 +1,20 @@
 
 // 数据查询
-import {Component} from 'react'
-import {
-  HashRouter as Router, Route, Switch,
-} from 'react-router-dom'
-
-import Frame from '../frame'
-
+// import {useEffect} from 'react'
+// import {Route, Switch} from 'react-router-dom'
+// import OnerFrame from '@dtwave/oner-frame' 
 import DataSearch from './data-search'
 
-export default class Page extends Component {
-  render() {
-    return (
-      <Router>
-        <Frame page="space" roductCode="stream" theme="ocean" logoText="数据开发" showAllProduct showSider showHeaderNav showProject>
-          <Switch>
-            <Route exact path="/data-search" component={DataSearch} />
-            <Route
-              render={() => {
-                window.location.href = '/404'
-              }}
-            />
-          </Switch>
-        </Frame>
-      </Router>
-    )
-  }
+export default () => {
+  // const ctx = OnerFrame.useFrame()
+  // useEffect(() => {
+  //   ctx.querySiderMenus({
+  //     productCode: 'tag_app',
+  //     parentId: 0,
+  //   })
+  // }, [])
+
+  return (
+    <DataSearch />
+  )
 }

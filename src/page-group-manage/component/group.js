@@ -82,7 +82,7 @@ export default class Group extends Component {
       logic,
       pos,
     } = this.props
-    console.log(pos)
+    console.log(type)
     const {conditionH} = this.state
 
     const style = {
