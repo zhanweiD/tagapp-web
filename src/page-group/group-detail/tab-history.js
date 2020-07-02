@@ -114,8 +114,9 @@ export default class TagHistory extends Component {
 
   render() {
     const {tagId, store} = this.props
-    const {list, tableLoading, searchParams} = store
+    const {list, tableLoading} = store
     const listConfig = {
+      tableLoading,
       columns: this.columns,
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
@@ -146,7 +147,6 @@ export default class TagHistory extends Component {
             </div>
           ) : (
             <NoData />
-            // isLoading={tableLoading}
           )
         } */}
         <div className="list-content">

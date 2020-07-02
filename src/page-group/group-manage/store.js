@@ -31,7 +31,7 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable modalVisible = false // 文件解析结果
   @observable isAdd = true // 判断编辑还是新建
   @observable isPerform = false // id集合执行
-  @observable tableLoading = false // 表格数据加载
+  @observable tableLoading = true // 表格数据加载
   @observable confirmLoading = false // 确认按钮loading
   @observable pagination = {
     totalCount: 1,
@@ -53,7 +53,6 @@ class Store extends ListContentStore(io.getGroupList) {
   // 获取群体分页列表
   @action async getGroupList() {
     try {
-      this.tableLoading = true
       const res = await io.getGroupList({
         projectId: this.projectId,
         currentPage: this.pagination.currentPage,

@@ -1,5 +1,5 @@
 /**
- * @description 后台配置
+ * @description 群体洞察配置
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
@@ -38,7 +38,7 @@ class GroupConfig extends Component {
       // noAuthText: '没有任何项目',
     }
     return (
-      <div className="config">
+      <div className="header-page config">
         {
           store.initVisible ? (
             <div>

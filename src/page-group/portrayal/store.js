@@ -109,7 +109,7 @@ class Store {
           strokeColor="#00d5af" 
           percent={parseInt(res.y2)} 
           color="#fff"
-          style={{color: '#fff'}}
+          style={{color: '#fff', width: '96px'}}
         />
       </div>
     )

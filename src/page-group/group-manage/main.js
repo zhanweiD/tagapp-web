@@ -223,6 +223,7 @@ class GroupManage extends Component {
     } = store
 
     const listConfig = {
+      tableLoading,
       projectId,
       columns: this.columns,
       searchParams: search(store),
@@ -239,9 +240,7 @@ class GroupManage extends Component {
           {
             list.length || JSON.stringify(searchParams) !== '{}' ? (
               <div className="list-content">
-                <Spin tip="Loading" spinning={tableLoading}>
-                  <ListContent {...listConfig} />
-                </Spin>
+                <ListContent {...listConfig} />
               </div>
             ) : (
               <NoData />
