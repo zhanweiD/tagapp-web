@@ -8,7 +8,7 @@ import UnitList from './unit-list'
 import RuleCreate from './rule-create'
 
 import GroupAnalyze from './group-analyze'
-import GroupConfig from './group-config'
+// import GroupConfig from './group-config'
 import PortrayalLabel from './portrayal'
 
 const prePath = '/group'
@@ -43,7 +43,7 @@ export default () => {
       <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?`} component={PortrayalLabel} />
 
       {/* 群体配置 */}
-      <Route exact path={`${prePath}/config`} component={GroupConfig} />
+      {/* <Route exact path={`${prePath}/config`} component={GroupConfig} /> */}
 
       <Redirect strict to={`${prePath}/manage`} />
     </Switch>

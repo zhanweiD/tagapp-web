@@ -5,7 +5,7 @@ import {Component} from 'react'
 import {observer, Provider} from 'mobx-react'
 import {action} from 'mobx'
 import {Button, Popconfirm} from 'antd'
-import {projectProvider, NoData} from '../../component'
+import {projectProvider, NoData, groupProvider} from '../../component'
 import Search from './search'
 import ModalAdd from './modal'
 import {roportionOpt} from './util'
@@ -151,4 +151,4 @@ class GroupAnalyze extends Component {
   }
 }
 
-export default projectProvider(GroupAnalyze)
+export default projectProvider(groupProvider(GroupAnalyze))

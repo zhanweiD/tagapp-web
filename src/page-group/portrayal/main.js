@@ -6,7 +6,7 @@ import {observer, Provider} from 'mobx-react'
 import {action} from 'mobx'
 import {Select, Input, Button, Layout} from 'antd'
 import {
-  projectProvider, NoData,
+  projectProvider, NoData, groupProvider,
 } from '../../component'
 import './main.styl'
 
@@ -127,4 +127,4 @@ class PortrayalLabel extends Component {
   }
 }
 
-export default projectProvider(PortrayalLabel)
+export default projectProvider(groupProvider(PortrayalLabel))

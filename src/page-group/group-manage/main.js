@@ -10,7 +10,7 @@ import {DownOutlined} from '@ant-design/icons'
 
 import {Time} from '../../common/util'
 import {
-  ListContent, NoData, OmitTooltip, AuthBox, projectProvider,
+  ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider,
 } from '../../component'
 
 import search from './search'
@@ -257,4 +257,4 @@ class GroupManage extends Component {
   }
 }
 
-export default projectProvider(GroupManage)
+export default projectProvider(groupProvider(GroupManage))

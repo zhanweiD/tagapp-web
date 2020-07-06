@@ -11,6 +11,7 @@ import * as dict from './common/dict'
 import Group from './page-group'
 import Search from './page-search'
 import Scene from './page-scene'
+import Config from './page-config'
 
 import Frame from './frame'
 
@@ -32,7 +33,7 @@ const quickEntrance = [
 function Entry() {
   return (
     <Frame 
-      productCode="tag_app" 
+      productCode="be_tag" 
       theme="ocean" 
       logoText="标签中心" 
       showAllProduct 
@@ -51,6 +52,9 @@ function Entry() {
 
           {/* 群体洞察 */}
           <Route path="/group" component={Group} />
+
+          {/* 群体洞察 */}
+          <Route path="/config" component={Config} />
 
           <Redirect to="/group" />
 

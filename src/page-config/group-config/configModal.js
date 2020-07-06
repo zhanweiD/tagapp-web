@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {action, toJS} from 'mobx'
+import {action} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'

@@ -8,6 +8,6 @@ const api = {
   initSearch: post(`${dataSearch}/init`), // 初始化查询
 } 
 
-ioContext.create('mySearch', api) 
+ioContext.create('projectInit', api) 
 
-export default ioContext.api.mySearch
+export default ioContext.api.projectInit

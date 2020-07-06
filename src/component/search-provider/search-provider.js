@@ -1,54 +1,65 @@
 
 
 /**
- * @description 项目组件
+ * @description 数查询初始化
  */
 
 import {useEffect, useState, Fragment} from 'react'
 import OnerFrame from '@dtwave/oner-frame'
 import NoData from '../no-data'
 import io from './io'
-import {
-  changeToOptions,
-} from '../../common/util'
 import ConfigModal from './configModal'
-// import Loading from '../loading'
 
 export default PageComponent => {
-  function ProjectProvider(props) {
+  function GroupProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
     const [hasInit, changeHasInit] = useState(true)
     const [visible, changeVisible] = useState(false)
-    const [workspace, changeWorkspace] = useState([])
-
-    const noProjectDataConfig = {
-      text: '没有任何项目，去创建项目吧！',
-    }
+    const [dataType, changeDataType] = useState([])
+    const [dataSource, changedataSource] = useState([])
 
     // 判断项目是否初始化
     async function judgeInit(id) {
-      const res = await io.judgeInit({
-        projectId: id,
-      })
+      // const res = await io.judgeInit({
+      //   projectId: id,
+      // })
+      const res = true
+
       changeHasInit(res)
     }
 
-    // 获取环境列表
-    async function getWorkspaceList(id) {
-      const res = await io.getWorkspaceList({
-        projectId: id,
+    // 获取数据源类型
+    async function getStorageType() {
+      const res = await io.getStorageType({
+        projectId,
       })
-      let workspaceList = []
-      if (res) {
-        workspaceList = changeToOptions(res || [])('workspaceName', 'workspaceId')
-      }
-      changeWorkspace(workspaceList)
+
+      const result = res || []
+
+      changeDataType(result)
+    }
+
+    // 获取数据源
+    async function getStorageList(type) {
+      // const res = await io.getStorageList({
+      //   projectId,
+      //   dataStorageType: type,
+      // })
+
+      const res = [{
+        storageId: 111,
+        storageName: '111',
+      }]
+
+      const result = res || []
+
+      changedataSource(result)
     }
 
     // 初始化项目
-    async function initProject(params) {
-      const res = await io.initProject({
+    async function initSearch(params) {
+      const res = await io.initSearch({
         ...params,
         projectId,
       })
@@ -64,21 +75,16 @@ export default PageComponent => {
     }, [projectId])
     
 
+    const selectDataType = type => {
+      getStorageList(type)
+    }
+
     const noDataConfig = {
       btnText: '去初始化',
       onClick: () => {
-        getWorkspaceList(projectId)
+        getStorageType(projectId)
         changeVisible(true)
       },
-      text: '初始化',
-    }
-
-    if (!projectId) {
-      return (
-        <NoData
-          {...noProjectDataConfig}
-        />
-      )
     }
 
     if (!hasInit) {
@@ -89,9 +95,11 @@ export default PageComponent => {
           />
           <ConfigModal 
             visible={visible}
-            workspace={workspace}
-            handleCancel={() => changeVisible(false)}
-            submit={params => initProject(params)}
+            dataType={dataType}
+            dataSource={dataSource}
+            selectDataType={selectDataType}
+            onCancel={() => changeVisible(false)}
+            onCreate={params => initSearch(params)}
           />
         </Fragment>
        
@@ -104,5 +112,5 @@ export default PageComponent => {
       </div>
     )
   }
-  return ProjectProvider
+  return GroupProvider
 }

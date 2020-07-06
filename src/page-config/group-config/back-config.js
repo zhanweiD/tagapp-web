@@ -125,7 +125,7 @@ export default class GroupBackConfig extends Component {
 
     return (
       <Fragment>
-        <div className="content-header">群体洞察配置</div>
+        {/* <div className="content-header">群体洞察配置</div> */}
         <div className="herder-page back-config">
           <div className="cloud-config">
             <p className="config-title">数据源配置</p>

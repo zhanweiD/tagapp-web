@@ -15,9 +15,11 @@ import AuthBox from './auth-box'
 import OmitTooltip from './omit-tooltip'
 import StatusImg from './status-img'
 import ModalStotageDetail from './modal-stroage-detail'
-import projectProvider from './project-provider'
 import Card from './dt-card'
 import DtGrid from './dt-grid'
+import projectProvider from './project-provider'
+import groupProvider from './group-provider'
+import searchProvider from './search-provider'
 
 export {
   DetailHeader,
@@ -38,7 +40,9 @@ export {
   OmitTooltip,
   StatusImg,
   ModalStotageDetail,
-  projectProvider,
   Card,
   DtGrid,
+  projectProvider,
+  groupProvider,
+  searchProvider,
 }
