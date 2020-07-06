@@ -12,11 +12,6 @@ import Group from './page-group'
 import Search from './page-search'
 import Scene from './page-scene'
 
-// import GroupConfig from './page-group-config'
-// import GroupManage from './page-group-manage'
-// import PortrayalLabel from './page-portrayal'
-// import GroupAnalyze from './page-group-analyze'
-
 import Frame from './frame'
 
 
@@ -26,16 +21,25 @@ const njkData = {
 
 window.njkData = njkData
 
+const quickEntrance = [
+  {
+    tip: '后台配置',
+    icon: 'setting',
+  },
+]
+
+
 function Entry() {
   return (
     <Frame 
       productCode="tag_app" 
       theme="ocean" 
-      logoText="标签应用" 
+      logoText="标签中心" 
       showAllProduct 
       showSider
       showHeaderNav 
       showProject
+      quickEntrance={quickEntrance}
     >
       <Router>
         <Switch>
@@ -48,20 +52,8 @@ function Entry() {
           {/* 群体洞察 */}
           <Route path="/group" component={Group} />
 
+          <Redirect to="/group" />
 
-          {/* <Route path="/data-search" component={DataSearch} />
-          <Route path="/group-config" component={GroupConfig} />
-          <Route path="/group" component={GroupManage} />
-          <Route path="/portrayal" component={PortrayalLabel} />
-          {/* <Route exact path="/portrayal/:objId/:mainLabel" component={PortrayalLabel} /> */}
-        
-          {/* <Route path="/group-analyze" component={GroupAnalyze} /> */}
-          {/* <Redirect to="/group" /> */}
-          <Route
-            render={() => {
-              window.location.href = '/404'
-            }}
-          />
         </Switch>
       </Router>
 

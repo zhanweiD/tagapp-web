@@ -19,7 +19,6 @@ export default () => {
   useEffect(() => {
     ctx.querySiderMenus({
       productCode: 'tag_app',
-      parentId: 0,
     })
   }, [])
 
@@ -27,10 +26,13 @@ export default () => {
     <Switch>
       {/* 群体管理 */}
       <Route exact path={`${prePath}/manage`} component={GroupManage} />
+
       {/* 群体详情 */}
       <Route exact path={`${prePath}/manage/:id/:objId`} component={GroupDetail} /> 
+
       {/* 个体列表 */}
       <Route exact path={`${prePath}/unit/:objId/:id/:queryDate`} component={UnitList} />
+      
       {/* 实时/离线 群体创建/编辑 */}
       <Route exact path={`${prePath}/rule-create/:type?/:groupId?`} component={RuleCreate} />
 
