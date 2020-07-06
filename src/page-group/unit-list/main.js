@@ -46,7 +46,6 @@ class UnitList extends Component {
     const listConfig = {
       columns: toJS(titleList),
       tableLoading,
-      // beforeSearch: this.beforeSearch,
       buttons: [
         <AuthBox code="asset_tag_project_add" type="primary" onClick={() => store.outputUnitList()}>导出个体列表</AuthBox>,
         <AuthBox code="asset_tag_project_add" type="primary" onClick={this.openModal}>保存群体</AuthBox>,
@@ -57,14 +56,10 @@ class UnitList extends Component {
 
     return (
       <div className="page-unit">
-        {/* {store.test()} */}
-        {/* <div className="content-header">群体管理</div> */}
-        {/* <div className="list-content">
-          <ListContent {...listConfig} />
-        </div> */}
+        <div className="content-header">个体列表</div>
         {
           list.length ? (
-            <div className="list-content">
+            <div className="header-page list-content">
               <ListContent {...listConfig} />
             </div>
           ) : (

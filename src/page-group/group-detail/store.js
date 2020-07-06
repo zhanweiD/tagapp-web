@@ -8,8 +8,9 @@ class Store {
   @observable id = 0 // 群体ID
   @observable objId = 0 // 实体ID
   @observable visible = false // 新建API
+  @observable tableLoading = true // 列表
+  
   @observable apiGroupList = [] // 新建API分组列表
-  @observable currentKey = '1' // tabs显示
   @observable groupDetial = {} // 群体详情
   @observable barList =[] // 群体详情柱状图
   @observable list = [] // 群体详情列表
@@ -74,8 +75,10 @@ class Store {
       })
       runInAction(() => {
         this.list = res.data
+        this.tableLoading = false
       })
     } catch (e) {
+      this.tableLoading = false
       errorTip(e.message)
     }
   }
@@ -108,15 +111,18 @@ class Store {
   // 获取api列表
   @action async getApiList() {
     try {
-      const res = await io.getApiList({
-        id: this.id,
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-      })
+      // const res = await io.getApiList({
+      //   id: this.id,
+      //   currentPage: this.pagination.currentPage,
+      //   pageSize: this.pagination.pageSize,
+      // })
       runInAction(() => {
-        this.list = res.data
+        // this.list = res.data
+        this.tableLoading = false
       })
+      this.list = []
     } catch (e) {
+      this.tableLoading = false
       errorTip(e.message)
     }
   }

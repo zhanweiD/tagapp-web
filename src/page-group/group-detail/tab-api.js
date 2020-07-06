@@ -46,26 +46,35 @@ export default class TabApi extends Component {
   render() {
     const {store} = this
     const {
-      list, tableLoading, searchParams,
+      list, tableLoading,
     } = store
 
     const listConfig = {
+      tableLoading,
       columns: this.columns,
       buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal()}>新建API</AuthBox>],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
 
+    const noDataConfig = {
+      btnText: '新建API',
+      onClick: () => this.openModal(),
+      noAuthText: '暂无数据',
+    }
+
     return (
       <div className="page-group">
+        {/* <div className="list-content">
+          <ListContent {...listConfig} />
+        </div> */}
         {
-          list.length || JSON.stringify(searchParams) !== '{}' ? (
+          list.length ? (
             <div className="list-content">
               <ListContent {...listConfig} />
             </div>
           ) : (
-            <NoData />
-            // isLoading={tableLoading}
+            <NoData {...noDataConfig} />
           )
         }
         <ApiModal store={store} />

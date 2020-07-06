@@ -22,15 +22,15 @@ class Store {
   @observable list = [] // 实体表格数组
   @observable tagList = [] // 标签列表
   @observable detail = {} // 编辑展示信息
+  @observable imageUrl = null // 图片上传数组
 
   @observable visible = false // 控制配置弹窗
   @observable confirmLoading = false // 确认按钮loading
   @observable entityVisible = false // 控制实体弹窗
   @observable initVisible = true // 初始化页面是否显示
   @observable uploadLoading = false // 图片上传
-  @observable imageUrl = null // 图片上传数组
   @observable selectLoading = false // 下拉框加载
-  @observable loading = false
+  @observable tableLoading = true
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -45,6 +45,7 @@ class Store {
     this.imageUrl = null
     this.detail = {}
   }
+
   // 初始化云资源
   @action async groupInit(data) {
     try {
@@ -53,6 +54,7 @@ class Store {
         dataStorageId: data.storageId,
         dataStorageType: data.type,
       })
+
       runInAction(() => {
         this.getPortrayal()
         this.dataStorageName = res.dataStorageName
@@ -66,12 +68,14 @@ class Store {
       this.confirmLoading = false
     }
   }
+
   // 获取云资源信息
   @action async getPortrayal() {
     try {
       const res = await io.getPortrayal({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.initVisible = !res.dataStorageType
         this.dataStorageId = res.dataStorageId
@@ -86,20 +90,20 @@ class Store {
 
   // 获取实体分页列表
   @action async getEntityPage() {
-    this.loading = true
     try {
       const res = await io.getEntityPage({
         projectId: this.projectId,
         currentPage: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
       })
+
       runInAction(() => {
         this.list = res.data
-        this.loading = false
+        this.tableLoading = false
       })
     } catch (e) {
       errorTip(e.message)
-      this.loading = false
+      this.tableLoading = false
     }
   }
 
@@ -109,6 +113,7 @@ class Store {
       const res = await io.getEntityList({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.entityList = res.map(item => {
           return (<Option key={item.objId} disabled={item.isUsed}>{item.objName}</Option>)
@@ -126,6 +131,7 @@ class Store {
         objId,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.tagList = res.map(item => {
           return (<Option key={item.tagId.toString()}>{item.tagName}</Option>)
@@ -145,6 +151,7 @@ class Store {
         tenantId: 1,
         userId: 1,
       })
+
       runInAction(() => {
         if (res) {
           this.dataTypeSource = changeToOptions(toJS(res || []))('name', 'type')
@@ -167,6 +174,7 @@ class Store {
         projectId: this.projectId,
         dataStorageType: this.dataStorageTypeId,
       })
+
       runInAction(() => {
         if (res) {
           this.dataSource = changeToOptions(toJS(res || []))('storageName', 'storageId')
@@ -188,6 +196,7 @@ class Store {
         objId,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.imageUrl = res.picture
         res.basicFeatureTag = res.basicFeatureTag.split(',')
@@ -209,6 +218,7 @@ class Store {
         dataStorageId: this.dataStorageId,
         dataStorageType: this.dataStorageTypeId,
       })
+
       runInAction(() => {
         successTip('添加成功')
         this.modalCancel()
@@ -226,6 +236,7 @@ class Store {
         projectId: this.projectId,
         ...data,
       })
+
       runInAction(() => {
         successTip('编辑成功')
         this.modalCancel()
@@ -243,6 +254,7 @@ class Store {
         objId,
         projectId: this.projectId,
       })
+      
       runInAction(() => {
         successTip('删除成功')
         this.getEntityPage()

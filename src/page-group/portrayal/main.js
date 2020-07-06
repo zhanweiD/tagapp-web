@@ -6,7 +6,7 @@ import {observer, Provider} from 'mobx-react'
 import {action} from 'mobx'
 import {Select, Input, Button, Layout} from 'antd'
 import {
-  projectProvider,
+  projectProvider, NoData,
 } from '../../component'
 import './main.styl'
 
@@ -21,19 +21,21 @@ class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-    
+
+    store.getEntityList()
+    store.mainLabel = 1
     const {match: {params}} = props
     if (params && params.objId) {
       store.mainLabel = params.mainLabel
       store.objId = params.objId.toString()
-    }
-  }
-  componentWillMount() {
-    store.getEntityList()
-    if (store.mainLabel) {
       store.getAnalysis()
       store.getLabel()
     }
+
+    // if (store.mainLabel) {
+    //   store.getAnalysis()
+    //   store.getLabel()
+    // }
     // store.getPortrayal()
   }
 
@@ -49,7 +51,7 @@ class PortrayalLabel extends Component {
   }
 
   @action onSearch = () => {
-    if (!store.mainLabel) return
+    // if (!store.mainLabel) return
     store.getLabel()
     store.getAnalysis()
     store.getAllTags()
@@ -64,6 +66,10 @@ class PortrayalLabel extends Component {
 
   render() {
     const {entityList, objId, mainLabel} = store
+    const noDataConfig = {
+      text: '请输入主标签查询',
+      // code: 'asset_tag_project_add',
+    }
     return (
       <Provider store={store}>
         <div className="show-label">
@@ -97,12 +103,24 @@ class PortrayalLabel extends Component {
               </div>
             </div>
           </div>
-          <Layout className="label-main">
+          {
+            mainLabel ? (
+              <Layout className="label-main">
+                <Sider className="label-sider box-border"><DetailSidebar /></Sider>
+                <Layout>
+                  <Content className="label-content box-border"><ShowLabel /></Content>
+                </Layout>
+              </Layout>
+            ) : (
+              <NoData {...noDataConfig} />
+            )
+          }
+          {/* <Layout className="label-main">
             <Sider className="label-sider box-border"><DetailSidebar /></Sider>
             <Layout>
               <Content className="label-content box-border"><ShowLabel /></Content>
             </Layout>
-          </Layout>
+          </Layout> */}
         </div>
       </Provider>
     )

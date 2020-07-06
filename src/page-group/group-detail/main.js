@@ -1,3 +1,6 @@
+/**
+ * @description 群体详情
+ */
 import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
@@ -7,7 +10,6 @@ import {Time} from '../../common/util'
 import {Tag, DetailHeader, TimeRange} from '../../component'
 import TagHistory from './tab-history'
 import TabApi from './tab-api'
-
 import store from './store'
 
 const {TabPane} = Tabs
@@ -36,23 +38,19 @@ export default class GroupDetail extends Component {
   }
 
   @action.bound onTabChange(e) {
-    console.log(typeof e)
+    store.tableLoading = true
+    console.log(e)
     if (e === '1') {
       store.getHistoryList()
     } else {
       store.getApiList()
     }
-    store.currentKey = e
-  }
-
-  componentWillUnmount() {
   }
 
   render() {
-    const {modeType, groupDetial, currentKey} = store
+    const {modeType, groupDetial} = store
     const {
       name,
-      id,
       type,
       ctime,
       objName,
@@ -104,8 +102,9 @@ export default class GroupDetail extends Component {
       <a className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>查看规则</a>,
     ]
     return (
+      // <div className="content-header group-detail">
       <div className="group-detail">
-        <Spin spinning={false}>
+        <div className="detail-h">
           {/* <Spin> */}
           <DetailHeader
             name={(
@@ -125,11 +124,11 @@ export default class GroupDetail extends Component {
             <span>人</span>
             <div className="detail-time"><Time timestamp={ctime} /></div>
           </div>
-        </Spin>
+        </div>
         <Fragment>
           {
             modeType === 1 ? (
-              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+              <Tabs className="header-page h-254" defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
                 <TabPane tab="历史记录" key="1">
                   <TagHistory store={store} />
                 </TabPane>
@@ -138,7 +137,7 @@ export default class GroupDetail extends Component {
                 </TabPane>
               </Tabs>
             ) : (
-              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+              <Tabs className="header-page" defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
                 <TabPane tab="API列表" key="1">
                   <TabApi store={store} />
                 </TabPane>

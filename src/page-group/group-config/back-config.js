@@ -2,7 +2,7 @@ import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Spin, Popconfirm, Badge} from 'antd'
-import {ModalForm, ListContent, AuthBox} from '../../component'
+import {ModalForm, ListContent, AuthBox, NoData} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
@@ -105,8 +105,8 @@ export default class GroupBackConfig extends Component {
   render() {
     const {store} = this
     const {
+      tableLoading,
       list,
-      loading,
     } = store
 
     const formConfig = {
@@ -116,6 +116,7 @@ export default class GroupBackConfig extends Component {
     }
 
     const listConfig = {
+      tableLoading,
       columns: this.columns,
       buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal('add')}>添加实体</AuthBox>],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
@@ -123,21 +124,33 @@ export default class GroupBackConfig extends Component {
     }
 
     return (
-      <div className="back-config">
-        <div className="cloud-config">
-          <p className="config-title">数据源配置</p>
-          <ModalForm {...formConfig} />
-        </div>
-        <div className="entity-config">
-          <p className="config-title">实体配置</p>
-          <div className="list-content">
-            <Spin spinning={loading} tip="Loading">
-              <ListContent {...listConfig} />
-            </Spin>
+      <Fragment>
+        <div className="content-header">群体洞察配置</div>
+        <div className="herder-page back-config">
+          <div className="cloud-config">
+            <p className="config-title">数据源配置</p>
+            <ModalForm {...formConfig} />
           </div>
+          <div className="entity-config">
+            <p className="config-title">实体配置</p>
+            {
+              list.length ? (
+                <div className="list-content">
+                  <ListContent {...listConfig} />
+                </div>
+              ) : (
+                <NoData />
+              )
+            }
+            {/* <div className="list-content">
+              <Spin spinning={loading} tip="Loading">
+                <ListContent {...listConfig} />
+              </Spin>
+            </div> */}
+          </div>
+          <EntityModal store={store} />
         </div>
-        <EntityModal store={store} />
-      </div>
+      </Fragment>
     )
   }
 }

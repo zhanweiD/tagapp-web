@@ -49,6 +49,7 @@ class Store {
         this.tableLoading = false
       })
     } catch (e) {
+      this.tableLoading = false
       errorTip(e.message)
     }
   }
