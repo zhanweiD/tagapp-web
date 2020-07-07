@@ -57,8 +57,8 @@ class Store {
 
       runInAction(() => {
         this.getPortrayal()
-        this.dataStorageName = res.dataStorageName
-        this.dataStorageTypeName = res.dataStorageTypeName
+        // this.dataStorageName = res.dataStorageName
+        // this.dataStorageTypeName = res.dataStorageTypeName
         this.confirmLoading = false
         this.initVisible = false
         this.visible = false

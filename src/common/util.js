@@ -11,7 +11,7 @@ const {pathPrefix} = window.__keeper
 
 // 接口前缀
 
-export const groupConfigApi = `${pathPrefix}/relGroup` // 群体配置
+export const relGroupApi = `${pathPrefix}/relGroup` // 群体配置
 export const groupApi = `${pathPrefix}/group` // 群体管理
 export const groupDetailsApi = `${pathPrefix}/groupDetails` // 群体详情
 export const groupAnalysis = `${pathPrefix}/groupAnalysis` // 群体分析

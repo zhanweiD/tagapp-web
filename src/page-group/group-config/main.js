@@ -20,9 +20,6 @@ class GroupConfig extends Component {
     store.projectId = props.projectId
     store.getPortrayal()
   }
-  componentWillMount() {
-    // store.getPortrayal()
-  }
 
   @action openModal = () => {
     store.visible = true
