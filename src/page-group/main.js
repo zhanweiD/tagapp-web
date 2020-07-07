@@ -8,7 +8,7 @@ import UnitList from './unit-list'
 import RuleCreate from './rule-create'
 
 import GroupAnalyze from './group-analyze'
-import GroupConfig from './group-config'
+// import GroupConfig from './group-config'
 import PortrayalLabel from './portrayal'
 
 const prePath = '/group'
@@ -19,7 +19,6 @@ export default () => {
   useEffect(() => {
     ctx.querySiderMenus({
       productCode: 'tag_app',
-      parentId: 0,
     })
   }, [])
 
@@ -27,10 +26,13 @@ export default () => {
     <Switch>
       {/* 群体管理 */}
       <Route exact path={`${prePath}/manage`} component={GroupManage} />
+
       {/* 群体详情 */}
       <Route exact path={`${prePath}/manage/:id/:objId`} component={GroupDetail} /> 
+
       {/* 个体列表 */}
       <Route exact path={`${prePath}/unit/:objId/:id/:queryDate`} component={UnitList} />
+      
       {/* 实时/离线 群体创建/编辑 */}
       <Route exact path={`${prePath}/rule-create/:type?/:groupId?`} component={RuleCreate} />
 
@@ -41,7 +43,7 @@ export default () => {
       <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?`} component={PortrayalLabel} />
 
       {/* 群体配置 */}
-      <Route exact path={`${prePath}/config`} component={GroupConfig} />
+      {/* <Route exact path={`${prePath}/config`} component={GroupConfig} /> */}
 
       <Redirect strict to={`${prePath}/manage`} />
     </Switch>

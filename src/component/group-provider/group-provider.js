@@ -1,49 +1,59 @@
 
 
 /**
- * @description 项目组件
+ * @description 群体初始化
  */
 
 import {useEffect, useState, Fragment} from 'react'
 import OnerFrame from '@dtwave/oner-frame'
 import NoData from '../no-data'
 import io from './io'
-import {
-  changeToOptions,
-} from '../../common/util'
 import ConfigModal from './configModal'
-// import Loading from '../loading'
 
 export default PageComponent => {
-  function ProjectProvider(props) {
+  function GroupProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
     const [hasInit, changeHasInit] = useState(true)
     const [visible, changeVisible] = useState(false)
-    const [workspace, changeWorkspace] = useState([])
-
-    const noProjectDataConfig = {
-      text: '没有任何项目，去创建项目吧！',
-    }
+    const [dataType, changeDataType] = useState([])
+    const [dataSource, changedataSource] = useState([])
 
     // 判断项目是否初始化
     async function judgeInit(id) {
-      const res = await io.judgeInit({
-        projectId: id,
-      })
+      // const res = await io.judgeInit({
+      //   projectId: id,
+      // })
+      const res = true
       changeHasInit(res)
     }
 
-    // 获取环境列表
-    async function getWorkspaceList(id) {
-      const res = await io.getWorkspaceList({
-        projectId: id,
+    // 获取数据源类型
+    async function getDataTypeSource() {
+      const res = await io.getDataTypeSource({
+        projectId,
       })
-      let workspaceList = []
-      if (res) {
-        workspaceList = changeToOptions(res || [])('workspaceName', 'workspaceId')
-      }
-      changeWorkspace(workspaceList)
+
+      const result = res || []
+
+      changeDataType(result)
+    }
+
+    // 获取数据源
+    async function getDataSource(type) {
+      // const res = await io.getDataSource({
+      //   projectId,
+      //   dataStorageType: type,
+      // })
+
+      const res = [{
+        storageId: 111,
+        storageName: '111',
+      }]
+
+      const result = res || []
+
+      changedataSource(result)
     }
 
     // 初始化项目
@@ -56,6 +66,8 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
+        // 跳转至群体配置页面
+        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group-config`
       }
     }
 
@@ -64,21 +76,16 @@ export default PageComponent => {
     }, [projectId])
     
 
+    const selectDataType = type => {
+      getDataSource(type)
+    }
+
     const noDataConfig = {
       btnText: '去初始化',
       onClick: () => {
-        getWorkspaceList(projectId)
+        getDataTypeSource(projectId)
         changeVisible(true)
       },
-      text: '初始化',
-    }
-
-    if (!projectId) {
-      return (
-        <NoData
-          {...noProjectDataConfig}
-        />
-      )
     }
 
     if (!hasInit) {
@@ -89,9 +96,11 @@ export default PageComponent => {
           />
           <ConfigModal 
             visible={visible}
-            workspace={workspace}
-            handleCancel={() => changeVisible(false)}
-            submit={params => initProject(params)}
+            dataType={dataType}
+            dataSource={dataSource}
+            selectDataType={selectDataType}
+            onCancel={() => changeVisible(false)}
+            onCreate={params => initProject(params)}
           />
         </Fragment>
        
@@ -104,5 +113,5 @@ export default PageComponent => {
       </div>
     )
   }
-  return ProjectProvider
+  return GroupProvider
 }

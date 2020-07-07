@@ -16,7 +16,6 @@ export default () => {
   useEffect(() => {
     ctx.querySiderMenus({
       productCode: 'tag_app',
-      parentId: 0,
     })
   }, [])
   return (

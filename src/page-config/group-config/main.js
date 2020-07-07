@@ -35,8 +35,12 @@ class GroupConfig extends Component {
       // noAuthText: '没有任何项目',
     }
     return (
-      <div className="header-page config">
-        {
+      <div>
+        <div className="content-header">群体洞察配置</div> 
+        <div className="header-page config">
+          <BackConfig store={store} />
+        </div>
+        {/* {
           store.initVisible ? (
             <div>
               <NoData
@@ -48,7 +52,7 @@ class GroupConfig extends Component {
           ) : (
             <BackConfig store={store} />
           )
-        }
+        } */}
       </div>
     )
   }
