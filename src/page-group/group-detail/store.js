@@ -23,12 +23,6 @@ class Store {
     currentPage: 1,
     pageSize: 10,
   }
-  // @observable barData = [
-  //   {
-  //     x: '2020-06-12',
-  //     y: 0,
-  //   },
-  // ]
 
   // 获取群体详情
   @action async getDetail() {
@@ -52,7 +46,8 @@ class Store {
         id: this.id,
         ...params,
       })
-      const data = res || []
+      this.barDataX = []
+      this.barDataY = []
       runInAction(() => {
         res.forEach(item => {
           this.barDataX.push(item.x)
@@ -87,6 +82,11 @@ class Store {
   @action async outputUnitList() {
     try {
       const res = await io.outputUnitList()
+      runInAction(() => {
+        if (res) {
+          successTip('导出成功')
+        }
+      })
     } catch (e) {
       // ErrorEater(e, '校验失败')
       errorTip(e.message)
@@ -111,16 +111,15 @@ class Store {
   // 获取api列表
   @action async getApiList() {
     try {
-      // const res = await io.getApiList({
-      //   id: this.id,
-      //   currentPage: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize,
-      // })
+      const res = await io.getApiList({
+        id: this.id,
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+      })
       runInAction(() => {
-        // this.list = res.data
+        this.list = res.data || []
         this.tableLoading = false
       })
-      this.list = []
     } catch (e) {
       this.tableLoading = false
       errorTip(e.message)
@@ -135,9 +134,10 @@ class Store {
         ...params,
       })
       runInAction(() => {
-        successTip('创建成功')
-        this.groupDetial = res
-        this.visible = false
+        if (res) {
+          successTip('创建成功')
+          this.visible = false
+        }
       })
     } catch (e) {
       errorTip(e.message)

@@ -39,7 +39,6 @@ export default class GroupDetail extends Component {
 
   @action.bound onTabChange(e) {
     store.tableLoading = true
-    console.log(e)
     if (e === '1') {
       store.getHistoryList()
     } else {
@@ -62,10 +61,6 @@ export default class GroupDetail extends Component {
     } = groupDetial
     // 详情信息
     const baseInfo = [
-      // {
-      //   title: '群体标识',
-      //   value: id,
-      // }, 
       {
         title: '实体',
         value: objName,
@@ -91,6 +86,7 @@ export default class GroupDetail extends Component {
         value: descr,
       },
     ]
+
     // 不同状态的相应map
     const tagMap = {
       1: <Tag status="success" text="正常" />,
@@ -118,7 +114,6 @@ export default class GroupDetail extends Component {
             tag={tagMap[status]}
             actions={modeType === 0 ? [] : actions}
           />
-          {/* <a className="pat21" href>查看规则</a> */}
           <div className="detail-action">
             <span className="fz24">{lastCount}</span>
             <span>人</span>

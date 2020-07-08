@@ -67,7 +67,7 @@ export default PageComponent => {
         changeVisible(false)
         changeHasInit(true)
         // 跳转至群体配置页面
-        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group-config`
+        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group`
       }
     }
 

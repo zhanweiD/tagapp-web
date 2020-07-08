@@ -34,11 +34,14 @@ export default class ConfigModal extends Component {
       selectLoading, 
       dataSource = [], 
       dataTypeSource = [],
+      dataStorageTypeId,
+      dataStorageId,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
       placeholder: '请选择',
+      initialValue: dataStorageTypeId,
       rules: [
         '@requiredSelect',
       ],
@@ -52,6 +55,7 @@ export default class ConfigModal extends Component {
       label: '数据源',
       key: 'storageId',
       placeholder: '请选择',
+      initialValue: dataStorageId,
       rules: [
         '@requiredSelect',
       ],
@@ -86,6 +90,7 @@ export default class ConfigModal extends Component {
       visible, 
       confirmLoading,
     } = this.store
+
     const modalConfig = {
       title: '初始化',
       visible,

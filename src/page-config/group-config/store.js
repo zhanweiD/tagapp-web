@@ -10,9 +10,7 @@ import io from './io'
 const {Option} = Select
 class Store {
   @observable dataStorageId = 0 // 配置页面数据源id
-  @observable dataStorageName = '' // 配置页面数据源id
   @observable dataStorageTypeId = '' // 配置页面数据源类型id
-  @observable dataStorageTypeName = '' // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
 
@@ -57,8 +55,6 @@ class Store {
 
       runInAction(() => {
         this.getPortrayal()
-        // this.dataStorageName = res.dataStorageName
-        // this.dataStorageTypeName = res.dataStorageTypeName
         this.confirmLoading = false
         this.initVisible = false
         this.visible = false
@@ -77,11 +73,13 @@ class Store {
       })
 
       runInAction(() => {
-        this.initVisible = !res.dataStorageType
         this.dataStorageId = res.dataStorageId
-        this.dataStorageName = res.dataStorageName
         this.dataStorageTypeId = res.dataStorageType
-        this.dataStorageTypeName = res.dataStorageTypeName
+
+        if (this.dataStorageTypeId) {
+          this.getDataTypeSource()
+          this.getDataSource()
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -148,14 +146,10 @@ class Store {
     try {
       const res = await io.getDataTypeSource({
         projectId: this.projectId,
-        tenantId: 1,
-        userId: 1,
       })
 
       runInAction(() => {
-        if (res) {
-          this.dataTypeSource = changeToOptions(toJS(res || []))('name', 'type')
-        }
+        this.dataTypeSource = changeToOptions(toJS(res || []))('name', 'type')
       })
     } catch (e) {
       errorTip(e.message)
@@ -199,8 +193,8 @@ class Store {
 
       runInAction(() => {
         this.imageUrl = res.picture
-        res.basicFeatureTag = res.basicFeatureTag.split(',')
-        res.markedFeatureTag = res.markedFeatureTag.split(',')
+        res.basicFeatureTag = res.basicFeatureTag.map(String)
+        res.markedFeatureTag = res.markedFeatureTag
         res.objId = res.objId.toString()
         this.detail = res
       })
@@ -212,7 +206,7 @@ class Store {
   // 添加实体
   @action async addEntity(data) {
     try {
-      await io.addEntity({
+      const res = await io.addEntity({
         ...data,
         projectId: this.projectId,
         dataStorageId: this.dataStorageId,
@@ -220,11 +214,14 @@ class Store {
       })
 
       runInAction(() => {
-        successTip('添加成功')
-        this.modalCancel()
-        this.getEntityPage()
+        if (res) {
+          successTip('添加成功')
+          this.modalCancel()
+          this.getEntityPage()
+        }
       })
     } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }
@@ -232,17 +229,20 @@ class Store {
   // 编辑实体
   @action async editEntity(data) {
     try {
-      await io.editEntity({
+      const res = await io.editEntity({
         projectId: this.projectId,
         ...data,
       })
 
       runInAction(() => {
-        successTip('编辑成功')
-        this.modalCancel()
-        this.getEntityPage()
+        if (res) {
+          successTip('编辑成功')
+          this.modalCancel()
+          this.getEntityPage()
+        }
       })
     } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }
@@ -250,14 +250,16 @@ class Store {
   // 删除实体
   @action async delEntity(objId) {
     try {
-      await io.delEntity({
+      const res = await io.delEntity({
         objId,
         projectId: this.projectId,
       })
       
       runInAction(() => {
-        successTip('删除成功')
-        this.getEntityPage()
+        if (res) {
+          successTip('删除成功')
+          this.getEntityPage()
+        }
       })
     } catch (e) {
       errorTip(e.message)

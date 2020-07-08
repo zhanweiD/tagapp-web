@@ -101,17 +101,6 @@ export default class TagHistory extends Component {
     this.chartBar = null
   }
 
-  // // 跳转到个体列表
-  // goUnitList = (id, computeTime) => {
-  //   storage.set('objId', id)
-  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}/${computeTime}`
-  // }
-  // // 跳转到群体分析
-  // goGroupAnalyze = id => {
-  //   storage.set('objId', id)
-  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit${id}`
-  // }
-
   render() {
     const {tagId, store} = this.props
     const {list, tableLoading} = store

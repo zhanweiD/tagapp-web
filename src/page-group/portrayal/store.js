@@ -10,9 +10,7 @@ import io from './io'
 
 const {Option} = Select
 class Store {
-  // @observable nowTab = '1' // 当前tab页面
   @observable objId = undefined // 当前实体id
-  // @observable defaultObjId = undefined // 默认实体ID
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
@@ -282,24 +280,23 @@ class Store {
   // 特征分析
   @action async getAnalysis() {
     try {
-      // const res = await io.getAnalysis({
-      //   projectId: this.projectId,
-      //   objId: this.objId,
-      //   personalityUniqueKey: this.mainLabel,
-      // })
-
-      const res = [
-        {
-          x: '性别：男',
-          y1: '100',
-          y2: '24%',
-        },
-        {
-          x: '城市：杭州',
-          y1: '100',
-          y2: '24%',
-        },
-      ]
+      const res = await io.getAnalysis({
+        projectId: this.projectId,
+        objId: this.objId,
+        personalityUniqueKey: this.mainLabel,
+      })
+      // const res = [
+      //   {
+      //     x: '性别：男',
+      //     y1: '100',
+      //     y2: '24%',
+      //   },
+      //   {
+      //     x: '城市：杭州',
+      //     y1: '100',
+      //     y2: '24%',
+      //   },
+      // ]
 
       runInAction(() => {
         this.statistics = res
