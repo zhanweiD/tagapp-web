@@ -8,14 +8,7 @@ class Store {
   projectId
 
   // 输出设置
-  @observable outConfig = [{
-    aggregateType: 0, 
-    alias: '1', 
-    conditionUnit: {
-      function: '标签值', 
-      params: ['7195132603422976.7195138167822592'],
-    }},
-  ] // 输出设置配置信息
+  @observable outConfig = [] // 输出设置配置信息
 
   @observable expressionTag = [] // 表达式标签
 
@@ -43,9 +36,6 @@ class Store {
   @observable resultInfo = {}
   @observable resultLoading = false
 
-  // 生成api 
-  // getApiParams
-
   // 获取标签树
   @action async getTagTree(params) {
     this.treeLoading = true
@@ -71,12 +61,6 @@ class Store {
       const res = await io.getObjList({
         projectId: this.projectId,
       })
-      // const res = [
-      //   {
-      //     objId: 12312312,
-      //     objName: 'fsadfa',
-      //   },
-      // ]
       
       runInAction(() => {
         if (res.length) {

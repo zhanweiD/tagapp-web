@@ -2,10 +2,8 @@ import {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Spin, Modal, Button} from 'antd'
-import {DtGrid, DtNewCard} from '@dtwave/uikit'
-import * as navListMap from '../../common/navList'
 import {
-  Tag, NoData, AuthBox, Loading, projectProvider,
+  Tag, NoData, AuthBox, projectProvider, Card, DtGrid,
 } from '../../component'
 import {IconDel, IconEdit} from '../../icon-comp'
 
@@ -15,13 +13,6 @@ import store from './store'
 
 const {confirm} = Modal
 
-// const navList = [
-//   navListMap.tagCenter,
-//   navListMap.application,
-//   {text: navListMap.scene.text},
-// ]
-
-// @inject('frameChange')
 @observer
 class Scene extends Component {
   constructor(props) {
@@ -30,13 +21,9 @@ class Scene extends Component {
   }
 
   componentWillMount() {
-    // // 面包屑设置
-    // const {frameChange} = this.props
-    // frameChange('nav', navList)
-    
     if (store.projectId) {
       store.getList()
-      store.getAuthCode()
+      // store.getAuthCode()
     }
   }
 
@@ -70,9 +57,9 @@ class Scene extends Component {
     const noDataConfig = {
       btnText: '添加场景',
       onClick: () => this.handleModalVisible(),
-      code: 'asset_tag_project_occ_operator',
-      noAuthText: '暂无数据',
-      myFunctionCodes: functionCodes,
+      // code: 'asset_tag_project_occ_operator',
+      // noAuthText: '暂无数据',
+      // myFunctionCodes: functionCodes,
     }
 
     return (
@@ -105,7 +92,7 @@ class Scene extends Component {
                         apiCount,
                         descr,
                       }, d) => (
-                        <DtNewCard 
+                        <Card 
                           className="card"
                           title={name}
                           // eslint-disable-next-line no-underscore-dangle

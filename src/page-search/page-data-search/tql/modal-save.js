@@ -81,6 +81,11 @@ export default class ModalSave extends Component {
     const formConfig = {
       selectContent: visibleSave && this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      formItemLayout: {
+        labelCol: {span: 5},
+        wrapperCol: {span: 19},
+        colon: false,
+      },
     }
 
     return (

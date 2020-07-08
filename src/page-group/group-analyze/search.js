@@ -37,7 +37,7 @@ class Search extends React.Component {
   // }
 
   render() {
-    const {objList, groupList} = this.store
+    const {objList, groupList, groupId} = this.store
 
     return (
       <div>
@@ -74,7 +74,7 @@ class Search extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="mr8">查询</Button>
+            <Button type="primary" htmlType="submit" className="mr8" disabled={!groupId}>查询</Button>
             {/* <Button onClick={this.reset}>重置</Button> */}
           </Form.Item>
         </Form>

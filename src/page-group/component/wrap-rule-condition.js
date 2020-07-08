@@ -7,6 +7,7 @@ const RuleCondition = ({
   pos = [],
   id,
   showLine,
+  page,
 }) => {
   const [isAnd, changeIsAnd] = useState(logic === 1)
   const change = () => {
@@ -32,9 +33,18 @@ const RuleCondition = ({
   return (
     <div style={posStyle} className="wrap-rule-condition" id={id}>
       <div style={childPosStyle} className="wrap-rule-condition-btn">
-        <Button onClick={change}>
-          {isAnd ? '且' : '或'}
-        </Button>
+        {
+          page === 'detail' ? (
+            <Button>
+              {isAnd ? '且' : '或'}
+            </Button>
+          ) : (
+            <Button onClick={change}>
+              {isAnd ? '且' : '或'}
+            </Button>
+          )
+        }
+       
       </div>
       {
         showLine ? <div className="wrap-rule-condition-line" style={{top: height / 2}} /> : null 

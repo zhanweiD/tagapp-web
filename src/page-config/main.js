@@ -19,8 +19,8 @@ export default () => {
   }, [])
   return (
     <Switch>
-      <Route exact path={`${prePath}/group`} component={GroupConfig} />
-      <Route exact path={`${prePath}/search`} component={SearchConfig} />
+      <Route exact path={`${prePath}/search`} component={GroupConfig} />
+      <Route exact path={`${prePath}/group`} component={SearchConfig} />
       <Redirect strict to={`${prePath}/group`} />
     </Switch>
   )

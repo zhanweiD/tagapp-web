@@ -38,11 +38,8 @@ class GroupManage extends Component {
         <a href disabled={record.status !== 1} onClick={() => this.goUnitList(record.objId, record.lastTime)}>个体列表</a>
       </Menu.Item> */}
       <Menu.Item>
-        <Link to={`/group/manage/${record.id}/${record.objId}`}>
-          <a
-            href
-            onClick={() => this.goGroupAnalyze(record)}
-          >
+        <Link to={`/group/analyze/${record.id}/${record.lastTime}`}>
+          <a href>
           群体分析
           </a>
         </Link>
@@ -178,10 +175,10 @@ class GroupManage extends Component {
     }
   }
 
-  // 跳转到群体分析
-  goGroupAnalyze = data => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group-analyze/${data.id}/${data.lastTime}`
-  }
+  // // 跳转到群体分析
+  // goGroupAnalyze = data => {
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group-analyze/${data.id}/${data.lastTime}`
+  // }
   
   // // 跳转到个体列表
   // goUnitList = (id, lastTime) => {

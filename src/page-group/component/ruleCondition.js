@@ -5,6 +5,7 @@ const RuleCondition = ({
   info,
   changeCondition,
   pos = [],
+  page,
 }) => {
   const [isAnd, changeIsAnd] = useState(info.logic === 1)
   
@@ -26,9 +27,18 @@ const RuleCondition = ({
   }
   return (
     <div style={posStyle} className="rule-condition">
-      <Button onClick={change}>
-        {isAnd ? '且' : '或'}
-      </Button>
+      {
+        page === 'detail' ? (
+          <Button>
+            {isAnd ? '且' : '或'}
+          </Button>
+        ) : (
+          <Button onClick={change}>
+            {isAnd ? '且' : '或'}
+          </Button>
+        )
+      }
+     
     </div>
   )
 }

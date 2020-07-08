@@ -120,7 +120,6 @@ export default class Card extends Component {
       infoLineCount,
       ...restProps
     } = this.props
-
     // 渲染卡片标题 + tag + 右箭头(rightArrow) 简而言之第一行
     const headDom = (
       <div className={`${preCls}-head`}>
@@ -137,9 +136,9 @@ export default class Card extends Component {
         }
 
         {/* rightArrow */}
-        {
+        {/* {
           link ? <Icon type="right" className="hover-style" /> : null
-        }    
+        }     */}
       </div>
     )
 

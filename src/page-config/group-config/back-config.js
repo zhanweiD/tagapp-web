@@ -133,7 +133,10 @@ export default class GroupBackConfig extends Component {
           </div>
           <div className="entity-config">
             <p className="config-title">实体配置</p>
-            {
+            <div className="list-content">
+              <ListContent {...listConfig} />
+            </div>
+            {/* {
               list.length ? (
                 <div className="list-content">
                   <ListContent {...listConfig} />
@@ -141,7 +144,7 @@ export default class GroupBackConfig extends Component {
               ) : (
                 <NoData />
               )
-            }
+            } */}
             {/* <div className="list-content">
               <Spin spinning={loading} tip="Loading">
                 <ListContent {...listConfig} />

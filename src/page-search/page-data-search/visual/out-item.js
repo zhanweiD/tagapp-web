@@ -21,15 +21,24 @@ const OutItem = ({
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
   const [showSelect, changeShowSelect] = useState(true)
+  const [showInput, changeShowInput] = useState(false)
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
-    const newShowSelect = obj.type !== 'count'
 
-    changeTagList(newTagList)
-    changeShowSelect(newShowSelect)
+    if (obj.value === '固定值') {
+      changeShowInput(true)
+      changeShowSelect(false)
+    } else if (obj.value === 'count') {
+      changeShowInput(false)
+      changeShowSelect(false)
+    } else {
+      changeTagList(newTagList)
+      changeShowSelect(true)
+      changeShowInput(false)
+    }
   }
 
 
@@ -48,6 +57,19 @@ const OutItem = ({
             }
           </Select>
         </Form.Item>
+        
+        {
+          showInput ? (
+            <Form.Item
+              name={[id, 'params']}
+              noStyle
+              rules={[{required: true, message: '请输入'}]}
+            >
+              <Input style={{width: '200px'}} placeholder="请输入" />
+
+            </Form.Item>
+          ) : null
+        }
 
         {
           showSelect ? (

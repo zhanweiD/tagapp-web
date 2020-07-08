@@ -111,6 +111,7 @@ class Store extends ListContentStore(io.getGroupList) {
         ...obj,
         projectId: this.projectId,
       })
+      
       runInAction(() => {
         successTip('添加成功')
         this.handleCancel()
@@ -167,7 +168,7 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        res.outputTags = res.outputTags.split(',')
+        res.outputTags = res.outputTags.split
         cb(res.outputTags)
       })
     } catch (e) {

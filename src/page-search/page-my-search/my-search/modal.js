@@ -89,6 +89,11 @@ export default class ModalEdit extends Component {
     const formConfig = {
       selectContent: visibleEdit && this.selectContent(),
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      formItemLayout: {
+        labelCol: {span: 5},
+        wrapperCol: {span: 19},
+        colon: false,
+      },
     }
 
     return (

@@ -27,7 +27,6 @@ export default class StepTwo extends Component {
   }
 
   @action next = () => {
-    // this.store.current += 1
     this.formRef.current
       .validateFields()
       .then(values => {
@@ -36,7 +35,7 @@ export default class StepTwo extends Component {
 
         this.store.whereMap = this.whereMap
         this.store.wherePosMap = this.wherePosMap
-
+        this.store.getOutputTags()
         this.store.current += 1
       })
       .catch(info => {

@@ -166,7 +166,7 @@ export const getScreenConfig = arg => {
   const arr = []
   for (let i = 0; i < data.length; i += 1) {
     const {comparision, leftFunction, leftParams, rightFunction, rightParams, rightParams1} = data[i]
-    console.log()
+
     const obj = {
       comparision,
       left: {
@@ -182,6 +182,6 @@ export const getScreenConfig = arg => {
     arr.push(obj)
   }
   result.comparisionList = arr
-  console.log(result)
+
   return result
 }

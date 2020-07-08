@@ -81,8 +81,9 @@ export default class Group extends Component {
       type,
       logic,
       pos,
+      page,
     } = this.props
-    console.log(type)
+
     const {conditionH} = this.state
 
     const style = {
@@ -118,6 +119,7 @@ export default class Group extends Component {
           id={`${type}-second-rule-condition${flag}`}
           showLine={showLine}
           changeCondition={changeSelfCondition}
+          page={page}
         />
 
       </div>

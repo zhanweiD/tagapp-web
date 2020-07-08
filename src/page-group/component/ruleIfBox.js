@@ -51,6 +51,7 @@ export default class RuleIfBox extends Component {
 
   renderRuleCondition = () => {
     const {data} = this.state
+    const {page} = this.props
 
     return data.map((d, i) => {
       if (d.type === 1) {
@@ -61,6 +62,7 @@ export default class RuleIfBox extends Component {
             delCon={() => this.delCombineCon(d, i)} 
             changeCondition={d => this.changeCondition(d, i)}
             info={d}
+            page={page}
           />
         ) 
       }
@@ -78,6 +80,7 @@ export default class RuleIfBox extends Component {
       relList,
       openDrawer,
       type,
+      page,
     } = this.props
 
     return (
@@ -96,6 +99,7 @@ export default class RuleIfBox extends Component {
               relList={relList}
               openDrawer={openDrawer}
               ruleType={type}
+              page={page}
               {...d}
             />
           ) 
@@ -113,7 +117,7 @@ export default class RuleIfBox extends Component {
     this.setState({
       data: newData,
     })
-    console.log(sdata)
+
     this.props.changeCondition(sdata)
   }
 
@@ -466,12 +470,16 @@ export default class RuleIfBox extends Component {
   render() {
     const {data} = this.state
 
-    const {id} = this.props
+    const {id, page} = this.props
     const heightComp = data.filter(d => d.type !== 1).length * 64
     const height = `${heightComp > 50 ? heightComp : 50}px`
     return (
       <div className="rule-if-box" id={id} style={{height}}>
-        <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
+        
+        {
+          page === 'detail' ? null : <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
+        }
+   
         <svg style={{height: '100%', width: '100%'}}>
           {
             this.renderLine()

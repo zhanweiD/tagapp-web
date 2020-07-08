@@ -18,7 +18,7 @@ export default class IdCreate extends Component {
   }
   formRef = React.createRef()
   componentWillMount() {
-    // this.store.getEntityList()
+    this.store.getEntityList()
     this.props.onRef(this)
   }
 
@@ -168,8 +168,8 @@ export default class IdCreate extends Component {
     }
 
     const formItemLayout = {
-      labelCol: {span: 4},
-      wrapperCol: {span: 18},
+      labelCol: {span: 3},
+      wrapperCol: {span: 20},
     }
     
     return (

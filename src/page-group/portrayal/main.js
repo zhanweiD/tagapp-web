@@ -23,7 +23,7 @@ class PortrayalLabel extends Component {
     store.projectId = props.projectId
 
     store.getEntityList()
-    store.mainLabel = 1
+    // store.mainLabel = ''
     const {match: {params}} = props
     if (params && params.objId) {
       store.mainLabel = params.mainLabel
@@ -47,7 +47,6 @@ class PortrayalLabel extends Component {
 
   @action inputValue = value => {
     store.mainLabel = value.target.value
-    console.log(store.mainLabel)
   }
 
   @action onSearch = () => {
@@ -70,6 +69,7 @@ class PortrayalLabel extends Component {
       text: '请输入主标签查询',
       // code: 'asset_tag_project_add',
     }
+
     return (
       <Provider store={store}>
         <div className="show-label">

@@ -29,7 +29,7 @@ const ConfigModal = ({
         form
           .validateFields()
           .then(values => {
-            form.resetFields()
+            // form.resetFields()
             onCreate(values)
           })
           .catch(info => {
@@ -46,7 +46,7 @@ const ConfigModal = ({
         {...formItemLayout}
       >
         <Form.Item
-          name="type"
+          name="dataStorageType"
           label="数据源类型"
           rules={[
             {
@@ -62,7 +62,7 @@ const ConfigModal = ({
           </Select>
         </Form.Item>
         <Form.Item 
-          name="storageId" 
+          name="dataStorageId" 
           label="数据源"
           rules={[
             {

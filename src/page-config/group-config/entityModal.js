@@ -42,8 +42,8 @@ class EModal extends Component {
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
       values.objId = parseInt(values.objId) 
-      values.basicFeatureTag = values.basicFeatureTag.toString()
-      values.markedFeatureTag = values.markedFeatureTag.toString()
+      values.basicFeatureTag = values.basicFeatureTag
+      values.markedFeatureTag = values.markedFeatureTag
       if (!err) {
         store.confirmLoading = true
         // 编辑 

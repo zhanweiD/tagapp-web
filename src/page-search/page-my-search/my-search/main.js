@@ -5,7 +5,7 @@ import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import {Button, Spin, Select, Input, Modal} from 'antd'
-import {ExclamationCircleOutlined} from '@ant-design/icons'
+import {ExclamationCircleOutlined, CopyOutlined} from '@ant-design/icons'
 import {Card, NoData, projectProvider, DtGrid} from '../../../component'
 import {IconDel, IconEdit} from '../../../icon-comp'
 import ModalEdit from './modal'
@@ -22,17 +22,17 @@ class MySearch extends Component {
     store.projectId = props.projectId
   }
   
-  searchType
+  runType
   name
 
   componentWillMount() {
     store.getsearchList()
   }
 
-  @action.bound selectType(searchType) {
-    this.searchType = searchType
+  @action.bound selectType(runType) {
+    this.runType = runType
     store.getsearchList({
-      searchType,
+      runType,
       name: this.name,
     })
   }
@@ -41,7 +41,7 @@ class MySearch extends Component {
     this.name = e.target.value
     store.getsearchList({
       name: e.target.value,
-      searchType: this.searchType,
+      runType: this.runType,
     })
   }
 
@@ -65,10 +65,17 @@ class MySearch extends Component {
     })
   }
 
+  @action.bound clone(id) {
+    const t = this
+    store.clone(id, () => {
+      t.refresh()
+    })
+  }
+
   @action.bound refresh() {
     store.getsearchList({
       name: this.name,
-      searchType: this.searchType,
+      runType: this.runType,
     })
   }
 
@@ -120,6 +127,7 @@ class MySearch extends Component {
                         <Card 
                           className="card"
                           title={name}
+                          link={`${window.__keeper.pathHrefPrefix}/search/my-search/${type === '可视化方式' ? 'visual' : 'tql'}/${id}`}
                           labelList={[{
                             label: '查询类型',
                             value: type,
@@ -128,13 +136,6 @@ class MySearch extends Component {
                             value: ctime,
                           }]}
                           descr={descr}
-                          // countList={[{
-                          //   label: '标签数',
-                          //   value: tagCount,
-                          // }, {
-                          //   label: 'API数',
-                          //   value: apiCount,
-                          // }]}
                           actions={[
                             <Button 
                               type="link" // antd@Button 属性
@@ -157,6 +158,7 @@ class MySearch extends Component {
                             >
                               <IconDel size="14" className={used ? 'i-used' : ''} />
                             </Button>,
+                            <CopyOutlined onClick={() => this.clone(id)} className={used ? 'i-used' : ''} />,
                           ]}
                         />
                       )) 

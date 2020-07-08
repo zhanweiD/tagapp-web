@@ -21,7 +21,7 @@ class GroupConfig extends Component {
     store.getPortrayal()
   }
   componentWillMount() {
-    // store.getPortrayal()
+    store.getPortrayal()
   }
 
   @action openModal = () => {

@@ -86,6 +86,7 @@ const RuleItem = ({
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onSelect={onSelectRel}
+                  disabled={rest.page === 'detail'}
                 >
                   {
                     otherEntity.map(d => <Option value={d.objId}>{d.objName}</Option>)
@@ -109,6 +110,7 @@ const RuleItem = ({
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onSelect={onSelectRel}
+                  disabled={rest.page === 'detail'}
                 >
                   {
                     relList.map(d => <Option value={d.objId}>{d.objName}</Option>)
@@ -129,6 +131,7 @@ const RuleItem = ({
               optionFilterProp="children"
               placeholder="选择函数"
               onSelect={onSelectEntityTag}
+              disabled={rest.page === 'detail'}
             >
               {
                 functionList.map(d => <Option value={d.value}>{d.name}</Option>)
@@ -148,6 +151,7 @@ const RuleItem = ({
                   style={{width: 180}}
                   optionFilterProp="children"
                   placeholder="选择标签"
+                  disabled={rest.page === 'detail'}
                 >
                   {
                     relTagList.map(d => (
@@ -170,6 +174,7 @@ const RuleItem = ({
                   style={{width: 180}}
                   optionFilterProp="children"
                   placeholder="选择标签"
+                  disabled={rest.page === 'detail'}
                 >
                   {
                     configTagList.map(d => (
@@ -192,6 +197,7 @@ const RuleItem = ({
               showSearch
               style={{width: 100}}
               optionFilterProp="children"
+              disabled={rest.page === 'detail'}
             >
               {
                 condition.map(d => <Option value={d.value}>{d.name}</Option>)
@@ -204,7 +210,7 @@ const RuleItem = ({
             name={[key, 'rightFunction']}
             initialValue={rest.rightFunction || '固定值'}
           >
-            <Select style={{width: 100}}>
+            <Select style={{width: 100}} disabled={rest.page === 'detail'}>
               <Option value="固定值">固定值</Option>
             </Select>
           </FormItem>
@@ -215,35 +221,40 @@ const RuleItem = ({
             rules={[{required: true, message: '不能为空'}]}
             initialValue={rest.rightParams}
           >
-            <Input placeholder="请输入" style={{width: 120}} />
+            <Input placeholder="请输入" style={{width: 120}} disabled={rest.page === 'detail'} />
           </FormItem>
 
-          <FormItem label={null}>
-            <div className="FBH fs14" style={{color: '#919eab'}}>
-              {
-                +ruleIfBoxKey.slice(-1) === 1 
+          {
+            rest.page === 'detail' ? null : (
+              <FormItem label={null}>
+                <div className="FBH fs14" style={{color: '#919eab'}}>
+                  {
+                    +ruleIfBoxKey.slice(-1) === 1 
                 && ruleType === 'config' 
                 && relId 
-                  ? <a href onClick={open} className="ml8 fs12">设置筛选</a> : null
-              }
+                      ? <a href onClick={open} className="ml8 fs12">设置筛选</a> : null
+                  }
               
-              {
+                  {
 
-                rest.level.length === 1 ? null : rest.level.length === 3 
-                  ? <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> 
+                    rest.level.length === 1 ? null : rest.level.length === 3 
+                      ? <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> 
 
-                  : <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" />
+                      : <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" />
 
-              }
+                  }
 
-              {
-                levelEnd === 0
-                  ? null 
-                  : <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} />
-              }
-            </div>
+                  {
+                    levelEnd === 0
+                      ? null 
+                      : <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} />
+                  }
+                </div>
             
-          </FormItem>
+              </FormItem>
+            )
+          }
+         
           
         </Input.Group>
        
