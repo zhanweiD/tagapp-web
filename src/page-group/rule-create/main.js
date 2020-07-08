@@ -1,8 +1,8 @@
-import {Component, Fragment} from 'react'
-import {Link} from 'react-router-dom'
+import {Component, useEffect} from 'react'
 import {observer, Provider} from 'mobx-react'
 import {action, toJS} from 'mobx'
-import {Steps, Button, message, Modal} from 'antd'
+import OnerFrame from '@dtwave/oner-frame'
+import {Steps, message, Modal} from 'antd'
 
 import store from './store'
 import StepOne from './step-one'
@@ -12,7 +12,7 @@ import './main.styl'
 
 const {Step} = Steps
 @observer
-export default class RuleCreate extends Component {
+class RuleCreate extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
@@ -20,6 +20,7 @@ export default class RuleCreate extends Component {
     const {match: {params}} = props
 
     store.type = params.type
+    console.log(params.groupId)
     store.groupId = params.groupId
   }
 
@@ -27,7 +28,6 @@ export default class RuleCreate extends Component {
     store.getEntityList()
     
     if (store.groupId) {
-      console.log(store.groupId)
       store.getDetail(store.groupId)
     }
   }
@@ -62,10 +62,7 @@ export default class RuleCreate extends Component {
 
     if (result) {
       message.success(`群体 ${oneForm.name} ${groupId ? '编辑' : '创建'}成功, 正在前往群体管理`)
-      // window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group`
-      // Modal.success({
-      //   content: `群体 ${oneForm.name} 创建成功 您可以去 ${<Link to="/group/manage">群体管理</Link>} 中查看`,
-      // })
+      window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group/manage`
     } else {
       Modal.error({
         content: `群体 ${oneForm.name} 创建失败 您可以重新创建`,
@@ -74,7 +71,7 @@ export default class RuleCreate extends Component {
   }
 
   render() {
-    const {current, configTagList, submitLoading, detail} = store
+    const {current, outputTags, submitLoading, detail, type} = store
 
     return (
       <Provider store={store}>
@@ -90,16 +87,35 @@ export default class RuleCreate extends Component {
             store.current === 1 ? <StepTwo /> : null
           }
          
-          <StepThree 
-            configTagList={configTagList}
-            current={current} 
-            prev={this.prev}
-            save={this.save}
-            loading={submitLoading} 
-            detail={toJS(detail)}
-          />
+          {
+            store.current === 2 ? (
+              <StepThree 
+                configTagList={toJS(outputTags)}
+                current={current} 
+                prev={this.prev}
+                save={this.save}
+                loading={submitLoading} 
+                detail={toJS(detail)}
+                type={+type}
+              />
+            ) : null
+          }
+         
         </div>
       </Provider>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <RuleCreate {...props} projectId={projectId} />
+  )
 }

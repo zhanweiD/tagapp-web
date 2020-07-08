@@ -132,14 +132,20 @@ export default class RuleContent extends Component {
       openDrawer,
       otherEntity,
       configTagList,
+      page,
     } = this.props
 
     return (
       <div>
-        <div className="mb24">
-          <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup}>添加</Button>
-          <Button className="ml8" onClick={this.reset}>重置条件</Button>
-        </div>
+        {
+          page === 'detail' ? null : (
+            <div className="mb24">
+              <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup}>添加</Button>
+              <Button className="ml8" onClick={this.reset}>重置条件</Button>
+            </div>
+          )
+        }
+    
         <div className="group">
           <Form
             key={key}
@@ -162,6 +168,7 @@ export default class RuleContent extends Component {
                   relList={relList}
                   otherEntity={otherEntity}
                   type={type}
+                  page={page}
                 />
               ))
             }
@@ -173,6 +180,7 @@ export default class RuleContent extends Component {
                 logic={this.selfCon}
                 pos={[64, firstConditionT, firstConditionH]}
                 changeCondition={this.changeSelfCondition}
+                page={page}
               />
             ) : null
           }

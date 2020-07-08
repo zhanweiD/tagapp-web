@@ -21,7 +21,7 @@ class Store {
 
   // 跳转到微观画像
   goPortrayal = value => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/portrayal/${this.objId}/${value}`
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/portrayal/${this.objId}/${value}`
   }
   
   // 获取个体列表

@@ -6,9 +6,10 @@ import GroupManage from './group-manage'
 import GroupDetail from './group-detail'
 import UnitList from './unit-list'
 import RuleCreate from './rule-create'
+import RuleDetail from './rule-detail'
 
 import GroupAnalyze from './group-analyze'
-// import GroupConfig from './group-config'
+
 import PortrayalLabel from './portrayal'
 
 const prePath = '/group'
@@ -30,6 +31,9 @@ export default () => {
       {/* 群体详情 */}
       <Route exact path={`${prePath}/manage/:id/:objId`} component={GroupDetail} /> 
 
+      {/* 查看规则详情 */}
+      <Route exact path={`${prePath}/manage/rule/:groupId/:objId`} component={RuleDetail} /> 
+
       {/* 个体列表 */}
       <Route exact path={`${prePath}/unit/:objId/:id/:queryDate`} component={UnitList} />
       
@@ -37,7 +41,7 @@ export default () => {
       <Route exact path={`${prePath}/rule-create/:type?/:groupId?`} component={RuleCreate} />
 
       {/* 群体分析 */}
-      <Route exact path={`${prePath}/analyze`} component={GroupAnalyze} />
+      <Route exact path={`${prePath}/analyze/:groupId?/:time?`} component={GroupAnalyze} />
 
       {/* 微观画像 */}
       <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?`} component={PortrayalLabel} />

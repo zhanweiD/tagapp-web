@@ -1,11 +1,11 @@
 /**
  * @description 群体详情
  */
-import {Component, Fragment} from 'react'
+import {Component, Fragment, useEffect} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Tabs, Button, Spin, Alert} from 'antd'
-
+import OnerFrame from '@dtwave/oner-frame'
 import {Time} from '../../common/util'
 import {Tag, DetailHeader, TimeRange} from '../../component'
 import TagHistory from './tab-history'
@@ -15,7 +15,7 @@ import store from './store'
 const {TabPane} = Tabs
 
 @observer
-export default class GroupDetail extends Component {
+class GroupDetail extends Component {
   defStartTime = moment().subtract(7, 'day').format('YYYY-MM-DD')
   defEndTime = moment().subtract(1, 'day').format('YYYY-MM-DD')
 
@@ -29,10 +29,6 @@ export default class GroupDetail extends Component {
   }
 
   componentWillMount() {
-    // 面包屑设置
-    // const {frameChange} = this.props
-    // frameChange('nav', navList)
-   
     store.getDetail()
     store.getHistoryList()
   }
@@ -44,6 +40,10 @@ export default class GroupDetail extends Component {
     } else {
       store.getApiList()
     }
+  }
+
+  @action.bound viewRule() {
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/manage/rule/${store.id}/${store.objId}`
   }
 
   render() {
@@ -95,7 +95,7 @@ export default class GroupDetail extends Component {
     }
 
     const actions = [
-      <a className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>查看规则</a>,
+      <a className="mr8" onClick={this.viewRule}>查看规则</a>,
     ]
     return (
       // <div className="content-header group-detail">
@@ -144,4 +144,18 @@ export default class GroupDetail extends Component {
       </div>
     )
   }
+}
+
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <GroupDetail {...props} projectId={projectId} />
+  )
 }

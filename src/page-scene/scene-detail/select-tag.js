@@ -77,9 +77,9 @@ export default class SelectTag extends Component {
       })
     })
 
-    if (this.store.projectId) {
-      this.store.getAuthCode()
-    }
+    // if (this.store.projectId) {
+    //   this.store.getAuthCode()
+    // }
   }
 
   @action tagChange = tagId => {

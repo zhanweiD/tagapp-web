@@ -6,6 +6,7 @@ const api = {
   edit: post(`${dataSearch}/edit_search`), // 编辑查询
   del: post(`${dataSearch}/delete_search`), // 删除查询
   checkName: post(`${dataSearch}/checkName`), // 查询重名校验
+  clone: post(`${dataSearch}/clone_search`), // 克隆重名校验 
 }   
 
 ioContext.create('mySearch', api) 

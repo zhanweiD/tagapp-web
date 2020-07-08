@@ -25,7 +25,6 @@ const navList = [
   {text: navListMap.sceneDetail.text},
 ]
 
-// @inject('frameChange')
 @observer
 export default class SceneDetail extends Component {
   constructor(props) {
@@ -37,13 +36,9 @@ export default class SceneDetail extends Component {
   }
 
   componentWillMount() {
-    // 面包屑设置
-    // const {frameChange} = this.props
-    // frameChange('nav', navList)
-   
     if (store.projectId) {
       store.getDetail()
-      store.getAuthCode()
+      // store.getAuthCode()
     }
   }
 

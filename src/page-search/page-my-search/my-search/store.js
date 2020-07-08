@@ -57,6 +57,7 @@ class Store {
       runInAction(() => {
         if (res) {
           successTip('删除成功')
+
           if (cb) cb()
         } else {
           failureTip('删除失败')
@@ -66,6 +67,27 @@ class Store {
       errorTip(e.message)
     }
   }
+
+
+  // 克隆
+  @action async clone(id, cb) {
+    try {
+      const res = await io.clone({
+        id,
+      })
+      runInAction(() => {
+        if (res) {
+          successTip('克隆成功')
+          if (cb) cb()
+        } else {
+          failureTip('克隆失败')
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  
 
   // 名称校验
   @action async checkName(params, cb) {

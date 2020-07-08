@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import {Modal, Select, Form, Radio} from 'antd'
-import {action, observable} from 'mobx'
+import {action, observable, toJS} from 'mobx'
 import {inject, observer} from 'mobx-react'
 
 const {Option} = Select
@@ -21,7 +21,13 @@ class ModalAdd extends React.Component {
     this.formRef.current
       .validateFields()
       .then(values => {
-        this.props.add(values) 
+        const params = {
+          type: this.type,
+          tagId: values.tagId,
+        }
+        this.props.add(params, () => {
+          this.handleCancel()
+        }) 
       })
       .catch(info => {
         console.log('Validate Failed:', info)
@@ -36,18 +42,25 @@ class ModalAdd extends React.Component {
   }
 
   @action.bound onSelect(e) {
-    const {tagList} = this.store
+    const {tagList, chartTypeList} = this.store
     
-    const obj = tagList.filter(d => d.tagId === e)[0]
+    const [obj] = tagList.filter(d => d.tagId === e)
 
     this.type = obj.type
     this.tagId = e
+
+    const typeList = toJS(chartTypeList)[+e] || []
+
+    if (typeList.length) {
+      this.formRef.current
+        .resetFields(['chartType'])
+    }
   }
 
   render() {
     const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
 
-    const typeList = chartTypeList[+this.tagId] || []
+    const typeList = toJS(chartTypeList)[+this.tagId] || []
 
     return (
       <Modal
@@ -64,7 +77,7 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="标签" 
             name="tagId"
-            // rules={[{required: true, message: '请选择标签'}]}
+            rules={[{required: true, message: '请选择标签'}]}
             initialValue={modalEditInfo.tagId}
 
           >

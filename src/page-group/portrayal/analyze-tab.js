@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {observer, inject} from 'mobx-react'
 import * as d3 from 'd3'
 import {Progress} from 'antd'
 import personIcon from '../../icon/person.svg'
+import {NoData} from '../../component'
 
 import './analyze-tab.styl'
   
@@ -22,7 +23,9 @@ export default class AnalyzeTab extends Component {
   componentDidMount() {
     this.store.getAnalysis()
     this.store.getMarkedFeature(data => {
-      this.draw(data)
+      if (data && data.nodes.length) {
+        this.draw(data)
+      }
     })
   }
 
@@ -129,23 +132,33 @@ export default class AnalyzeTab extends Component {
     return (
       <div className="bgf">
         <div className="analyze-content">
-          <div className="person" id="person">
-            <div className="svg-box"> 
-              <svg id="box" />
-              <img src={personIcon} alt="人" id="pic" />
-            </div>      
-          </div>
-          <div className="analyze-ratio">
-            {
-              statistics.map(d => (
-                <div>
-                  <div>{d.x}</div>
-                  <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+          
+          {
+            statistics.length ? (
+              <Fragment>
+                <div className="person" id="person">
+                  <div className="svg-box"> 
+                    <svg id="box" />
+                    <img src={personIcon} alt="人" id="pic" />
+                  </div>      
                 </div>
-              ))
-            }
+                <div className="analyze-ratio">
+                  {
+                    statistics.map(d => (
+                      <div>
+                        <div>{d.x}</div>
+                        <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+                      </div>
+                    ))
+                  }
            
-          </div>
+                </div>
+              </Fragment>
+             
+            ) : <NoData />
+          }
+        
+        
         </div>
        
       </div>

@@ -1,22 +1,20 @@
 /**
  * @description 可视化
  */
-import React, {Component} from 'react'
+import React, {Component, useEffect} from 'react'
 import {observer} from 'mobx-react'
 import {action, observable, toJS} from 'mobx'
 import {
   Button,
   Menu,
   Form,
-  // Input,
   Select,
   Radio,
   message,
   Popconfirm,
-  // Modal,
+  Spin,
 } from 'antd'
-// import {ExclamationCircleOutlined} from '@ant-design/icons'
-// import {IconDel, IconTreeAdd} from '../../../icon-comp'
+import OnerFrame from '@dtwave/oner-frame'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
 import SearchResult from './search-result'
@@ -35,7 +33,7 @@ const {Option} = Select
 // const {confirm} = Modal
 
 @observer
-export default class Visual extends Component {
+class Visual extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
@@ -55,9 +53,9 @@ export default class Visual extends Component {
   }
 
   @action.bound selectObj(objId) {
-    store.objId = objId
-    store.getTagTree({id: objId})
-    store.getExpressionTag({id: objId})
+    // store.objId = objId
+    // store.getTagTree({id: objId})
+    // store.getExpressionTag({id: objId})
   }
 
   @action.bound refreshTree(searchKey) {
@@ -219,10 +217,6 @@ export default class Visual extends Component {
     }
   }
 
-  onSelectTag = () => {
-    console.log(this.outConfigRef.current.getFieldsValue())
-  }
-
   render() {
     const {
       outConfig, 
@@ -236,127 +230,147 @@ export default class Visual extends Component {
       resultInfo,
       resultLoading,
       detail,
+      detailLoading,
     } = store
 
     return (
-      <div className="visual">
-        <div className="header-button">
-          {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
-          <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
-        </div>
-        <div className="FBH pt16 pb16">
-          <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} disabled>
-            {
-              objList.map(d => <Option value={d.id}>{d.name}</Option>)
-            }
-          </Select>
-        </div>
-        <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
-          <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
-          <div className="visual-content-warp">
-            <div className="code-menu">
-              <span className="code-menu-item mr16" onClick={() => this.search()}>
-                <img src={yunxing} alt="img" />
-                <span>查询</span>
-              </span>
-            </div>
-            <div className="visual-content">
-              <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
-              <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
-                <Menu.Item key="out">
+      <Spin spinning={detailLoading}> 
+        <div className="visual">
+          <div className="header-button">
+            {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
+            <Button className="mr8" onClick={this.save}>保存数据查询</Button>
+            <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
+          </div>
+          <div className="FBH pt16 pb16">
+            <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
+            <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} disabled>
+              {
+                objList.map(d => <Option value={d.id}>{d.name}</Option>)
+              }
+            </Select>
+          </div>
+          <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
+            <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
+            <div className="visual-content-warp">
+              <div className="code-menu">
+                <span className="code-menu-item mr16" onClick={() => this.search()}>
+                  <img src={yunxing} alt="img" />
+                  <span>查询</span>
+                </span>
+              </div>
+              <div className="visual-content">
+                <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
+                <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
+                  <Menu.Item key="out">
                   输出设置
-                </Menu.Item>
-                <Menu.Item key="screen">
+                  </Menu.Item>
+                  <Menu.Item key="screen">
                   筛选设置
-                </Menu.Item>
-              </Menu>
-              <div className="visual-config">
+                  </Menu.Item>
+                </Menu>
+                <div className="visual-config">
                
-                {/* 渲染输出设置 */}
-                <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
-                  {
-                    outConfig.length ? (
-                      <div>
-                        <Popconfirm
-                          placement="bottomLeft"
-                          title="确认清除输出设置？"
-                          onConfirm={this.delAllOutConfig}
-                          okText="确实"
-                          cancelText="取消"
-                        >
-                          <Button type="primary" className="mb16">清除输出设置</Button>
-                        </Popconfirm>
-                        <Form name="out" ref={this.outConfigRef}>
-                          {
-                            outConfig.map((d, i) => (
-                              <OutItem 
-                                id={d.id}
-                                index={i}
-                                expressionTag={toJS(expressionTag)}
-                                delOutConfig={this.delOutConfig}
-                                addOutConfig={this.addOutConfig}
-                              />
-                            ))
-                          }
-                     
-                        </Form>
-                      </div>
-                    )
-                      : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
-                  }
-                </div>
-                {/* 渲染筛选设置 */}
-                <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
-                  {
-                    screenConfig.length ? (
-                      <div>
+                  {/* 渲染输出设置 */}
+                  <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
+                    {
+                      outConfig.length ? (
                         <div>
                           <Popconfirm
                             placement="bottomLeft"
-                            title="确认清除筛选设置？"
+                            title="确认清除输出设置？"
                             onConfirm={this.delAllOutConfig}
                             okText="确实"
                             cancelText="取消"
                           >
-                            <Button type="primary" className="mb16">清除筛选设置</Button>
+                            <Button type="primary" className="mb16">清除输出设置</Button>
                           </Popconfirm>
+                          <Form name="out" ref={this.outConfigRef}>
+                            {
+                              outConfig.map((d, i) => (
+                                <OutItem 
+                                  id={d.id}
+                                  index={i}
+                                  expressionTag={toJS(expressionTag)}
+                                  delOutConfig={this.delOutConfig}
+                                  addOutConfig={this.addOutConfig}
+                                  info={toJS(d)}
+                                />
+                              ))
+                            }
+                     
+                          </Form>
                         </div>
-                        <Form name="srceen" ref={this.screenConfigRef}>
-                          <Form.Item name="whereType" initialValue={detail.whereCondition.whereType || 'and'}>
-                            <Radio.Group>
-                              <Radio value="and">符合全部以下条件</Radio>
-                              <Radio value="or">符合任何以下条件</Radio>
-                            </Radio.Group>
-                          </Form.Item>
+                      )
+                        : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                    }
+                  </div>
+                  {/* 渲染筛选设置 */}
+                  <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
+                    {
+                      screenConfig.length ? (
+                        <div>
+                          <div>
+                            <Popconfirm
+                              placement="bottomLeft"
+                              title="确认清除筛选设置？"
+                              onConfirm={this.delAllOutConfig}
+                              okText="确实"
+                              cancelText="取消"
+                            >
+                              <Button type="primary" className="mb16">清除筛选设置</Button>
+                            </Popconfirm>
+                          </div>
+                          <Form name="srceen" ref={this.screenConfigRef}>
+                            <Form.Item name="whereType" initialValue={(detail.whereCondition && detail.whereCondition.whereType) || 'and'}>
+                              <Radio.Group>
+                                <Radio value="and">符合全部以下条件</Radio>
+                                <Radio value="or">符合任何以下条件</Radio>
+                              </Radio.Group>
+                            </Form.Item>
                         
-                          {
-                            screenConfig.map((d, i) => (
-                              <ScreenItem 
-                                id={d.id}
-                                index={i}
-                                expressionTag={toJS(expressionTag)}
-                                delScreenConfig={this.delScreenConfig}
-                                addScreenConfig={this.addScreenConfig}
-                              />
-                            ))
-                          }
+                            {
+                              screenConfig.map((d, i) => (
+                                <ScreenItem 
+                                  id={d.id}
+                                  index={i}
+                                  expressionTag={toJS(expressionTag)}
+                                  delScreenConfig={this.delScreenConfig}
+                                  addScreenConfig={this.addScreenConfig}
+                                  info={toJS(d)}
+                                />
+                              ))
+                            }
                       
-                        </Form>
-                      </div>
-                    )
-                      : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
-                  }
+                          </Form>
+                        </div>
+                      )
+                        : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <ModalSave store={store} />
-        <DrewerApi store={store} />
-      </div>
+          <ModalSave store={store} />
+          <DrewerApi store={store} />
+        </div>
+      </Spin>
+
     )
   }
+}
+
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <Visual {...props} projectId={projectId} />
+  )
 }

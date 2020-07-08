@@ -142,7 +142,7 @@ class EModal extends Component {
             extra="常关注的特征，最多可选择20个"
           >
             {getFieldDecorator('markedFeatureTag', {
-              initialValue: detail.markedFeatureTag,
+              initialValue: detail.markedFeatureTag || undefined,
               rules: [
                 {required: true, message: '请选择标签！'},
                 {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},

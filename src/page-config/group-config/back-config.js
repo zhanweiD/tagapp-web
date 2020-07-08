@@ -142,14 +142,17 @@ export default class BackConfig extends Component {
           <div className="cloud-config">
             <p className="config-title">
               <span style={{marginRight: '8px'}}>数据源配置</span>
-              <FormOutlined className="action" onClick={this.editClick} />
+              {/* <FormOutlined className="action" onClick={this.editClick} /> */}
             </p>
             <ModalForm {...formConfig} />
           </div>
 
           <div className="entity-config">
             <p className="config-title">实体配置</p>
-            {
+            <div className="list-content">
+              <ListContent {...listConfig} />
+            </div>
+            {/* {
               list.length ? (
                 <div className="list-content">
                   <ListContent {...listConfig} />
@@ -157,7 +160,12 @@ export default class BackConfig extends Component {
               ) : (
                 <NoData {...noDataConfig} />
               )
-            }
+            } */}
+            {/* <div className="list-content">
+              <Spin spinning={loading} tip="Loading">
+                <ListContent {...listConfig} />
+              </Spin>
+            </div> */}
           </div>
           <EntityModal store={store} />
           <ConfigModal store={store} />

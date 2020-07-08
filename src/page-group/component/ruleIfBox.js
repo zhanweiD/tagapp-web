@@ -51,6 +51,7 @@ export default class RuleIfBox extends Component {
 
   renderRuleCondition = () => {
     const {data} = this.state
+    const {page} = this.props
 
     return data.map((d, i) => {
       if (d.type === 1) {
@@ -61,6 +62,7 @@ export default class RuleIfBox extends Component {
             delCon={() => this.delCombineCon(d, i)} 
             changeCondition={d => this.changeCondition(d, i)}
             info={d}
+            page={page}
           />
         ) 
       }
@@ -78,6 +80,7 @@ export default class RuleIfBox extends Component {
       relList,
       openDrawer,
       type,
+      page,
     } = this.props
 
     return (
@@ -96,6 +99,7 @@ export default class RuleIfBox extends Component {
               relList={relList}
               openDrawer={openDrawer}
               ruleType={type}
+              page={page}
               {...d}
             />
           ) 
@@ -113,7 +117,7 @@ export default class RuleIfBox extends Component {
     this.setState({
       data: newData,
     })
-    console.log(sdata)
+
     this.props.changeCondition(sdata)
   }
 
@@ -121,7 +125,7 @@ export default class RuleIfBox extends Component {
   addCon = (d, i) => {
     let data = _.cloneDeep(this.state.data)
     const len = data.length
-
+    console.log(data)
     if (len === 1) {
       data = [{
         type: 1,
@@ -131,7 +135,9 @@ export default class RuleIfBox extends Component {
         y: 32,
         source: null,
         target: null,
+        logic: 1,
       }, {
+        ...data[0],
         type: 2,
         flag: '0-0',
         level: [0, 0],
@@ -175,6 +181,7 @@ export default class RuleIfBox extends Component {
   }
 
   addCombineItem = (itemData, i) => {
+    console.log(itemData)
     const data = _.cloneDeep(this.state.data)
 
     const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
@@ -280,6 +287,7 @@ export default class RuleIfBox extends Component {
       source: [current.source[0], current.source[0] > current.y ? current.source[1] + 64 : current.source[1]],
       target: [current.target[0], current.target[1] + 32],
       type: 1,
+      logic: 1,
       x: current.x,
       y: current.y + 32,
     } 
@@ -466,12 +474,16 @@ export default class RuleIfBox extends Component {
   render() {
     const {data} = this.state
 
-    const {id} = this.props
+    const {id, page} = this.props
     const heightComp = data.filter(d => d.type !== 1).length * 64
     const height = `${heightComp > 50 ? heightComp : 50}px`
     return (
       <div className="rule-if-box" id={id} style={{height}}>
-        <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
+        
+        {
+          page === 'detail' ? null : <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
+        }
+   
         <svg style={{height: '100%', width: '100%'}}>
           {
             this.renderLine()

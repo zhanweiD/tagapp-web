@@ -21,15 +21,24 @@ const ScreenItem = ({
   const [tagList, changeTagList] = useState(expressionTag)
   const [rightFunction, changeRightFunction] = useState('固定值')
   const [showSelect, changeShowSelect] = useState(true)
+  const [showInput, changeShowInput] = useState(false)
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
-    const newShowSelect = obj.type !== 'count'
-
-    changeTagList(newTagList)
-    changeShowSelect(newShowSelect)
+   
+    if (obj.value === '固定值') {
+      changeShowInput(true)
+      changeShowSelect(false)
+    } else if (obj.value === 'count') {
+      changeShowInput(false)
+      changeShowSelect(false)
+    } else {
+      changeTagList(newTagList)
+      changeShowSelect(true)
+      changeShowInput(false)
+    }
   }
 
   const onSelectRightFun = e => {
@@ -45,13 +54,24 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue="标签值"
         >
-          <Select placeholder="请选择" style={{width: '150px'}} showSearch>
+          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect}>
             {
               outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
         </Form.Item>
+        {
+          showInput ? (
+            <Form.Item
+              name={[id, 'params']}
+              noStyle
+              rules={[{required: true, message: '请输入'}]}
+            >
+              <Input style={{width: '200px'}} placeholder="请输入" />
 
+            </Form.Item>
+          ) : null
+        }
         {
           showSelect ? (
             <Form.Item
@@ -59,7 +79,7 @@ const ScreenItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect}>
+              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -152,7 +172,6 @@ const ScreenItem = ({
             <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" />
             <IconTreeAdd size="14" onClick={() => addScreenConfig(index)} />
           </div>
-
         </Form.Item>
       </Input.Group>
     </Form.Item>

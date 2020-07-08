@@ -1,5 +1,5 @@
 import {
-  action, runInAction, observable,
+  action, runInAction, observable, toJS,
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
@@ -43,6 +43,12 @@ class Store {
       const res = await io.getObj({
         projectId: this.projectId,
       })
+
+      // const res = [{
+      //   objId: 111,
+      //   objName: '1123',
+      // }]
+
       runInAction(() => {
         this.objList = res
       })
@@ -57,6 +63,10 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+      // const res = [{
+      //   groupId: 111,
+      //   groupName: '1123',
+      // }]
       runInAction(() => {
         this.groupList = res
       })
@@ -71,6 +81,11 @@ class Store {
         projectId: this.projectId,
         objId: this.objId,
       })
+      // const res = [{
+      //   columnName: 1111,
+      //   tagId: 111,
+      // }]
+
       runInAction(() => {
         this.tagList = res
       })
@@ -81,15 +96,9 @@ class Store {
 
   @action async getRoportion(params, cb) {
     try {
-      // const res1 = await io.getRoportion({
-      //   ...params,
-      // })
-
-      const res = {
-        totalCount: 2121,
-        groupCount: 500,
-        time: 1592805271788,
-      }
+      const res = await io.getRoportion({
+        ...params,
+      })
 
       runInAction(() => {
         this.roportion = res
@@ -105,38 +114,12 @@ class Store {
   
   @action async getChart(params, index) {
     try {
-      // const res1 = await io.getChart({
-      //   runDate: this.groupTime,
-      //   ...params,
-      // })
-
-      const res = {
-        percent: '100%', // 全部占比
-        tagId: 7320801126843392, // 标签id
-        tagName: '创建时间11', // 标签名称
-        xy: [
-          {
-            y1: 1, // y轴 标签个数
-            x: '2020-06-13', // x轴 标签值
-            y2: '50.00%', // y轴 标签占比
-          },
-          {
-            y1: 1, // y轴 标签个数
-            x: '2020-06-11', // x轴 标签值
-            y2: '50.00%', // y轴 标签占比
-          },
-          {
-            y1: 3, // y轴 标签个数
-            x: '2020-06-14', // x轴 标签值
-            y2: '50.00%', // y轴 标签占比
-          },
-          {
-            y1: 3, // y轴 标签个数
-            x: '2020-06-16', // x轴 标签值
-            y2: '50.00%', // y轴 标签占比
-          },
-        ],
-      }
+      const res = await io.getChart({
+        runDate: this.groupTime,
+        projectId: this.projectId,
+        id: this.groupId,
+        ...params,
+      })
 
       runInAction(() => {
         const data = {

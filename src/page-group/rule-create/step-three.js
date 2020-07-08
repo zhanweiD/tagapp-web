@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {Form, Select, Radio, Button, DatePicker} from 'antd'
 import {CycleSelect} from '@dtwave/uikit'
-import {limitSelect} from '../../common/util'
+import {toJS} from 'mobx'
 
 const {Option} = Select
 const {RangePicker} = DatePicker
@@ -12,16 +12,21 @@ const formItemLayout = {
   colon: false,
 }
 
-const StepThree = ({current, configTagList, prev, save, loading, detail}) => {
+const StepThree = ({current, configTagList, prev, save, loading, detail, type}) => {
   const onFinish = value => {
-    const {scheduleType, scheduleExpression, isStart, rangePicker} = value
+    const {scheduleType, scheduleExpression, isStart, rangePicker, outputTags} = value
     const params = {
-      scheduleType,
-      scheduleExpression,
-      isStart,
-      startTime: moment(rangePicker[0]).format('x'),
-      endTime: moment(rangePicker[1]).format('x'),
+      outputTags,
     }
+
+    if (type === 1) {
+      params.scheduleType = scheduleType
+      params.scheduleExpression = scheduleExpression
+      params.isStart = +isStart
+      params.startTime = +moment(rangePicker[0]).format('x')
+      params.endTime = +moment(rangePicker[1]).format('x')
+    }
+
     save(params)
   }
 
@@ -31,69 +36,75 @@ const StepThree = ({current, configTagList, prev, save, loading, detail}) => {
         name="three"
         onFinish={onFinish}
       >
-        <Form.Item
-          label="更新类型"
-          name="scheduleType"
-          rules={[{required: true, message: '请选择更新类型'}]}
-          initialValue={detail.scheduleType || 1}
-          {...formItemLayout}
-        >
-          <Select
-            showSearch
-            allowClear
-          >
-            <Option value={1}>周期更新</Option>
-            <Option value={2}>立即运行</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.scheduleType !== currentValues.scheduleType}>
-          {({getFieldValue}) => {
-            return getFieldValue('scheduleType') === 1 ? (
-              <div>
-                <Form.Item
-                  label=""
-                  name="scheduleExpression"
-                  rules={[{required: true, message: '更新周期不能为空'}]}
-                  initialValue={detail.scheduleExpression || CycleSelect.formatCron({
-                    cycle: 'day',
-                  })
-                  }
+        {
+          type === 1 ? (
+            <Fragment>
+              <Form.Item
+                label="更新类型"
+                name="scheduleType"
+                rules={[{required: true, message: '请选择更新类型'}]}
+                initialValue={detail.scheduleType || 1}
+                {...formItemLayout}
+              >
+                <Select
+                  showSearch
+                  allowClear
                 >
-                  <CycleSelect
-                    cycleList={['day']}
-                    cycleText="更新"
-                    disabled={false}
-                    required
-                    layout="horizontal"
-                    formItemLayout={formItemLayout}
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="isStart"
-                  label="是否立即执行"
-                  {...formItemLayout}
-                  initialValue={detail.isStart || '1'}
-                >
-                  <Radio.Group>
-                    <Radio value="1">是</Radio>
-                    <Radio value="0">否</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                  label="更新有效时间"
-                  name="rangePicker"
-                  rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
-                  {...formItemLayout}
-                  initialValue={[moment(detail.startTime), moment(detail.endTime)]}
-                >
-                  <RangePicker />
-                </Form.Item>
-              </div>
-            ) : null
-          }}
-        </Form.Item>
+                  <Option value={1}>周期更新</Option>
+                  <Option value={2}>立即运行</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.scheduleType !== currentValues.scheduleType}>
+                {({getFieldValue}) => {
+                  return getFieldValue('scheduleType') === 1 ? (
+                    <div>
+                      <Form.Item
+                        label=""
+                        name="scheduleExpression"
+                        rules={[{required: true, message: '更新周期不能为空'}]}
+                        initialValue={detail.scheduleExpression || CycleSelect.formatCron({
+                          cycle: 'day',
+                        })
+                        }
+                      >
+                        <CycleSelect
+                          cycleList={['day']}
+                          cycleText="更新"
+                          disabled={false}
+                          required
+                          layout="horizontal"
+                          formItemLayout={formItemLayout}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="isStart"
+                        label="是否立即执行"
+                        {...formItemLayout}
+                        initialValue={detail.isStart || '1'}
+                      >
+                        <Radio.Group>
+                          <Radio value="1">是</Radio>
+                          <Radio value="0">否</Radio>
+                        </Radio.Group>
+                      </Form.Item>
+                      <Form.Item
+                        label="更新有效时间"
+                        name="rangePicker"
+                        rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
+                        {...formItemLayout}
+                        initialValue={[moment(detail.startTime), moment(detail.endTime)]}
+                      >
+                        <RangePicker />
+                      </Form.Item>
+                    </div>
+                  ) : null
+                }}
+              </Form.Item>
 
-         
+            </Fragment>
+          ) : null
+        }
+       
         <Form.Item
           label="输出标签设置"
           name="outputTags"
@@ -110,7 +121,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail}) => {
             },
           }]}
           {...formItemLayout}
-          initialValue={detail.outputTags}
+          initialValue={toJS(detail.outputTags)}
         >
           <Select
             mode="multiple"
@@ -118,10 +129,8 @@ const StepThree = ({current, configTagList, prev, save, loading, detail}) => {
             placeholder="请选择标签"
           >
             {
-              configTagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+              configTagList.map(d => <Option value={d.tagId}>{d.tagName}</Option>)
             }
-            <Option value="1">周期更新</Option>
-            <Option value="2">立即运行</Option>
           </Select>
         </Form.Item>
 

@@ -52,7 +52,7 @@ class GroupAnalyze extends Component {
     store.getTags()
   }
 
-  @action.bound add(values) {
+  @action.bound add(values, cb) {
     const {modalEditInfo} = store
 
     if (modalEditInfo.type === 'edit') {
@@ -60,6 +60,8 @@ class GroupAnalyze extends Component {
     } else {
       store.getChart(values)
     }
+
+    cb()
   }
 
   @action.bound del(data, index) {
@@ -76,9 +78,9 @@ class GroupAnalyze extends Component {
   }
 
   render() {
-    const {roportion, info} = store
+    const {roportion, info, groupId} = store
     const {match: {params}} = this.props
-
+    console.log(roportion)
     return (
       <Provider store={store}>
         <div>
@@ -89,11 +91,11 @@ class GroupAnalyze extends Component {
             }
           </div>
 
-          <div style={{display: roportion.totalCount ? 'block' : 'none'}} className="analyze-roportion">
+          <div style={{display: roportion.time ? 'block' : 'none'}} className="analyze-roportion box-border">
             <div ref={ref => this.roportionRef = ref} style={{height: '150px', width: '150px'}} />
             <div className="analyze-roportion-text">
               <div className="fs24">{roportion.groupCount}</div>
-              <div>{`在全部实体${roportion.totalCount}中占比${(roportion.groupCount / roportion.totalCount * 100).toFixed(2)}`}</div>
+              <div>{`在全部实体 ${roportion.totalCount} 中占比${roportion.totalCount ? (roportion.groupCount / roportion.totalCount * 100).toFixed(2) : 0}%`}</div>
             
             </div>
             <div className="analyze-roportion-time">
@@ -102,11 +104,15 @@ class GroupAnalyze extends Component {
             </div>
           </div>
 
-          <div className="analyze-action">
-            <span>群体画像</span>
-            <Button type="primary" onClick={this.showModal}>添加分析纬度</Button>
-          </div>
-
+          {
+            groupId ? (
+              <div className="analyze-action">
+                <span>群体画像</span>
+                <Button type="primary" onClick={this.showModal}>添加分析纬度</Button>
+              </div>
+            ) : null
+          }
+         
           <div className="group-analyze">
             <div className="chart-content">
               {
@@ -140,7 +146,7 @@ class GroupAnalyze extends Component {
                     </div>
                   ))
 
-                  : <NoData />
+                  : <NoData text="暂无数据" />
               }
             </div>
             <ModalAdd add={this.add} />

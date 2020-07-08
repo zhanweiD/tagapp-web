@@ -57,6 +57,7 @@ class PortrayalLabel extends Component {
       text: '请输入主标签查询',
       // code: 'asset_tag_project_add',
     }
+
     return (
       <Provider store={store}>
         <div className="show-label">

@@ -39,6 +39,7 @@ class Store {
 
   // 详情
   @observable detail = {}
+  @observable detailLoading = false
 
   // 获取标签树
   @action async getTagTree(params) {
@@ -62,16 +63,10 @@ class Store {
   // 获取对象下拉
   @action async getObjList() {
     try {
-      // const res = await io.getObjList({
-      //   projectId: this.projectId,
-      // })
-      const res = [
-        {
-          objId: 12312312,
-          objName: 'fsadfa',
-        },
-      ]
-      
+      const res = await io.getObjList({
+        projectId: this.projectId,
+      })
+
       runInAction(() => {
         if (res.length) {
           const objId = res[0].id
@@ -89,103 +84,32 @@ class Store {
   // 获取表达式标签
   @action async getExpressionTag(params) {
     try {
-      // const res = await io.getExpressionTag({
-      //   projectId: this.projectId,
-      //   ...params,
-      // })
+      const res = await io.getExpressionTag({
+        projectId: this.projectId,
+        ...params,
+      })
 
-      const res = [
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275282597881984',
-          objNameTagName: '门商.商品编号',
-          tagType: 2, // 1: 离散型 2：整数型 3: 小数型 4: 文本型 5: 日期型 6: 多值型
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275282601093248',
-          objNameTagName: '门商.门店号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7275282592311424.7275286538299520',
-          objNameTagName: '门商.mens',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205390118378816',
-          objNameTagName: '门店.门店号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205454747884864',
-          objNameTagName: '门店.门店一号门',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7205390117788992.7205456285818176',
-          objNameTagName: '门店.门店二号门',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195132607027456',
-          objNameTagName: '商品.商品编号',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195138167822592',
-          objNameTagName: '商品.购买地址',
-          tagType: 4,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7195140533016832',
-          objNameTagName: '商品.购买人',
-          tagType: 2,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7320801126843392',
-          objNameTagName: '商品.创建时间11',
-          tagType: 5,
-          configType: null,
-        },
-        {
-          tenantId: null,
-          userId: null,
-          objIdTagId: '7195132603422976.7320801130644480',
-          objNameTagName: '商品.层级',
-          tagType: 2,
-          configType: null,
-        },
-      ]
       runInAction(() => {
         this.expressionTag = res
+
+        const {objId, outputCondition, whereCondition} = this.detail
+        this.objId = objId
+
+        this.outConfig = outputCondition || []
+
+        if (outputCondition) {
+          this.outConfig = outputCondition.map((d, i) => ({
+            id: i,
+            ...d,
+          }))
+        }
+
+        if (whereCondition && whereCondition.comparisionList) {
+          this.screenConfig = whereCondition.comparisionList.map((d, i) => ({
+            id: i,
+            ...d,
+          }))
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -304,69 +228,26 @@ class Store {
   
   // 获取详情 
   @action async getDetail() {
-    try {
-      // const res = await io.getDetail({
-      //   id: this.searchId,
-      // })
+    this.detailLoading = true
 
-      const res = {
-        tenantId: null,
-        userId: null,
-        id: null,
-        projectId: 7195117436885248,
-        name: null,
-        objId: 0,
-        type: null,
-        source: null,
-        outputCondition: [
-          {
-            aggregateType: 0, // 0非聚合  1聚合
-            alias: 'test',
-            conditionUnit: {
-              function: '标签值',
-              params: [
-                '7195132603422976.7195138167822592',
-              ],
-            },
-          },
-        ],
-        whereCondition: {
-          comparisionList: [
-            {
-              comparision: '=',
-              left: {
-                function: '标签值',
-                params: [
-                  '7195132603422976.7195138167822592',
-                ],
-              },
-              right: {
-                function: '固定值',
-                params: [
-                  '1',
-                ],
-              },
-            },
-          ],
-          whereType: 'and', // and符合全部以下条件   or符合任何以下条件
-        },
-        descr: null,
-        ctime: null,
-      }
+    try {
+      const res = await io.getDetail({
+        id: this.searchId,
+      })
+
       runInAction(() => {
         this.detail = res
-
-        this.objId = res.objId
-
-        this.outConfig = res.outputCondition
-        this.screenConfig = res.whereCondition && res.whereCondition.comparisionList
-
+        
         this.getTagTree({id: res.objId})
         this.getExpressionTag({id: res.objId})
       })
     } catch (e) {
       errorTip(e.message)
-    } 
+    } finally {
+      runInAction(() => {
+        this.detailLoading = false
+      })
+    }
   }
 }
 

@@ -2,9 +2,14 @@ import React, {Component} from 'react'
 import WrapRuleCondition from './wrap-rule-condition'
 import RuleIfBox from './ruleIfBox'
 
-const titleMap = {
+const titleConfigMap = {
   0: '实体属性满足',
   1: '实体关系满足',
+}
+
+const titleSetMap = {
+  0: '关系属性满足',
+  1: '关联实体满足',
 }
 
 export default class Group extends Component {
@@ -81,8 +86,9 @@ export default class Group extends Component {
       type,
       logic,
       pos,
+      page,
     } = this.props
-    console.log(type)
+
     const {conditionH} = this.state
 
     const style = {
@@ -97,7 +103,7 @@ export default class Group extends Component {
               <div className="line" />
               <div className="group-item-header">
                 <span>
-                  {titleMap[d]}
+                  {type === 'config' ? titleConfigMap[d] : titleSetMap[d] }
                 </span>
               </div>
               <div className="group-item-content">
@@ -118,6 +124,7 @@ export default class Group extends Component {
           id={`${type}-second-rule-condition${flag}`}
           showLine={showLine}
           changeCondition={changeSelfCondition}
+          page={page}
         />
 
       </div>

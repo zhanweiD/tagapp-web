@@ -18,21 +18,32 @@ const OutItem = ({
   delOutConfig,
   addOutConfig,
   index,
+  info = {},
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
+
   const [showSelect, changeShowSelect] = useState(true)
+  const [showInput, changeShowInput] = useState(false)
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
-    const newShowSelect = obj.type !== 'count'
-
-    changeTagList(newTagList)
-    changeShowSelect(newShowSelect)
+   
+    if (obj.value === '固定值') {
+      changeShowInput(true)
+      changeShowSelect(false)
+    } else if (obj.value === 'count') {
+      changeShowInput(false)
+      changeShowSelect(false)
+    } else {
+      changeTagList(newTagList)
+      changeShowSelect(true)
+      changeShowInput(false)
+    }
   }
 
-
+  const {alias, conditionUnit} = info
   return (
     <Form.Item key={id}>
       <Input.Group compact>
@@ -40,7 +51,7 @@ const OutItem = ({
           name={[id, 'function']}
           noStyle
           rules={[{required: true, message: '请选择取值逻辑'}]}
-          initialValue="标签值"
+          initialValue={(conditionUnit && conditionUnit.function) || '标签值'}
         >
           <Select placeholder="请选择取值逻辑" style={{width: '200px'}} showSearch onSelect={onSelect}>
             {
@@ -50,11 +61,25 @@ const OutItem = ({
         </Form.Item>
 
         {
+          showInput ? (
+            <Form.Item
+              name={[id, 'params']}
+              noStyle
+              rules={[{required: true, message: '请输入'}]}
+            >
+              <Input style={{width: '200px'}} placeholder="请输入" />
+
+            </Form.Item>
+          ) : null
+        }
+
+        {
           showSelect ? (
             <Form.Item
               name={[id, 'params']}
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
+              initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
                 {
@@ -70,6 +95,7 @@ const OutItem = ({
           name={[id, 'alias']}
           noStyle
           rules={[{required: true, message: '请输入显示名称'}]}
+          initialValue={alias}
         >
           <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" />
         </Form.Item>

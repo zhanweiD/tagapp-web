@@ -24,10 +24,11 @@ function getColors(len) {
 export const roportionOpt = data => {
   const count = data.groupCount
   const other = data.totalCount - data.groupCount
-  const percent = (count / data.totalCount * 100).toFixed(2)
+  const percent = count ? (count / data.totalCount * 100).toFixed(2) : 0
 
   return {
     color: ['#0096FA', '#dddddd'],
+    
     series: [
       {
         type: 'pie',
@@ -97,11 +98,6 @@ export const barOpt = data => {
   const yAxisData = data.xy.map(d => d.y1)
 
   return {
-    // grid: {
-    //   left: 50,
-    //   top: 10,
-    // },
-
     grid: {
       top: 20,
       left: '3%',
@@ -110,6 +106,12 @@ export const barOpt = data => {
       containLabel: true,
     },
     color: ['#3899FF'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
+    },
     xAxis: {
       type: 'category',
       data: xAxisData,
@@ -165,7 +167,8 @@ export const acrossBarOpt = data => {
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '3%',
+      top: '2%',
+      bottom: '2%',
       containLabel: true,
     },
     xAxis: {
@@ -210,6 +213,12 @@ export const lineOpt = data => {
 
   return {
     color: colors,
+    grid: {
+      left: '3%',
+      right: '4%',
+      top: '2%',
+      bottom: '2%',
+    },
     xAxis: {
       type: 'category',
       data: xAxisData,

@@ -6,6 +6,7 @@
 
 import {useEffect, useState, Fragment} from 'react'
 import OnerFrame from '@dtwave/oner-frame'
+import {message} from 'antd'
 import NoData from '../no-data'
 import io from './io'
 import ConfigModal from './configModal'
@@ -14,7 +15,7 @@ export default PageComponent => {
   function GroupProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
-    const [hasInit, changeHasInit] = useState(true)
+    const [hasInit, changeHasInit] = useState(false)
     const [visible, changeVisible] = useState(false)
     const [dataType, changeDataType] = useState([])
     const [dataSource, changedataSource] = useState([])
@@ -41,15 +42,10 @@ export default PageComponent => {
 
     // 获取数据源
     async function getDataSource(type) {
-      // const res = await io.getDataSource({
-      //   projectId,
-      //   dataStorageType: type,
-      // })
-
-      const res = [{
-        storageId: 111,
-        storageName: '111',
-      }]
+      const res = await io.getDataSource({
+        projectId,
+        dataStorageType: type,
+      })
 
       const result = res || []
 
@@ -57,8 +53,8 @@ export default PageComponent => {
     }
 
     // 初始化项目
-    async function initProject(params) {
-      const res = await io.initProject({
+    async function groupInit(params) {
+      const res = await io.groupInit({
         ...params,
         projectId,
       })
@@ -66,10 +62,13 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
+        message.success('初始化成功')
         // 跳转至群体配置页面
-        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group`
+        window.location.href = `${window.__keeper.pathHrefPrefix}/config/search`
+      } else {
+        message.error('初始化失败')
       }
-    }
+    } 
 
     useEffect(() => {
       judgeInit(projectId)
@@ -100,7 +99,7 @@ export default PageComponent => {
             dataSource={dataSource}
             selectDataType={selectDataType}
             onCancel={() => changeVisible(false)}
-            onCreate={params => initProject(params)}
+            onCreate={params => groupInit(params)}
           />
         </Fragment>
        

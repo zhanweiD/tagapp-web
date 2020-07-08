@@ -73,6 +73,7 @@ class Store {
       })
 
       runInAction(() => {
+        this.initVisible = !res.dataStorageType
         this.dataStorageId = res.dataStorageId
         this.dataStorageTypeId = res.dataStorageType
 

@@ -1,5 +1,5 @@
 import ioContext from '../../common/io-context'
-import {get, post, groupApi} from '../../common/util'
+import {get, post, groupApi, groupConfigApi} from '../../common/util'
 
 const api = {
   getEntityList: get(`${groupApi}/obj_list`), // 实体列表
@@ -13,7 +13,9 @@ const api = {
   getConfigTagList: get(`${groupApi}/obj_target_tag_list`), // 获取对象对应已同步的标签列表
   getRelList: get(`${groupApi}/relation_list`), // 获取对象对应的关系列表
   getOtherEntity: get(`${groupApi}/other_entity`), // 获取另一个实体对象
-} 
+
+  getOutputTags: get(`${groupConfigApi}/tag_list`), // 获取输出标签
+}
 
 ioContext.create('groupRule', api) 
 

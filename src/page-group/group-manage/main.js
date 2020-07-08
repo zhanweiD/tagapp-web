@@ -4,8 +4,8 @@
 import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
-import {observer, inject} from 'mobx-react'
-import {Popconfirm, Badge, Dropdown, Menu, Spin} from 'antd'
+import {observer} from 'mobx-react'
+import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
 import {Time, successTip} from '../../common/util'
@@ -31,8 +31,8 @@ class GroupManage extends Component {
   menu = record => (
     <Menu>
       <Menu.Item>
-        <Link to="/group/analyze">
-          <a href>群体分析</a>
+        <Link to={`/group/analyze/${record.id}/${record.lastTime}`}>
+          <a href> 群体分析</a>
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -192,7 +192,7 @@ class GroupManage extends Component {
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}/${id}`
     }
   }
 

@@ -31,11 +31,11 @@ export default class StepOne extends Component {
       rules: [
         '@requiredSelect',
       ],
+      disabled: groupId,
       control: {
         options: toJS(entityList),
         onSelect: v => this.selectEntity(v),
       },
-      // disabled: !objId || groupId,
       component: 'select',
     }, {
       label: '群体名称',
@@ -47,7 +47,7 @@ export default class StepOne extends Component {
         '@max32',
         {validator: this.checkName},
       ],
-      // disabled: !objId || groupId,
+      disabled: !objId,
       component: 'input',
     }, {
       label: '描述',
@@ -70,17 +70,14 @@ export default class StepOne extends Component {
   }
 
   @action next = () => {
-    this.store.getConfigTagList()
-    this.store.getRelList()
-    this.store.current += 1
-    // this.form.validateFields().then(value => {
-    //   this.store.current += 1
-    //   this.store.getConfigTagList()
-    //   this.store.getRelList()
-    //   this.oneForm = value
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    this.form.validateFields().then(value => {
+      this.store.current += 1
+      this.store.getConfigTagList()
+      this.store.getRelList()
+      this.store.oneForm = value
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   @action checkName = (rule, value, callback) => {
