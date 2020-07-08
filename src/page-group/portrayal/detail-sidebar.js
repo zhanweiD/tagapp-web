@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react'
-import {action, observe} from 'mobx'
 import {observer, inject} from 'mobx-react'
 
 import {NoData} from '../../component'
@@ -11,9 +10,6 @@ export default class DetailSidebar extends Component {
     super(props)
     this.store = props.store
   }
-  componentWillMount() {
-
-  }
 
   render() {
     const {basicLabel} = this.store
@@ -22,7 +18,6 @@ export default class DetailSidebar extends Component {
         <div className="content-header sidebar-header">基本特征</div>
         <div className="p24 pt-0">
           {basicLabel.length ? basicLabel : <NoData />}
-          {/* {basicLabel} */}
         </div>
       </div>
     )

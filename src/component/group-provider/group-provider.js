@@ -64,7 +64,7 @@ export default PageComponent => {
         changeHasInit(true)
         message.success('初始化成功')
         // 跳转至群体配置页面
-        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group-config`
+        window.location.href = `${window.__keeper.pathHrefPrefix}/config/search`
       } else {
         message.error('初始化失败')
       }

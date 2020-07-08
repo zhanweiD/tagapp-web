@@ -20,10 +20,7 @@ class GroupConfig extends Component {
     store.projectId = props.projectId
     store.getPortrayal()
   }
-  componentWillMount() {
-    store.getPortrayal()
-  }
-
+  
   @action openModal = () => {
     store.visible = true
     store.getDataTypeSource()
@@ -34,8 +31,6 @@ class GroupConfig extends Component {
       btnText: '去初始化',
       onClick: () => this.openModal(),
       text: '初始化',
-      // code: 'asset_tag_project_add',
-      // noAuthText: '没有任何项目',
     }
     return (
       <div>

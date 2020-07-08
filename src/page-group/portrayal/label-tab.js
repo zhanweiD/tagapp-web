@@ -12,9 +12,7 @@ export default class LabelTab extends Component {
     super(props)
     this.store = props.store
   }
-  componentWillMount() {
 
-  }
   tooltipTitle(i) {
     const {tooltipLabel} = this.store
     return (
@@ -46,13 +44,6 @@ export default class LabelTab extends Component {
             // {...noDataConfig}
           )
         }
-        {/* <div className="tab-content">
-          <div>
-            <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
-            <span>{`默认类目（${11}）`}</span>
-          </div>
-          {markedLabel}
-        </div> */}
       </div>
     )
   }

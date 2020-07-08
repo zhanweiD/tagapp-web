@@ -2,13 +2,12 @@ import React, {Component, Fragment} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
-import {Drawer, Spin, Form, Select, Input, Upload, Button, Modal, message, Alert} from 'antd'
+import {Drawer, Form, Select, Input, Upload, Button, Modal, Alert} from 'antd'
 
-import {errorTip, baseApi, get, post} from '../../common/util'
+import {errorTip, baseApi} from '../../common/util'
 
 const {Item} = Form
 const {TextArea} = Input
-const {Option} = Select
 
 @observer
 export default class IdCreate extends Component {
@@ -18,7 +17,6 @@ export default class IdCreate extends Component {
   }
   formRef = React.createRef()
   componentWillMount() {
-    this.store.getEntityList()
     this.props.onRef(this)
   }
 
@@ -43,6 +41,7 @@ export default class IdCreate extends Component {
   uploadChange = ({file, fileList}) => {
     if (fileList.length === 0) return
     this.store.uploadList = fileList.slice(-1)
+
     if (file.status !== 'uploading') {
       if (file.response.success) {
         // 返回正确
@@ -134,7 +133,6 @@ export default class IdCreate extends Component {
       }),
       fileList: uploadList,
       action: `${baseApi}/import/import_id_collection`,
-      // action: 'http://192.168.90.129:3000/mock/119/import/import_id_collection',
       onChange: this.uploadChange,
       onRemove: file => this.removeFile(file),
       beforeUpload: file => this.beforeUpload(file),

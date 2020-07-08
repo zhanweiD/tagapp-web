@@ -14,7 +14,6 @@ import store from './store'
 import DetailSidebar from './detail-sidebar'
 import ShowLabel from './show-label'
 
-// const {Option} = Select
 const {Sider, Content} = Layout
 @observer
 class PortrayalLabel extends Component {
@@ -23,7 +22,6 @@ class PortrayalLabel extends Component {
     store.projectId = props.projectId
 
     store.getEntityList()
-    // store.mainLabel = ''
     const {match: {params}} = props
     if (params && params.objId) {
       store.mainLabel = params.mainLabel
@@ -31,18 +29,11 @@ class PortrayalLabel extends Component {
       store.getAnalysis()
       store.getLabel()
     }
-
-    // if (store.mainLabel) {
-    //   store.getAnalysis()
-    //   store.getLabel()
-    // }
-    // store.getPortrayal()
   }
 
   @action selectValue = value => {
     store.objId = value
     store.mainLabel = null
-    console.log(store.objId)
   }
 
   @action inputValue = value => {
@@ -50,18 +41,15 @@ class PortrayalLabel extends Component {
   }
 
   @action onSearch = () => {
-    // if (!store.mainLabel) return
     store.getLabel()
     store.getAnalysis()
     store.getAllTags()
-    console.log(store.objId, store.mainLabel)
   }
 
-  @action resetSearch = () => {
-    store.objId = undefined
-    store.mainLabel = null
-    console.log(store.objId, store.mainLabel)
-  }
+  // @action resetSearch = () => {
+  //   store.objId = undefined
+  //   store.mainLabel = null
+  // }
 
   render() {
     const {entityList, objId, mainLabel} = store
@@ -99,7 +87,7 @@ class PortrayalLabel extends Component {
               </div>
               <div className="mr16">
                 <Button type="primary" className="mr8" onClick={this.onSearch}>查询</Button>
-                <Button onClick={this.resetSearch}>重置</Button>
+                {/* <Button onClick={this.resetSearch}>重置</Button> */}
               </div>
             </div>
           </div>
@@ -115,12 +103,6 @@ class PortrayalLabel extends Component {
               <NoData {...noDataConfig} />
             )
           }
-          {/* <Layout className="label-main">
-            <Sider className="label-sider box-border"><DetailSidebar /></Sider>
-            <Layout>
-              <Content className="label-content box-border"><ShowLabel /></Content>
-            </Layout>
-          </Layout> */}
         </div>
       </Provider>
     )

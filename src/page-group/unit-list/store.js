@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom'
 import {
   action, runInAction, observable, toJS,
 } from 'mobx'
@@ -24,19 +23,18 @@ class Store {
   goPortrayal = value => {
     window.location.href = `${window.__keeper.pathHrefPrefix}/group/portrayal/${this.objId}/${value}`
   }
+  
   // 获取个体列表
   @action async getUnitList() {
     try {
       const res = await io.getUnitList({
-        // id: this.id,
-        // projectId: this.projectId,
-        // queryDate: this.queryDate,
-        id: 7381038078254400,
-        projectId: 7195117436885248,
-        queryDate: '2020-06-23',
+        id: this.id,
+        projectId: this.projectId,
+        queryDate: this.queryDate,
       })
       runInAction(() => {
         this.list = res.data || []
+        this.titleList = []
         const {title} = res
         for (let i = 0; i < title.length; i++) {
           this.titleList.push({
@@ -58,14 +56,13 @@ class Store {
   @action async outputUnitList() {
     try {
       const res = await io.outputUnitList({
-        // projectId: this.projectId,
-        // groupId: this.id,
-        // queryDate: this.queryDate,
-        id: 7381038078254400,
-        projectId: 7195117436885248,
-        queryDate: '2020-06-23',
+        projectId: this.projectId,
+        groupId: this.id,
+        queryDate: this.queryDate,
       })
-      successTip('导出成功')
+      if (res) {
+        successTip('导出成功')
+      }
     } catch (e) {
       // ErrorEater(e, '校验失败')
       errorTip(e.message)
@@ -82,8 +79,10 @@ class Store {
         ...obj,
       })
       runInAction(() => {
-        this.visible = false
-        successTip('导出成功')
+        if (res) {
+          this.visible = false
+          successTip('已保存')
+        }
       })
     } catch (e) {
       errorTip(e.message)

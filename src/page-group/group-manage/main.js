@@ -4,11 +4,11 @@
 import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
-import {observer, inject} from 'mobx-react'
-import {Popconfirm, Badge, Dropdown, Menu, Spin} from 'antd'
+import {observer} from 'mobx-react'
+import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
-import {Time} from '../../common/util'
+import {Time, successTip} from '../../common/util'
 import {
   ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider,
 } from '../../component'
@@ -28,25 +28,16 @@ class GroupManage extends Component {
   }
   formRef = React.createRef()
 
-
   menu = record => (
     <Menu>
-      {/* <Menu.Item>
-        <a href disabled={record.status !== 1} onClick={() => this.goGroupAnalyze(record.objId)}>群体分析</a>
-      </Menu.Item>
-      <Menu.Item>
-        <a href disabled={record.status !== 1} onClick={() => this.goUnitList(record.objId, record.lastTime)}>个体列表</a>
-      </Menu.Item> */}
       <Menu.Item>
         <Link to={`/group/analyze/${record.id}/${record.lastTime}`}>
-          <a href>
-          群体分析
-          </a>
+          <a href> 群体分析</a>
         </Link>
       </Menu.Item>
-      <Menu.Item>
-        <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
-          <a href>个体列表</a>
+      <Menu.Item disabled={record.status !== 1}>
+        <Link disabled={record.status !== 1} to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+          <a href disabled={record.status !== 1}>个体列表</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -56,8 +47,6 @@ class GroupManage extends Component {
       key: 'name',
       title: '群体名称',
       dataIndex: 'name',
-      // render: 
-      // text => <a href>{text}</a>,
       render: (text, record) => (
         <Link to={`/group/manage/${record.id}/${record.objId}`}>
           <OmitTooltip maxWidth={100} text={text} />
@@ -105,32 +94,32 @@ class GroupManage extends Component {
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          <Fragment>
+          {/* <Fragment>
             <a onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment>
-          {/* <Fragment>
+          </Fragment> */}
+          <Fragment>
             <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment> */}
+          </Fragment>
                
           <Fragment>
             <Popconfirm 
               placement="topRight" 
               title="你确定要删除该群体吗？" 
-              // disabled={record.status === 3}
+              disabled={record.status === 3}
               onConfirm={() => this.delItem(record.id)}
             >
-              <a href>删除</a>
-              {/* <a disabled={record.status === 3} href>删除</a> */}
+              {/* <a href>删除</a> */}
+              <a disabled={record.status === 3} href>删除</a>
               <span className="table-action-line" />
             </Popconfirm>
           </Fragment>
@@ -163,6 +152,7 @@ class GroupManage extends Component {
       record.objId = record.objId.toString()
       store.recordObj = record
       store.isAdd = false
+
       store.getTagList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
@@ -170,20 +160,12 @@ class GroupManage extends Component {
       if (type === 1) {
         store.performGroup(id)
       } else {
+        store.tableLoading = true
         store.getGroupList()
+        successTip('已执行')
       }
     }
   }
-
-  // // 跳转到群体分析
-  // goGroupAnalyze = data => {
-  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group-analyze/${data.id}/${data.lastTime}`
-  // }
-  
-  // // 跳转到个体列表
-  // goUnitList = (id, lastTime) => {
-  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/unit/${id}/${lastTime}`
-  // }
 
   // 跳转到群体编辑
   goGroupEdit = record => {
@@ -246,9 +228,6 @@ class GroupManage extends Component {
           <ModalGroup store={store} />
           <IdCreate onRef={ref => this.childForm = ref} store={store} />
         </div>
-        {/* <div className="list-content">
-          <ListContent {...listConfig} />
-        </div> */}
       </div>
     )
   }

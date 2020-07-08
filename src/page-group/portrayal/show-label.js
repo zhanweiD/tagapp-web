@@ -16,7 +16,6 @@ export default class ShowLabel extends Component {
   }
   
   @action.bound tabSwitch(value) {
-    // if (!this.store.mainLabel) return 
     this.store.allLabels = []
     if (value === '2') {
       this.store.getAllTags()

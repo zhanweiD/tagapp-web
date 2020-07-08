@@ -2,7 +2,7 @@ const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
 // 标签调用次数趋势图配置
 export default function getOptions(dataX, dataY) {
-  console.log(dataX, dataY)
+  console.log(dataX)
   // data, legend = []
   return {
     tooltip: {
@@ -55,7 +55,6 @@ export default function getOptions(dataX, dataY) {
       {
         type: 'bar',
         symbol: 'none',
-        barWidth: '5%',
         itemStyle: {
           color: '#429ff7',
         },

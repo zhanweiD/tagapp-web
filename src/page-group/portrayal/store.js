@@ -10,9 +10,7 @@ import io from './io'
 
 const {Option} = Select
 class Store {
-  // @observable nowTab = '1' // 当前tab页面
   @observable objId = undefined // 当前实体id
-  // @observable defaultObjId = undefined // 默认实体ID
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
@@ -287,7 +285,6 @@ class Store {
         objId: this.objId,
         personalityUniqueKey: this.mainLabel,
       })
-
       // const res = [
       //   {
       //     x: '性别：男',
@@ -339,7 +336,6 @@ class Store {
       }
     }
 
-    // console.log(nodes, links)
     return {
       nodes,
       links,

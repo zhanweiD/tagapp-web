@@ -2,17 +2,20 @@ import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Spin, Popconfirm, Badge} from 'antd'
+import {FormOutlined} from '@ant-design/icons'
 import {ModalForm, ListContent, AuthBox, NoData} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
+import ConfigModal from './configModal'
 
 @inject('store')
 @observer
-export default class GroupBackConfig extends Component {
+export default class BackConfig extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
+    this.store.getPortrayal()
     this.store.getEntityPage()
   }
 
@@ -56,6 +59,11 @@ export default class GroupBackConfig extends Component {
     },
   ]
 
+  // 修改配置弹窗
+  @action editClick = () => {
+    this.store.visible = true
+  }
+
   // 添加实体弹窗
   @action openModal = (type, data = {}) => {
     if (type === 'edit') {
@@ -79,13 +87,11 @@ export default class GroupBackConfig extends Component {
       dataTypeSource = [],
       dataStorageTypeId,
       dataStorageId,
-      dataStorageTypeName,
-      dataStorageName,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
-      initialValue: dataStorageTypeName,
+      initialValue: dataStorageTypeId,
       disabled: true,
       control: {
         options: dataTypeSource,
@@ -94,7 +100,7 @@ export default class GroupBackConfig extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: dataStorageName,
+      initialValue: dataStorageId,
       disabled: true,
       control: {
         options: dataSource,
@@ -123,14 +129,24 @@ export default class GroupBackConfig extends Component {
       store, // 必填属性
     }
 
+    const noDataConfig = {
+      btnText: '添加实体',
+      onClick: () => this.openModal('add'),
+      noAuthText: '暂无实体',
+    }
+
     return (
       <Fragment>
         {/* <div className="content-header">群体洞察配置</div> */}
         <div className="herder-page back-config">
           <div className="cloud-config">
-            <p className="config-title">数据源配置</p>
+            <p className="config-title">
+              <span style={{marginRight: '8px'}}>数据源配置</span>
+              {/* <FormOutlined className="action" onClick={this.editClick} /> */}
+            </p>
             <ModalForm {...formConfig} />
           </div>
+
           <div className="entity-config">
             <p className="config-title">实体配置</p>
             <div className="list-content">
@@ -142,7 +158,7 @@ export default class GroupBackConfig extends Component {
                   <ListContent {...listConfig} />
                 </div>
               ) : (
-                <NoData />
+                <NoData {...noDataConfig} />
               )
             } */}
             {/* <div className="list-content">
@@ -152,6 +168,7 @@ export default class GroupBackConfig extends Component {
             </div> */}
           </div>
           <EntityModal store={store} />
+          <ConfigModal store={store} />
         </div>
       </Fragment>
     )

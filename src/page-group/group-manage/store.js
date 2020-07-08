@@ -84,6 +84,7 @@ class Store extends ListContentStore(io.getGroupList) {
       errorTip(e.message)
     }
   }
+
   // 获取标签列表
   @action async getTagList() {
     try {
@@ -95,30 +96,8 @@ class Store extends ListContentStore(io.getGroupList) {
         this.tagOptions = res.map(item => {
           return (<Option key={item.tagId}>{item.tagName}</Option>)
         })
-        // if (!this.isAdd) {
-        //   this.getEditIdGroup()
-        // }
       })
     } catch (e) {
-      errorTip(e.message)
-    }
-  }
-
-  // 添加群体
-  @action async addGroup(obj) {
-    try {
-      const res = await io.addGroup({
-        ...obj,
-        projectId: this.projectId,
-      })
-      
-      runInAction(() => {
-        successTip('添加成功')
-        this.handleCancel()
-        this.getGroupList()
-      })
-    } catch (e) {
-      this.confirmLoading = false
       errorTip(e.message)
     }
   }
@@ -131,9 +110,11 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        successTip('添加成功')
-        this.handleCancel()
-        this.getGroupList()
+        if (res) {
+          successTip('添加成功')
+          this.handleCancel()
+          this.getGroupList()
+        }
       })
     } catch (e) {
       this.confirmLoading = false
@@ -150,9 +131,11 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        successTip('编辑成功')
-        this.handleCancel()
-        this.getGroupList()
+        if (res) {
+          successTip('编辑成功')
+          this.handleCancel()
+          this.getGroupList()
+        }
       })
     } catch (e) {
       this.confirmLoading = false
@@ -184,13 +167,16 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        successTip('删除成功')
-        this.getGroupList()
+        if (res) {
+          successTip('删除成功')
+          this.getGroupList()
+        }
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
+
   // 规则实时执行
   @action async performGroup(id) {
     try {
@@ -199,8 +185,10 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        successTip('正在执行')
-        this.getGroupList()
+        if (res) {
+          successTip('正在执行')
+          this.getGroupList()
+        }
       })
     } catch (e) {
       errorTip(e.message)

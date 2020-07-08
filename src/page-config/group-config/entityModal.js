@@ -42,8 +42,9 @@ class EModal extends Component {
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
       values.objId = parseInt(values.objId) 
-      values.basicFeatureTag = values.basicFeatureTag
-      values.markedFeatureTag = values.markedFeatureTag
+      values.basicFeatureTag = values.basicFeatureTag.map(Number)
+      values.markedFeatureTag = values.markedFeatureTag.map(Number)
+
       if (!err) {
         store.confirmLoading = true
         // 编辑 
@@ -141,7 +142,7 @@ class EModal extends Component {
             extra="常关注的特征，最多可选择20个"
           >
             {getFieldDecorator('markedFeatureTag', {
-              initialValue: detail.markedFeatureTag,
+              initialValue: detail.markedFeatureTag || undefined,
               rules: [
                 {required: true, message: '请选择标签！'},
                 {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},

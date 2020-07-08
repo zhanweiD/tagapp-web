@@ -1,21 +1,21 @@
 import ioContext from '../../common/io-context'
-import {groupConfigApi, get, post} from '../../common/util'
+import {relGroupApi, get, post} from '../../common/util'
 
 const api = {
-  getPortrayal: get(`${groupConfigApi}/project_storage`), // 获取画像信息
+  getPortrayal: get(`${relGroupApi}/project_storage`), // 获取画像信息
   // getPortrayal: get('http://192.168.90.129:3000/mock/119/relGroup/project_storage'), // 获取画像信息
-  groupInit: post(`${groupConfigApi}/init`), // 初始化云资源
+  groupInit: post(`${relGroupApi}/init`), // 初始化云资源
   // groupInit: post('http://192.168.90.129:3000/mock/119/relGroup/init'), // 初始化云资源
-  getDataTypeSource: get(`${groupConfigApi}/storage_type`), // 数据源类型列表
-  getDataSource: get(`${groupConfigApi}/storage_list`), // 数据源列表
-  getEntityList: get(`${groupConfigApi}/obj_list`), // 实体列表
-  getTagList: get(`${groupConfigApi}/tag_list`), // 标签列表
+  getDataTypeSource: get(`${relGroupApi}/storage_type`), // 数据源类型列表
+  getDataSource: get(`${relGroupApi}/storage_list`), // 数据源列表
+  getEntityList: get(`${relGroupApi}/obj_list`), // 实体列表
+  getTagList: get(`${relGroupApi}/tag_list`), // 标签列表
   // getTagList: get('http://192.168.90.129:3000/mock/119/relGroup/tag_list'), // 标签列表
-  getEntityPage: get(`${groupConfigApi}/entity_page`), // 实体分页列表
-  getEntityInfo: get(`${groupConfigApi}/entity_info`), // 实体配置信息
-  addEntity: post(`${groupConfigApi}/add_entity`), // 添加实体
-  editEntity: post(`${groupConfigApi}/edit_entity`), // 编辑实体
-  delEntity: post(`${groupConfigApi}/remove_entity`), // 移除实体
+  getEntityPage: get(`${relGroupApi}/entity_page`), // 实体分页列表
+  getEntityInfo: get(`${relGroupApi}/entity_info`), // 实体配置信息
+  addEntity: post(`${relGroupApi}/add_entity`), // 添加实体
+  editEntity: post(`${relGroupApi}/edit_entity`), // 编辑实体
+  delEntity: post(`${relGroupApi}/remove_entity`), // 移除实体
 } 
 
 ioContext.create('groupConfig', api) 

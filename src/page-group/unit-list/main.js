@@ -24,25 +24,21 @@ class UnitList extends Component {
     store.getUnitList()
   }
 
-  componentWillMount() {
-  }
-
   @action openModal = () => {
     store.visible = true
   }
 
   render() {
     const {
-      list, tableLoading, searchParams, titleList,
+      list, tableLoading, titleList,
     } = store
 
-    // const noDataConfig = {
-    //   btnText: '暂无个体',
-    //   // onClick: () => this.openModal(),
-    //   text: '该群体暂无个体！',
-    //   code: 'asset_tag_project_add',
-    //   noAuthText: '没有任何个体',
-    // }
+    const noDataConfig = {
+      btnText: '暂无个体',
+      code: 'asset_tag_project_add',
+      noAuthText: '暂无个体',
+    }
+
     const listConfig = {
       columns: toJS(titleList),
       tableLoading,
@@ -63,9 +59,7 @@ class UnitList extends Component {
               <ListContent {...listConfig} />
             </div>
           ) : (
-            <NoData />
-            // isLoading={tableLoading}
-            // {...noDataConfig}
+            <NoData {...noDataConfig} />
           )
         }
         <GroupModal store={store} />
