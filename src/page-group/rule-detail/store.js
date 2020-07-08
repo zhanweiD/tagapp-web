@@ -55,6 +55,7 @@ class Store {
 
   // 编辑群体详情信息
   @action async getDetail(id, cb) {
+    this.detailLoading = true
     try {
       const res = await io.getDetail({
         projectId: this.projectId,
@@ -62,10 +63,8 @@ class Store {
       })
 
       runInAction(() => {
-        this.objId = res.objId
-        this.type = res.type
-        this.posList = JSON.parse(res.logicExper.posList)
-
+        this.posList = JSON.parse(res)
+        
         this.wherePosMap = this.posList.wherePosMap // 回显
         this.whereMap = this.posList.whereMap // 添加
 
@@ -77,6 +76,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.detailLoading = false
+      })
     }
   }
 
@@ -113,11 +116,11 @@ class Store {
   }
 
   // 获取另一个实体对象
-  @action async getOtherEntity() {
+  @action async getOtherEntity(params) {
     try {
-      const res = await io.getRelList({
-        objId: this.objId, // 实体ID
+      const res = await io.getOtherEntity({
         projectId: this.projectId,
+        ...params,
       })
 
       runInAction(() => {

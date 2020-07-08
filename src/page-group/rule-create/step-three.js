@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react'
 import {Form, Select, Radio, Button, DatePicker} from 'antd'
 import {CycleSelect} from '@dtwave/uikit'
+import {toJS} from 'mobx'
 
 const {Option} = Select
 const {RangePicker} = DatePicker
@@ -21,9 +22,9 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
     if (type === 1) {
       params.scheduleType = scheduleType
       params.scheduleExpression = scheduleExpression
-      params.isStart = isStart
-      params.startTime = moment(rangePicker[0]).format('x')
-      params.endTime = moment(rangePicker[1]).format('x')
+      params.isStart = +isStart
+      params.startTime = +moment(rangePicker[0]).format('x')
+      params.endTime = +moment(rangePicker[1]).format('x')
     }
 
     save(params)
@@ -120,7 +121,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
             },
           }]}
           {...formItemLayout}
-          initialValue={detail.outputTags}
+          initialValue={toJS(detail.outputTags)}
         >
           <Select
             mode="multiple"

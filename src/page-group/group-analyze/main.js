@@ -80,7 +80,7 @@ class GroupAnalyze extends Component {
   render() {
     const {roportion, info, groupId} = store
     const {match: {params}} = this.props
-    
+    console.log(roportion)
     return (
       <Provider store={store}>
         <div>

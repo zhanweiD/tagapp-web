@@ -197,7 +197,7 @@ class GroupManage extends Component {
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${id}/${type}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}/${id}`
     }
   }
 

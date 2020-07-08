@@ -24,6 +24,7 @@ export default class IdCreate extends Component {
 
   // 设置输出标签
   setOutputTags = value => {
+    console.log(value)
     this.formRef.current.setFieldsValue({
       outputTags: value,
     })
@@ -77,7 +78,7 @@ export default class IdCreate extends Component {
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
 
-      value.outputTags = value.outputTags.toString()
+      value.outputTags = value.outputTags
       value.objId = parseInt(value.objId)
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type
@@ -171,7 +172,7 @@ export default class IdCreate extends Component {
       labelCol: {span: 3},
       wrapperCol: {span: 20},
     }
-    
+    console.log(recordObj.outputTags)
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">

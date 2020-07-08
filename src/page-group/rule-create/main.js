@@ -20,6 +20,7 @@ class RuleCreate extends Component {
     const {match: {params}} = props
 
     store.type = params.type
+    console.log(params.groupId)
     store.groupId = params.groupId
   }
 
@@ -86,15 +87,20 @@ class RuleCreate extends Component {
             store.current === 1 ? <StepTwo /> : null
           }
          
-          <StepThree 
-            configTagList={toJS(outputTags)}
-            current={current} 
-            prev={this.prev}
-            save={this.save}
-            loading={submitLoading} 
-            detail={toJS(detail)}
-            type={+type}
-          />
+          {
+            store.current === 2 ? (
+              <StepThree 
+                configTagList={toJS(outputTags)}
+                current={current} 
+                prev={this.prev}
+                save={this.save}
+                loading={submitLoading} 
+                detail={toJS(detail)}
+                type={+type}
+              />
+            ) : null
+          }
+         
         </div>
       </Provider>
     )

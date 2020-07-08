@@ -125,7 +125,7 @@ export default class RuleIfBox extends Component {
   addCon = (d, i) => {
     let data = _.cloneDeep(this.state.data)
     const len = data.length
-
+    console.log(data)
     if (len === 1) {
       data = [{
         type: 1,
@@ -135,7 +135,9 @@ export default class RuleIfBox extends Component {
         y: 32,
         source: null,
         target: null,
+        logic: 1,
       }, {
+        ...data[0],
         type: 2,
         flag: '0-0',
         level: [0, 0],
@@ -179,6 +181,7 @@ export default class RuleIfBox extends Component {
   }
 
   addCombineItem = (itemData, i) => {
+    console.log(itemData)
     const data = _.cloneDeep(this.state.data)
 
     const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
@@ -284,6 +287,7 @@ export default class RuleIfBox extends Component {
       source: [current.source[0], current.source[0] > current.y ? current.source[1] + 64 : current.source[1]],
       target: [current.target[0], current.target[1] + 32],
       type: 1,
+      logic: 1,
       x: current.x,
       y: current.y + 32,
     } 

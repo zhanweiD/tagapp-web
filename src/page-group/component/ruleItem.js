@@ -78,13 +78,13 @@ const RuleItem = ({
                 label={null}
                 name={[key, 'relId']}
                 initialValue={rest.relId}
-                rules={[{required: true, message: '请选择关系'}]}
+                rules={[{required: true, message: '请选择'}]}
               >
                 <Select 
                   showSearch
                   style={{width: 180}}
                   optionFilterProp="children"
-                  placeholder="请选择关系"
+                  placeholder="请选择"
                   onSelect={onSelectRel}
                   disabled={rest.page === 'detail'}
                 >

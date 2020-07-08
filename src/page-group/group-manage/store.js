@@ -168,7 +168,7 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        res.outputTags = res.outputTags.split
+        // res.outputTags = res.outputTags
         cb(res.outputTags)
       })
     } catch (e) {

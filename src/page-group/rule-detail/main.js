@@ -1,23 +1,23 @@
-import React, {Component, useEffect} from 'react'
+import React, {Component, useEffect, Fragment} from 'react'
 import {action, toJS, observable} from 'mobx'
-import {inject, observer, Provider} from 'mobx-react'
-import {Button} from 'antd'
+import {observer} from 'mobx-react'
+import {Button, Spin} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
 import {RuleContent} from '../component'
 import SetRule from './drawer'
-// import {formatData, getRenderData} from '../component/util'
 
 import store from './store'
 
-// @inject('store')
 @observer
 class RuleDetail extends Component {
   constructor(props) {
     super(props)
-    this.formRef = React.createRef()
-    this.ruleContentRef = React.createRef()
+    store.projectId = props.projectId
+    // this.formRef = React.createRef()
+    // this.ruleContentRef = React.createRef()
 
     const {match: {params}} = props
+
     store.groupId = params.groupId
     store.objId = params.objId
   }
@@ -60,47 +60,46 @@ class RuleDetail extends Component {
     this.drawerFlag = undefined
   }
 
-  // @action reset = () => {
-  //   this.store.posList = {}
-  //   this.store.whereMap = {}
-  //   this.store.wherePosMap = {}
-  // }
-
   render() {
-    const {configTagList, relList, posList} = store
-
+    const {configTagList, relList, posList, detailLoading} = store
+  
     return (
       <div>
         <div className="content-header">规则配置详情</div>
-        <div className="rule-detail header-page">
+        <Spin spinning={detailLoading}>
+          <div className="rule-detail header-page">
       
-          <RuleContent 
-            // formRef={this.formRef} 
-            // onRef={ref => { this.ruleContentRef = ref }}
-            configTagList={toJS(configTagList)}
-            relList={toJS(relList)}
-            openDrawer={this.openDrawer}
-            posList={toJS(posList)}
-            // reset={this.reset}
-            type="config"
-            page="detail"
-          />
-          <SetRule 
-            visible={this.visible} 
-            onClose={this.onClose}
-            // submit={this.submitRule} 
-            posList={this.wherePosMap[this.drawerFlag]}
-            store={store}
-          />
-          <div className="steps-action">
-            <Button
-              type="primary"
-              onClick={this.goBack}
-            >
+            {
+              posList ? (
+                <Fragment>
+                  <RuleContent 
+                    configTagList={toJS(configTagList)}
+                    relList={toJS(relList)}
+                    openDrawer={this.openDrawer}
+                    posList={toJS(posList)}
+                    type="config"
+                    page="detail"
+                  />
+                  <SetRule 
+                    visible={this.visible} 
+                    onClose={this.onClose}
+                    posList={this.wherePosMap[this.drawerFlag]}
+                    store={store}
+                  />
+                </Fragment>
+              ) : null
+            }
+         
+            <div className="steps-action">
+              <Button
+                type="primary"
+                onClick={this.goBack}
+              >
           返回
-            </Button>
+              </Button>
+            </div>
           </div>
-        </div>
+        </Spin>
       </div>
     )
   }

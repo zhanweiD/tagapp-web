@@ -47,7 +47,7 @@ export default class StepOne extends Component {
         '@max32',
         {validator: this.checkName},
       ],
-      disabled: !objId || groupId,
+      disabled: !objId,
       component: 'input',
     }, {
       label: '描述',

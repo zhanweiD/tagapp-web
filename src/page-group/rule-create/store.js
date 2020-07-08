@@ -91,7 +91,9 @@ class Store {
 
       runInAction(() => {
         this.objId = res.objId
-        this.posList = JSON.parse(res.logicExper.posList)
+
+        this.logicExper = JSON.parse(res.logicExper)
+        this.posList = JSON.parse(this.logicExper.posList)
 
         this.wherePosMap = this.posList.wherePosMap // 回显
         this.whereMap = this.posList.whereMap // 添加
@@ -112,8 +114,9 @@ class Store {
         ...toJS(this.logicExper),
         posList: JSON.stringify(toJS(this.posList)),
       }
+
       const res = await io.editGroup({
-        id: +this.grouoId,
+        id: +this.groupId,
         mode: 1,
         type: +this.type,
         projectId: this.projectId,
@@ -201,11 +204,12 @@ class Store {
   }
 
   // 获取另一个实体对象
-  @action async getOtherEntity() {
+  @action async getOtherEntity(params) {
     try {
-      const res = await io.getRelList({
-        objId: this.objId, // 实体ID
+      const res = await io.getOtherEntity({
         projectId: this.projectId,
+        objId: this.objId,
+        ...params,
       })
 
       runInAction(() => {

@@ -60,6 +60,7 @@ export default PageComponent => {
     }
 
     useEffect(() => {
+      ctx.useProject(true)
       judgeInit(projectId)
     }, [projectId])
     

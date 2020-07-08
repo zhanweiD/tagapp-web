@@ -172,7 +172,6 @@ const ScreenItem = ({
             <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" />
             <IconTreeAdd size="14" onClick={() => addScreenConfig(index)} />
           </div>
-
         </Form.Item>
       </Input.Group>
     </Form.Item>

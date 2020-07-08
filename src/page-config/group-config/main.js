@@ -41,21 +41,22 @@ class GroupConfig extends Component {
       <div>
         <div className="content-header">群体洞察配置</div> 
         <div className="header-page config">
-          <BackConfig store={store} />
-        </div>
-        {/* {
-          store.initVisible ? (
-            <div>
-              <NoData
+          {/* <BackConfig store={store} /> */}
+          {
+            store.initVisible ? (
+              <div>
+                <NoData
                 // isLoading={tableLoading}
-                {...noDataConfig}
-              />
-              <ConfigModal store={store} />
-            </div>
-          ) : (
-            <BackConfig store={store} />
-          )
-        } */}
+                  {...noDataConfig}
+                />
+                <ConfigModal store={store} />
+              </div>
+            ) : (
+              <BackConfig store={store} />
+            )
+          }
+        </div>
+       
       </div>
     )
   }

@@ -44,6 +44,7 @@ export default class StepTwo extends Component {
   }
 
   @action openDrawer = (flag, relId) => {
+    console.log(relId)
     this.store.getOtherEntity({
       relationId: relId,
     })

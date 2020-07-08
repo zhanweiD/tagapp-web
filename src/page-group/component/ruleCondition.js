@@ -7,6 +7,7 @@ const RuleCondition = ({
   pos = [],
   page,
 }) => {
+  console.log(info)
   const [isAnd, changeIsAnd] = useState(info.logic === 1)
   
   const change = () => {
@@ -25,6 +26,7 @@ const RuleCondition = ({
     left: pos[0],
     top: pos[1],
   }
+  console.log(isAnd)
   return (
     <div style={posStyle} className="rule-condition">
       {
