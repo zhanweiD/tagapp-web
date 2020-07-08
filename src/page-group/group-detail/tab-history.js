@@ -102,7 +102,7 @@ export default class TagHistory extends Component {
 
   render() {
     const {tagId, store} = this.props
-    const {list, tableLoading} = store
+    const {tableLoading} = store
     const listConfig = {
       tableLoading,
       columns: this.columns,
@@ -128,15 +128,6 @@ export default class TagHistory extends Component {
           />
         </div>
         <div style={{height: '300px'}} ref={ref => this.barRef = ref} />
-        {/* {
-          list.length ? (
-            <div className="list-content">
-              <ListContent {...listConfig} />
-            </div>
-          ) : (
-            <NoData />
-          )
-        } */}
         <div className="list-content">
           <ListContent {...listConfig} />
         </div>

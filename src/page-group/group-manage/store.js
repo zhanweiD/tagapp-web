@@ -188,6 +188,8 @@ class Store extends ListContentStore(io.getGroupList) {
         if (res) {
           successTip('正在执行')
           this.getGroupList()
+        } else {
+          errorTip('执行失败')
         }
       })
     } catch (e) {
