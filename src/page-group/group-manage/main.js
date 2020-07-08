@@ -184,6 +184,7 @@ class GroupManage extends Component {
     store.isAdd = false
     const {mode, id, type} = record
     if (mode === 2) {
+      console.log(record)
       record.objId = record.objId.toString()
       store.recordObj = record
       store.uploadData = true

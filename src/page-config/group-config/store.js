@@ -194,7 +194,7 @@ class Store {
       runInAction(() => {
         this.imageUrl = res.picture
         res.basicFeatureTag = res.basicFeatureTag.map(String)
-        res.markedFeatureTag = res.markedFeatureTag
+        res.markedFeatureTag = res.markedFeatureTag.map(String)
         res.objId = res.objId.toString()
         this.detail = res
       })
