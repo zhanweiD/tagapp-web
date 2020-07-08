@@ -76,7 +76,7 @@ export default class IdCreate extends Component {
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
 
-      value.outputTags = value.outputTags.toString()
+      value.outputTags = value.outputTags.map(Number)
       value.objId = parseInt(value.objId)
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type

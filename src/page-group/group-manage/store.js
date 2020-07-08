@@ -151,7 +151,7 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        res.outputTags = res.outputTags.split(',')
+        res.outputTags = res.outputTags.map(String)
         cb(res.outputTags)
       })
     } catch (e) {
