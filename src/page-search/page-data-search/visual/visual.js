@@ -14,6 +14,7 @@ import {
   message,
   Popconfirm,
   Modal,
+  Spin,
 } from 'antd'
 import {ExclamationCircleOutlined} from '@ant-design/icons'
 // import {IconDel, IconTreeAdd} from '../../../icon-comp'
@@ -52,13 +53,30 @@ export default class Visual extends Component {
   }
 
   @action.bound selectObj(objId) {
-    store.objId = objId
-    store.getTagTree({id: objId})
-    store.getExpressionTag({id: objId})
+    confirm({
+      title: '确认切换源标签对象?',
+      icon: <ExclamationCircleOutlined />,
+      content: '切换源标签对象会导致数据查询配置信息清空',
+      onOk() {
+        // 清空
+        store.outConfig.clear()
+        store.screenConfig.clear()
+        store.showResult = false
+        store.resultInfo = {}
+
+        // 切换
+        store.objId = objId
+        store.getTagTree({id: objId})
+        store.getExpressionTag({id: objId})
+      },
+      onCancel() {
+        console.log('Cancel')
+      },
+    })
   }
 
   @action.bound refreshTree(searchKey) {
-    store.getTagTree({id: store.objId, searchKey})
+    store.searchTree({id: store.objId, searchKey})
   }
 
   @action.bound save() {
@@ -253,10 +271,20 @@ export default class Visual extends Component {
           <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
           <div className="visual-content-warp">
             <div className="code-menu">
-              <span className="code-menu-item mr16" onClick={() => this.search()}>
-                <img src={yunxing} alt="img" />
-                <span>查询</span>
-              </span>
+              {
+                resultLoading ? (
+                  <span className="code-menu-item mr16 disabled">
+                    <img src={yunxing} alt="img" />
+                    <span>查询</span>
+                  </span>
+                ) : (
+                  <span className="code-menu-item mr16" onClick={() => this.search()}>
+                    <img src={yunxing} alt="img" />
+                    <span>查询</span>
+                  </span>
+                )
+              }
+             
             </div>
             <div className="visual-content">
               <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
@@ -268,85 +296,85 @@ export default class Visual extends Component {
                   筛选设置
                 </Menu.Item>
               </Menu>
-              <div className="visual-config">
-               
-                {/* 渲染输出设置 */}
-                <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
-                  {
-                    outConfig.length ? (
-                      <div>
-                        <Popconfirm
-                          placement="bottomLeft"
-                          title="确认清除输出设置？"
-                          onConfirm={this.delAllOutConfig}
-                          okText="确实"
-                          cancelText="取消"
-                        >
-                          <Button type="primary" className="mb16">清除输出设置</Button>
-                        </Popconfirm>
-                        <Form name="out" ref={this.outConfigRef}>
-                          {
-                            outConfig.map((d, i) => (
-                              <OutItem 
-                                id={d.id}
-                                index={i}
-                                expressionTag={toJS(expressionTag)}
-                                delOutConfig={this.delOutConfig}
-                                addOutConfig={this.addOutConfig}
-                              />
-                            ))
-                          }
-                     
-                        </Form>
-                      </div>
-                    )
-                      : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
-                  }
-                </div>
-                {/* 渲染筛选设置 */}
-                <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
-                  {
-                    screenConfig.length ? (
-                      <div>
+              <Spin spinning={resultLoading}>
+                <div className="visual-config">         
+                  {/* 渲染输出设置 */}
+                  <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
+                    {
+                      outConfig.length ? (
                         <div>
                           <Popconfirm
                             placement="bottomLeft"
-                            title="确认清除筛选设置？"
+                            title="确认清除输出设置？"
                             onConfirm={this.delAllOutConfig}
                             okText="确实"
                             cancelText="取消"
                           >
-                            <Button type="primary" className="mb16">清除筛选设置</Button>
+                            <Button type="primary" className="mb16">清除输出设置</Button>
                           </Popconfirm>
+                          <Form name="out" ref={this.outConfigRef}>
+                            {
+                              outConfig.map((d, i) => (
+                                <OutItem 
+                                  id={d.id}
+                                  index={i}
+                                  expressionTag={toJS(expressionTag)}
+                                  delOutConfig={this.delOutConfig}
+                                  addOutConfig={this.addOutConfig}
+                                />
+                              ))
+                            }
+                     
+                          </Form>
                         </div>
-                        <Form name="srceen" ref={this.screenConfigRef}>
-                          <Form.Item name="whereType" initialValue="and">
-                            <Radio.Group>
-                              <Radio value="and">符合全部以下条件</Radio>
-                              <Radio value="or">符合任何以下条件</Radio>
-                            </Radio.Group>
-                          </Form.Item>
+                      )
+                        : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                    }
+                  </div>
+                  {/* 渲染筛选设置 */}
+                  <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
+                    {
+                      screenConfig.length ? (
+                        <div>
+                          <div>
+                            <Popconfirm
+                              placement="bottomLeft"
+                              title="确认清除筛选设置？"
+                              onConfirm={this.delAllOutConfig}
+                              okText="确实"
+                              cancelText="取消"
+                            >
+                              <Button type="primary" className="mb16">清除筛选设置</Button>
+                            </Popconfirm>
+                          </div>
+                          <Form name="srceen" ref={this.screenConfigRef}>
+                            <Form.Item name="whereType" initialValue="and">
+                              <Radio.Group>
+                                <Radio value="and">符合全部以下条件</Radio>
+                                <Radio value="or">符合任何以下条件</Radio>
+                              </Radio.Group>
+                            </Form.Item>
                         
-                          {
-                            screenConfig.map((d, i) => (
-                              <ScreenItem 
-                                id={d.id}
-                                index={i}
-                                expressionTag={toJS(expressionTag)}
-                                delScreenConfig={this.delScreenConfig}
-                                addScreenConfig={this.addScreenConfig}
-                              />
-                            ))
-                          }
+                            {
+                              screenConfig.map((d, i) => (
+                                <ScreenItem 
+                                  id={d.id}
+                                  index={i}
+                                  expressionTag={toJS(expressionTag)}
+                                  delScreenConfig={this.delScreenConfig}
+                                  addScreenConfig={this.addScreenConfig}
+                                />
+                              ))
+                            }
                       
-                        </Form>
-                      </div>
-                    )
-                      : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
-                  }
+                          </Form>
+                        </div>
+                      )
+                        : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
+                    }
+                  </div>
                 </div>
-                {/* </Form.Provider> */}
-              </div>
+              </Spin>
             </div>
           </div>
         </div>

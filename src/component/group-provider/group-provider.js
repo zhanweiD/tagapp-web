@@ -10,22 +10,24 @@ import {message} from 'antd'
 import NoData from '../no-data'
 import io from './io'
 import ConfigModal from './configModal'
+import Loading from '../loading'
 
 export default PageComponent => {
   function GroupProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
     const [hasInit, changeHasInit] = useState(false)
+    const [loading, changeLoading] = useState(true)
     const [visible, changeVisible] = useState(false)
     const [dataType, changeDataType] = useState([])
     const [dataSource, changedataSource] = useState([])
 
     // 判断项目是否初始化
     async function judgeInit(id) {
-      // const res = await io.judgeInit({
-      //   projectId: id,
-      // })
-      const res = true
+      const res = await io.judgeInit({
+        projectId: id,
+      })
+      changeLoading(false)
       changeHasInit(res)
     }
 
@@ -85,6 +87,12 @@ export default PageComponent => {
         getDataTypeSource(projectId)
         changeVisible(true)
       },
+    }
+
+    if (loading) {
+      return (
+        <Loading mode="block" height={300} /> 
+      )
     }
 
     if (!hasInit) {

@@ -125,7 +125,7 @@ export default class RuleIfBox extends Component {
   addCon = (d, i) => {
     let data = _.cloneDeep(this.state.data)
     const len = data.length
-    console.log(data)
+ 
     if (len === 1) {
       data = [{
         type: 1,

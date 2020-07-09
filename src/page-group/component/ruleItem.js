@@ -249,10 +249,18 @@ const RuleItem = ({
                       ? null 
                       : <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} />
                   }
+                  
                 </div>
             
               </FormItem>
             )
+          }
+
+          {
+            rest.page === 'detail'  
+            && +ruleIfBoxKey.slice(-1) === 1 
+            && ruleType === 'config' 
+            && relId ? <a href onClick={open} className="ml8 fs12 mt8">查看筛选</a> : null
           }
          
           

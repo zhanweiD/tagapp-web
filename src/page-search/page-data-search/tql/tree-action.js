@@ -19,12 +19,12 @@ export default class Action extends Component {
   // 查询树节点
   @action.bound searchTree(data) {
     this.store.searchKey = data
-    this.store.getTagTree()
+    this.store.searchTree()
   }
 
   // 刷新树节点
   @action.bound refreshTree() {
-    this.store.getTagTree()
+    this.store.searchTree()
   }
 
   // 展开缩放树节点

@@ -3,7 +3,7 @@
  */
 import {Component} from 'react'
 import {observer} from 'mobx-react'
-import {action, toJS} from 'mobx'
+import {action} from 'mobx'
 import {Button, Modal, message} from 'antd'
 import {ExclamationCircleOutlined} from '@ant-design/icons'
 import TqlTree from './tql-tree'
@@ -38,6 +38,7 @@ export default class Tql extends Component {
       icon: <ExclamationCircleOutlined />,
       content: '确认清空数据查询？',
       onOk() {
+        store.editor.setValue('')
         store.log = ''
         store.showResult = false
         store.resultInfo = {}
@@ -51,12 +52,11 @@ export default class Tql extends Component {
   @action.bound save() {
     const t = this
 
-    store.visibleSave = true
-    // if (!store.log) {
-    //   message.error('请运行正确TQL代码！')
-    // } else {
-    //   store.visibleSave = true
-    // }
+    if (!store.log) {
+      message.error('请运行正确TQL代码！')
+    } else {
+      store.visibleSave = true
+    }
   }
 
   render() {

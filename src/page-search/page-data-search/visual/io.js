@@ -4,6 +4,7 @@ import {dataSearch, get, post} from '../../../common/util'
 const api = {
   getObjList: get(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
   getTagTree: get(`${dataSearch}/visual_tag_tree`), // 对象标签树（可视化）
+  searchTree: get(`${dataSearch}/visual_tag_tree_search`), // 对象标签树（搜索）
   getObjectList: post(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
 
   getExpressionTag: get(`${dataSearch}/tag_list`), // 获取表达式标签

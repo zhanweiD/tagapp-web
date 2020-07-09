@@ -33,26 +33,35 @@ class Store {
     try {
       const res = await io.getTagTree({
         projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.treeLoading = false
+        this.searchExpandedKeys.clear()
+        this.treeData = listToTree(res)
+
+        if (cb) cb()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.treeLoading = false
+      })
+    }
+  }
+
+  // 获取 逻辑配置-标签树
+  @action async searchTree(cb) {
+    this.treeLoading = true
+    try {
+      const res = await io.searchTree({
+        projectId: this.projectId,
         searchKey: this.searchKey,
       })
       runInAction(() => {
         this.treeLoading = false
         this.searchExpandedKeys.clear()
-
-        let data = res
-
-        // 判断是否进行搜索
-        if (this.searchKey) {
-          data = res.map(item => {
-            // 关键字搜索定位
-            if (this.searchKey && item.name.includes(this.searchKey)) {
-              this.findParentId(item.id, res, this.searchExpandedKeys)
-            }
-            return item
-          })
-        }
-
-        this.treeData = listToTree(data)
+        this.treeData = listToTree(res)
 
         if (cb) cb()
       })
@@ -146,8 +155,8 @@ class Store {
     }
   }
 
-   // 名称校验
-   @action async checkName(params, cb) {
+  // 名称校验
+  @action async checkName(params, cb) {
     try {
       const res = await io.checkName({
         projectId: this.projectId,

@@ -18,14 +18,24 @@ class ModalAdd extends React.Component {
   @observable tagId
 
   @action.bound handleOk() {
+    const {chartTypeList} = this.store
+
     this.formRef.current
       .validateFields()
       .then(values => {
         const params = {
           type: this.type,
           tagId: values.tagId,
+          chartType: values.chartType,
         }
-        this.props.add(params, () => {
+
+        let isRepet = false
+        const tagList = toJS(chartTypeList)[+values.tagId]
+
+        if (tagList && tagList.includes(values.chartType)) {
+          isRepet = true
+        }
+        this.props.add(params, isRepet, () => {
           this.handleCancel()
         }) 
       })
@@ -60,11 +70,13 @@ class ModalAdd extends React.Component {
   render() {
     const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
 
-    const typeList = toJS(chartTypeList)[+this.tagId] || []
-
+    const typeList = toJS(chartTypeList)[+this.tagId || +modalEditInfo.tagId] || []
+    console.log(typeList)
+    const chartType = typeList.length ? undefined : 'bar'
+    console.log(chartType)
     return (
       <Modal
-        title={modalEditInfo.type === 'edit' ? '编辑分析维度' : '添加分析维度'}
+        title={modalEditInfo.modalType === 'edit' ? '编辑分析维度' : '添加分析维度'}
         visible={modalVis}
         onCancel={this.handleCancel}
         onOk={this.handleOk}
@@ -130,7 +142,7 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="图标" 
             name="chartType"
-            initialValue={modalEditInfo.chartType || 'bar'}
+            initialValue={modalEditInfo.chartType || chartType}
             rules={[{required: true, message: '请选择图标'}]}
           >
             <Radio.Group>
@@ -145,7 +157,11 @@ class ModalAdd extends React.Component {
                   </Fragment>
                 ) : null
               }
-              <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio>
+              
+              {
+                this.type === 3 ? <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio> : null
+              }
+             
             </Radio.Group>
           </Form.Item>
         </Form>

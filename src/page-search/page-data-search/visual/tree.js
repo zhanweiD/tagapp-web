@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Tree} from 'antd'
 // import {CarryOutOutlined, FormOutlined} from '@ant-design/icons' 
 import {NoBorderInput, OmitTooltip, Loading} from '../../../component'
@@ -9,7 +9,11 @@ import {
 const {TreeNode} = Tree
 
 const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
-  const searchTree = () => refreshTree()
+  // const [expandAll, changeExpandAll] = useState(true)
+
+  const searchTree = e => {
+    refreshTree(e)
+  }
 
   const renderTreeNodes = data => data.map(item => {
     if (item.children) {
@@ -35,6 +39,10 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
     )
   })
 
+  // const expandTree = () => {
+  //   changeExpandAll(!expandAll)
+  // }
+
   return (
     <div className="visual-tree">
       <div className="visual-tree-action">
@@ -45,15 +53,15 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
         />
 
         <div className="FBH pr6 pl6" style={{maxWidth: 70}}>
-          <IconRefresh size="14" className="mr8" onClick={searchTree} />
+          <IconRefresh size="14" className="mr8" onClick={() => searchTree()} />
           {/* {
             this.dropdownDom()
-          }
-          { this.store.expandAll ? (
-            <IconUnExtend size="14" className="hand" onClick={this.expandTree} /> 
+          } */}
+          {/* { expandAll ? (
+            <IconUnExtend size="14" className="hand" onClick={expandTree} /> 
           ) : (
-            <IconExtend size="14" className="hand" onClick={this.expandTree} />
-          )} */}
+            <IconExtend size="14" className="hand" onClick={expandTree} />
+          )}  */}
         </div>
       </div>
       <div className="p8"> 
@@ -63,6 +71,7 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
             <Tree
               showLine
               showIcon={false}
+              defaultExpandAll
             >
               {
                 renderTreeNodes(tagTreeData)

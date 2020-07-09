@@ -120,6 +120,7 @@ export default class IdCreate extends Component {
       handleCancel,
     } = this.store
 
+    console.log(objId)
     const props = {
       accept: '.xls, .xlsx, .txt',
       method: 'post',
@@ -230,9 +231,11 @@ export default class IdCreate extends Component {
               </Upload>
               <a 
                 style={{marginTop: '12px', display: 'block'}}
+                // onClick={() => {
+                //   window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)
                 onClick={() => {
                   if (objId) {
-                    window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)
+                    window.open(`${baseApi}/export/example?objId=${recordObj.objId}&projectId=${projectId}`)
                   } else {
                     this.formRef.current.validateFields(['objId'])
                   }

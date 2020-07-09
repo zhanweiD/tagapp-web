@@ -8,7 +8,6 @@ export default class Bar extends Component {
   }
 
   drawChart = data => {
-    console.log(data)
     this.chart.setOption(barOpt(
       data
     ))

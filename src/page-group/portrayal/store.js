@@ -37,10 +37,11 @@ class Store {
       })
       runInAction(() => {
         if (res.length === 0) return
-        this.objId = res[0].objId.toString()
-        this.entityList = res.map(item => {
-          return (<Option key={item.objId}>{item.objName}</Option>)
-        })
+        this.objId = res[0] && res[0].objId.toString()
+        this.entityList = res
+        // this.entityList = res.map(item => {
+        //   return (<Option key={item.objId}>{item.objName}</Option>)
+        // })
       })
     } catch (e) {
       errorTip(e.message)
@@ -111,8 +112,11 @@ class Store {
     }
   }
 
+  @observable markedLoading = false
+
   // 显著特征
   @action async getMarkedFeature(cb) {
+    this.markedLoading = true
     try {
       const res = await io.getLabel({
         objId: this.objId,
@@ -120,133 +124,18 @@ class Store {
         personalityUniqueKey: this.mainLabel,
       })
 
-      // const res = {
-      //   // 基本特征
-      //   basic_feature: [
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //   ],
-      //   // 显著特征
-      //   marked_feature: [
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     }, {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //   ],
-      //   // 个体图片url
-      //   pic_url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592397292085&di=32091bf850b5c52fea0d76fbb26ac776&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg',
-      // }
       runInAction(() => {
         // 显著特征
         const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
-
+        this.markedFeature = res.marked_feature
         cb(markedFeature)
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.markedLoading = false
+      })
     }
   }
 
@@ -258,18 +147,6 @@ class Store {
         objId: this.objId,
         personalityUniqueKey: this.mainLabel,
       })
-      // const res = [
-      //   {
-      //     x: '性别：男',
-      //     y1: '100',
-      //     y2: '24%',
-      //   },
-      //   {
-      //     x: '城市：杭州',
-      //     y1: '100',
-      //     y2: '24%',
-      //   },
-      // ]
 
       runInAction(() => {
         this.statistics = res
