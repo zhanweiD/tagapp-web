@@ -1,27 +1,22 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
-import {Select, Button, Tooltip, Progress} from 'antd'
-import {TagFilled} from '@ant-design/icons'
 import {
   errorTip, trimFormValues,
 } from '../../common/util'
 import io from './io'
 
-const {Option} = Select
 class Store {
   @observable objId = undefined // 当前实体id
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
-  @observable allLabelsLoading = true // 加载全部标签
-
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
-  @observable allLabels = [] // 全部标签
   @observable tooltipTitle = [] // 单个标签分析提示
-  @observable tooltipX = '' // 单个标签分析提示
-  @observable tooltipY = 0 // 单个标签分析提示
+  @observable itemLabels = [] // 单个标签
+  @observable tooltipX = '' // 单个标签分析提示x
+  @observable tooltipY = 0 // 单个标签分析提示y2
 
   @observable markedFeature = []// 显著特征
   @observable statistics = [] // 显著特征分析(百分比)
@@ -38,9 +33,6 @@ class Store {
         if (res.length === 0) return
         this.objId = res[0] && res[0].objId.toString()
         this.entityList = res
-        // this.entityList = res.map(item => {
-        //   return (<Option key={item.objId}>{item.objName}</Option>)
-        // })
       })
     } catch (e) {
       errorTip(e.message)
@@ -57,60 +49,9 @@ class Store {
       })
       runInAction(() => {
         this.labelRes = res || []
-        this.allLabelsLoading = false
-        this.getDom()
       })
     } catch (e) {
-      this.allLabelsLoading = false
       errorTip(e.message)
-    }
-  }
-
-  @action getDom = () => {
-    this.allLabels.clear()
-    for (let i = 0; i < this.labelRes.length; i++) {
-      const nowRes = this.labelRes[i].tags || []
-      const nowCategoryName = this.labelRes[i].categoryName || []
-     
-      // 生成单个提示标签
-      this.itemLabels = nowRes.map((item, index) => {
-        return (
-          <Tooltip 
-            key={item} 
-            // title={this.tooltipTitle} 
-            title={(
-              <div>
-                <div>
-                  <span>{this.tooltipX}</span>
-                </div>
-                <Progress 
-                  showInfo 
-                  strokeWidth={4} 
-                  strokeColor="#00d5af" 
-                  percent={parseInt(this.tooltipY)} 
-                  color="#fff"
-                  style={{color: '#fff', width: '96px'}}
-                />
-              </div>
-            )}
-            color="#639dd1" 
-            onMouseEnter={() => this.tagAnalysis(nowRes[index])}
-          >
-            <Button className="label-btn">{item.value}</Button>
-          </Tooltip>
-        )
-      })
-
-      // 生成标签标题
-      this.allLabels.push(
-        <div className="tab-content">
-          <div>
-            <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
-            <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
-          </div>
-          {this.itemLabels}
-        </div>
-      )
     }
   }
 
@@ -128,7 +69,6 @@ class Store {
       runInAction(() => {
         this.tooltipX = res.x
         this.tooltipY = res.y2
-        this.getDom()
       })
     } catch (e) {
       errorTip(e.message)

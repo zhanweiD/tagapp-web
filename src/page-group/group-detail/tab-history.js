@@ -61,7 +61,7 @@ export default class TagHistory extends Component {
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+            <Link to={`/group/unit/${record.objId}/${record.id}/${record.computeTime}`}>
               <a href>个体列表</a>
             </Link>
           </Fragment>

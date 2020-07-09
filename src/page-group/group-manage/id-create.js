@@ -120,7 +120,6 @@ export default class IdCreate extends Component {
       handleCancel,
     } = this.store
 
-    console.log(objId)
     const props = {
       accept: '.xls, .xlsx, .txt',
       method: 'post',

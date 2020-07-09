@@ -127,7 +127,7 @@ class GroupManage extends Component {
             <Popconfirm 
               placement="topRight" 
               title="你确定要删除该群体吗？" 
-              disabled={record.status === 3}
+              // disabled={record.status === 3}
               onConfirm={() => this.delItem(record.id)}
             >
               <a href>删除</a>

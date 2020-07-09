@@ -7,6 +7,7 @@ import {action, toJS} from 'mobx'
 import moment from 'moment'
 
 import {projectProvider, NoData, AuthBox, ListContent} from '../../component'
+import {baseApi} from '../../common/util'
 import GroupModal from './group-modal'
 
 import store from './store'
@@ -27,6 +28,10 @@ class UnitList extends Component {
   @action openModal = () => {
     store.visible = true
   }
+  @action outputUnitList = () => {
+    const {id, projectId, queryDate} = store
+    window.open(`${baseApi}/export/individuals?groupId=${id}&projectId=${projectId}&queryDate=${queryDate}`)
+  }
 
   render() {
     const {
@@ -43,7 +48,7 @@ class UnitList extends Component {
       columns: toJS(titleList),
       tableLoading,
       buttons: [
-        <AuthBox code="asset_tag_project_add" type="primary" onClick={() => store.outputUnitList()}>导出个体列表</AuthBox>,
+        <AuthBox code="asset_tag_project_add" type="primary" onClick={this.outputUnitList}>导出个体列表</AuthBox>,
         <AuthBox code="asset_tag_project_add" type="primary" onClick={this.openModal}>保存群体</AuthBox>,
       ],
       initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求

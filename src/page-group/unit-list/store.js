@@ -32,17 +32,27 @@ class Store {
         projectId: this.projectId,
         queryDate: this.queryDate,
       })
+      
       runInAction(() => {
         this.list = res.data || []
         this.titleList = []
         const {title} = res
+
         for (let i = 0; i < title.length; i++) {
-          this.titleList.push({
-            key: title[i],
-            title: title[i],
-            dataIndex: title[i],
-            render: (text, record) => (i === 0 ? (<a onClick={() => this.goPortrayal(record[title[0]])}>{text}</a>) : text),
-          })
+          if (title[i] === res.mainTag) {
+            this.titleList.unshift({
+              key: title[i],
+              title: title[i],
+              dataIndex: title[i],
+              render: (text, record) => (<a onClick={() => this.goPortrayal(record[title[i]])}>{text}</a>),
+            })
+          } else {
+            this.titleList.push({
+              key: title[i],
+              title: title[i],
+              dataIndex: title[i],
+            })
+          }
         }
         this.tableLoading = false
       })
@@ -64,7 +74,6 @@ class Store {
         successTip('导出成功')
       }
     } catch (e) {
-      // ErrorEater(e, '校验失败')
       errorTip(e.message)
     }
   }
@@ -74,7 +83,7 @@ class Store {
     try {
       const res = await io.saveUnitList({
         projectId: this.projectId,
-        groupId: this.id,
+        id: this.id,
         queryDate: this.queryDate,
         ...obj,
       })
