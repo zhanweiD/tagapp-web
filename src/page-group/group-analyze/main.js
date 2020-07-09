@@ -55,7 +55,7 @@ class GroupAnalyze extends Component {
   @action.bound add(values, cb) {
     const {modalEditInfo} = store
 
-    if (modalEditInfo.type === 'edit') {
+    if (modalEditInfo.modalType === 'edit') {
       store.editChart(values, modalEditInfo.index)
     } else {
       store.getChart(values)
@@ -71,7 +71,7 @@ class GroupAnalyze extends Component {
   @action.bound edit(data, index) {
     store.modalVis = true
     store.modalEditInfo = {
-      type: 'edit',
+      modalType: 'edit',
       index,
       ...data,
     }

@@ -21,7 +21,7 @@ class MySearch extends Component {
     super(props)
     store.projectId = props.projectId
   }
-  
+
   runType
   name
 
@@ -61,7 +61,7 @@ class MySearch extends Component {
           t.refresh()
         })
       },
-      onCancel: () => {},
+      onCancel: () => { },
     })
   }
 
@@ -79,20 +79,26 @@ class MySearch extends Component {
     })
   }
 
+  // 跳转到数据查询
+  goDataSearch = () => {
+    window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/search/data-search`
+  }
+
+
   render() {
     const {cardList, loading} = store
-
     const noDataConfig = {
       text: '暂无查询数据',
-      onClick: this.addSearch,
+      onClick: this.goDataSearch,
+      btnText: '去数据查询创建',
     }
     console.log(toJS(cardList))
     return (
       <div>
         <div className="content-header">我的查询</div>
-        <div className="my-search">   
+        <div className="my-search">
           <Spin spinning={loading}>
-            <div className="my-search-header"> 
+            <div className="my-search-header">
               <span className="mr8">查询类型</span>
               <Select
                 showSearch
@@ -113,7 +119,7 @@ class MySearch extends Component {
             {
               toJS(cardList).length ? (
                 <div>
-                
+
                   <DtGrid row={3} fixedHeight={192}>
                     {
                       cardList.map(({
@@ -124,7 +130,7 @@ class MySearch extends Component {
                         type,
                         descr,
                       }) => (
-                        <Card 
+                        <Card
                           className="card"
                           title={name}
                           link={`${window.__keeper.pathHrefPrefix}/search/my-search/${type === '可视化方式' ? 'visual' : 'tql'}/${id}`}
@@ -137,7 +143,7 @@ class MySearch extends Component {
                           }]}
                           descr={descr}
                           actions={[
-                            <Button 
+                            <Button
                               type="link" // antd@Button 属性
                               disabled={used}
                               className="p0"
@@ -150,9 +156,9 @@ class MySearch extends Component {
                             >
                               <IconEdit size="14" className={used ? 'i-used' : ''} />
                             </Button>,
-                            <Button 
+                            <Button
                               type="link" // antd@Button 属性
-                              disabled={used} 
+                              disabled={used}
                               className="p0"
                               onClick={() => this.del(id)}
                             >
@@ -161,7 +167,7 @@ class MySearch extends Component {
                             <CopyOutlined onClick={() => this.clone(id)} className={used ? 'i-used' : ''} />,
                           ]}
                         />
-                      )) 
+                      ))
                     }
                   </DtGrid>
 
@@ -172,11 +178,11 @@ class MySearch extends Component {
                   {...noDataConfig}
                 />
               )
-         
+
             }
             <ModalEdit store={store} refresh={this.refresh} />
           </Spin>
-         
+
         </div>
       </div>
     )

@@ -44,10 +44,14 @@ export default class StepTwo extends Component {
   }
 
   @action openDrawer = (flag, relId) => {
-    console.log(relId)
     this.store.getOtherEntity({
       relationId: relId,
     })
+
+    this.store.getConfigTagList({
+      objId: relId,
+    })
+
     this.drawerFlag = flag
     this.visible = true
   }
@@ -55,12 +59,14 @@ export default class StepTwo extends Component {
   @action submitRule = (posData, data) => {
     this.wherePosMap[this.drawerFlag] = posData
     this.whereMap[this.drawerFlag] = data
-    this.visible = false
+    this.onClose()
   }
 
   @action onClose = () => {
     this.visible = false
     this.drawerFlag = undefined
+
+    this.store.getConfigTagList()
   }
 
   @action reset = () => {

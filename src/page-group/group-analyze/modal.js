@@ -24,7 +24,9 @@ class ModalAdd extends React.Component {
         const params = {
           type: this.type,
           tagId: values.tagId,
+          chartType: values.chartType,
         }
+
         this.props.add(params, () => {
           this.handleCancel()
         }) 
@@ -64,7 +66,7 @@ class ModalAdd extends React.Component {
 
     return (
       <Modal
-        title={modalEditInfo.type === 'edit' ? '编辑分析维度' : '添加分析维度'}
+        title={modalEditInfo.modalType === 'edit' ? '编辑分析维度' : '添加分析维度'}
         visible={modalVis}
         onCancel={this.handleCancel}
         onOk={this.handleOk}
@@ -145,7 +147,11 @@ class ModalAdd extends React.Component {
                   </Fragment>
                 ) : null
               }
-              <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio>
+              
+              {
+                this.type === 3 ? <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio> : null
+              }
+             
             </Radio.Group>
           </Form.Item>
         </Form>

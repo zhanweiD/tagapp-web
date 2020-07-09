@@ -38,7 +38,7 @@ export default class SetRule extends Component {
       maskClosable: false,
       destroyOnClose: true,
       onClose,
-      className: 'set-rule',
+      className: 'detail-set-rule',
     }
   
     return (

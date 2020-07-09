@@ -92,7 +92,7 @@ class Store {
       const res = await io.getStorageList({
         id: this.projectId,
         ...params,
-      })
+      }) || []
       runInAction(() => {
         this.storageSelectList = changeToOptions(res)('dataDbName', 'dataStorageId')
       })

@@ -65,25 +65,25 @@ export const pieOpt = info => {
   }))
 
   return {
-    color: getColors(data.length),
+    // color: getColors(data.length),
     series: [
       {
         type: 'pie',
         radius: ['50%', '70%'],
-        // avoidLabelOverlap: true,
-        // silent: false,
-        // animation: false,
-        // label: {
-        //   show: false,
-        //   position: 'center',
-        // },
-        // emphasis: {
-        //   label: {
-        //     show: true,
-        //     fontSize: '30',
-        //     fontWeight: 'bold',
-        //   },
-        // },
+        avoidLabelOverlap: true,
+        silent: false,
+        animation: false,
+        label: {
+          show: false,
+          position: 'center',
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: '30',
+            fontWeight: 'bold',
+          },
+        },
         labelLine: {
           show: false,
         },
@@ -148,6 +148,7 @@ export const barOpt = data => {
       backgroundStyle: {
         color: 'rgba(220, 220, 220, 0.8)',
       },
+      barMaxWidth: '30%',
     }],
   }
 }
@@ -214,10 +215,10 @@ export const lineOpt = data => {
   return {
     color: colors,
     grid: {
-      left: '3%',
-      right: '4%',
-      top: '2%',
-      bottom: '2%',
+      left: '5%',
+      right: '5%',
+      top: '5%',
+      bottom: '5%',
     },
     xAxis: {
       type: 'category',

@@ -13,8 +13,6 @@ class RuleDetail extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-    // this.formRef = React.createRef()
-    // this.ruleContentRef = React.createRef()
 
     const {match: {params}} = props
 
@@ -45,6 +43,11 @@ class RuleDetail extends Component {
     store.getOtherEntity({
       relationId: relId,
     })
+
+    store.getConfigTagList({
+      objId: relId,
+    })
+    
     this.drawerFlag = flag
     this.visible = true
   }
@@ -58,6 +61,7 @@ class RuleDetail extends Component {
   @action onClose = () => {
     this.visible = false
     this.drawerFlag = undefined
+    store.getConfigTagList()
   }
 
   render() {

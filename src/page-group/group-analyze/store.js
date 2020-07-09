@@ -44,11 +44,6 @@ class Store {
         projectId: this.projectId,
       })
 
-      // const res = [{
-      //   objId: 111,
-      //   objName: '1123',
-      // }]
-
       runInAction(() => {
         this.objList = res
       })
@@ -63,10 +58,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
-      // const res = [{
-      //   groupId: 111,
-      //   groupName: '1123',
-      // }]
+ 
       runInAction(() => {
         this.groupList = res
       })
@@ -81,10 +73,6 @@ class Store {
         projectId: this.projectId,
         objId: this.objId,
       })
-      // const res = [{
-      //   columnName: 1111,
-      //   tagId: 111,
-      // }]
 
       runInAction(() => {
         this.tagList = res
@@ -119,6 +107,7 @@ class Store {
         projectId: this.projectId,
         id: this.groupId,
         ...params,
+        chartType: undefined,
       })
 
       runInAction(() => {

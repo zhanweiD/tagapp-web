@@ -77,7 +77,7 @@ export default class IdCreate extends Component {
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
 
-      value.outputTags = value.outputTags
+      value.outputTags = value.outputTags.map(Number)
       value.objId = parseInt(value.objId)
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type
@@ -122,6 +122,7 @@ export default class IdCreate extends Component {
       handleCancel,
     } = this.store
 
+    console.log(objId)
     const props = {
       accept: '.xls, .xlsx, .txt',
       method: 'post',
@@ -225,16 +226,18 @@ export default class IdCreate extends Component {
               ]}
             >
               <Upload {...props}>
-                <Button disabled={!objId}>
+                <Button disabled={!recordObj.objId}>
                   <UploadOutlined /> 
                   Upload
                 </Button>
               </Upload>
               <a 
                 style={{marginTop: '12px', display: 'block'}}
+                // onClick={() => {
+                //   window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)
                 onClick={() => {
                   if (objId) {
-                    window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)
+                    window.open(`${baseApi}/export/example?objId=${recordObj.objId}&projectId=${projectId}`)
                   } else {
                     this.formRef.current.validateFields(['objId'])
                   }

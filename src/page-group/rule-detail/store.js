@@ -84,11 +84,12 @@ class Store {
   }
 
   // 获取对象对应已同步的标签列表
-  @action async getConfigTagList() {
+  @action async getConfigTagList(params) {
     try {
       const res = await io.getConfigTagList({
         objId: this.objId, // 实体ID
         projectId: this.projectId,
+        ...params,
       })
 
       runInAction(() => {
