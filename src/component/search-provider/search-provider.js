@@ -75,7 +75,7 @@ export default PageComponent => {
     }, [projectId])
     
     const noDataConfig = {
-      btnText: '去初始化',
+      btnText: '去初始化数据查询',
       onClick: () => {
         getStorageType(projectId)
         changeVisible(true)

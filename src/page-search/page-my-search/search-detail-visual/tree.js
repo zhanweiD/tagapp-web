@@ -8,7 +8,7 @@ import {
 const {TreeNode} = Tree
 
 const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
-  const searchTree = () => refreshTree()
+  const searchTree = e => refreshTree(e)
 
   const renderTreeNodes = data => data.map(item => {
     if (item.children) {
@@ -44,7 +44,7 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
         />
 
         <div className="FBH pr6 pl6" style={{maxWidth: 70}}>
-          <IconRefresh size="14" className="mr8" onClick={searchTree} />
+          <IconRefresh size="14" className="mr8" onClick={() => searchTree()} />
           {/* {
             this.dropdownDom()
           }

@@ -2,14 +2,14 @@ import {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {Badge} from 'antd'
-import {TimeRange, ListContent, NoData} from '../../component'
+import {TimeRange, ListContent} from '../../component'
 import getOptions from './charts-options'
 import {Time} from '../../common/util'
 
 export default class TagHistory extends Component {
   constructor(props) {
     super(props)
-    this.store = this.props.store
+    this.store = props.store
   }
   defStartTime = moment().subtract(7, 'day').format('YYYY-MM-DD')
   defEndTime = moment().subtract(1, 'day').format('YYYY-MM-DD')
@@ -55,7 +55,7 @@ export default class TagHistory extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <Link to={`/group/analyze/${record.id}/${record.lastTime}`}>
+            <Link to={`/group/analyze/${record.id}/${+this.store.objId}/${record.recordDate}`}>
               <a href>群体分析</a>
             </Link>
             <span className="table-action-line" />

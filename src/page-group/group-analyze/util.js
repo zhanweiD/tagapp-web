@@ -58,6 +58,7 @@ export const roportionOpt = data => {
 
 export const pieOpt = info => {
   const data = info.xy
+  const tooltip = info.xy.map(d => d.y2)
 
   const renderData = data.map(d => ({
     name: d.x,
@@ -66,6 +67,12 @@ export const pieOpt = info => {
 
   return {
     color: getColors(data.length),
+    tooltip: {
+      trigger: 'item',
+      formatter: params => {
+        return `实体数: ${params.value}<br />占比: ${tooltip[params.seriesIndex]}`
+      },   
+    },
     series: [
       {
         type: 'pie',
@@ -97,7 +104,7 @@ export const pieOpt = info => {
 export const barOpt = data => {
   const xAxisData = data.xy.map(d => d.x)
   const yAxisData = data.xy.map(d => d.y1)
-
+  const tooltip = data.xy.map(d => d.y2)
   return {
     grid: {
       top: 20,
@@ -112,6 +119,9 @@ export const barOpt = data => {
       axisPointer: {
         type: 'shadow',
       },
+      formatter: params => {
+        return `实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+      },
     },
     xAxis: {
       type: 'category',
@@ -122,7 +132,7 @@ export const barOpt = data => {
         },
       },
       axisLabel: {
-        // formatter: '{value}',
+        formatter: '{value}',
         textStyle: {
           color: nameTextStyleColor,
         },
@@ -157,6 +167,7 @@ export const barOpt = data => {
 export const acrossBarOpt = data => {
   const xAxisData = data.xy.map(d => d.y1)
   const yAxisData = data.xy.map(d => d.x)
+  const tooltip = data.xy.map(d => d.y2)
 
   return {
     color: colors,
@@ -164,6 +175,9 @@ export const acrossBarOpt = data => {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow',
+      },
+      formatter: params => {
+        return `实体数: ${params[0].axisValue}<br />占比: ${tooltip[params[0].dataIndex]}`
       },
     },
     grid: {
@@ -213,6 +227,7 @@ export const acrossBarOpt = data => {
 export const lineOpt = data => {
   const xAxisData = data.xy.map(d => d.x)
   const yAxisData = data.xy.map(d => d.y1)
+  const tooltip = data.xy.map(d => d.y2)
 
   return {
     color: colors,
@@ -221,6 +236,10 @@ export const lineOpt = data => {
       right: '5%',
       top: '5%',
       bottom: '5%',
+    },
+    tooltip: {
+      trigger: 'axis',
+      formatter: params => `实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`,   
     },
     xAxis: {
       type: 'category',

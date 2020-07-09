@@ -22,7 +22,7 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
     }
 
     if (whereMap && Object.keys(whereMap).length) {
-      sOnedata.where = whereMap[`${parentFlag}-${data[0].flag}`] || {}
+      sOnedata.where = whereMap[`${parentFlag}-${data[0].flag}`]
     }
 
     return sOnedata 
@@ -51,7 +51,7 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
             sdata.rightParams,
           ],
         },
-        where: (whereMap && whereMap[`${parentFlag}-${sd.flag}`]) || {},
+        where: (whereMap && whereMap[`${parentFlag}-${sd.flag}`]),
       })
     })
 

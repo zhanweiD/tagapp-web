@@ -249,7 +249,7 @@ class Visual extends Component {
               }
             </Select>
           </div>
-          <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
+          <div className="FBH" style={{height: 'calc(100vh - 114px)'}}>
             <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
             <div className="visual-content-warp">
               <div className="code-menu">

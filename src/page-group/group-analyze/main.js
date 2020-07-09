@@ -22,6 +22,7 @@ class GroupAnalyze extends Component {
     const {match: {params}} = props
     store.groupId = params.groupId
     store.groupTime = params.time
+    store.objId = params.objId
   }
 
   componentDidMount() {
@@ -92,6 +93,9 @@ class GroupAnalyze extends Component {
           </div>
 
           <div style={{display: roportion.time ? 'block' : 'none'}} className="analyze-roportion box-border">
+            {
+              params.groupId ? <div className="analyze-roportion-name">{roportion.groupName}</div> : null
+            }
             <div ref={ref => this.roportionRef = ref} style={{height: '150px', width: '150px'}} />
             <div className="analyze-roportion-text">
               <div className="fs24">{roportion.groupCount}</div>
