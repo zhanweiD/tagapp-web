@@ -14,10 +14,14 @@ class Store {
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
+  @observable allLabelsLoading = true // 加载全部标签
+
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
   @observable allLabels = [] // 全部标签
   @observable tooltipTitle = [] // 单个标签分析提示
+  @observable tooltipX = '' // 单个标签分析提示
+  @observable tooltipY = 0 // 单个标签分析提示
 
   @observable markedFeature = []// 显著特征
   @observable statistics = [] // 显著特征分析(百分比)
@@ -50,17 +54,16 @@ class Store {
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
       })
-      // const labelRes = res || []
       runInAction(() => {
         this.labelRes = res || []
-        // console.log(toJS(this.tooltipTitle))
+        this.allLabelsLoading = false
         this.getDom()
       })
     } catch (e) {
+      this.allLabelsLoading = false
       errorTip(e.message)
     }
   }
-  
 
   @action getDom = () => {
     this.allLabels.clear()
@@ -73,7 +76,22 @@ class Store {
         return (
           <Tooltip 
             key={item} 
-            title={this.tooltipTitle} 
+            // title={this.tooltipTitle} 
+            title={(
+              <div>
+                <div>
+                  <span>{this.tooltipX}</span>
+                </div>
+                <Progress 
+                  showInfo 
+                  strokeWidth={4} 
+                  strokeColor="#00d5af" 
+                  percent={parseInt(this.tooltipY)} 
+                  color="#fff"
+                  style={{color: '#fff', width: '96px'}}
+                />
+              </div>
+            )}
             color="#639dd1" 
             onMouseEnter={() => this.tagAnalysis(nowRes[index])}
           >
@@ -95,25 +113,6 @@ class Store {
     }
   }
 
-  // 提示文本
-  setTooltipTitle = (x, y) => {
-    return (
-      <div>
-        <div>
-          <span>{x}</span>
-        </div>
-        <Progress 
-          showInfo 
-          strokeWidth={4} 
-          strokeColor="#00d5af" 
-          percent={parseInt(y)} 
-          color="#fff"
-          style={{color: '#fff', width: '96px'}}
-        />
-      </div>
-    )
-  }
-
   // 获取单个标签分析信息
   @action async tagAnalysis(obj) {
     try {
@@ -124,16 +123,10 @@ class Store {
         tagName: obj.tagName,
         fieldName: obj.fieldName,
       })
-  
-      if (res) {
-        console.log(111)
-      }
-      if (this.tooltipTitle.length > 0) {
-        this.tooltipTitle = []
-      }
 
       runInAction(() => {
-        this.tooltipTitle.push(this.setTooltipTitle(res.x, res.y2))
+        this.tooltipX = res.x
+        this.tooltipY = res.y2
         this.getDom()
       })
     } catch (e) {
@@ -152,6 +145,7 @@ class Store {
       this.basicRes = res.basic_feature || []
 
       runInAction(() => {
+        // 生成基本特征dom结构
         this.basicLabel = this.basicRes.map(item => {
           return (
             <p>
