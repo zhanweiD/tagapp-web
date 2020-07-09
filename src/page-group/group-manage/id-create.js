@@ -71,8 +71,8 @@ export default class IdCreate extends Component {
   }
 
   @action onOK = () => {
-    this.form = this.formRef.current
     const {isAdd, mode, type, fileRes, recordObj} = this.store
+
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
 
@@ -87,7 +87,6 @@ export default class IdCreate extends Component {
       } else {
         this.store.editIdGroup(value)
       }
-      // this.handleCancel()
     }).catch(err => {
       this.store.confirmLoading = false
       errorTip(err)
@@ -160,8 +159,9 @@ export default class IdCreate extends Component {
       visible: modalVisible,
       maskClosable: false,
       closable: true,
-      onOk: this.uploadCancel,
-      onCancel: this.uploadCancel,
+      footer: (
+        <Button type="primary" className="footer-btn" onClick={this.uploadCancel}>知道了</Button>
+      ),
       width: 525,
       destroyOnClose: true,
     }
