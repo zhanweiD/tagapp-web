@@ -33,7 +33,7 @@ class PortrayalLabel extends Component {
   }
 
   render() {
-    const {markedFeature, basicLabel, allLabels} = store
+    const {markedFeature, basicLabel} = store
     const noDataConfig = {
       text: '请输入主标签查询',
     }
@@ -48,7 +48,7 @@ class PortrayalLabel extends Component {
             </div>
           </div>
           {
-            markedFeature.length !== 0 || basicLabel.length !== 0 || allLabels.length !== 0 ? (
+            markedFeature.length !== 0 || basicLabel.length !== 0 ? (
               <Layout className="label-main">
                 <Sider className="label-sider box-border"><DetailSidebar /></Sider>
                 <Layout>

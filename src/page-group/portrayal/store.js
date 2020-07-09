@@ -13,7 +13,6 @@ class Store {
 
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
-  @observable allLabels = [] // 全部标签
   @observable tooltipTitle = [] // 单个标签分析提示
   @observable itemLabels = [] // 单个标签
   @observable tooltipX = '' // 单个标签分析提示x

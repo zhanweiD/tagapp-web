@@ -13,15 +13,11 @@ export default class LabelTab extends Component {
     super(props)
     this.store = props.store
   }
-  componentDidMount() {
-    this.getDom(this.store.tooltipX, this.store.tooltipY)
-  }
 
   // 生成dom结构
   @action getDom = (x, y) => {
     const domList = []
     const {labelRes} = this.store
-    this.store.allLabels.clear()
     for (let i = 0; i < labelRes.length; i++) {
       const nowRes = labelRes[i].tags || []
       const nowCategoryName = labelRes[i].categoryName || []
