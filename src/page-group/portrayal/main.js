@@ -13,6 +13,7 @@ import './main.styl'
 import store from './store'
 import DetailSidebar from './detail-sidebar'
 import ShowLabel from './show-label'
+import Search from './search'
 
 const {Sider, Content} = Layout
 @observer
@@ -44,12 +45,8 @@ class PortrayalLabel extends Component {
     store.getLabel()
     store.getAnalysis()
     store.getAllTags()
+    // store.getMarkedFeature()
   }
-
-  // @action resetSearch = () => {
-  //   store.objId = undefined
-  //   store.mainLabel = null
-  // }
 
   render() {
     const {entityList, objId, mainLabel, markedFeature, basicLabel, allLabels} = store
@@ -64,7 +61,8 @@ class PortrayalLabel extends Component {
           <div className="content-header label-header">
             <span>微观画像</span>
             <div className="search-df">
-              <div className="mr16">
+              <Search search={this.onSearch} />
+              {/* <div className="mr16">
                 <span className="mr8">实体</span>
                 <Select 
                   style={{width: '196px'}} 
@@ -87,8 +85,8 @@ class PortrayalLabel extends Component {
               </div>
               <div className="mr16">
                 <Button type="primary" className="mr8" onClick={this.onSearch}>查询</Button>
-                {/* <Button onClick={this.resetSearch}>重置</Button> */}
-              </div>
+                <Button onClick={this.resetSearch}>重置</Button>
+              </div> */}
             </div>
           </div>
           {

@@ -2,9 +2,9 @@ import React, {Component, Fragment} from 'react'
 import {observer, inject} from 'mobx-react'
 import {toJS} from 'mobx'
 import * as d3 from 'd3'
-import {Progress} from 'antd'
+import {Progress, Spin} from 'antd'
 import personIcon from '../../icon/person.svg'
-import {NoData} from '../../component'
+import {NoData, Loading} from '../../component'
 
 import './analyze-tab.styl'
   
@@ -24,8 +24,7 @@ export default class AnalyzeTab extends Component {
   componentDidMount() {
     this.store.getAnalysis()
     this.store.getMarkedFeature(data => {
-      if (data && data.nodes.length) {
-        console.log(123)
+      if (data && data.links.length) {
         this.draw(data)
       }
     })
@@ -85,15 +84,6 @@ export default class AnalyzeTab extends Component {
           return -60
         }
 
-
-        // if (d.x > 373 && d.x < 410) {
-        //   return 50
-        // }
-
-        // if (d.x < 373 && d.x > 333) {
-        //   return -50
-        // }
-
         if (d.x > 350) {
           return 0
         }
@@ -129,40 +119,39 @@ export default class AnalyzeTab extends Component {
       })
   }
   render() {
-    const {statistics, markedFeature} = this.store
+    const {statistics, markedLoading} = this.store
 
     return (
       <div className="bgf">
-        <div className="analyze-content">
-          {/* {
-            toJS(markedFeature).length ? (
-              <div className="person" id="person">
-                <div className="svg-box"> 
-                  <svg id="box" />
-                  <img src={personIcon} alt="人" id="pic" />
-                </div>      
-              </div>
-            ) : <NoData />
-          } */}
-          <div className="person" id="person">
-            <div className="svg-box"> 
-              <svg id="box" />
-              <img src={personIcon} alt="人" id="pic" />
-            </div>      
-          </div>
-          <div className="analyze-ratio">
+        <Spin spinning={markedLoading}>
+          <div className="analyze-content">
+          
+            <div className="person" id="person">
+              <div className="svg-box"> 
+                <svg id="box" />
+                <img src={personIcon} alt="人" id="pic" />
+              </div>      
+            </div>
+
             {
-              statistics.map(d => (
-                <div>
-                  <div>{d.x}</div>
-                  <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+              toJS(statistics).length ? (
+                <div className="analyze-ratio">
+                  {
+                    statistics.map(d => (
+                      <div>
+                        <div>{d.x}</div>
+                        <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+                      </div>
+                    ))
+                  }              
                 </div>
-              ))
+              ) : null
             }
-           
-          </div>
         
-        </div>
+        
+          </div>
+        </Spin>
+        
        
       </div>
     )

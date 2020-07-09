@@ -36,10 +36,11 @@ class Store {
       })
       runInAction(() => {
         if (res.length === 0) return
-        this.objId = res[0].objId.toString()
-        this.entityList = res.map(item => {
-          return (<Option key={item.objId}>{item.objName}</Option>)
-        })
+        this.objId = res[0] && res[0].objId.toString()
+        this.entityList = res
+        // this.entityList = res.map(item => {
+        //   return (<Option key={item.objId}>{item.objName}</Option>)
+        // })
       })
     } catch (e) {
       errorTip(e.message)
@@ -160,8 +161,11 @@ class Store {
     }
   }
 
+  @observable markedLoading = false
+
   // 显著特征
   @action async getMarkedFeature(cb) {
+    this.markedLoading = true
     try {
       const res = await io.getLabel({
         objId: this.objId,
@@ -177,6 +181,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.markedLoading = false
+      })
     }
   }
 
