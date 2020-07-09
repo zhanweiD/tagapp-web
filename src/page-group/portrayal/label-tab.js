@@ -69,9 +69,9 @@ export default class LabelTab extends Component {
   }
 
   render() {
-    const {labelRes, allLabelsLoading, tooltipX, tooltipY} = this.store
+    const {labelRes, tooltipX, tooltipY, markedLoading} = this.store
     return (
-      <Spin spinning={allLabelsLoading}>
+      <Spin spinning={markedLoading}>
         <div className="pl24 pt-0">
           {
             labelRes.length ? (

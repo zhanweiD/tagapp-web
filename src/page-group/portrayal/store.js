@@ -1,20 +1,15 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
-import {Select, Button, Tooltip, Progress} from 'antd'
-import {TagFilled} from '@ant-design/icons'
 import {
   errorTip, trimFormValues,
 } from '../../common/util'
 import io from './io'
 
-const {Option} = Select
 class Store {
   @observable objId = undefined // 当前实体id
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
-
-  @observable allLabelsLoading = true // 加载全部标签
 
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
@@ -39,9 +34,6 @@ class Store {
         if (res.length === 0) return
         this.objId = res[0] && res[0].objId.toString()
         this.entityList = res
-        // this.entityList = res.map(item => {
-        //   return (<Option key={item.objId}>{item.objName}</Option>)
-        // })
       })
     } catch (e) {
       errorTip(e.message)
@@ -58,10 +50,8 @@ class Store {
       })
       runInAction(() => {
         this.labelRes = res || []
-        this.allLabelsLoading = false
       })
     } catch (e) {
-      this.allLabelsLoading = false
       errorTip(e.message)
     }
   }
