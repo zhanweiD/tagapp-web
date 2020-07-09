@@ -14,7 +14,6 @@ class Store {
   @observable groupDetial = {} // 群体详情
   @observable barList =[] // 群体详情柱状图
   @observable list = [] // 群体详情列表
-  @observable tagList = [] // 标签列表
   @observable barDataX = [] // 群体详情柱状图横坐标
   @observable barDataY = [] // 群体详情柱图纵坐标
   @observable modeType = -1 // 1 规则离线 2 规则实时 0 ID集合离线
@@ -126,10 +125,25 @@ class Store {
     }
   }
 
+  // 获取api分组
+  @action async getApiGroup() {
+    try {
+      const res = await io.getApiGroup({
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.apiGroupList = changeToOptions(toJS(res || []))('groupName', 'apiGroupId')
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
   // 创建api
   @action async createApi(params) {
     try {
       const res = await io.createApi({
+        projectId: this.projectId,
         id: this.id,
         ...params,
       })

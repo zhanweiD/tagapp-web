@@ -22,7 +22,6 @@ export default class IdCreate extends Component {
 
   // 设置输出标签
   setOutputTags = value => {
-    console.log(value)
     this.formRef.current.setFieldsValue({
       outputTags: value,
     })
@@ -111,10 +110,10 @@ export default class IdCreate extends Component {
       modalVisible,
       entityOptions,
       recordObj,
+      objId,
       tagOptions,
       uploadList,
       projectId,
-      objId,
       fileRes,
       isAdd,
       isPerform,
@@ -171,7 +170,6 @@ export default class IdCreate extends Component {
       labelCol: {span: 3},
       wrapperCol: {span: 20},
     }
-    console.log(recordObj.outputTags)
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">

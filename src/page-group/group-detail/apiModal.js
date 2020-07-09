@@ -14,13 +14,11 @@ export default class ApiModal extends Component {
 
   selectContent= () => {
     const {
-      selectLoading, 
-      tagList,
       apiGroupList = [],
     } = this.store
     return [{
       label: 'API名称',
-      key: 'name',
+      key: 'apiName',
       component: 'input',
       rules: [
         '@transformTrim',
@@ -28,7 +26,7 @@ export default class ApiModal extends Component {
       ],
     }, {
       label: 'API分组',
-      key: 'apiGroup',
+      key: 'apiGroupId',
       initialValue: '1',
       rules: [
         '@requiredSelect',
@@ -42,27 +40,30 @@ export default class ApiModal extends Component {
       component: 'select',
     }, {
       label: 'API路径',
-      key: 'path',
+      key: 'apiPath',
       rules: [
         '@transformTrim',
         '@required',
       ],
+      placeholder: '请输入以/开头的API路径',
       component: 'input',
-    }, {
-      label: '输出标签',
-      key: 'dataStorageId',
-      mode: 'multiple',
-      rules: [
-        '@requiredSelect',
-        {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
-      ],
-      control: {
-        options: tagList,
-        notFoundContent: selectLoading ? <Spin size="small" /> : null, 
-      },
-      selectLoading, // 下拉框loading效果
-      component: 'select',
-    }, {
+    }, 
+    // {
+    //   label: '输出标签',
+    //   key: 'dataStorageId',
+    //   mode: 'multiple',
+    //   rules: [
+    //     '@requiredSelect',
+    //     {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+    //   ],
+    //   control: {
+    //     options: tagList,
+    //     notFoundContent: selectLoading ? <Spin size="small" /> : null, 
+    //   },
+    //   selectLoading, // 下拉框loading效果
+    //   component: 'select',
+    // }, 
+    {
       label: '描述',
       key: 'descr',
       component: 'textArea',

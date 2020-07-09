@@ -52,7 +52,7 @@ class PortrayalLabel extends Component {
   // }
 
   render() {
-    const {entityList, objId, mainLabel} = store
+    const {entityList, objId, mainLabel, markedFeature, basicLabel, allLabels} = store
     const noDataConfig = {
       text: '请输入主标签查询',
       // code: 'asset_tag_project_add',
@@ -92,7 +92,7 @@ class PortrayalLabel extends Component {
             </div>
           </div>
           {
-            mainLabel ? (
+            markedFeature.length !== 0 || basicLabel.length !== 0 || allLabels.length !== 0 ? (
               <Layout className="label-main">
                 <Sider className="label-sider box-border"><DetailSidebar /></Sider>
                 <Layout>

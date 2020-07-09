@@ -162,6 +162,7 @@ class GroupManage extends Component {
     if (mode === 2) {
       store.isPerform = true
       record.objId = record.objId.toString()
+      store.objId = record.objId
       store.recordObj = record
       store.isAdd = false
 
@@ -182,10 +183,10 @@ class GroupManage extends Component {
   // 跳转到群体编辑
   goGroupEdit = record => {
     store.isAdd = false
-    const {mode, id, type} = record
+    const {mode, id, type, objId} = record
     if (mode === 2) {
-      console.log(record)
-      record.objId = record.objId.toString()
+      record.objId = objId.toString()
+      store.objId = record.objId
       store.recordObj = record
       store.uploadData = true
       store.getTagList()

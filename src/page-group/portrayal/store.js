@@ -121,10 +121,9 @@ class Store {
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
       })
-      const basicRes = res.basic_feature || []
-      
+      this.basicRes = res.basic_feature || []
       runInAction(() => {
-        this.basicLabel = basicRes.map(item => {
+        this.basicLabel = this.basicRes.map(item => {
           return (
             <p>
               <span className="basicName">{`${item.tagName}：`}</span>
