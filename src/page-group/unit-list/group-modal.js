@@ -20,7 +20,7 @@ export default class GroupModal extends Component {
         '@transformTrim',
         '@required',
         '@max32',
-        // {validator: this.checkName},
+        {validator: this.checkName},
       ],
     }, 
     {
