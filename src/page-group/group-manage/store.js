@@ -199,6 +199,10 @@ class Store extends ListContentStore(io.getGroupList) {
 
   // 重命名校验
   @action async recheckName(name, callback) {
+    if (!this.isAdd) {
+      callback()
+      return
+    }
     try {
       const res = await io.recheckName({
         projectId: this.projectId,
