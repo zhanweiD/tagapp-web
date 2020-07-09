@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react'
-import {Progress} from 'antd'
 import {action, observe, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 
@@ -13,26 +12,9 @@ export default class LabelTab extends Component {
     this.store = props.store
   }
 
-  tooltipTitle(i) {
-    const {tooltipLabel} = this.store
-    return (
-      <div>
-        <div>
-          <span>{tooltipLabel[i].x}</span>
-        </div>
-        <Progress 
-          showInfo 
-          strokeWidth={4} 
-          strokeColor="#00d5af" 
-          percent={tooltipLabel[i].y2} 
-          color="#fff"
-          style={{color: '#fff'}}
-        />
-      </div>
-    )
-  }
   render() {
     const {allLabels} = this.store
+    console.log(toJS(allLabels))
     return (
       <div className="pl24 pt-0">
         {
@@ -41,7 +23,6 @@ export default class LabelTab extends Component {
           ) : (
             <NoData />
             // isLoading={tableLoading}
-            // {...noDataConfig}
           )
         }
       </div>

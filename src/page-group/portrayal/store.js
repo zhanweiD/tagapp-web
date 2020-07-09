@@ -4,7 +4,7 @@ import {
 import {Select, Button, Tooltip, Progress} from 'antd'
 import {TagFilled} from '@ant-design/icons'
 import {
-  successTip, errorTip, changeToOptions, trimFormValues,
+  errorTip, trimFormValues,
 } from '../../common/util'
 import io from './io'
 
@@ -21,6 +21,8 @@ class Store {
 
   @observable markedFeature = []// 显著特征
   @observable statistics = [] // 显著特征分析(百分比)
+
+  @observable labelRes = []
 
   // 获取实体列表
   @action async getEntityList() {
@@ -48,69 +50,95 @@ class Store {
         projectId: this.projectId,
         personalityUniqueKey: this.mainLabel,
       })
-      const labelRes = res || []
+      // const labelRes = res || []
       runInAction(() => {
-        for (let i = 0; i < labelRes.length; i++) {
-          const nowRes = res[i].tags || []
-          const nowCategoryName = res[i].categoryName || []
-
-          this.itemLabels = nowRes.map((item, index) => {
-            return (
-              <Tooltip 
-                key={item} 
-                title={this.tooltipTitle} 
-                color="#639dd1" 
-                onMouseEnter={() => this.tagAnalysis(nowRes[index])}
-              >
-                <Button className="label-btn">{item.value}</Button>
-              </Tooltip>
-            )
-          })
-
-          this.allLabels.push(
-            <div className="tab-content">
-              <div>
-                <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
-                <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
-              </div>
-              {this.itemLabels}
-            </div>
-          )
-        }
+        this.labelRes = res || []
+        // console.log(toJS(this.tooltipTitle))
+        this.getDom()
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
+  
 
-  // 获取单个标签分析信息
-  @action async tagAnalysis(obj) {
-    const res = await io.tagAnalysis({
-      objId: this.objId,
-      projectId: this.projectId,
-      value: obj.value,
-      tagName: obj.tagName,
-      fieldName: obj.fieldName,
-    })
-    if (this.tooltipTitle.length > 0) {
-      this.tooltipTitle = []
+  @action getDom = () => {
+    this.allLabels.clear()
+    for (let i = 0; i < this.labelRes.length; i++) {
+      const nowRes = this.labelRes[i].tags || []
+      const nowCategoryName = this.labelRes[i].categoryName || []
+     
+      // 生成单个提示标签
+      this.itemLabels = nowRes.map((item, index) => {
+        return (
+          <Tooltip 
+            key={item} 
+            title={this.tooltipTitle} 
+            color="#639dd1" 
+            onMouseEnter={() => this.tagAnalysis(nowRes[index])}
+          >
+            <Button className="label-btn">{item.value}</Button>
+          </Tooltip>
+        )
+      })
+
+      // 生成标签标题
+      this.allLabels.push(
+        <div className="tab-content">
+          <div>
+            <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
+            <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
+          </div>
+          {this.itemLabels}
+        </div>
+      )
     }
-    this.tooltipTitle.push(
+  }
+
+  // 提示文本
+  setTooltipTitle = (x, y) => {
+    return (
       <div>
         <div>
-          <span>{res.x}</span>
+          <span>{x}</span>
         </div>
         <Progress 
           showInfo 
           strokeWidth={4} 
           strokeColor="#00d5af" 
-          percent={parseInt(res.y2)} 
+          percent={parseInt(y)} 
           color="#fff"
           style={{color: '#fff', width: '96px'}}
         />
       </div>
     )
-    console.log(this.tooltipTitle)
+  }
+
+  // 获取单个标签分析信息
+  @action async tagAnalysis(obj) {
+    try {
+      const res = await io.tagAnalysis({
+        objId: this.objId,
+        projectId: this.projectId,
+        value: obj.value,
+        tagName: obj.tagName,
+        fieldName: obj.fieldName,
+      })
+  
+      if (res) {
+        console.log(111)
+      }
+      if (this.tooltipTitle.length > 0) {
+        this.tooltipTitle = []
+      }
+
+      runInAction(() => {
+        this.tooltipTitle.push(this.setTooltipTitle(res.x, res.y2))
+        this.getDom()
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
   }
 
   // 获取基本+显著特征
@@ -122,6 +150,7 @@ class Store {
         personalityUniqueKey: this.mainLabel,
       })
       this.basicRes = res.basic_feature || []
+
       runInAction(() => {
         this.basicLabel = this.basicRes.map(item => {
           return (
