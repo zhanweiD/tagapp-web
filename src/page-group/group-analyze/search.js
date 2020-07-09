@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Input, Button, Radio, Select} from 'antd'
+import {Form, Button, Select} from 'antd'
 import {action} from 'mobx'
 import {inject, observer} from 'mobx-react'
 
@@ -15,6 +15,10 @@ class Search extends React.Component {
   }
   
   @action.bound onFinish = values => {
+    if (values.groupId !== this.store.groupId) {
+      this.store.info.clear()
+    }
+    this.store.groupId = values.id
     this.props.search(values)
   }
 
@@ -26,9 +30,9 @@ class Search extends React.Component {
     })
   }
 
-  @action.bound selectGroup(e) {
-    this.store.groupId = e
-  }
+  // @action.bound selectGroup(e) {
+  //   this.store.groupId = e
+  // }
 
   // @action.bound reset() {
   //   this.formRef.current.resetFields()
@@ -49,24 +53,30 @@ class Search extends React.Component {
           <Form.Item 
             label="实体" 
             name="objId"
+            rules={[{required: true, message: '请选择'}]}
           >
             <Select
               showSearch
               placeholder="请选择"
               style={{width: 200}}
               onSelect={this.selectObj}
+              
             >
               {
                 objList.map(d => <Option value={d.objId}>{d.objName}</Option>)
               }
             </Select>
           </Form.Item>
-          <Form.Item label="群体名称" name="id">
+          <Form.Item 
+            label="群体名称"
+            name="id" 
+            rules={[{required: true, message: '请选择'}]}
+          >
             <Select
               showSearch
               placeholder="请选择"
               style={{width: 200}}
-              onSelect={this.selectGroup}
+              // onSelect={this.selectGroup}
             >
               {
                 groupList.map(d => <Option value={d.groupId}>{d.groupName}</Option>)
@@ -74,7 +84,7 @@ class Search extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="mr8" disabled={!groupId}>查询</Button>
+            <Button type="primary" htmlType="submit">查询</Button>
             {/* <Button onClick={this.reset}>重置</Button> */}
           </Form.Item>
         </Form>

@@ -92,7 +92,6 @@ class Store {
       tagName: obj.tagName,
       fieldName: obj.fieldName,
     })
-    
     if (this.tooltipTitle.length > 0) {
       this.tooltipTitle = []
     }
@@ -111,6 +110,7 @@ class Store {
         />
       </div>
     )
+    console.log(this.tooltipTitle)
   }
 
   // 获取基本+显著特征

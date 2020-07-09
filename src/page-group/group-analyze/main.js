@@ -80,7 +80,7 @@ class GroupAnalyze extends Component {
   render() {
     const {roportion, info, groupId} = store
     const {match: {params}} = this.props
-    console.log(roportion)
+
     return (
       <Provider store={store}>
         <div>
@@ -146,7 +146,7 @@ class GroupAnalyze extends Component {
                     </div>
                   ))
 
-                  : <NoData text="暂无数据" />
+                  : <NoData text="暂无分析数据" />
               }
             </div>
             <ModalAdd add={this.add} />

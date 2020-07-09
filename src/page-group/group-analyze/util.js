@@ -65,27 +65,28 @@ export const pieOpt = info => {
   }))
 
   return {
-    // color: getColors(data.length),
+    color: getColors(data.length),
     series: [
       {
         type: 'pie',
         radius: ['50%', '70%'],
         avoidLabelOverlap: true,
-        silent: false,
+        // silent: false,
         animation: false,
-        label: {
-          show: false,
-          position: 'center',
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '30',
-            fontWeight: 'bold',
-          },
-        },
+        
+        // label: {
+        //   show: true,
+        //   position: 'center',
+        // },
+        // emphasis: {
+        //   label: {
+        //     show: true,
+        //     fontSize: '30',
+        //     fontWeight: 'bold',
+        //   },
+        // },
         labelLine: {
-          show: false,
+          show: true,
         },
         data: renderData,
       },
@@ -105,7 +106,7 @@ export const barOpt = data => {
       bottom: '3%',
       containLabel: true,
     },
-    color: ['#3899FF'],
+    color: colors,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
