@@ -60,6 +60,26 @@ class Store {
     }
   }
 
+  // 获取标签树
+  @action async searchTree(params) {
+    this.treeLoading = true
+
+    try {
+      const res = await io.searchTree({
+        projectId: this.projectId,
+        ...params,
+      })
+      runInAction(() => {
+        this.tagTreeData = listToTree(res)
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      this.treeLoading = false
+    }
+  }
+
+
   // 获取对象下拉
   @action async getObjList() {
     try {
@@ -157,7 +177,7 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
-    } 
+    }
   }
 
   // 名称校验
@@ -225,7 +245,7 @@ class Store {
     }
   }
 
-  
+
   // 获取详情 
   @action async getDetail() {
     this.detailLoading = true
@@ -237,7 +257,7 @@ class Store {
 
       runInAction(() => {
         this.detail = res
-        
+
         this.getTagTree({id: res.objId})
         this.getExpressionTag({id: res.objId})
       })

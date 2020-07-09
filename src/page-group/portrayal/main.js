@@ -62,7 +62,7 @@ class PortrayalLabel extends Component {
       <Provider store={store}>
         <div className="show-label">
           <div className="content-header label-header">
-            <span>特征分析</span>
+            <span>微观画像</span>
             <div className="search-df">
               <div className="mr16">
                 <span className="mr8">实体</span>

@@ -146,129 +146,10 @@ class Store {
         personalityUniqueKey: this.mainLabel,
       })
 
-      // const res = {
-      //   // 基本特征
-      //   basic_feature: [
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //   ],
-      //   // 显著特征
-      //   marked_feature: [
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     }, {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '会员id',
-      //       value: '20202020',
-      //     },
-      //     {
-      //       tagId: 34214213213,
-      //       tagName: '姓名',
-      //       value: '张三',
-      //     },
-      //   ],
-      //   // 个体图片url
-      //   pic_url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592397292085&di=32091bf850b5c52fea0d76fbb26ac776&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg',
-      // }
       runInAction(() => {
         // 显著特征
         const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
-
+        this.markedFeature = res.marked_feature
         cb(markedFeature)
       })
     } catch (e) {
@@ -284,18 +165,6 @@ class Store {
         objId: this.objId,
         personalityUniqueKey: this.mainLabel,
       })
-      // const res = [
-      //   {
-      //     x: '性别：男',
-      //     y1: '100',
-      //     y2: '24%',
-      //   },
-      //   {
-      //     x: '城市：杭州',
-      //     y1: '100',
-      //     y2: '24%',
-      //   },
-      // ]
 
       runInAction(() => {
         this.statistics = res

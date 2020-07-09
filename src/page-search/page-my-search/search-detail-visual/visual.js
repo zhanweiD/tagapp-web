@@ -59,7 +59,7 @@ class Visual extends Component {
   }
 
   @action.bound refreshTree(searchKey) {
-    store.getTagTree({id: store.objId, searchKey})
+    store.searchTree({id: store.objId, searchKey})
   }
 
   @action.bound save() {

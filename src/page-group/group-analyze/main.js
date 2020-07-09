@@ -52,10 +52,10 @@ class GroupAnalyze extends Component {
     store.getTags()
   }
 
-  @action.bound add(values, cb) {
+  @action.bound add(values, isRepet, cb) {
     const {modalEditInfo} = store
 
-    if (modalEditInfo.modalType === 'edit') {
+    if (modalEditInfo.modalType === 'edit' || isRepet) {
       store.editChart(values, modalEditInfo.index)
     } else {
       store.getChart(values)
@@ -128,7 +128,7 @@ class GroupAnalyze extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit(rest, index)} className="mr8 mt8" />
+                            <IconEdit size="14" onClick={() => this.edit(rest, index)} className="mr8 mt8 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
@@ -136,7 +136,7 @@ class GroupAnalyze extends Component {
                               okText="确认"
                               cancelText="取消"
                             >
-                              <IconDel size="14" className="mt8" />
+                              <IconDel size="14" className="mt8 action" />
                             </Popconfirm>
                           
                           </div>

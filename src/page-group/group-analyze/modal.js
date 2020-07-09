@@ -18,6 +18,8 @@ class ModalAdd extends React.Component {
   @observable tagId
 
   @action.bound handleOk() {
+    const {chartTypeList} = this.store
+
     this.formRef.current
       .validateFields()
       .then(values => {
@@ -27,7 +29,13 @@ class ModalAdd extends React.Component {
           chartType: values.chartType,
         }
 
-        this.props.add(params, () => {
+        let isRepet = false
+        const tagList = toJS(chartTypeList)[+values.tagId]
+
+        if (tagList && tagList.includes(values.chartType)) {
+          isRepet = true
+        }
+        this.props.add(params, isRepet, () => {
           this.handleCancel()
         }) 
       })
@@ -63,9 +71,9 @@ class ModalAdd extends React.Component {
     const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
 
     const typeList = toJS(chartTypeList)[+this.tagId || +modalEditInfo.tagId] || []
-
+    console.log(typeList)
     const chartType = typeList.length ? undefined : 'bar'
-
+    console.log(chartType)
     return (
       <Modal
         title={modalEditInfo.modalType === 'edit' ? '编辑分析维度' : '添加分析维度'}

@@ -116,7 +116,7 @@ class Store {
           ...res,
           Comp: chartMap[params.chartType],
         }
-        console.log(index)
+   
         if (typeof index === 'undefined') {
           this.info.push(data)
 
@@ -129,7 +129,6 @@ class Store {
           this.info[index] = data
         }
 
-        console.log(toJS(this.chartTypeList))
         this.modalVis = false
         this.modalEditInfo = {}
       })

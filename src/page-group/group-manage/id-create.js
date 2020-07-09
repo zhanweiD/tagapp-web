@@ -224,7 +224,7 @@ export default class IdCreate extends Component {
               ]}
             >
               <Upload {...props}>
-                <Button disabled={!recordObj.objId}>
+                <Button disabled={!objId}>
                   <UploadOutlined /> 
                   Upload
                 </Button>

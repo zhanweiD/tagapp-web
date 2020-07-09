@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {observer, inject} from 'mobx-react'
+import {toJS} from 'mobx'
 import * as d3 from 'd3'
 import {Progress} from 'antd'
 import personIcon from '../../icon/person.svg'
@@ -24,6 +25,7 @@ export default class AnalyzeTab extends Component {
     this.store.getAnalysis()
     this.store.getMarkedFeature(data => {
       if (data && data.nodes.length) {
+        console.log(123)
         this.draw(data)
       }
     })
@@ -127,37 +129,38 @@ export default class AnalyzeTab extends Component {
       })
   }
   render() {
-    const {statistics} = this.store
+    const {statistics, markedFeature} = this.store
 
     return (
       <div className="bgf">
         <div className="analyze-content">
-          
-          {
-            statistics.length ? (
-              <Fragment>
-                <div className="person" id="person">
-                  <div className="svg-box"> 
-                    <svg id="box" />
-                    <img src={personIcon} alt="人" id="pic" />
-                  </div>      
-                </div>
-                <div className="analyze-ratio">
-                  {
-                    statistics.map(d => (
-                      <div>
-                        <div>{d.x}</div>
-                        <Progress percent={parseFloat(d.y2)} status="active" showInfo />
-                      </div>
-                    ))
-                  }
-           
-                </div>
-              </Fragment>
-             
+          {/* {
+            toJS(markedFeature).length ? (
+              <div className="person" id="person">
+                <div className="svg-box"> 
+                  <svg id="box" />
+                  <img src={personIcon} alt="人" id="pic" />
+                </div>      
+              </div>
             ) : <NoData />
-          }
-        
+          } */}
+          <div className="person" id="person">
+            <div className="svg-box"> 
+              <svg id="box" />
+              <img src={personIcon} alt="人" id="pic" />
+            </div>      
+          </div>
+          <div className="analyze-ratio">
+            {
+              statistics.map(d => (
+                <div>
+                  <div>{d.x}</div>
+                  <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+                </div>
+              ))
+            }
+           
+          </div>
         
         </div>
        

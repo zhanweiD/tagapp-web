@@ -204,6 +204,7 @@ export const acrossBarOpt = data => {
       {
         type: 'bar',
         data: xAxisData,
+        barMaxWidth: '30%',
       },
     ],
   }

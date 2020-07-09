@@ -4,7 +4,7 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
-import {Button, Spin, Select, Input, Modal} from 'antd'
+import {Button, Spin, Select, Input, Modal, Tooltip} from 'antd'
 import {ExclamationCircleOutlined, CopyOutlined} from '@ant-design/icons'
 import {Card, NoData, projectProvider, DtGrid} from '../../../component'
 import {IconDel, IconEdit} from '../../../icon-comp'
@@ -164,7 +164,17 @@ class MySearch extends Component {
                             >
                               <IconDel size="14" className={used ? 'i-used' : ''} />
                             </Button>,
-                            <CopyOutlined onClick={() => this.clone(id)} className={used ? 'i-used' : ''} />,
+                            <Tooltip placement="topRight" title="克隆">
+                              <Button
+                                type="link" // antd@Button 属性
+                                disabled={used}
+                                className="p0"
+                                onClick={() => this.clone(id)}
+                              >
+                                <CopyOutlined size="14" className={used ? 'i-used' : ''} />
+                              </Button>
+                            </Tooltip>,
+                           
                           ]}
                         />
                       ))
