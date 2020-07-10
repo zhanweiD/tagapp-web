@@ -15,7 +15,7 @@ class Search extends React.Component {
   }
   
   @action.bound onFinish = values => {
-    if (values.mainLabel === this.store.mainLabel && values.objId === this.store.objId) return
+    // if (values.mainLabel === this.store.mainLabel && values.objId === this.store.objId) return
     this.store.mainLabel = values.mainLabel
     this.store.objId = values.objId
 

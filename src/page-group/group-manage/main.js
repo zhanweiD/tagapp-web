@@ -31,7 +31,7 @@ class GroupManage extends Component {
   menu = record => (
     <Menu>
       <Menu.Item>
-        <Link to={`/group/analyze/${record.id}/${record.lastTime}`}>
+        <Link to={`/group/analyze/${record.id}/${record.objId}`}>
           <a href> 群体分析</a>
         </Link>
       </Menu.Item>

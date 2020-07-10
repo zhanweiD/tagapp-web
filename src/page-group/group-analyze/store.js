@@ -1,5 +1,5 @@
 import {
-  action, runInAction, observable, toJS,
+  action, runInAction, observable,
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
@@ -116,15 +116,15 @@ class Store {
           ...res,
           Comp: chartMap[params.chartType],
         }
-   
+        
+        if (this.chartTypeList[params.tagId]) {
+          this.chartTypeList[params.tagId].push(params.chartType)
+        } else {
+          this.chartTypeList[params.tagId] = [params.chartType]
+        }
+
         if (typeof index === 'undefined') {
           this.info.push(data)
-
-          if (this.chartTypeList[params.tagId]) {
-            this.chartTypeList[params.tagId].push(params.chartType)
-          } else {
-            this.chartTypeList[params.tagId] = [params.chartType]
-          }
         } else {
           this.info[index] = data
         }
@@ -153,6 +153,11 @@ class Store {
   }
 
   @action.bound editChart(data, index) {
+    const {tagId, chartType} = this.modalEditInfo
+
+    const inx = this.chartTypeList[tagId].indexOf(chartType)
+
+    this.chartTypeList[tagId].splice(inx, 1)
     this.getChart(data, index)
   }
 }

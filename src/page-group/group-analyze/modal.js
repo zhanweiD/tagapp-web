@@ -71,9 +71,7 @@ class ModalAdd extends React.Component {
     const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
 
     const typeList = toJS(chartTypeList)[+this.tagId || +modalEditInfo.tagId] || []
-    console.log(typeList)
-    const chartType = typeList.length ? undefined : 'bar'
-    console.log(chartType)
+
     return (
       <Modal
         title={modalEditInfo.modalType === 'edit' ? '编辑分析维度' : '添加分析维度'}
@@ -142,7 +140,7 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="图标" 
             name="chartType"
-            initialValue={modalEditInfo.chartType || chartType}
+            initialValue={modalEditInfo.chartType}
             rules={[{required: true, message: '请选择图标'}]}
           >
             <Radio.Group>

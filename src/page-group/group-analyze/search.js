@@ -15,18 +15,22 @@ class Search extends React.Component {
   }
   
   @action.bound onFinish = values => {
-    if (values.groupId !== this.store.groupId) {
-      this.store.info.clear()
-    }
+    // if (+values.id === +this.store.groupId && +values.objId === +this.store.objId) {
+    //   return
+    // }
+    this.store.info.clear()
+    this.store.chartTypeList = {}
+    this.store.roportion = {}
+
+    this.store.objId = values.objId
     this.store.groupId = values.id
     this.props.search(values)
   }
 
   @action.bound selectObj(e) {
-    this.store.objId = e
     this.formRef.current.resetFields(['id'])
     this.store.getGroup({
-      objId: +this.store.objId, 
+      objId: +e, 
     })
   }
 
@@ -41,7 +45,7 @@ class Search extends React.Component {
   // }
 
   render() {
-    const {objList, groupList, groupId} = this.store
+    const {objList, groupList} = this.store
 
     return (
       <div>

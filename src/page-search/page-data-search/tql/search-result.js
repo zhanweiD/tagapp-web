@@ -66,8 +66,9 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log}) => {
                       dataSource={resultInfo.data} 
                       pagination={{
                         total: resultInfo.totalSize,
-                        pageSize: 5,
+                        // pageSize: 5,
                         showTotal: () => `合计${resultInfo.totalSize}条记录`,
+                        showSizeChanger: true,
                       }}
                     />
                   ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
