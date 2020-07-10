@@ -105,10 +105,10 @@ class Store {
         name,
         objId: this.objId,
         projectId: this.projectId,
-        id: this.id,
+        // id: this.id,
       })
       if (res.isExit) {
-        callbak('项目名称已存在')
+        callbak('群体名称重复')
       } else {
         callbak()
       }

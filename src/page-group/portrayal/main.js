@@ -29,6 +29,7 @@ class PortrayalLabel extends Component {
       store.objId = params.objId.toString()
       store.getAnalysis()
       store.getLabel()
+      store.getAllTags()
     }
   }
 
