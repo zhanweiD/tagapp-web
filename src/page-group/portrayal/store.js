@@ -102,6 +102,7 @@ class Store {
   }
 
   @observable markedLoading = false
+  @observable picUrl
 
   // 显著特征
   @action async getMarkedFeature(cb) {
@@ -117,6 +118,8 @@ class Store {
         // 显著特征
         const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
         this.markedFeature = res.marked_feature
+        this.picUrl = res.pic_url
+
         cb(markedFeature)
       })
     } catch (e) {
