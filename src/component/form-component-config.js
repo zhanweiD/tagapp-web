@@ -70,7 +70,6 @@ export default ({
     input: <antd.Input placeholder={placeholder || createInputPlaceholder(label)} {...rest} />,
     textArea: <antd.Input.TextArea rows={4} placeholder={placeholder || createInputPlaceholder(label)} {...rest} />,
     select: <SelectTypes label={label} placeholder={placeholder || createSelectPlaceholder(label)} options={options} {...rest} />,
-    // radioGroup: <radioItems defaultValue radios={radios} />,
     radioGroup: <antd.Radio.Group {...rest}>{radios}</antd.Radio.Group>, // 单选按钮
     rangePicker: <antd.DatePicker.RangePicker {...rest} />,
     timePicker: <antd.TimePicker {...rest} />,
@@ -129,6 +128,7 @@ export const mergeRules = (rules, label) => {
     '@rangeRequired': {type: 'array', required: true, whitespace: true, message: `请输入${label}`},
     '@timeRequired': {type: 'object', required: true, whitespace: true, message: `请输入${label}`},
     '@requiredSelect': {required: true, message: `请选择${label}`},
+    '@requiredChecked': {required: true, message: `请选择${label}`},
     '@max32': {max: 32, message: '输入不能超过32个字符'},
     '@max128': {max: 128, message: '输入不能超过128个字符'},
   }

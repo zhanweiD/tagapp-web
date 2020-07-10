@@ -50,6 +50,7 @@ export default class GroupModal extends Component {
   }
 
   @action checkName = (rule, value, callback) => {
+    console.log(value)
     this.store.groupCheckName(value, callback)
   }
 
