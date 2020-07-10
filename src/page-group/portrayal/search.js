@@ -30,7 +30,7 @@ class Search extends React.Component {
 
   render() {
     const {entityList, objId, mainLabel} = this.store
-    if (objId) {
+    if (objId && this.formRef.current) {
       this.formRef.current.setFieldsValue({
         objId,
       })

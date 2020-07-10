@@ -4,7 +4,7 @@
 import {Component, Fragment, useEffect} from 'react'
 import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Tabs, Button, Spin, Alert} from 'antd'
+import {Tabs} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
 import {Time} from '../../common/util'
 import {Tag, DetailHeader, TimeRange} from '../../component'
@@ -145,7 +145,6 @@ class GroupDetail extends Component {
     )
   }
 }
-
 
 export default props => {
   const ctx = OnerFrame.useFrame()
