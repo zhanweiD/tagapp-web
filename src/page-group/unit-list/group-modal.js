@@ -49,7 +49,7 @@ export default class GroupModal extends Component {
     this.store.visible = false
   }
 
-  checkName = (rule, value, callback) => {
+  @action checkName = (rule, value, callback) => {
     this.store.groupCheckName(value, callback)
   }
 

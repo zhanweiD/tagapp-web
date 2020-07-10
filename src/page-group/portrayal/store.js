@@ -11,6 +11,8 @@ class Store {
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
+  @observable markedLoading = false
+
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
   @observable tooltipTitle = [] // 单个标签分析提示
@@ -76,7 +78,8 @@ class Store {
   }
 
   // 获取基本+显著特征
-  @action async getLabel() {
+  @action async getLabel(cb = d => {}) {
+    this.markedLoading = true
     try {
       const res = await io.getLabel({
         objId: this.objId,
@@ -95,25 +98,7 @@ class Store {
             </p>
           )
         })
-      })
-    } catch (e) {
-      errorTip(e.message)
-    }
-  }
 
-  @observable markedLoading = false
-
-  // 显著特征
-  @action async getMarkedFeature(cb) {
-    this.markedLoading = true
-    try {
-      const res = await io.getLabel({
-        objId: this.objId,
-        projectId: this.projectId,
-        personalityUniqueKey: this.mainLabel,
-      })
-
-      runInAction(() => {
         // 显著特征
         const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
         this.markedFeature = res.marked_feature
@@ -127,6 +112,32 @@ class Store {
       })
     }
   }
+
+
+  // 显著特征
+  // @action async getMarkedFeature(cb) {
+  //   this.markedLoading = true
+  //   try {
+  //     const res = await io.getLabel({
+  //       objId: this.objId,
+  //       projectId: this.projectId,
+  //       personalityUniqueKey: this.mainLabel,
+  //     })
+
+  //     runInAction(() => {
+  //       // 显著特征
+  //       const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
+  //       this.markedFeature = res.marked_feature
+  //       cb(markedFeature)
+  //     })
+  //   } catch (e) {
+  //     errorTip(e.message)
+  //   } finally {
+  //     runInAction(() => {
+  //       this.markedLoading = false
+  //     })
+  //   }
+  // }
 
   // 特征分析
   @action async getAnalysis() {
