@@ -119,7 +119,7 @@ export default class AnalyzeTab extends Component {
       })
   }
   render() {
-    const {statistics, markedLoading} = this.store
+    const {statistics, markedLoading, picUrl} = this.store
 
     return (
       <div className="bgf">
@@ -129,7 +129,7 @@ export default class AnalyzeTab extends Component {
             <div className="person" id="person">
               <div className="svg-box"> 
                 <svg id="box" />
-                <img src={personIcon} alt="人" id="pic" />
+                <img src={toJS(picUrl) || personIcon} alt="人" id="pic" />
               </div>      
             </div>
 

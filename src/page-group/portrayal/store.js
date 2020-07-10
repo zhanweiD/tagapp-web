@@ -12,6 +12,7 @@ class Store {
   @observable mainLabel = '' // 实体主标签
 
   @observable markedLoading = false
+  @observable picUrl
 
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
@@ -102,6 +103,8 @@ class Store {
         // 显著特征
         const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
         this.markedFeature = res.marked_feature
+        this.picUrl = res.pic_url
+
         cb(markedFeature)
       })
     } catch (e) {
