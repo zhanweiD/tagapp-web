@@ -55,13 +55,13 @@ export default class TagHistory extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <Link to={`/group/analyze/${record.id}/${+this.store.objId}/${record.recordDate}`}>
+            <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.recordDate}`}>
               <a href>群体分析</a>
             </Link>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <Link to={`/group/unit/${record.objId}/${record.id}/${record.computeTime}`}>
+            <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}`}>
               <a href>个体列表</a>
             </Link>
           </Fragment>

@@ -11,6 +11,7 @@ class Store {
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
+  @observable isLoading = false 
   @observable markedLoading = false
   @observable picUrl
 

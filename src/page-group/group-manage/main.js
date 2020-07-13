@@ -36,7 +36,7 @@ class GroupManage extends Component {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+        <Link to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
           <a href>个体列表</a>
         </Link>
       </Menu.Item>

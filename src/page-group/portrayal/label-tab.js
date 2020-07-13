@@ -14,6 +14,21 @@ export default class LabelTab extends Component {
     this.store = props.store
   }
 
+  // 防抖设计
+  debounce = (fn, delay) => {
+    return () => {
+      clearTimeout(this.store.isLoading) 
+      this.store.isLoading = setTimeout(fn, delay) 
+    }
+  }
+  // 防重校验
+  @action isRepeat = nowTag => {
+    const {prevTag, tagAnalysis} = this.store
+    if (nowTag === prevTag) return
+    this.store.prevTag = nowTag
+    tagAnalysis(nowTag)
+  }
+
   // 生成dom结构
   @action getDom = (x, y) => {
     const domList = []
@@ -38,15 +53,19 @@ export default class LabelTab extends Component {
                   strokeWidth={4} 
                   strokeColor="#00d5af" 
                   percent={parseInt(y)} 
-                  // color="#fff"
                   style={{color: '#fff', width: '96px', marginRight: '8px'}}
                 />
               </div>
             )}
             color="#639dd1" 
-            onMouseEnter={() => this.store.tagAnalysis(nowRes[index])}
+            // onMouseEnter={this.debounce(() => this.store.tagAnalysis(nowRes[index]), 100)}
           >
-            <Button className="label-btn">{item.value}</Button>
+            <Button 
+              className="label-btn"
+              onMouseEnter={this.debounce(() => this.store.tagAnalysis(nowRes[index]), 200)}
+            >
+              {item.value}
+            </Button>
           </Tooltip>
         )
       })
