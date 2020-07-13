@@ -24,6 +24,7 @@ class ModalAdd extends React.Component {
       .validateFields()
       .then(values => {
         const params = {
+          ...values,
           type: this.type,
           tagId: values.tagId,
           chartType: values.chartType,
@@ -53,7 +54,10 @@ class ModalAdd extends React.Component {
 
   @action.bound onSelect(e) {
     const {tagList, chartTypeList} = this.store
-    
+
+    this.formRef.current
+      .resetFields(['groupType'])
+
     const [obj] = tagList.filter(d => d.tagId === e)
 
     this.type = obj.type
@@ -105,7 +109,7 @@ class ModalAdd extends React.Component {
           </Form.Item>
 
           {
-            this.type === 2 ? (
+            (+modalEditInfo.type || +this.type) === 2 ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
@@ -121,7 +125,7 @@ class ModalAdd extends React.Component {
           }
 
           {
-            this.type === 3 ? (
+            (+modalEditInfo.type || +this.type) === 3 ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
@@ -147,7 +151,7 @@ class ModalAdd extends React.Component {
               <Radio value="bar" disabled={typeList.includes('bar')}>柱状图</Radio>
 
               {
-                this.type !== 3 ? (
+                (+modalEditInfo.type || +this.type) !== 3 ? (
                   <Fragment>
                     <Radio value="loop" disabled={typeList.includes('loop')}>环形图</Radio>
                     <Radio value="acrossBar" disabled={typeList.includes('acrossBar')}>条形图</Radio>
@@ -157,7 +161,7 @@ class ModalAdd extends React.Component {
               }
               
               {
-                this.type === 3 ? <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio> : null
+                (+modalEditInfo.type || +this.type) === 3 ? <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio> : null
               }
              
             </Radio.Group>

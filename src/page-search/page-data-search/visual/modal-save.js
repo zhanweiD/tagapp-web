@@ -33,7 +33,6 @@ export default class ModalSave extends Component {
   }
 
   @action handleCancel = () => {
-    this.store.saveParams = {}
     this.store.visibleSave = false
     this.store.modalSaveLoading = false
   }

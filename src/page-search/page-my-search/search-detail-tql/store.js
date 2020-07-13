@@ -1,9 +1,11 @@
 import {action, runInAction, observable, toJS} from 'mobx'
+import sqlFormatter from 'sql-formatter'
 import {errorTip, listToTree, successTip, failureTip} from '../../../common/util'
-
 import io from './io'
 
 class Store {
+  searchId
+  projectId
   // ************************* 函数树 & 标签树 start ************************* //
   @observable treeLoading = false
 
@@ -100,7 +102,6 @@ class Store {
 
   @observable editor = null
   @observable codeRunSuccess = false
-  @observable tqlDetail = {}
 
   @observable showResult = false
   @observable resultInfo = {}
@@ -123,6 +124,7 @@ class Store {
       runInAction(() => {
         this.resultInfo = res
         this.log = res.log
+        // this.tql = res.sql
         this.tql = params.tql
       })
     } catch (e) {
@@ -169,6 +171,35 @@ class Store {
       }
     } catch (e) {
       errorTip(e.message)
+    }
+  }
+
+  // ************************* 详情 start *********************** //
+  // 详情
+  @observable tqlDetail = {}
+  @observable detailLoading = false
+
+   // 获取详情 
+   @action async getDetail() {
+    this.detailLoading = true
+
+    try {
+      const res = await io.getDetail({
+        id: this.searchId,
+      })
+
+      runInAction(() => {
+        this.tqlDetail = res
+        if (res.source) {
+          this.editor.setValue(sqlFormatter.format(res.source), {language: 'n1ql', indent: '    '})
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.detailLoading = false
+      })
     }
   }
 }

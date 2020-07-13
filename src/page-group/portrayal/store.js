@@ -68,6 +68,8 @@ class Store {
         value: obj.value,
         tagName: obj.tagName,
         fieldName: obj.fieldName,
+        fieldType: obj.fieldType,
+        valueEncode: obj.valueEncode,
       })
 
       runInAction(() => {

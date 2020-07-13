@@ -32,6 +32,7 @@ const OutItem = ({
       changeShowInput(true)
       changeShowSelect(false)
     } else if (obj.value === 'count') {
+      // changeTagList(newTagList)
       changeShowInput(false)
       changeShowSelect(false)
     } else {
@@ -40,7 +41,6 @@ const OutItem = ({
       changeShowInput(false)
     }
   }
-
 
   return (
     <Form.Item key={id}>
@@ -57,7 +57,6 @@ const OutItem = ({
             }
           </Select>
         </Form.Item>
-        
         {
           showInput ? (
             <Form.Item
@@ -70,7 +69,6 @@ const OutItem = ({
             </Form.Item>
           ) : null
         }
-
         {
           showSelect ? (
             <Form.Item

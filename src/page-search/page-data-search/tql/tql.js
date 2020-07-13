@@ -52,7 +52,7 @@ export default class Tql extends Component {
 
   @action.bound save() {
     const t = this
-
+    console.log(store.tql)
     if (!store.tql) {
       message.error('请运行正确TQL代码！')
     } else {
