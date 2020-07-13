@@ -11,7 +11,7 @@ class Store {
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
-  @observable isLoading = false 
+  @observable prevTag = {} 
   @observable markedLoading = false
   @observable picUrl
 
@@ -60,7 +60,7 @@ class Store {
   }
 
   // 获取单个标签分析信息
-  @action async tagAnalysis(obj) {
+  @action.bound async tagAnalysis(obj) {
     try {
       const res = await io.tagAnalysis({
         objId: this.objId,

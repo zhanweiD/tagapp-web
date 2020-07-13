@@ -21,10 +21,14 @@ export default class LabelTab extends Component {
       this.store.isLoading = setTimeout(fn, delay) 
     }
   }
-  // 防重校验
+
+  // 判断是否是重复发送请求
   @action isRepeat = nowTag => {
     const {prevTag, tagAnalysis} = this.store
-    if (nowTag === prevTag) return
+    if (nowTag === prevTag) {
+      console.log(111)
+      return
+    }
     this.store.prevTag = nowTag
     tagAnalysis(nowTag)
   }
@@ -62,7 +66,7 @@ export default class LabelTab extends Component {
           >
             <Button 
               className="label-btn"
-              onMouseEnter={this.debounce(() => this.store.tagAnalysis(nowRes[index]), 200)}
+              onMouseEnter={this.debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>
