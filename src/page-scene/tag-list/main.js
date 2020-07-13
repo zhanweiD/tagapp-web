@@ -111,7 +111,7 @@ class TagList extends Component {
       },
     } = store
     return (
-      <div className="scene-tags p16">
+      <div className="scene-tags box-border">
         <SearchForm 
           ref={form => this.searchForm = form}
           onChange={() => this.handleChange(this.searchForm.getFieldsValue())}
