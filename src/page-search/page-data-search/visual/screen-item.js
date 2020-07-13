@@ -63,7 +63,7 @@ const ScreenItem = ({
         {
           showInput ? (
             <Form.Item
-              name={[id, 'params']}
+              name={[id, 'leftParams']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
             >

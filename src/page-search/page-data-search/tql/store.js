@@ -123,7 +123,8 @@ class Store {
       runInAction(() => {
         this.resultInfo = res
         this.log = res.log
-        this.tql = res.sql
+        // this.tql = res.sql
+        this.tql = params.tql
       })
     } catch (e) {
       errorTip(e.message)

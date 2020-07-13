@@ -6,7 +6,7 @@ import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import cls from 'classnames'
-import {message} from 'antd'
+import {message, Spin} from 'antd'
 
 import sqlFormatter from 'sql-formatter'
 // import LogPanel from '../code-component/log-panel'
@@ -23,8 +23,6 @@ export default class TqlCode extends Component {
   }
 
   componentDidMount() {
-    // this.store.getHeight()
-
     if (document.getElementById('codeArea')) {
       this.store.editor = window.CodeMirror.fromTextArea(document.getElementById('codeArea'), {
         mode: 'text/x-mysql',
@@ -41,17 +39,15 @@ export default class TqlCode extends Component {
         // keyMap: 'sublime',
         theme: 'default',
       })
-
-      const {tqlDetail} = this.store
-      if (tqlDetail.source) {
-        this.store.editor.setValue(sqlFormatter.format(toJS(tqlDetail.source)), {language: 'n1ql', indent: '    '})
-      }
     }
 
     this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
   }
 
   @action checkIsCanHint = (instance, change) => {
+    this.store.log = ''
+    this.store.tql = ''
+    
     const {text} = change
     const {origin} = change
     // let flag = false
@@ -101,39 +97,44 @@ export default class TqlCode extends Component {
       showResult, 
       resultInfo,
       log,
+      detailLoading,
     } = this.store
 
     return (
       <div className="code-content">
-
-        <div className="code-menu">
-          <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
-            <img src={yunxing} alt="img" />
-            <span>运行</span>
-          </span>
-          <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
-            <img src={geshihua} alt="img" />
-            <span>格式化</span>
-          </span>
-        </div>
-        <form
-          id="code_area"
-          className={cls({
-            new_codearea: true,
-            new_codearea_nolog: !this.store.isRuned,
-            max_height: this.store.isRuned,
-          })}
-        >
-          <textarea
-            id="codeArea"
-            ref={t => this.codeArea = t}
-            placeholder="code goes here..."
-          >
-            {
-              toJS(tqlDetail.source)
-            }
-          </textarea>
-        </form>
+        <Spin spinning={detailLoading || resultLoading}>
+          <div style={{height: 'calc(100vh - 92px)'}}>
+            <div className="code-menu">
+              <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
+                <img src={yunxing} alt="img" />
+                <span>运行</span>
+              </span>
+              <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
+                <img src={geshihua} alt="img" />
+                <span>格式化</span>
+              </span>
+            </div>
+            <form
+              id="code_area"
+              className={cls({
+                new_codearea: true,
+                new_codearea_nolog: !this.store.isRuned,
+                max_height: this.store.isRuned,
+              })}
+            >
+              <textarea
+                id="codeArea"
+                ref={t => this.codeArea = t}
+                placeholder="code goes here..."
+              >
+                {
+                  toJS(tqlDetail.source)
+                }
+              </textarea>
+            </form>
+          </div>
+        </Spin>
+        
         <SearchResult 
           log={toJS(log)}
           expend={showResult} 

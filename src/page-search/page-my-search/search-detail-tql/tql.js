@@ -1,11 +1,12 @@
 /**
  * @description 我的查询-TQL
  */
-import {Component} from 'react'
+import {Component, useEffect} from 'react'
 import {observer} from 'mobx-react'
 import {action} from 'mobx'
-import {Button, Modal} from 'antd'
+import {Button, Modal, message} from 'antd'
 import {ExclamationCircleOutlined} from '@ant-design/icons'
+import OnerFrame from '@dtwave/oner-frame'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 import ModalSave from './modal-save'
@@ -16,15 +17,19 @@ import './code.styl'
 
 const {confirm} = Modal
 @observer
-export default class Tql extends Component {
+class Tql extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
+
+    const {match: {params}} = props
+    store.searchId = params.id
   }
 
   componentWillMount() {
     store.getFunTree()
     store.getTagTree()
+    store.getDetail()
   }
 
   @action.bound createApi() {
@@ -38,7 +43,9 @@ export default class Tql extends Component {
       icon: <ExclamationCircleOutlined />,
       content: '确认清空数据查询？',
       onOk() {
+        store.editor.setValue('')
         store.log = ''
+        store.tql = ''
         store.showResult = false
         store.resultInfo = {}
       },
@@ -51,12 +58,11 @@ export default class Tql extends Component {
   @action.bound save() {
     const t = this
 
-    store.visibleSave = true
-    // if (!store.log) {
-    //   message.error('请运行正确TQL代码！')
-    // } else {
-    //   store.visibleSave = true
-    // }
+    if (!store.tql) {
+      message.error('请运行正确TQL代码！')
+    } else {
+      store.visibleSave = true
+    }
   }
 
   render() {
@@ -75,4 +81,17 @@ export default class Tql extends Component {
       </div>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <Tql {...props} projectId={projectId} />
+  )
 }

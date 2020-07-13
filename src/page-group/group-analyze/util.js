@@ -58,7 +58,7 @@ export const roportionOpt = data => {
 
 export const pieOpt = info => {
   const data = info.xy
-  const tooltip = info.xy.map(d => d.y2)
+  // const tooltip = info.xy.map(d => d.y2)
 
   const renderData = data.map(d => ({
     name: d.x,
@@ -70,7 +70,7 @@ export const pieOpt = info => {
     tooltip: {
       trigger: 'item',
       formatter: params => {
-        return `实体数: ${params.value}<br />占比: ${tooltip[params.seriesIndex]}`
+        return `${params.name}<br />实体数: ${params.value}<br />占比: ${params.percent}%`
       },   
     },
     series: [
@@ -120,7 +120,7 @@ export const barOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },
     },
     xAxis: {
@@ -177,7 +177,7 @@ export const acrossBarOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `实体数: ${params[0].axisValue}<br />占比: ${tooltip[params[0].dataIndex]}`
+        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },
     },
     grid: {
@@ -232,14 +232,16 @@ export const lineOpt = data => {
   return {
     color: colors,
     grid: {
-      left: '5%',
-      right: '5%',
-      top: '5%',
-      bottom: '5%',
+      left: 50,
+      right: 50,
+      top: 30,
+      bottom: 30,
     },
     tooltip: {
       trigger: 'axis',
-      formatter: params => `实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`,   
+      formatter: params => {
+        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+      },   
     },
     xAxis: {
       type: 'category',

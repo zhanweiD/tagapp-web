@@ -52,6 +52,9 @@ export default class TqlCode extends Component {
   }
 
   @action checkIsCanHint = (instance, change) => {
+    this.store.log = ''
+    this.store.tql = ''
+    
     const {text} = change
     const {origin} = change
     // let flag = false
