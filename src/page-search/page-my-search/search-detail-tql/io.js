@@ -10,6 +10,8 @@ const api = {
   runSearch: post(`${dataSearch}/run_search`), // 运行查询
   saveSearch: post(`${dataSearch}/save_search`), // 保存数据查询
   checkName: post(`${dataSearch}/checkName`), // 查询重名校验
+
+  getDetail: get(`${dataSearch}/search_info`), // 详情
 } 
 
 ioContext.create('mySearchTql', api) 

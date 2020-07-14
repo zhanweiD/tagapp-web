@@ -6,8 +6,9 @@ import {observer} from 'mobx-react'
 import {
   observable, action, computed, toJS,
 } from 'mobx'
-import {RightOutlined} from '@ant-design/icons'
 import {Tree, Checkbox, Button} from 'antd'
+import {RightOutlined} from '@ant-design/icons'
+
 import {NoBorderInput, Loading, OmitTooltip} from '../../../component'
 import {IconChakan} from '../../../icon-comp'
 
@@ -20,9 +21,6 @@ export default class TagTree extends Component {
     this.store = props.store
   }
   @observable searchKey = undefined
-  // @observable checkedKeys = []
-  // @observable checkedTagData = []
-  // @observable disabledKeys = []
 
   // 全选操作
   @observable allChecked = false
@@ -50,6 +48,7 @@ export default class TagTree extends Component {
     this.store.checkedKeys.clear()
     this.store.checkedTagData.clear()
     this.store.disabledKeys.clear()
+    this.store.disabledTagKeys.clear()
 
     this.searchKey = undefined
     this.allChecked = false
@@ -65,7 +64,7 @@ export default class TagTree extends Component {
       this.allChecked = true
       this.store.checkedKeys.replace(this.getTagList.allKeys)
       this.store.checkedTagData.replace(this.getTagList.allTags)
-    } else if (this.store.disabledKeys.length) {
+    } else if (this.store.disabledKeys.length || this.store.disabledTagKeys.length) {
       this.indeterminate = true
       this.allChecked = false
       this.store.checkedKeys.replace(this.store.disabledKeys)
@@ -89,7 +88,7 @@ export default class TagTree extends Component {
     }
 
     // 选择的标签数据
-    this.store.checkedTagData = checkedNodes.filter(d => d.props.tagData).map(d => d.props.tagData)
+    this.store.checkedTagData = checkedNodes.filter(d => d.tagData).map(d => d.tagData)
     this.store.checkedKeys.replace(checkedKeys)
   }
 
@@ -118,19 +117,18 @@ export default class TagTree extends Component {
 
   // 获取所有标签列表数据和rowKeys
   @computed get getTagList() {
-    const {selectTagData} = this.store
+    const {selectTagData, disabledTagKeys} = this.store
     // all keys
-    const allKeys = selectTagData.map(d => d.id) || []
+    const allKeys = selectTagData.filter(d => !disabledTagKeys.includes(d.id)).map(d => d.id) || []
 
     // all tags
-    const allTags = selectTagData.filter(item => !item.type).map(d => d && d.tag)
+    const allTags = selectTagData.filter(d => !d.type && !disabledTagKeys.includes(d.id)).map(d => d && d.tag)
 
     return {
       allTags,
       allKeys,
     }
   }
-
 
   renderTreeNodes = data => data.map(item => {
     // 0 标签 1 类目
@@ -166,7 +164,7 @@ export default class TagTree extends Component {
           parentId: item.parentId,
           ...item.tag,
         }}
-        disableCheckbox={this.store.disabledKeys.includes(item.id)}
+        disableCheckbox={this.store.disabledKeys.includes(item.id) || this.store.disabledTagKeys.includes(item.id)}
       />
     )
   })
@@ -223,6 +221,7 @@ export default class TagTree extends Component {
           />
         </div>
       </div>
+
     )
   }
 }

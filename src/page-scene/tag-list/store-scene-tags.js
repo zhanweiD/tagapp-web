@@ -32,7 +32,7 @@ class SceneTagsStore {
         this.tagInfo.data.replace(res.data)
 
         this.tagInfo.pagination = {
-          pageSize: res.pageSize,
+          pageSize: res.pages,
           total: res.totalCount,
           current: res.currentPage,
         }

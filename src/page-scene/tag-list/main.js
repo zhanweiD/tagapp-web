@@ -1,17 +1,14 @@
-import {Component} from 'react'
+import {Component, useEffect} from 'react'
 import {action} from 'mobx'
-import {observer, inject} from 'mobx-react'
+import {observer} from 'mobx-react'
 import {Table, Badge} from 'antd'
-import * as navListMap from '../../common/navList'
-
+import OnerFrame from '@dtwave/oner-frame'
 import {SearchForm} from './search-form'
 
 import store from './store-scene-tags'
 
-
-// @inject('frameChange')
 @observer
-export default class Scene extends Component {
+class TagList extends Component {
   constructor(props) {
     super(props)
     
@@ -61,15 +58,6 @@ export default class Scene extends Component {
   }]
 
   componentWillMount() {
-    // const {frameChange} = this.props
-    // frameChange('nav', [
-    //   navListMap.tagCenter,
-    //   navListMap.application,
-    //   navListMap.scene,
-    //   {url: `/asset-tag/index.html#/scene/${store.sceneId}`, text: '场景详情'},
-    //   {text: '标签列表'},
-    // ])
-    
     store.getList()
   }
 
@@ -123,7 +111,7 @@ export default class Scene extends Component {
       },
     } = store
     return (
-      <div className="scene-tags p16">
+      <div className="scene-tags box-border">
         <SearchForm 
           ref={form => this.searchForm = form}
           onChange={() => this.handleChange(this.searchForm.getFieldsValue())}
@@ -146,4 +134,17 @@ export default class Scene extends Component {
       </div>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <TagList {...props} projectId={projectId} />
+  )
 }

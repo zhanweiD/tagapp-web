@@ -1,10 +1,11 @@
-import {Component, Fragment} from 'react'
+import {Component, Fragment, useEffect} from 'react'
 import {action, toJS} from 'mobx'
-import {observer, inject} from 'mobx-react'
-import {EditOutlined} from '@ant-design/icons'
-import {Tabs, Button, Spin, Alert} from 'antd'
+import {observer} from 'mobx-react'
+import OnerFrame from '@dtwave/oner-frame'
+import {
+  Tabs, Button, Icon, Spin, Alert,
+} from 'antd'
 
-import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
 import {AuthBox, Tag, DetailHeader} from '../../component'
 import ModalEditScene from '../scene/modal'
@@ -15,20 +16,11 @@ import store from './store-scene-detail'
 
 const {TabPane} = Tabs
 
-// 面包屑设置
-// eslint-disable-next-line no-underscore-dangle
-
-const navList = [
-  navListMap.tagCenter,
-  navListMap.application,
-  navListMap.scene,
-  {text: navListMap.sceneDetail.text},
-]
-
 @observer
-export default class SceneDetail extends Component {
+class SceneDetail extends Component {
   constructor(props) {
     super(props)
+
     store.projectId = props.projectId
 
     const {match: {params}} = props
@@ -113,22 +105,17 @@ export default class SceneDetail extends Component {
 
         <Spin spinning={store.loading}>
           <DetailHeader
-            name={(
-              <Fragment>
-                <span>{name}</span>
-                <AuthBox code="asset_tag_project_occ_operator" myFunctionCodes={store.functionCodes} isButton={false}>
-                  {
-                    !used && (
-                      <EditOutlined
-                        className="ml8"
-                        onClick={this.sceneDetailVisible}
-                        style={{color: 'rgba(0,0,0, .45)'}}
-                      />
-                    )
-                  }
-                </AuthBox>
-              </Fragment>
-            )}
+            name={name}
+            // name={(
+            //   <Fragment>
+            //     <span>{name}</span>
+            //     {/* <AuthBox code="asset_tag_project_occ_operator" myFunctionCodes={store.functionCodes} isButton={false}> */}
+            //     {
+            //       !used && <Icon className="ml8" type="edit" onClick={this.sceneDetailVisible} style={{color: 'rgba(0,0,0, .45)'}} />
+            //     }
+            //     {/* </AuthBox> */}
+            //   </Fragment>
+            // )}
             descr={descr}
             btnMinWidth={230}
             baseInfo={baseInfo}
@@ -156,4 +143,17 @@ export default class SceneDetail extends Component {
       </div>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+
+  useEffect(() => {
+    ctx.useProject(false)
+  }, [])
+
+  return (
+    <SceneDetail {...props} projectId={projectId} />
+  )
 }

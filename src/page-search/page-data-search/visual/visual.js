@@ -312,7 +312,17 @@ export default class Visual extends Component {
                           >
                             <Button type="primary" className="mb16">清除输出设置</Button>
                           </Popconfirm>
-                          <Form name="out" ref={this.outConfigRef}>
+                          <Form 
+                            name="out" 
+                            ref={this.outConfigRef}
+                            onValuesChange={(changedValues, allValues) => {
+                              const [key] = Object.keys(changedValues)
+
+                              if (changedValues[key].function && allValues[key].params) {
+                                this.outConfigRef.current.resetFields([key].params)
+                              }
+                            }}
+                          >
                             {
                               outConfig.map((d, i) => (
                                 <OutItem 
@@ -347,7 +357,17 @@ export default class Visual extends Component {
                               <Button type="primary" className="mb16">清除筛选设置</Button>
                             </Popconfirm>
                           </div>
-                          <Form name="srceen" ref={this.screenConfigRef}>
+                          <Form 
+                            name="srceen" 
+                            ref={this.screenConfigRef}
+                            onValuesChange={(changedValues, allValues) => {
+                              const [key] = Object.keys(changedValues)
+
+                              if (changedValues[key].leftFunction && allValues[key].leftParams) {
+                                this.screenConfigRef.current.resetFields([key].leftParams)
+                              }
+                            }}
+                          >
                             <Form.Item name="whereType" initialValue="and">
                               <Radio.Group>
                                 <Radio value="and">符合全部以下条件</Radio>
