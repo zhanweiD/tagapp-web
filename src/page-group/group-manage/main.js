@@ -5,7 +5,7 @@ import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {observer} from 'mobx-react'
-import {Popconfirm, Badge, Dropdown, Menu} from 'antd'
+import {Popconfirm, Badge, Dropdown, Menu, Button} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
 import {Time, successTip} from '../../common/util'
@@ -23,9 +23,10 @@ class GroupManage extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-    store.getGroupList()
+
     store.getEntityList()
   }
+
   formRef = React.createRef()
 
   menu = record => (
@@ -174,7 +175,7 @@ class GroupManage extends Component {
         store.performGroup(id)
       } else {
         store.tableLoading = true
-        store.getGroupList()
+        store.getList()
         successTip('已执行')
       }
     }
@@ -189,6 +190,7 @@ class GroupManage extends Component {
       store.objId = record.objId
       store.recordObj = record
       store.uploadData = true
+
       store.getTagList()
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
@@ -197,10 +199,8 @@ class GroupManage extends Component {
     }
   }
 
-  /**
-   * @description 列表请求前搜索参数处理
-   * @param values 搜索内容
-   */
+  // 列表请求前搜索参数处理
+  // values 搜索内容
   beforeSearch = values => {
     if (values.time) {
       values.startTime = values.time[0].format('YYYY-MM-DD')
@@ -212,33 +212,28 @@ class GroupManage extends Component {
 
   render() {
     const {
-      list, tableLoading, searchParams, projectId,
+      list, searchParams, projectId,
     } = store
 
     const listConfig = {
-      tableLoading,
-      projectId,
+      initParams: {projectId},
       columns: this.columns,
       searchParams: search(store),
       beforeSearch: this.beforeSearch,
-      buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal()}>新建群体</AuthBox>],
-      initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
+      buttons: [<Button type="primary" onClick={() => this.openModal()}>新建群体</Button>],
+      // initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
+
+    console.log(list.length, JSON.stringify(searchParams))
 
     return (
       <div>
         <div className="content-header">群体管理</div>
         <div className="header-page">
-          {
-            list.length || JSON.stringify(searchParams) !== '{}' ? (
-              <div className="list-content">
-                <ListContent {...listConfig} />
-              </div>
-            ) : (
-              <NoData />
-            )
-          }
+          <div className="list-content">
+            <ListContent {...listConfig} />
+          </div>
           <ModalGroup store={store} />
           <IdCreate onRef={ref => this.childForm = ref} store={store} />
         </div>

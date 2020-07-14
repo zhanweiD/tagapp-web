@@ -2,26 +2,21 @@ import {
   action, runInAction, observable, toJS,
 } from 'mobx'
 import {errorTip, successTip, changeToOptions} from '../../common/util'
+import {ListContentStore} from '../../component/list-content'
+import apiStore from './store-api-list'
 import io from './io'
 
-class Store {
+class Store extends ListContentStore(io.getHistoryList) {
   @observable id = 0 // 群体ID
   @observable objId = 0 // 实体ID
-  @observable visible = false // 新建API
-  @observable tableLoading = true // 列表
+  @observable visible = false // 新建API弹窗
   
   @observable apiGroupList = [] // 新建API分组列表
   @observable groupDetial = {} // 群体详情
   @observable barList =[] // 群体详情柱状图
-  @observable list = [] // 群体详情列表
   @observable barDataX = [] // 群体详情柱状图横坐标
   @observable barDataY = [] // 群体详情柱图纵坐标
   @observable modeType = -1 // 1 规则离线 2 规则实时 0 ID集合离线
-  @observable pagination = {
-    totalCount: 1,
-    currentPage: 1,
-    pageSize: 10,
-  }
 
   // 获取群体详情
   @action async getDetail() {
@@ -59,24 +54,6 @@ class Store {
     }
   }
 
-  // 获取群体历史记录列表
-  @action async getHistoryList() {
-    try {
-      const res = await io.getHistoryList({
-        id: this.id,
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-      })
-      runInAction(() => {
-        this.list = res.data
-        this.tableLoading = false
-      })
-    } catch (e) {
-      this.tableLoading = false
-      errorTip(e.message)
-    }
-  }
-
   // 导出个体列表
   @action async outputUnitList() {
     try {
@@ -87,7 +64,6 @@ class Store {
         }
       })
     } catch (e) {
-      // ErrorEater(e, '校验失败')
       errorTip(e.message)
     }
   }
@@ -102,25 +78,6 @@ class Store {
         callbak()
       }
     } catch (e) {
-      // ErrorEater(e, '校验失败')
-      errorTip(e.message)
-    }
-  }
-
-  // 获取api列表
-  @action async getApiList() {
-    try {
-      const res = await io.getApiList({
-        id: this.id,
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-      })
-      runInAction(() => {
-        this.list = res.data || []
-        this.tableLoading = false
-      })
-    } catch (e) {
-      this.tableLoading = false
       errorTip(e.message)
     }
   }
@@ -149,6 +106,7 @@ class Store {
       })
       runInAction(() => {
         if (res) {
+          apiStore.getList()
           successTip('创建成功')
           this.visible = false
         }

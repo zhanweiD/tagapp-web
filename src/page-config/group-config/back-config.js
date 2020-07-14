@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Spin, Popconfirm, Badge} from 'antd'
+import {Button, Popconfirm, Badge} from 'antd'
 import {FormOutlined} from '@ant-design/icons'
 import {ModalForm, ListContent, AuthBox, NoData} from '../../component'
 import {Time} from '../../common/util'
@@ -15,8 +15,7 @@ export default class BackConfig extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
-    this.store.getPortrayal()
-    this.store.getEntityPage()
+    // this.store.getPortrayal()
   }
 
   columns = [
@@ -82,7 +81,6 @@ export default class BackConfig extends Component {
 
   selectContent= () => {
     const {
-      selectLoading, 
       dataSource = [],
       dataTypeSource = [],
       dataStorageTypeId,
@@ -110,11 +108,7 @@ export default class BackConfig extends Component {
   }
   render() {
     const {store} = this
-    const {
-      tableLoading,
-      list,
-    } = store
-
+    const {projectId} = store
     const formConfig = {
       labelAlign: 'left',
       selectContent: this.selectContent(),
@@ -122,17 +116,10 @@ export default class BackConfig extends Component {
     }
 
     const listConfig = {
-      tableLoading,
+      initParams: {projectId},
       columns: this.columns,
-      buttons: [<AuthBox code="asset_tag_project_add" type="primary" onClick={() => this.openModal('add')}>添加实体</AuthBox>],
-      initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
+      buttons: [<Button type="primary" onClick={() => this.openModal('add')}>添加实体</Button>],
       store, // 必填属性
-    }
-
-    const noDataConfig = {
-      btnText: '添加实体',
-      onClick: () => this.openModal('add'),
-      noAuthText: '暂无实体',
     }
 
     return (
@@ -152,20 +139,6 @@ export default class BackConfig extends Component {
             <div className="list-content">
               <ListContent {...listConfig} />
             </div>
-            {/* {
-              list.length ? (
-                <div className="list-content">
-                  <ListContent {...listConfig} />
-                </div>
-              ) : (
-                <NoData {...noDataConfig} />
-              )
-            } */}
-            {/* <div className="list-content">
-              <Spin spinning={loading} tip="Loading">
-                <ListContent {...listConfig} />
-              </Spin>
-            </div> */}
           </div>
           <EntityModal store={store} />
           <ConfigModal store={store} />

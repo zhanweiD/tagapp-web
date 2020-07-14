@@ -36,7 +36,6 @@ class GroupConfig extends Component {
       <div>
         <div className="content-header">群体洞察配置</div> 
         <div className="header-page config">
-          {/* <BackConfig store={store} /> */}
           {
             store.initVisible ? (
               <div>

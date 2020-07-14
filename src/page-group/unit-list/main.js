@@ -4,9 +4,10 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
+import {Button} from 'antd'
 import moment from 'moment'
 
-import {projectProvider, NoData, AuthBox, ListContent} from '../../component'
+import {projectProvider, NoData, ListContent} from '../../component'
 import {baseApi} from '../../common/util'
 import GroupModal from './group-modal'
 
@@ -47,11 +48,11 @@ class UnitList extends Component {
     const listConfig = {
       columns: toJS(titleList),
       tableLoading,
+      initGetDataByParent: true,
       buttons: [
-        <AuthBox code="asset_tag_project_add" type="primary" onClick={this.outputUnitList}>导出个体列表</AuthBox>,
-        <AuthBox code="asset_tag_project_add" type="primary" onClick={this.openModal}>保存群体</AuthBox>,
+        <Button type="primary" onClick={this.outputUnitList}>导出个体列表</Button>,
+        <Button type="primary" onClick={this.openModal}>保存群体</Button>,
       ],
-      initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
 
