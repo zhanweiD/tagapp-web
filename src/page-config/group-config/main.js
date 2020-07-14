@@ -30,7 +30,7 @@ class GroupConfig extends Component {
     const noDataConfig = {
       btnText: '去初始化',
       onClick: () => this.openModal(),
-      text: '初始化',
+      // text: '初始化',
     }
     return (
       <div>

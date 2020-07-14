@@ -219,7 +219,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         if (res) {
           successTip('添加成功')
           this.modalCancel()
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {
@@ -240,7 +240,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         if (res) {
           successTip('编辑成功')
           this.modalCancel()
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {
@@ -260,7 +260,7 @@ class Store extends ListContentStore(io.getEntityPage) {
       runInAction(() => {
         if (res) {
           successTip('删除成功')
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {

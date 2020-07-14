@@ -212,7 +212,7 @@ class GroupManage extends Component {
 
   render() {
     const {
-      list, searchParams, projectId,
+      projectId,
     } = store
 
     const listConfig = {
@@ -224,8 +224,6 @@ class GroupManage extends Component {
       // initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
-
-    console.log(list.length, JSON.stringify(searchParams))
 
     return (
       <div>
