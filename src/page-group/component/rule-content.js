@@ -45,7 +45,6 @@ export default class RuleContent extends Component {
   refreshLineH = d => {
     const {type} = this.props
     this.pos = {...this.pos, ...d}
-
     const data = this.renderData
 
     const len = data.length
@@ -75,7 +74,6 @@ export default class RuleContent extends Component {
   }
 
   changeCondition = (data, flag) => {
-    console.log(data, flag)
     const currentFlag = `${flag}-${data.flag}`
     this.logicMap[currentFlag] = data.logic
   }
@@ -98,6 +96,28 @@ export default class RuleContent extends Component {
       renderData: current,
     }, () => {
       this.refreshLineH(current)
+    })
+  }
+
+  delGroupItem = props => {
+    const data = _.cloneDeep(this.state.renderData)
+    data.splice(props.groupIndex, 1)
+
+    const newData = data.map(d => {
+      if (+d.flag > +props.groupIndex) {
+        return {
+          ...d,
+          flag: +d.flag - 1,
+        }
+      }
+      return d
+    })
+    this.renderData = newData
+
+    this.setState({
+      renderData: newData,
+    }, () => {
+      this.refreshLineH(newData)
     })
   }
 
@@ -132,6 +152,7 @@ export default class RuleContent extends Component {
       openDrawer,
       otherEntity,
       configTagList,
+      drawerConfigTagList,
       page,
     } = this.props
 
@@ -154,6 +175,7 @@ export default class RuleContent extends Component {
             {
               renderData.map((d, i) => (
                 <Group 
+                  groupIndex={i}
                   ml={80} 
                   id={`group-combine${d.flag}`}
                   showLine={renderData.length > 1}
@@ -165,10 +187,13 @@ export default class RuleContent extends Component {
                   flag={d.flag}
                   logic={d.logic}
                   configTagList={configTagList}
+                  drawerConfigTagList={drawerConfigTagList}
                   relList={relList}
                   otherEntity={otherEntity}
                   type={type}
                   page={page}
+                  delGroupItem={this.delGroupItem}
+                  formRef={formRef}
                 />
               ))
             }

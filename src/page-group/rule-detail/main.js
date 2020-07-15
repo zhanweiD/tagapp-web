@@ -27,6 +27,8 @@ class RuleDetail extends Component {
 
   componentWillMount() {
     if (store.groupId) {
+      store.getConfigTagList()
+      store.getRelList()
       store.getDetail(store.groupId, () => {
         this.wherePosMap = store.wherePosMap || {}
         this.whereMap = toJS(store.whereMap) || {}
@@ -44,12 +46,12 @@ class RuleDetail extends Component {
       relationId: relId,
     })
 
-    store.getConfigTagList({
+    store.getDrawerConfigTagList({
       objId: relId,
+    }, () => {
+      this.drawerFlag = flag
+      this.visible = true
     })
-    
-    this.drawerFlag = flag
-    this.visible = true
   }
 
   @action submitRule = (posData, data) => {
@@ -61,11 +63,11 @@ class RuleDetail extends Component {
   @action onClose = () => {
     this.visible = false
     this.drawerFlag = undefined
-    store.getConfigTagList()
+    // store.getConfigTagList()
   }
 
   render() {
-    const {configTagList, relList, posList, detailLoading} = store
+    const {configTagList, drawerConfigTagList, relList, posList, detailLoading} = store
   
     return (
       <div>
@@ -78,6 +80,7 @@ class RuleDetail extends Component {
                 <Fragment>
                   <RuleContent 
                     configTagList={toJS(configTagList)}
+                    drawerConfigTagList={toJS(drawerConfigTagList)}
                     relList={toJS(relList)}
                     openDrawer={this.openDrawer}
                     posList={toJS(posList)}

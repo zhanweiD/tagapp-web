@@ -1,8 +1,10 @@
 
 export const getGroupItemData = (data, parentFlag, formItemData, logicMap, whereMap) => {
+  if (!data) return false
+
   const newData = _.cloneDeep(data)
 
-  if (data.length === 1) {
+  if (data && data.length === 1) {
     const formData = formItemData[`${parentFlag}-${data[0].flag}`]
 
     const sOnedata = {
@@ -104,18 +106,22 @@ export function formatData(formItemData, domRef, whereMap) {
     const comparisionList = []
     const childList = []
 
-    if (pos['0-0'].length === 1) {
-      comparisionList.push(entity)
-    } else {
-      childList.push(...entity)
+    if (pos['0-0'] && entity) {
+      if (pos['0-0'].length === 1) {
+        comparisionList.push(entity)
+      } else {
+        childList.push(...entity)
+      }
     }
-
-    if (pos['0-1'].length === 1) {
-      comparisionList.push(rel)
-    } else {
-      childList.push(...rel)
+  
+    if (pos['0-1'] && rel) {
+      if (pos['0-1'].length === 1) {
+        comparisionList.push(rel)
+      } else {
+        childList.push(...rel)
+      }
     }
-
+  
     resultOne.comparisionList = comparisionList
     resultOne.childList = childList
 
@@ -143,21 +149,25 @@ export function formatData(formItemData, domRef, whereMap) {
       children: [],
     }
   
-    if (pos[currentFlagEntity].length === 1) {
-      groupResult.comparisionList.push(entityResult)
-    } else {
-      groupResult.children.push(...entityResult)
+    if (pos[currentFlagEntity] && entityResult) {
+      if (pos[currentFlagEntity].length === 1) {
+        groupResult.comparisionList.push(entityResult)
+      } else {
+        groupResult.children.push(...entityResult)
+      }
     }
-  
-    if (pos[currentFlagRel].length === 1) {
-      groupResult.comparisionList.push(relResult)
-    } else {
-      groupResult.children.push(...relResult)
+   
+    if (pos[currentFlagRel] && relResult) {
+      if (pos[currentFlagRel].length === 1) {
+        groupResult.comparisionList.push(relResult)
+      } else {
+        groupResult.children.push(...relResult)
+      }
     }
-
+ 
     result.childList.push(groupResult)
   }
-
+  console.log(result)
   return result
 }
 
@@ -166,20 +176,25 @@ export const getRenderData = (formItemData, domRef, wherePosMap) => {
 
   const rule = []
   for (let i = 0; i < renderData.length; i++) {
-    const entityPos = pos[`${i}-0`].map(d => ({
+    const entityPos = pos[`${i}-0`] && pos[`${i}-0`].map(d => ({
       ...d,
       ...formItemData[`${i}-0-${d.flag}`],
       logic: logicMap[`${i}-0-${d.flag}`] || 1,
     }))
 
-    const relPos = pos[`${i}-1`].map(d => ({
+    const relPos = pos[`${i}-1`] && pos[`${i}-1`].map(d => ({
       ...d,
       ...formItemData[`${i}-1-${d.flag}`],
     }))
 
-    const posInfo = {
-      [`${i}-0`]: entityPos,
-      [`${i}-1`]: relPos,
+    const posInfo = {}
+
+    if (entityPos) {
+      posInfo[`${i}-0`] = entityPos
+    }
+
+    if (relPos) {
+      posInfo[`${i}-1`] = relPos
     }
 
     const result = {

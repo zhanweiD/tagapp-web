@@ -99,7 +99,7 @@ class GroupAnalyze extends Component {
             <div ref={ref => this.roportionRef = ref} style={{height: '150px', width: '150px'}} />
             <div className="analyze-roportion-text">
               <div className="fs24">{roportion.groupCount}</div>
-              <div>{`在全部实体 ${roportion.totalCount} 中占比${roportion.totalCount ? (roportion.groupCount / roportion.totalCount * 100).toFixed(2) : 0}%`}</div>
+              <div>{`在全部实体 ${roportion.totalCount} 个中占比${roportion.totalCount ? (roportion.groupCount / roportion.totalCount * 100).toFixed(2) : 0}%`}</div>
             
             </div>
             <div className="analyze-roportion-time">

@@ -1,13 +1,17 @@
 import {useState} from 'react'
-import {Button} from 'antd'
+import {Button, Popconfirm} from 'antd'
+import {IconDel} from '../../icon-comp'
 
 const RuleCondition = ({
+  flag,
   logic = 1,
   changeCondition,
   pos = [],
   id,
   showLine,
   page,
+  canDelete,
+  delCon,
 }) => {
   const [isAnd, changeIsAnd] = useState(logic === 1)
   const change = () => {
@@ -18,7 +22,7 @@ const RuleCondition = ({
     changeIsAnd(data)
   }
 
-  const height = pos[2] || 120
+  const height = pos[2] || 50
 
   const posStyle = {
     left: pos[0],
@@ -44,7 +48,19 @@ const RuleCondition = ({
             </Button>
           )
         }
-       
+        {/* {
+          canDelete && page !== 'detail' && flag !== '0' ? (
+            <Popconfirm
+              placement="topLeft"
+              title="确认删除？"
+              onConfirm={() => delCon()} 
+              okText="确认"
+              cancelText="取消"
+            >
+              <IconDel size="16" className="delete-icon" />
+            </Popconfirm>
+          ) : null
+        } */}
       </div>
       {
         showLine ? <div className="wrap-rule-condition-line" style={{top: height / 2}} /> : null 

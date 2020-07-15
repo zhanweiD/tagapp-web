@@ -114,7 +114,7 @@ class Scene extends Component {
                             label: 'API数',
                             value: apiCount,
                           }]}
-                          actions={functionCodes.includes('asset_tag_project_occ_operator') ? [
+                          actions={[
                             <Button 
                               type="link" // antd@Button 属性
                               disabled={used}
@@ -131,7 +131,7 @@ class Scene extends Component {
                             >
                               <IconDel size="14" className={used ? 'i-used' : ''} />
                             </Button>,
-                          ] : null}
+                          ]}
                         />
                       )) 
                     }

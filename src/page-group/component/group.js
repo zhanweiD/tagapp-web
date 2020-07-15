@@ -15,29 +15,29 @@ const titleSetMap = {
 export default class Group extends Component {
   constructor(props) {
     super(props)
-    this.posData = props.pos || {
-      [`${props.flag}-0`]: [{
-        type: 2,
-        flag: '0',
-        level: [0],
-        x: 20,
-        y: 0,
-        source: null,
-        target: null,
-      }],
-      [`${props.flag}-1`]: [{
-        type: 2,
-        flag: '0',
-        level: [0],
-        x: 20,
-        y: 0,
-        source: null,
-        target: null,
-      }],
-    }
-
+    // this.posData = props.pos || {
+    //   [`${props.flag}-0`]: [{
+    //     type: 2,
+    //     flag: '0',
+    //     level: [0],
+    //     x: 20,
+    //     y: 0,
+    //     source: null,
+    //     target: null,
+    //   }],
+    //   [`${props.flag}-1`]: [{
+    //     type: 2,
+    //     flag: '0',
+    //     level: [0],
+    //     x: 20,
+    //     y: 0,
+    //     source: null,
+    //     target: null,
+    //   }],
+    // }
+    this.posData = props.pos || {}
     this.state = {
-      conditionH: 210,
+      conditionH: 66,
     }
   }
 
@@ -45,15 +45,40 @@ export default class Group extends Component {
     this.refreshLineH()
   }
 
+  // componentDidUpdate(preProps, preState) {
+  //   if (this.state.conditionH) {
+  //     this.props.refreshContentLineH(this.posData)
+  //   }
+  // }
+
   refreshLineH = (data, id) => {
-    const {flag, type, refreshContentLineH} = this.props
+    const {refreshContentLineH, flag} = this.props
 
-    this.posData[id] = data
+    if (id) {
+      this.posData[id] = data
+    }
 
-    this.heightFirst = $(`#${type}-group-combine-${flag}-0`).height()
-    this.heightEnd = $(`#${type}-group-combine-${flag}-1`).height()
+    let conditionH = 66
+    
+    // 条件重置
+    if (!this.posData[`${flag}-0`]) {
+      this.setState({
+        conditionH: 66,
+      }, () => {
+        refreshContentLineH(this.posData)
+      })
+      return 
+    }
 
-    const conditionH = this.heightFirst + 24
+    if (id) {
+      const renderData = id.slice(-1) === '0' ? data : this.posData[`${flag}-0`]
+      const conList = renderData.filter(d => d.type === 2)
+      conditionH = conList.length * 64 + 42 + 24
+    } else {
+      const renderData = this.posData[`${flag}-0`]
+      const conList = renderData.filter(d => d.type === 2)
+      conditionH = conList.length * 64 + 42 + 24
+    }
 
     this.setState({
       conditionH,
@@ -63,14 +88,15 @@ export default class Group extends Component {
   }
 
   delGroupItem = type => {
-    // const {index, flag, level} = this.props
-
-    // this.props.delGroupItem({
-    //   type,
-    //   index,
-    //   flag,
-    //   level,
-    // }, () => {
+    const {groupIndex, flag, level} = this.props
+    console.log(this.props)
+    this.props.delGroupItem({
+      type,
+      groupIndex,
+      flag,
+      level,
+    })
+    // , () => {
     //   this.refreshLineH()
     // })
   }
@@ -119,12 +145,15 @@ export default class Group extends Component {
           ))
         }
         <WrapRuleCondition 
+          flag={flag}
           logic={logic}
           pos={[54, 21, conditionH]} 
           id={`${type}-second-rule-condition${flag}`}
           showLine={showLine}
           changeCondition={changeSelfCondition}
           page={page}
+          canDelete
+          delCon={this.delGroupItem}
         />
 
       </div>

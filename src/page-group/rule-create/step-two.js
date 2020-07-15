@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {action, toJS, observable} from 'mobx'
 import {inject, observer} from 'mobx-react'
-import {Button} from 'antd'
+import {Button, message} from 'antd'
 import {RuleContent} from '../component'
 import SetRule from './drawer'
 import {formatData, getRenderData} from '../component/util'
@@ -30,13 +30,17 @@ export default class StepTwo extends Component {
     this.formRef.current
       .validateFields()
       .then(values => {
-        this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
-        this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap)
+        if (JSON.stringify(values) !== '{}') {
+          this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
+          this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap)
 
-        this.store.whereMap = this.whereMap
-        this.store.wherePosMap = this.wherePosMap
-        this.store.getOutputTags()
-        this.store.current += 1
+          this.store.whereMap = this.whereMap
+          this.store.wherePosMap = this.wherePosMap
+          this.store.getOutputTags()
+          this.store.current += 1
+        } else {
+          message.error('请添加规则配置')
+        }
       })
       .catch(info => {
         console.log('Validate Failed:', info)
@@ -48,12 +52,12 @@ export default class StepTwo extends Component {
       relationId: relId,
     })
 
-    this.store.getConfigTagList({
+    this.store.getDrawerConfigTagList({
       objId: relId,
+    }, () => {
+      this.drawerFlag = flag
+      this.visible = true
     })
-
-    this.drawerFlag = flag
-    this.visible = true
   }
 
   @action submitRule = (posData, data) => {
@@ -66,7 +70,7 @@ export default class StepTwo extends Component {
     this.visible = false
     this.drawerFlag = undefined
 
-    this.store.getConfigTagList()
+    // this.store.getConfigTagList()
   }
 
   @action reset = () => {
@@ -76,14 +80,15 @@ export default class StepTwo extends Component {
   }
 
   render() {
-    const {current, configTagList, relList, posList} = this.store
-
+    const {current, configTagList, drawerConfigTagList, relList, posList} = this.store
+    // console.log(this.wherePosMap[this.drawerFlag])
     return (
       <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
         <RuleContent 
           formRef={this.formRef} 
           onRef={ref => { this.ruleContentRef = ref }}
           configTagList={toJS(configTagList)}
+          drawerConfigTagList={toJS(drawerConfigTagList)}
           relList={toJS(relList)}
           openDrawer={this.openDrawer}
           posList={toJS(posList)}
