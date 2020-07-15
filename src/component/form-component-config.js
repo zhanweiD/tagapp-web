@@ -128,7 +128,6 @@ export const mergeRules = (rules, label) => {
     '@rangeRequired': {type: 'array', required: true, whitespace: true, message: `请输入${label}`},
     '@timeRequired': {type: 'object', required: true, whitespace: true, message: `请输入${label}`},
     '@requiredSelect': {required: true, message: `请选择${label}`},
-    '@requiredChecked': {required: true, message: `请选择${label}`},
     '@max32': {max: 32, message: '输入不能超过32个字符'},
     '@max128': {max: 128, message: '输入不能超过128个字符'},
   }

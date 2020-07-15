@@ -1,6 +1,6 @@
 import ioContext from '../../common/io-context'
 import {
-  groupDetailsApi, get, post, groupApi, groupConfigApi, baseApi,
+  groupDetailsApi, get, groupConfigApi, baseApi,
 } from '../../common/util'
 
 const api = {

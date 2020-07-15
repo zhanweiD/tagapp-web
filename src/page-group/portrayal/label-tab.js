@@ -5,6 +5,7 @@ import {Select, Button, Tooltip, Progress, Spin} from 'antd'
 import {TagFilled} from '@ant-design/icons'
 
 import {NoData} from '../../component'
+import {debounce} from '../../common/util'
 
 @inject('store')
 @observer
@@ -15,18 +16,17 @@ export default class LabelTab extends Component {
   }
 
   // 防抖设计
-  debounce = (fn, delay) => {
-    return () => {
-      clearTimeout(this.store.isLoading) 
-      this.store.isLoading = setTimeout(fn, delay) 
-    }
-  }
+  // debounce = (fn, delay) => {
+  //   return () => {
+  //     clearTimeout(this.store.isLoading)
+  //     this.store.isLoading = setTimeout(fn, delay) 
+  //   }
+  // }
 
-  // 判断是否是重复发送请求
+  // 判断是否是重复的请求
   @action isRepeat = nowTag => {
     const {prevTag, tagAnalysis} = this.store
     if (nowTag === prevTag) {
-      console.log(111)
       return
     }
     this.store.prevTag = nowTag
@@ -62,11 +62,10 @@ export default class LabelTab extends Component {
               </div>
             )}
             color="#639dd1" 
-            // onMouseEnter={this.debounce(() => this.store.tagAnalysis(nowRes[index]), 100)}
           >
             <Button 
               className="label-btn"
-              onMouseEnter={this.debounce(() => this.isRepeat(nowRes[index]), 200)}
+              onMouseEnter={debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>

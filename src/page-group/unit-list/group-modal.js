@@ -3,6 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
+import {debounce} from '../../common/util'
 
 @observer
 export default class GroupModal extends Component {
@@ -50,8 +51,14 @@ export default class GroupModal extends Component {
   }
 
   @action checkName = (rule, value, callback) => {
-    console.log(value)
-    this.store.groupCheckName(value, callback)
+    if (value) {
+      // 防抖设计
+      debounce(() => this.store.checkName(value, callback), 500)
+      // clearTimeout(this.store.timer)
+      // this.store.timer = setTimeout(() => this.store.checkName(value, callback), 500)
+    } else {
+      callback()
+    }
   }
 
   render() {

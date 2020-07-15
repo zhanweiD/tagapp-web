@@ -172,13 +172,13 @@ class Store extends ListContentStore(io.getGroupList) {
   }
 
   // 重命名校验
-  @action async recheckName(name, callback) {
+  @action async checkName(name, callback) {
     if (!this.isAdd) {
       callback()
       return
     }
     try {
-      const res = await io.recheckName({
+      const res = await io.checkName({
         projectId: this.projectId,
         objId: this.objId,
         name,

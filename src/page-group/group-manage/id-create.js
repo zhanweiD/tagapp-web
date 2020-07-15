@@ -4,7 +4,7 @@ import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
 import {Drawer, Form, Select, Input, Upload, Button, Modal, Alert} from 'antd'
 
-import {errorTip, baseApi} from '../../common/util'
+import {errorTip, baseApi, debounce} from '../../common/util'
 
 const {Item} = Form
 const {TextArea} = Input
@@ -62,12 +62,18 @@ export default class IdCreate extends Component {
     }
     return isLt10M
   }
+
   @action removeFile = file => {
     this.store.uploadList = []
   }
 
   @action checkName = (rule, value, callback) => {
-    this.store.recheckName(value, callback)
+    if (value) {
+      // 防抖设计
+      debounce(() => this.store.checkName(value, callback), 500)()
+    } else {
+      callback()
+    }
   }
 
   @action onOK = () => {
@@ -76,11 +82,13 @@ export default class IdCreate extends Component {
     this.formRef.current.validateFields().then(value => {
       this.store.confirmLoading = true
 
+      // 请求前处理参数
       value.outputTags = value.outputTags.map(Number)
       value.objId = parseInt(value.objId)
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type
       value.importKey = fileRes.importKey || ''
+      // value.descr = value.descr.trim()
 
       if (isAdd) {
         this.store.addIdGroup(value)
@@ -198,20 +206,23 @@ export default class IdCreate extends Component {
               name="name"
               label="群体名称"
               initialValue={recordObj.name}
+              // 去除前后空格
+              getValueFromEvent={e => {
+                return e.target.value.trim()
+              }}
               rules={[
                 {required: true, message: '请输入名称'},
+                {max: 32, message: '名称不能超过32字'},
                 {validator: this.checkName},
               ]}
             >
-              <Input disabled={!isAdd || isPerform} placeholder="请输入名称" />
+              <Input disabled={!isAdd || isPerform || !objId} placeholder="请输入名称" />
             </Item>
             
             <Item
               label="描述"
               name="descr"
               initialValue={recordObj.descr}
-              rules={[
-              ]}
             >
               <TextArea disabled={isPerform} style={{minHeight: '8em'}} placeholder="请输入" />
             </Item>

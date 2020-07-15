@@ -10,8 +10,8 @@ import {ListContentStore} from '../../component/list-content'
 
 const {Option} = Select
 class Store extends ListContentStore(io.getEntityPage) {
-  @observable dataStorageId = 0 // 配置页面数据源id
-  @observable dataStorageTypeId = '' // 配置页面数据源类型id
+  @observable dataStorageId // 配置页面数据源id
+  @observable dataStorageTypeId // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
 
