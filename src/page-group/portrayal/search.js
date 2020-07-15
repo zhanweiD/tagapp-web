@@ -55,6 +55,8 @@ class Search extends React.Component {
               style={{width: '196px'}} 
               placeholder="请选择实体"
               onChange={value => this.selectObj(value)}
+              showSearch
+              optionFilterProp="children"
             >
               {
                 entityList.map(d => <Option key={d.objId}>{d.objName}</Option>)

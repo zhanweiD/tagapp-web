@@ -54,7 +54,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue="标签值"
         >
-          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect}>
+          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
               outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -79,7 +79,7 @@ const ScreenItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
+              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -96,7 +96,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue="="
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearchs>
+          <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
             {
               comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
             }                               
@@ -109,7 +109,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue="固定值"
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun}>
+          <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
             {
               screenValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             } 
@@ -125,7 +125,7 @@ const ScreenItem = ({
                   noStyle
                   rules={[{required: true, message: '请输入'}]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect}>
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
                     {
                       expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 

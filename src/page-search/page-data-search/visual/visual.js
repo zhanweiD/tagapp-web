@@ -261,7 +261,7 @@ export default class Visual extends Component {
         </div>
         <div className="FBH pt16 pb16">
           <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} showSearch>
+          <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} showSearch optionFilterProp="children">
             {
               objList.map(d => <Option value={d.id}>{d.name}</Option>)
             }

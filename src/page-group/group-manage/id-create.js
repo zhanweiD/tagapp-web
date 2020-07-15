@@ -190,7 +190,13 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择实体'},
               ]}
             >
-              <Select disabled={!isAdd || isPerform} placeholder="请选择实体" onChange={value => this.selectEntity(value)}>
+              <Select 
+                disabled={!isAdd || isPerform} 
+                placeholder="请选择实体" 
+                onChange={value => this.selectEntity(value)} 
+                showSearch
+                optionFilterProp="children"
+              >
                 {entityOptions}
               </Select>
             </Item>
@@ -251,7 +257,7 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select disabled={isPerform} placeholder="请选择标签" mode="multiple">
+              <Select disabled={isPerform} placeholder="请选择标签" mode="multiple" showSearch optionFilterProp="children">
                 {tagOptions}
               </Select>
             </Item>

@@ -49,6 +49,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                 <Select
                   showSearch
                   allowClear
+                  optionFilterProp="children"
                 >
                   <Option value={1}>周期更新</Option>
                   <Option value={2}>立即运行</Option>
@@ -126,6 +127,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
           <Select
             mode="multiple"
             showSearch
+            optionFilterProp="children"
             placeholder="请选择标签"
           >
             {

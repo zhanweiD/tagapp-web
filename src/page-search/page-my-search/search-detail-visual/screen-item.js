@@ -57,7 +57,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue={(left && left.function) || '标签值'}
         >
-          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect}>
+          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
               outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -85,7 +85,7 @@ const ScreenItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={left && left.params && left.params[0]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
+              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -101,7 +101,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue={comparision || '='}
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearchs>
+          <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
             {
               comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
             }                               
@@ -114,7 +114,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue={(right && right.function) || '固定值'}
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun}>
+          <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
             {
               screenValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             } 
@@ -131,7 +131,7 @@ const ScreenItem = ({
                   rules={[{required: true, message: '请输入'}]}
                   initialValue={right && right.params && right.params[0]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect}>
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
                     {
                       expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 
