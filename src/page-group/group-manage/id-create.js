@@ -108,7 +108,7 @@ export default class IdCreate extends Component {
   @action selectEntity = objId => {
     this.store.objId = objId
     this.store.getTagList()
-    this.formRef.current.resetFields(['outputTags'])
+    this.formRef.current.resetFields(['outputTags', 'name'])
   }
 
   render() {
