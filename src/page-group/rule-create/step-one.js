@@ -63,6 +63,7 @@ export default class StepOne extends Component {
 
   @action.bound selectEntity(e) {
     this.store.objId = e
+    this.form.resetFields(['name'])
   } 
 
   @action close = () => {

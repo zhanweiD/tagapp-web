@@ -51,7 +51,7 @@ const OutItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue="标签值"
         >
-          <Select placeholder="请选择取值逻辑" style={{width: '200px'}} showSearch onSelect={onSelect}>
+          <Select placeholder="请选择取值逻辑" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
               outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -76,7 +76,7 @@ const OutItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch>
+              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 

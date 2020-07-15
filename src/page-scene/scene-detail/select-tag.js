@@ -102,10 +102,10 @@ export default class SelectTag extends Component {
     }
   }
 
-  // goToAddObj = () => {
-  //   // 跳转至标签模型添加标签
-  //   window.location.href = `${window.__keeper.pathHrefPrefix}/object-modal/4`
-  // }
+  goToTagDetail = id => {
+    // 跳转至标签模型添加标签
+    window.location.href = `${window.__keeper.pathHrefPrefix}/tag-model/index.html#/manage/tag-maintain/${id}`
+  }
 
   // 选择对象
   @action selectObj = () => {
@@ -157,7 +157,7 @@ export default class SelectTag extends Component {
       enName,
       valueTypeName,
       cuser,
-      // cdate,
+      isEnum,
       descr,
       // objTypeCode,
       // treeId,
@@ -173,7 +173,7 @@ export default class SelectTag extends Component {
         value: valueTypeName,
       }, {
         title: '是否枚举',
-        value: cuser,
+        value: isEnum ? '是' : '否',
       },
     ]
 
@@ -199,7 +199,7 @@ export default class SelectTag extends Component {
                           descr={descr}
                           baseInfo={baseInfo}
                           // 点击“标签详情”按钮，进入标签详情
-                          actions={[<Button href={`${window.__keeper.pathHrefPrefix}/tag-model/manage/tag-maintain/${id}`} type="primary"><a href>标签详情</a></Button>]}
+                          actions={[<Button onClick={() => this.goToTagDetail(tagId)} type="primary"><a href>标签详情</a></Button>]}
                         />
                       </Spin>
                       <TrendTag store={this.store} tagId={this.store.tagId} />

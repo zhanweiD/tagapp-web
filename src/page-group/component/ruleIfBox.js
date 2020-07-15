@@ -9,7 +9,7 @@ export default class RuleIfBox extends Component {
     super(props)
 
     this.state = {
-      data: props.pos,
+      data: props.pos || [],
     }
 
     if (document.getElementById(props.id) && props.detail) {
@@ -18,9 +18,17 @@ export default class RuleIfBox extends Component {
     }
   }
 
-  refreshLineH = data => {
-    const {ruleIfBoxKey, refreshLineH} = this.props
-    refreshLineH(data, ruleIfBoxKey)
+  // refreshLineH = data => {
+  //   const {ruleIfBoxKey, refreshLineH} = this.props
+  //   refreshLineH(data, ruleIfBoxKey)
+  // }
+
+  componentDidUpdate(preProps, preState) {
+    const {data} = this.state
+    if (preState.data !== data) {
+      const {ruleIfBoxKey, refreshLineH} = this.props
+      refreshLineH(data, ruleIfBoxKey)
+    }
   }
 
   renderLine = () => {
@@ -76,6 +84,7 @@ export default class RuleIfBox extends Component {
     const {
       ruleIfBoxKey,
       configTagList,
+      drawerConfigTagList,
       otherEntity,
       relList,
       openDrawer,
@@ -95,12 +104,14 @@ export default class RuleIfBox extends Component {
               addCombineCon={() => this.addCombineCon(d, i)}
               addCombineItem={() => this.addCombineItem(d, i)}
               configTagList={configTagList}
+              drawerConfigTagList={drawerConfigTagList}
               otherEntity={otherEntity}
               relList={relList}
               openDrawer={openDrawer}
               ruleType={type}
               page={page}
               {...d}
+              len={data.length}
             />
           ) 
         }
@@ -125,8 +136,21 @@ export default class RuleIfBox extends Component {
   addCon = (d, i) => {
     let data = _.cloneDeep(this.state.data)
     const len = data.length
- 
-    if (len === 1) {
+
+    if (len === 0) {
+      data = [{
+        type: 2,
+        flag: '0',
+        level: [0],
+        x: 20,
+        y: 0,
+        source: null,
+        target: null,
+      }]
+    } else if (len === 1) {
+      const itemKey = `${this.props.ruleIfBoxKey}-0`
+
+      const formContent = this.props.formRef.current.getFieldValue(itemKey)
       data = [{
         type: 1,
         flag: '0',
@@ -145,6 +169,7 @@ export default class RuleIfBox extends Component {
         y: 0,
         source: [22, 48],
         target: [88, 16],
+        ...formContent,
       }, {
         type: 2,
         flag: '0-1',
@@ -154,6 +179,7 @@ export default class RuleIfBox extends Component {
         source: [22, 48],
         target: [88, 80],
       }]
+      this.props.formRef.current.resetFields([itemKey])
     } else {
       const itemArr = data.filter(item => item.type === 2)  
       const levelTwoArr = data.filter(item => item.level.length === 2)  
@@ -174,14 +200,14 @@ export default class RuleIfBox extends Component {
 
       data.push(newItem)
     }
- 
-    this.setState({data}, () => {
-      this.refreshLineH(data)
-    })
+
+    this.setState({data})
+    // this.setState({data}, () => {
+    //   this.refreshLineH(data)
+    // })
   }
 
   addCombineItem = (itemData, i) => {
-    console.log(itemData)
     const data = _.cloneDeep(this.state.data)
 
     const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
@@ -241,10 +267,10 @@ export default class RuleIfBox extends Component {
     }
 
     newData.push(newItem)
-
-    this.setState({data: newData}, () => {
-      this.refreshLineH(newData)
-    })
+    this.setState({data: newData})
+    // this.setState({data: newData}, () => {
+    //   this.refreshLineH(newData)
+    // })
   }
 
   // 添加联合条件
@@ -252,6 +278,10 @@ export default class RuleIfBox extends Component {
     const data = _.cloneDeep(this.state.data)
     
     const current = _.cloneDeep(itemData) 
+    
+    const itemKey = `${this.props.ruleIfBoxKey}-${current.flag}`
+
+    const formContent = this.props.formRef.current.getFieldValue(itemKey)
 
     const newData = data.map(d => {
       if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
@@ -302,6 +332,7 @@ export default class RuleIfBox extends Component {
       type: 2,
       x: current.x + 88,
       y: current.y,
+      ...formContent,
     }
 
     const newChildrenItemLevel = current.level.concat([1])
@@ -320,16 +351,19 @@ export default class RuleIfBox extends Component {
     newData.splice(i, 1, newItemAction)
     newData.push(updateItem)
     newData.push(newChildrenItem)
-
-    this.setState({data: newData}, () => {
-      this.refreshLineH(newData)
-    })
+    this.setState({data: newData})
+    this.props.formRef.current.resetFields([itemKey])
+    // this.setState({data: newData}, () => {
+    //   this.refreshLineH(newData)
+    // })
   }
 
   // 删除单个条件
   delCon = (current, i) => {
     const data = _.cloneDeep(this.state.data)
     data.splice(i, 1)
+ 
+    const itemKey = `${this.props.ruleIfBoxKey}-${current.flag}`
 
     let newData = []
     
@@ -416,7 +450,10 @@ export default class RuleIfBox extends Component {
     }
 
     if (bortherNode.length === 1) {
-      const bortherIndex = _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      const formContent = this.props.formRef.current.getFieldValue(itemKey)
+    
+      const lastIndex = current.flag.slice(-1)
+      const bortherIndex = lastIndex === '0' ? _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}1`) : _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
       const fatherIndex = _.findIndex(data, d => d.flag === current.flag.slice(0, -2))
 
       const {x, y, level} = data[bortherIndex]
@@ -465,18 +502,20 @@ export default class RuleIfBox extends Component {
 
       newData.splice(fatherIndex, 1)
     }
-    console.log(newData)
-    this.setState({data: newData}, () => {
-      this.refreshLineH(newData)
-    })
+    this.props.formRef.current.resetFields([itemKey])
+    this.setState({data: newData})
+
+    // this.setState({data: newData}, () => {
+    //   this.refreshLineH(newData)
+    // })
   }
 
   render() {
     const {data} = this.state
 
     const {id, page} = this.props
-    const heightComp = data.filter(d => d.type !== 1).length * 64
-    const height = `${heightComp > 50 ? heightComp : 50}px`
+    const height = data ? data.filter(d => d.type !== 1).length * 64 : 0
+
     return (
       <div className="rule-if-box" id={id} style={{height}}>
         
@@ -484,7 +523,7 @@ export default class RuleIfBox extends Component {
           page === 'detail' ? null : <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
         }
    
-        <svg style={{height: '100%', width: '100%'}}>
+        <svg style={{height: '100%', width: '100%', margin: '16px 0 0 16px'}}>
           {
             this.renderLine()
           }

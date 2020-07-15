@@ -70,6 +70,7 @@ class Store {
         fieldName: obj.fieldName,
         fieldType: obj.fieldType,
         valueEncode: obj.valueEncode,
+        tagId: obj.tagId,
       })
 
       runInAction(() => {

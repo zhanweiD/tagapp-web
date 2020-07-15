@@ -29,7 +29,7 @@ export default class SetRule extends Component {
 
   render() {
     const {visible, onClose, posList} = this.props
-    const {configTagList, relList, otherEntity} = this.store
+    const {configTagList, drawerConfigTagList, relList, otherEntity} = this.store
 
     const drawerConfig = {
       title: '设置筛选条件',
@@ -46,9 +46,8 @@ export default class SetRule extends Component {
         {...drawerConfig}
       >
         <RuleContent 
-          // formRef={this.formRef} 
-          // onRef={ref => { this.ruleContentRef = ref }}
           configTagList={toJS(configTagList)}
+          drawerConfigTagList={toJS(drawerConfigTagList)}
           relList={toJS(relList)}
           otherEntity={toJS(otherEntity)}
           posList={posList}
@@ -57,14 +56,6 @@ export default class SetRule extends Component {
         />
         <div className="bottom-button">
           <Button style={{marginRight: 8}} onClick={() => onClose()} type="primary">关闭</Button>
-          {/* <Button
-            type="primary"
-            style={{marginRight: 8}}
-            onClick={this.submit}
-          // loading={confirmLoading}
-          >
-            确定
-          </Button> */}
         </div>
       </Drawer>
     )

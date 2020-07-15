@@ -18,6 +18,7 @@ const RuleItem = ({
   ruleIfBoxKey,
   ruleType,
   configTagList = [],
+  drawerConfigTagList = [],
   relList = [],
   otherEntity = [],
   openDrawer,
@@ -27,6 +28,8 @@ const RuleItem = ({
   const projectId = ctx.useProjectId()
   const [relTagList, changeRelTagList] = useState([])
   const [entityTagList, changeEntityTagList] = useState(configTagList)
+  const [tagList, changeTagList] = useState(ruleType === 'set-rule' ? drawerConfigTagList : configTagList)
+
   const [relId, changeRelId] = useState()
 
   const posStyle = {
@@ -68,9 +71,7 @@ const RuleItem = ({
 
   return (  
     <div className="rule-item" style={posStyle}>
-      <Form.Item 
-        key={key}
-      >
+      <Form.Item>
         <Input.Group compact>
           {
             ruleType === 'set-rule' && +ruleIfBoxKey.slice(-1) === 1 ? (
@@ -127,7 +128,7 @@ const RuleItem = ({
           >
             <Select 
               showSearch
-              style={{width: 100}}
+              style={{width: 80}}
               optionFilterProp="children"
               placeholder="选择函数"
               onSelect={onSelectEntityTag}
@@ -177,7 +178,7 @@ const RuleItem = ({
                   disabled={rest.page === 'detail'}
                 >
                   {
-                    configTagList.map(d => (
+                    tagList.map(d => (
                       <Option value={d.objIdTagId}>
                         <div title={d.objNameTagName} className="omit">{d.objNameTagName}</div>
                       </Option>
@@ -195,7 +196,7 @@ const RuleItem = ({
           >
             <Select 
               showSearch
-              style={{width: 100}}
+              style={{width: 80}}
               optionFilterProp="children"
               disabled={rest.page === 'detail'}
             >
@@ -210,7 +211,7 @@ const RuleItem = ({
             name={[key, 'rightFunction']}
             initialValue={rest.rightFunction || '固定值'}
           >
-            <Select style={{width: 100}} disabled={rest.page === 'detail'}>
+            <Select style={{width: 80}} disabled={rest.page === 'detail'}>
               <Option value="固定值">固定值</Option>
             </Select>
           </FormItem>
@@ -243,7 +244,10 @@ const RuleItem = ({
                       : <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" />
 
                   }
-
+                  {/* <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} /> */}
+                  {
+                    rest.len === 1 ? <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} /> : null
+                  }
                   {
                     levelEnd === 0
                       ? null 

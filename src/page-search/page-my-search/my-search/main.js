@@ -6,7 +6,7 @@ import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import {Button, Spin, Select, Input, Modal, Tooltip} from 'antd'
 import {ExclamationCircleOutlined, CopyOutlined} from '@ant-design/icons'
-import {Card, NoData, projectProvider, DtGrid} from '../../../component'
+import {Card, NoData, projectProvider, DtGrid, searchProvider} from '../../../component'
 import {IconDel, IconEdit} from '../../../icon-comp'
 import ModalEdit from './modal'
 
@@ -199,4 +199,4 @@ class MySearch extends Component {
   }
 }
 
-export default projectProvider(MySearch)
+export default projectProvider(searchProvider(MySearch))

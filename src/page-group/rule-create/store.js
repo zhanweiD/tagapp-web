@@ -23,6 +23,7 @@ class Store {
 
   // 第二步 设置群体圈选规则
   @observable configTagList = [] // 对象对应已同步的标签列表
+  @observable drawerConfigTagList = [] // 对象对应已同步的标签列表
   @observable relList = [] // 对象对应的关系列表
   @observable otherEntity = [] // 另一个实体对象
   @observable logicExper = {}
@@ -144,7 +145,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
-      if (res.isExit) {
+      if (res.isExist) {
         callbak('群体名称已存在')
       } else {
         callbak()
@@ -182,6 +183,24 @@ class Store {
 
       runInAction(() => {
         this.configTagList = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取配置筛选条件对象对应已同步的标签列表
+  @action async getDrawerConfigTagList(params, cb) {
+    try {
+      const res = await io.getConfigTagList({
+        objId: this.objId, // 实体ID
+        projectId: this.projectId,
+        ...params,
+      })
+
+      runInAction(() => {
+        this.drawerConfigTagList = res
+        cb()
       })
     } catch (e) {
       errorTip(e.message)

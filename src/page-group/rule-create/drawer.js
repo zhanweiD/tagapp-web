@@ -30,7 +30,7 @@ export default class SetRule extends Component {
 
   render() {
     const {visible, onClose, posList} = this.props
-    const {configTagList, relList, otherEntity} = this.store
+    const {configTagList, relList, otherEntity, drawerConfigTagList} = this.store
 
     const drawerConfig = {
       title: '设置筛选条件',
@@ -50,6 +50,7 @@ export default class SetRule extends Component {
           formRef={this.formRef} 
           onRef={ref => { this.ruleContentRef = ref }}
           configTagList={toJS(configTagList)}
+          drawerConfigTagList={toJS(drawerConfigTagList)}
           relList={toJS(relList)}
           otherEntity={toJS(otherEntity)}
           posList={posList}

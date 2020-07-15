@@ -82,7 +82,7 @@ export default PageComponent => {
     }
 
     const noDataConfig = {
-      btnText: '去初始化',
+      btnText: '初始化群体洞察',
       onClick: () => {
         getDataTypeSource(projectId)
         changeVisible(true)

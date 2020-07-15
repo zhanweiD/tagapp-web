@@ -101,6 +101,7 @@ class ModalAdd extends React.Component {
               allowClear
               style={{width: '100%'}}
               onSelect={this.onSelect}
+              optionFilterProp="children"
             >
               {
                 tagList.map(d => <Option value={d.tagId}>{d.columnName}</Option>)

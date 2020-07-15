@@ -64,7 +64,7 @@ class Search extends React.Component {
               placeholder="请选择"
               style={{width: 200}}
               onSelect={this.selectObj}
-              
+              optionFilterProp="children"
             >
               {
                 objList.map(d => <Option value={d.objId}>{d.objName}</Option>)
@@ -81,6 +81,7 @@ class Search extends React.Component {
               placeholder="请选择"
               style={{width: 200}}
               // onSelect={this.selectGroup}
+              optionFilterProp="children"
             >
               {
                 groupList.map(d => <Option value={d.groupId}>{d.groupName}</Option>)

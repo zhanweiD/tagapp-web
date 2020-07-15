@@ -51,11 +51,11 @@ export default class Tql extends Component {
   }
 
   @action.bound save() {
-    const t = this
-    console.log(store.tql)
-    if (!store.tql) {
+    const code = store.editor.getValue()
+    if (!code) {
       message.error('请运行正确TQL代码！')
     } else {
+      store.tql = code
       store.visibleSave = true
     }
   }
