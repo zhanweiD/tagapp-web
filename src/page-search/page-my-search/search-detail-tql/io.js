@@ -8,7 +8,7 @@ const api = {
   getFunTree: get(`${dataSearch}/function_list`), // 函数树
 
   runSearch: post(`${dataSearch}/run_search`), // 运行查询
-  saveSearch: post(`${dataSearch}/save_search`), // 保存数据查询
+  saveSearch: post(`${dataSearch}/update_search`), // 修改数据查询
   checkName: post(`${dataSearch}/checkName`), // 查询重名校验
 
   getDetail: get(`${dataSearch}/search_info`), // 详情

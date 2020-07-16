@@ -10,7 +10,7 @@ const api = {
   getExpressionTag: get(`${dataSearch}/tag_list`), // 获取表达式标签
 
   runSearch: post(`${dataSearch}/run_search`), // 运行查询
-  saveSearch: post(`${dataSearch}/save_search`), // 保存数据查询
+  saveSearch: post(`${dataSearch}/update_search`), // 修改数据查询
   checkName: post(`${dataSearch}/checkName`), // 查询重名校验
   getApiParams: post(`${dataSearch}/visual_api_param`), // 获取api请求返回参数
 

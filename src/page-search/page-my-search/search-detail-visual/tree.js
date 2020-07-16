@@ -62,6 +62,7 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
             <Tree
               showLine
               showIcon={false}
+              defaultExpandAll
             >
               {
                 renderTreeNodes(tagTreeData)

@@ -41,6 +41,68 @@ class Store {
   @observable detail = {}
   @observable detailLoading = false
 
+
+  // 获取高度
+  @action getHeight = () => {
+    this.contentBoxH = $('#visual-content').height() - 66// 内容总高度（除去操作栏）
+    this.configDom = $('#visual-config') // 配置内容
+
+    this.resultDom = $('#search-result') // 运行结果内容
+
+    // 日志高度
+    this.resultDomHeight = this.resultDom.height()
+
+    this.configDom.height(this.contentBoxH - this.resultDomHeight)
+  }
+
+  beforeLogHeight = 226
+
+  @action.bound handleExpend(flag) {
+    this.showResult = flag
+    this.configDom.height(this.contentBoxH - this.beforeLogHeight)
+    this.beforeLogHeight = this.resultDomHeight
+
+    if (flag) {
+      this.resultDom.height(226)
+      this.configDom.height(this.contentBoxH - 226)
+    } else {
+      this.resultDom.height(30)
+      this.configDom.height(this.contentBoxH - 30)
+    }
+  }
+
+  // 日志拖拽
+  @action changeHeight = (height, totalHeight) => {
+    if (height < 400) return
+    if (totalHeight - height < 226) return
+
+    this.resultDomHeight = totalHeight - height
+    this.resultDom.height(totalHeight - height)
+    this.configDom.height(this.contentBoxH - this.resultDomHeight)
+  }
+
+  // 日志的拖拽
+  @action onDraggableLogMouseDown = () => {
+    if (this.isMinLog) return
+    const $body = $('body')
+    let dragableCover = $('.dragable_cover')
+    if (dragableCover.length > 0) {
+      dragableCover.css('display', 'block')
+    } else {
+      dragableCover = $('<div class="dragable_cover"></div>')
+      $('body').append(dragableCover)
+    }
+    dragableCover.css('cursor', 'ns-resize')
+    $body.on('mousemove', ev => {
+      this.changeHeight(ev.clientY, $body.height())
+    })
+    $body.on('mouseup', () => {
+      dragableCover.css('display', 'none')
+      $body.off('mousemove')
+      $body.off('mouseup')
+    })
+  }
+
   // 获取标签树
   @action async getTagTree(params) {
     this.treeLoading = true
@@ -88,12 +150,6 @@ class Store {
       })
 
       runInAction(() => {
-        if (res.length) {
-          const objId = res[0].id
-          this.objId = objId
-          this.getTagTree({id: objId})
-          this.getExpressionTag({id: objId})
-        }
         this.objList = res
       })
     } catch (e) {
@@ -257,7 +313,7 @@ class Store {
 
       runInAction(() => {
         this.detail = res
-
+        this.objId = res.objId
         this.getTagTree({id: res.objId})
         this.getExpressionTag({id: res.objId})
       })

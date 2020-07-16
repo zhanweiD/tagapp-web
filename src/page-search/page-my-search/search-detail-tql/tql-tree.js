@@ -76,7 +76,7 @@ export default class TqlTree extends Component {
       <div className="processe-tree">
         <Tabs onChange={this.tabChange}>
           <TabPane tab="基础标签" key="0" style={{height: '100%'}}>
-            <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
+            <div style={{height: 'calc(100vh - 134px)', overflow: 'auto'}}>
               <DtTreeBox {...treeBoxConfig}>
                 {treeLoading
                   ? <Loading mode="block" height={100} />
@@ -92,7 +92,7 @@ export default class TqlTree extends Component {
             </div>
           </TabPane>
           <TabPane tab="函数" key="1" style={{height: '100%'}}>
-            <div style={{height: 'calc(100% - 38px)', overflow: 'auto'}}>
+            <div style={{height: 'calc(100vh - 134px)', overflow: 'auto'}}>
               <DtTreeBox {...treeBoxConfig}>
                 {treeLoading
                   ? <Loading mode="block" height={100} />

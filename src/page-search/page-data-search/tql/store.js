@@ -27,6 +27,7 @@ class Store {
     })
   }
 
+
   // 获取 逻辑配置-标签树
   @action async getTagTree(cb) {
     this.treeLoading = true
@@ -107,6 +108,68 @@ class Store {
   @observable resultLoading = false
   @observable log = ''
   @observable tql = ''
+
+  // 获取高度
+  @action getHeight = () => {
+    this.contentBoxH = $('#code-content').height() - 38// 内容总高度（除去操作栏）
+    this.configDom = $('#code_area') // 配置内容
+
+    this.resultDom = $('#search-result-tql') // 运行结果内容
+
+    // 日志高度
+    this.resultDomHeight = this.resultDom.height()
+
+    this.configDom.height(this.contentBoxH - this.resultDomHeight)
+  }
+
+  beforeLogHeight = 226
+
+  @action.bound handleExpend(flag) {
+    this.showResult = flag
+    this.configDom.height(this.contentBoxH - this.beforeLogHeight)
+    this.beforeLogHeight = this.resultDomHeight
+
+    if (flag) {
+      this.resultDom.height(226)
+      this.configDom.height(this.contentBoxH - 226)
+    } else {
+      this.resultDom.height(30)
+      this.configDom.height(this.contentBoxH - 30)
+    }
+  }
+
+  // 日志拖拽
+  @action changeHeight = (height, totalHeight) => {
+    if (height < 400) return
+    if (totalHeight - height < 226) return
+
+    this.resultDomHeight = totalHeight - height
+    this.resultDom.height(totalHeight - height)
+    console.log(this.contentBoxH, -this.resultDomHeight)
+    this.configDom.height(this.contentBoxH - this.resultDomHeight)
+  }
+
+  // 日志的拖拽
+  @action onDraggableLogMouseDown = () => {
+    if (this.isMinLog) return
+    const $body = $('body')
+    let dragableCover = $('.dragable_cover')
+    if (dragableCover.length > 0) {
+      dragableCover.css('display', 'block')
+    } else {
+      dragableCover = $('<div class="dragable_cover"></div>')
+      $('body').append(dragableCover)
+    }
+    dragableCover.css('cursor', 'ns-resize')
+    $body.on('mousemove', ev => {
+      this.changeHeight(ev.clientY, $body.height())
+    })
+    $body.on('mouseup', () => {
+      dragableCover.css('display', 'none')
+      $body.off('mousemove')
+      $body.off('mouseup')
+    })
+  }
 
   // ************************* 代码编辑 & 日志 start *********************** //
 

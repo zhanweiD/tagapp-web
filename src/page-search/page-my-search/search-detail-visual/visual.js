@@ -52,11 +52,15 @@ class Visual extends Component {
     store.getDetail()
   }
 
-  @action.bound selectObj(objId) {
-    // store.objId = objId
-    // store.getTagTree({id: objId})
-    // store.getExpressionTag({id: objId})
+  componentDidMount() {
+    store.getHeight()
   }
+
+  // @action.bound selectObj(objId) {
+  //   // store.objId = objId
+  //   // store.getTagTree({id: objId})
+  //   // store.getExpressionTag({id: objId})
+  // }
 
   @action.bound refreshTree(searchKey) {
     store.searchTree({id: store.objId, searchKey})
@@ -231,6 +235,8 @@ class Visual extends Component {
       resultLoading,
       detail,
       detailLoading,
+      handleExpend,
+      onDraggableLogMouseDown,
     } = store
 
     return (
@@ -243,7 +249,7 @@ class Visual extends Component {
           </div>
           <div className="FBH pt16 pb16">
             <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
-            <Select value={objId} style={{width: 180, marginLeft: '8px'}} onChange={this.selectObj} disabled>
+            <Select value={objId} style={{width: 180, marginLeft: '8px'}} disabled>
               {
                 objList.map(d => <Option value={d.id}>{d.name}</Option>)
               }
@@ -258,8 +264,14 @@ class Visual extends Component {
                   <span>查询</span>
                 </span>
               </div>
-              <div className="visual-content">
-                <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
+              <div className="visual-content" id="visual-content">
+                <SearchResult 
+                  loading={resultLoading} 
+                  expend={showResult} 
+                  resultInfo={toJS(resultInfo)} 
+                  handleExpend={handleExpend}
+                  onDraggableLogMouseDown={onDraggableLogMouseDown}
+                />
                 <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                   <Menu.Item key="out">
                   输出设置
@@ -268,7 +280,7 @@ class Visual extends Component {
                   筛选设置
                   </Menu.Item>
                 </Menu>
-                <div className="visual-config">
+                <div className="visual-config" id="visual-config">
                
                   {/* 渲染输出设置 */}
                   <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>

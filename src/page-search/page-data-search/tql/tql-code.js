@@ -23,7 +23,7 @@ export default class TqlCode extends Component {
   }
 
   componentDidMount() {
-    // this.store.getHeight()
+    this.store.getHeight()
 
     if (document.getElementById('codeArea')) {
       this.store.editor = window.CodeMirror.fromTextArea(document.getElementById('codeArea'), {
@@ -103,10 +103,12 @@ export default class TqlCode extends Component {
       showResult, 
       resultInfo,
       log,
+      handleExpend,
+      onDraggableLogMouseDown,
     } = this.store
 
     return (
-      <div className="code-content">
+      <div className="code-content" id="code-content">
         <Spin spinning={resultLoading}>
           <div style={{height: 'calc(100vh - 92px)'}}> 
             <div className="code-menu">
@@ -146,6 +148,8 @@ export default class TqlCode extends Component {
           expend={showResult} 
           loading={resultLoading} 
           resultInfo={toJS(resultInfo)}
+          handleExpend={handleExpend}
+          onDraggableLogMouseDown={onDraggableLogMouseDown}
         />
       </div>
     )

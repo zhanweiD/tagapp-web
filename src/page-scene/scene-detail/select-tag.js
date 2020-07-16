@@ -102,10 +102,10 @@ export default class SelectTag extends Component {
     }
   }
 
-  goToTagDetail = id => {
-    // 跳转至标签模型添加标签
-    window.location.href = `${window.__keeper.pathHrefPrefix}/tag-model/index.html#/manage/tag-maintain/${id}`
-  }
+  // goToTagDetail = id => {
+  // 跳转至标签模型添加标签
+  // window.location.href = `${window.__keeper.pathHrefPrefix}/tag-model/index.html#/manage/tag-maintain/${id}`
+  // }
 
   // 选择对象
   @action selectObj = () => {
@@ -199,7 +199,9 @@ export default class SelectTag extends Component {
                           descr={descr}
                           baseInfo={baseInfo}
                           // 点击“标签详情”按钮，进入标签详情
-                          actions={[<Button onClick={() => this.goToTagDetail(tagId)} type="primary"><a href>标签详情</a></Button>]}
+                          actions={[<Button type="primary">   
+                            <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}`}>标签详情</a>
+                          </Button>]}
                         />
                       </Spin>
                       <TrendTag store={this.store} tagId={this.store.tagId} />

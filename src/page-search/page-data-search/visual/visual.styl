@@ -11,6 +11,8 @@
   .visual-tree
     width 200px
     border-top 1px solid #dddddd
+    height 100%
+    overflow auto
 
   .visual-tree-action
     display flex
@@ -37,6 +39,8 @@
   .visual-config
     flex 1
     padding 16px
+    overflow auto
+    padding-bottom 50px
 
   .ant-menu
     width 36px
@@ -63,6 +67,15 @@
     bottom 16px
     left 0px
 
+    .drag-bottom 
+      position absolute
+      width 100%
+      height 5px
+      top 0
+      left 0
+      z-index 2
+      cursor ns-resize
+
     .search-result-header
       background #f8f8f8
       height 30px
@@ -87,3 +100,5 @@
 
   .hide-result
     bottom 38px
+
+    

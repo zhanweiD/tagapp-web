@@ -73,7 +73,7 @@ class Tql extends Component {
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           <Button className="mr8" type="primary">生成API</Button>
         </div>
-        <div className="tql-content">
+        <div className="tql-content-detail">
           <TqlTree store={store} />
           <TqlCode store={store} />
           <ModalSave store={store} />

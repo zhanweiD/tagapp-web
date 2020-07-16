@@ -48,7 +48,7 @@ export default class StepOne extends Component {
         '@max32',
         {validator: this.checkName},
       ],
-      disabled: !objId,
+      disabled: !objId || groupId,
       component: 'input',
     }, {
       label: '描述',
@@ -92,7 +92,7 @@ export default class StepOne extends Component {
     }
     
     // 防抖
-    debounce(() => this.store.checkName(params, callback), 500)
+    debounce(() => this.store.checkName(params, callback), 500)()
 
     // this.store.checkName(params, callback)
   }

@@ -26,13 +26,15 @@ class RuleDetail extends Component {
   whereMap = {}
 
   componentWillMount() {
+    const t = this
     if (store.groupId) {
-      store.getConfigTagList()
-      store.getRelList()
-      store.getDetail(store.groupId, () => {
-        this.wherePosMap = store.wherePosMap || {}
-        this.whereMap = toJS(store.whereMap) || {}
+      store.getConfigTagList(null, () => {
+        store.getDetail(store.groupId, () => {
+          t.wherePosMap = store.wherePosMap || {}
+          t.whereMap = toJS(store.whereMap) || {}
+        })
       })
+      store.getRelList()
     }
   }
 

@@ -52,6 +52,10 @@ export default class Visual extends Component {
     store.getObjList()
   }
 
+  componentDidMount() {
+    store.getHeight()
+  }
+
   @action.bound selectObj(objId) {
     confirm({
       title: '确认切换源标签对象?',
@@ -250,6 +254,8 @@ export default class Visual extends Component {
       showResult, 
       resultInfo,
       resultLoading,
+      handleExpend,
+      onDraggableLogMouseDown,
     } = store
 
     return (
@@ -286,8 +292,14 @@ export default class Visual extends Component {
               }
              
             </div>
-            <div className="visual-content">
-              <SearchResult loading={resultLoading} expend={showResult} resultInfo={toJS(resultInfo)} />
+            <div className="visual-content" id="visual-content">
+              <SearchResult 
+                loading={resultLoading} 
+                expend={showResult}
+                resultInfo={toJS(resultInfo)} 
+                handleExpend={handleExpend}
+                onDraggableLogMouseDown={onDraggableLogMouseDown}
+              />
               <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                 <Menu.Item key="out">
                   输出设置
@@ -297,7 +309,7 @@ export default class Visual extends Component {
                 </Menu.Item>
               </Menu>
               <Spin spinning={resultLoading}>
-                <div className="visual-config">         
+                <div className="visual-config" id="visual-config">         
                   {/* 渲染输出设置 */}
                   <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
                     {

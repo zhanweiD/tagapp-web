@@ -35,7 +35,7 @@ export default () => {
       <Route exact path={`${prePath}/manage/rule/:groupId/:objId`} component={RuleDetail} /> 
 
       {/* 个体列表 */}
-      <Route exact path={`${prePath}/unit/:objId/:id/:queryDate`} component={UnitList} />
+      <Route exact path={`${prePath}/unit/:id/:objId/:queryDate`} component={UnitList} />
       
       {/* 实时/离线 群体创建/编辑 */}
       <Route exact path={`${prePath}/rule-create/:type?/:groupId?`} component={RuleCreate} />

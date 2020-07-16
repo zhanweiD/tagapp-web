@@ -7,7 +7,7 @@ import icondown from '../../../icon/xiangxiazhankai.svg'
 
 const {TabPane} = Tabs
 
-const SearchResult = ({loading = false, expend, resultInfo = {}, log}) => {
+const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown}) => {
   const [isExpend, changeExpend] = useState(0) 
   const [tabKey, changeTabKey] = useState('1') 
  
@@ -26,12 +26,24 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log}) => {
     changeExpend(true)
   }
 
+  function handleChangeExpend(flag) {
+    changeExpend(flag)
+    handleExpend(flag)
+  }
+
   return (
-    <div className={cls({
-      'search-result': true,
-      'hide-result': !isExpend,
-    })}
+    <div
+      className={cls({
+        'search-result': true,
+        'hide-result': !isExpend,
+      })}
+      id="search-result-tql"
     >
+      {
+        !isExpend ? null : (
+          <div className="drag-bottom" onMouseDown={onDraggableLogMouseDown} />
+        )
+      }
       <div className="search-result-header">
         <Tabs activeKey={tabKey} onChange={key => changeTabKey(key)} type="card">
           <TabPane tab="查询日志" key="1" />
@@ -40,8 +52,8 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log}) => {
         <div className="result-header-icon">
           {
             isExpend
-              ? <img src={icondown} alt="img" onClick={() => changeExpend(false)} />
-              : <img src={iconup} alt="img" onClick={() => changeExpend(true)} />
+              ? <img src={icondown} alt="img" onClick={() => handleChangeExpend(false)} />
+              : <img src={iconup} alt="img" onClick={() => handleChangeExpend(true)} />
           }
         </div>
       </div>

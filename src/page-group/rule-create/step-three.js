@@ -81,7 +81,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                         name="isStart"
                         label="是否立即执行"
                         {...formItemLayout}
-                        initialValue={detail.isStart || 1}
+                        initialValue={detail.name ? detail.isStart : 1}
                       >
                         <Radio.Group>
                           <Radio value={1}>是</Radio>

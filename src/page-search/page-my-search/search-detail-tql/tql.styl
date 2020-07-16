@@ -12,48 +12,57 @@
     // position absolute
     // right 0
 
-.tql-content
+.tql-content-detail
   display flex
   // border 1px solid #d9d9d9
 
-.code-content
-  position relative
+  .code-content
+    position relative
 
-  .hide-result
-    bottom 38px
+    .hide-result
+      bottom 38px
 
-  .search-result
-    position absolute
-    width 100%
-    background #ffffff
-    z-index 100
-    bottom 0px
-    left 0px
-    border-left 1px solid #dddddd
+    .search-result
+      position absolute
+      width 100%
+      background #ffffff
+      z-index 100
+      bottom 0px
+      left 0px
+      border-left 1px solid #dddddd
 
-    .search-result-header
-      background #f8f8f8
-      height 30px
-      line-height 30px
-      border-top 1px solid #dddddd
-
-      .ant-tabs-tab
-        padding 3px 16px !important
-
-      .result-header-icon
+      .drag-bottom 
         position absolute
+        width 100%
+        height 5px
         top 0
-        right 16px
-        
-        img 
-          width 16px
-          height 16px
-          cursor pointer
+        left 0
+        z-index 2
+        cursor ns-resize
 
-    .log
-      height 164px
-      overflow-y auto
-  
-    .result-table
-      height 164px
-      overflow-y auto
+      .search-result-header
+        background #f8f8f8
+        height 30px
+        line-height 30px
+        border-top 1px solid #dddddd
+
+        .ant-tabs-tab
+          padding 3px 16px !important
+
+        .result-header-icon
+          position absolute
+          top 0
+          right 16px
+          
+          img 
+            width 16px
+            height 16px
+            cursor pointer
+
+      .log
+        height 164px
+        overflow-y auto
+    
+      .result-table
+        height 164px
+        overflow-y auto
