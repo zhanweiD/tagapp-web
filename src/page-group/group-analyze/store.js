@@ -32,7 +32,7 @@ class Store {
     type: 'add',
   }
 
-  @observable chartTypeList = {}
+  @observable selectTagList = []
 
   @observable roportion = {}
 
@@ -116,11 +116,11 @@ class Store {
           ...res,
           Comp: chartMap[params.chartType],
         }
-        
-        if (this.chartTypeList[params.tagId]) {
-          this.chartTypeList[params.tagId].push(params.chartType)
+
+        if (this.selectTagList.includes(params.tagId)) {
+          this.selectTagList[index] = params.tagId
         } else {
-          this.chartTypeList[params.tagId] = [params.chartType]
+          this.selectTagList.push(params.tagId)
         }
 
         if (typeof index === 'undefined') {
@@ -138,27 +138,25 @@ class Store {
   }
 
   @action.bound delChart(data, index) {
-    const tagItem = this.chartTypeList[data.tagId]
-    
-    if (tagItem && tagItem.length === 1) {
-      delete this.chartTypeList[data.tagId]
-    }
-    
-    if (tagItem && tagItem.length > 1) {
-      const inx = tagItem.indexOf(data.chartType)
-      this.chartTypeList[data.tagId].splice(inx, 1)
-    }
-
     this.info.splice(index, 1)
+    this.selectTagList.splice(index, 1)
   }
 
   @action.bound editChart(data, index) {
-    const {tagId, chartType} = this.modalEditInfo
-
-    const inx = this.chartTypeList[tagId].indexOf(chartType)
-
-    this.chartTypeList[tagId].splice(inx, 1)
     this.getChart(data, index)
+  }
+
+  @action.bound destory() {
+    this.objList.clear()
+    this.groupList.clear()
+    this.tagList.clear()
+    this.selectTagList.clear()
+    this.info.clear()
+
+    this.objId = undefined
+    this.groupId = undefined
+    this.groupTime = undefined
+    this.roportion = {}
   }
 }
 

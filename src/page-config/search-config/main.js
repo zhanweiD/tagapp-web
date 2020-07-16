@@ -4,7 +4,7 @@
 
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
-import {projectProvider} from '../../component'
+import {projectProvider, searchProvider} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
 
@@ -104,4 +104,4 @@ const GroupConfig = ({projectId}) => {
   )
 }
 
-export default projectProvider(GroupConfig)
+export default projectProvider(searchProvider(GroupConfig))

@@ -12,10 +12,13 @@ export default class ModalSave extends Component {
   }
 
   selectContent= () => {
+    const {detail} = this.store
+
     return [{
       label: '数据查询名称',
       key: 'name',
       component: 'input',
+      initialValue: detail.name,
       rules: [
         '@transformTrim',
         '@required',
@@ -26,6 +29,7 @@ export default class ModalSave extends Component {
       label: '描述',
       key: 'descr',
       component: 'textArea',
+      initialValue: detail.descr,
       rules: [
         '@max128',
       ],
@@ -47,6 +51,7 @@ export default class ModalSave extends Component {
       if (!err) {
         const params = {
           ...values,
+          id: store.searchId,
         }
 
         store.saveSearch(params, () => {
@@ -59,6 +64,7 @@ export default class ModalSave extends Component {
 
   @action checkName = (rule, value, callback) => {
     const params = {
+      id: +this.store.searchId,
       name: value,
     }
 

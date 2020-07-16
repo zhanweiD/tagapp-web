@@ -92,7 +92,7 @@ export default class TqlCode extends Component {
 
   render() {
     const {
-      tqlDetail,
+      detail,
       resultLoading,
       showResult, 
       resultInfo,
@@ -128,7 +128,7 @@ export default class TqlCode extends Component {
                 placeholder="code goes here..."
               >
                 {
-                  toJS(tqlDetail.source)
+                  toJS(detail.source)
                 }
               </textarea>
             </form>

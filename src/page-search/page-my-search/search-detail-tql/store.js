@@ -176,7 +176,7 @@ class Store {
 
   // ************************* 详情 start *********************** //
   // 详情
-  @observable tqlDetail = {}
+  @observable detail = {}
   @observable detailLoading = false
 
    // 获取详情 
@@ -189,7 +189,7 @@ class Store {
       })
 
       runInAction(() => {
-        this.tqlDetail = res
+        this.detail = res
         if (res.source) {
           this.editor.setValue(sqlFormatter.format(res.source), {language: 'n1ql', indent: '    '})
         }

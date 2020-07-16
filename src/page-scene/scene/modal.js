@@ -12,7 +12,8 @@ export default class ModalAdd extends Component {
   }
 
   @action.bound selectStorageType(type) {
-    this.form.resetFields(['storageId'])
+    console.log(this.form)
+    this.form.resetFields(['storageId', 'objId'])
     this.store.getStorageList({
       storageType: type,
     })
@@ -54,7 +55,7 @@ export default class ModalAdd extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: info.storageId,
+      initialValue: info.dataStorageId,
       rules: [
         '@requiredSelect',
       ],
@@ -95,13 +96,14 @@ export default class ModalAdd extends Component {
   }
 
   @action handleCancel = () => {
-    const {store} = this.props
-    store.modalVisible = false
+    this.store.modalVisible = false
     this.handleReset()
   }
 
   @action handleReset = () => {
     this.form.resetFields()
+    this.store.info = {}
+    this.store.isEdit = false
   }
 
   @action handleSubmit = e => {

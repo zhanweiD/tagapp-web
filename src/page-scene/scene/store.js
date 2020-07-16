@@ -28,12 +28,17 @@ class Store {
   // 场景详情
   @action async getDetail(params) {
     try {
-      const res = await io.getDetail({
-        ...params,
-      })
+      const res = await io.getDetail(params)
 
       runInAction(() => {
         this.info = res
+
+        this.getStorageList({
+          storageType: res.dataStorageType,
+        })
+        this.getObjList({
+          storageId: res.dataStorageId,
+        })
       })
     } catch (e) {
       errorTip(e.message)

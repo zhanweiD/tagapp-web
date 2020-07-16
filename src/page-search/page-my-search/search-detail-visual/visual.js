@@ -235,7 +235,7 @@ class Visual extends Component {
 
     return (
       <Spin spinning={detailLoading}> 
-        <div className="visual">
+        <div className="visual-detail">
           <div className="header-button">
             {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
             <Button className="mr8" onClick={this.save}>保存数据查询</Button>

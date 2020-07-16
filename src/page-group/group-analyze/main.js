@@ -35,6 +35,10 @@ class GroupAnalyze extends Component {
     }
   }
 
+  componentWillUnmount() {
+    store.destory()
+  }
+
   @action.bound search(values) {
     store.getRoportion({
       id: values.id, 
@@ -53,10 +57,10 @@ class GroupAnalyze extends Component {
     store.getTags()
   }
 
-  @action.bound add(values, isRepet, cb) {
+  @action.bound add(values, cb) {
     const {modalEditInfo} = store
 
-    if (modalEditInfo.modalType === 'edit' || isRepet) {
+    if (modalEditInfo.modalType === 'edit') {
       store.editChart(values, modalEditInfo.index)
     } else {
       store.getChart(values)

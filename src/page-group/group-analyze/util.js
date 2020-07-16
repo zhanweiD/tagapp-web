@@ -66,7 +66,7 @@ export const pieOpt = info => {
   }))
 
   return {
-    color: getColors(data.length),
+    // color: colors,
     tooltip: {
       trigger: 'item',
       formatter: params => {

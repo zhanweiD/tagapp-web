@@ -1,5 +1,5 @@
 import ioContext from '../../common/io-context'
-import {get, post, groupAnalysis} from '../../common/util'
+import {get, groupAnalysis} from '../../common/util'
 
 const api = {
   getObj: get(`${groupAnalysis}/cloudStorageObjs`), // 云资源对象下拉

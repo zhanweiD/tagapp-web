@@ -18,25 +18,24 @@ class ModalAdd extends React.Component {
   @observable tagId
 
   @action.bound handleOk() {
-    const {chartTypeList} = this.store
+    const {modalEditInfo} = this.store
 
     this.formRef.current
       .validateFields()
       .then(values => {
+        let {type} = this
+
+        if (+modalEditInfo.tagId === +values.tagId) {
+          type = modalEditInfo.type
+        }
         const params = {
           ...values,
-          type: this.type,
+          type,
           tagId: values.tagId,
           chartType: values.chartType,
         }
 
-        let isRepet = false
-        const tagList = toJS(chartTypeList)[+values.tagId]
-
-        if (tagList && tagList.includes(values.chartType)) {
-          isRepet = true
-        }
-        this.props.add(params, isRepet, () => {
+        this.props.add(params, () => {
           this.handleCancel()
         }) 
       })
@@ -53,28 +52,19 @@ class ModalAdd extends React.Component {
   }
 
   @action.bound onSelect(e) {
-    const {tagList, chartTypeList} = this.store
+    const {tagList} = this.store
 
     this.formRef.current
-      .resetFields(['groupType'])
+      .resetFields(['groupType', 'chartType'])
 
     const [obj] = tagList.filter(d => d.tagId === e)
 
     this.type = obj.type
     this.tagId = e
-
-    const typeList = toJS(chartTypeList)[+e] || []
-
-    if (typeList.length) {
-      this.formRef.current
-        .resetFields(['chartType'])
-    }
   }
 
   render() {
-    const {modalVis, tagList, modalEditInfo, chartTypeList} = this.store
-
-    const typeList = toJS(chartTypeList)[+this.tagId || +modalEditInfo.tagId] || []
+    const {modalVis, tagList, modalEditInfo, selectTagList} = this.store
 
     return (
       <Modal
@@ -104,7 +94,7 @@ class ModalAdd extends React.Component {
               optionFilterProp="children"
             >
               {
-                tagList.map(d => <Option value={d.tagId}>{d.columnName}</Option>)
+                tagList.map(d => <Option value={d.tagId} disabled={selectTagList.includes(d.tagId)}>{d.tagName}</Option>)
               }
             </Select>
           </Form.Item>
@@ -145,24 +135,24 @@ class ModalAdd extends React.Component {
           <Form.Item 
             label="图标" 
             name="chartType"
-            initialValue={modalEditInfo.chartType}
+            initialValue={modalEditInfo.chartType || 'bar'}
             rules={[{required: true, message: '请选择图标'}]}
           >
             <Radio.Group>
-              <Radio value="bar" disabled={typeList.includes('bar')}>柱状图</Radio>
+              <Radio value="bar">柱状图</Radio>
 
               {
                 (+modalEditInfo.type || +this.type) !== 3 ? (
                   <Fragment>
-                    <Radio value="loop" disabled={typeList.includes('loop')}>环形图</Radio>
-                    <Radio value="acrossBar" disabled={typeList.includes('acrossBar')}>条形图</Radio>
+                    <Radio value="loop">环形图</Radio>
+                    <Radio value="acrossBar">条形图</Radio>
                     {/* <Radio value="pie">环形图</Radio> */}
                   </Fragment>
                 ) : null
               }
               
               {
-                (+modalEditInfo.type || +this.type) === 3 ? <Radio value="line" disabled={typeList.includes('line')}>折线图</Radio> : null
+                (+modalEditInfo.type || +this.type) === 3 ? <Radio value="line">折线图</Radio> : null
               }
              
             </Radio.Group>

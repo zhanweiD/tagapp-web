@@ -13,7 +13,7 @@ import ConfigModal from './configModal'
 import Loading from '../loading'
 
 export default PageComponent => {
-  function GroupProvider(props) {
+  function SearchProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
     const [hasInit, changeHasInit] = useState(false)
@@ -113,5 +113,5 @@ export default PageComponent => {
       </div>
     )
   }
-  return GroupProvider
+  return SearchProvider
 }
