@@ -159,7 +159,7 @@ class EModal extends Component {
           <Form.Item 
             label="图片"
             className="img-tooltip"
-            extra="图片在个体画像中显示，支Jpg Png格式，大小不超过2MB"
+            extra="图片在个体画像中显示，支持Jpg/Png格式，大小不超过2MB"
           >
             {getFieldDecorator('picture', {
               initialValue: detail.picture,

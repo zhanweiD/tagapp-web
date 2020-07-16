@@ -3,11 +3,9 @@ import {get, post, groupApi, baseApi} from '../../common/util'
 
 const api = {
   getGroupList: get(`${groupApi}/group_page`), // 群体分页列表
-  // getGroupList: get('http://192.168.90.129:3000/mock/119/group/group_page'), // 群体分页列表
   getEntityList: get(`${groupApi}/obj_list`), // 实体列表
   getTagList: get(`${baseApi}/relGroup/tag_list`), // 标签列表
-  // getTagList: get('http://192.168.90.129:3000/mock/119/relGroup/tag_list'), // 标签列表
-  recheckName: post(`${groupApi}/checkName`), // 群体名称查重
+  checkName: post(`${groupApi}/checkName`), // 群体名称查重
   addGroup: post(`${groupApi}/add_id_group`), // 新建群体
   addIdGroup: post(`${groupApi}/add_id_group`), // 新建id群体
   editGroup: post(`${groupApi}/edit_id_group`), // 编辑群体

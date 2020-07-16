@@ -25,7 +25,9 @@ class Search extends React.Component {
   }
 
   @action.bound selectObj(e) {
-    this.formRef.current.resetFields(['mainLabel'])
+    this.formRef.current.setFieldsValue({
+      mainLabel: null,
+    })
   }
 
   render() {

@@ -3,14 +3,11 @@ import {relGroupApi, get, post} from '../../common/util'
 
 const api = {
   getPortrayal: get(`${relGroupApi}/project_storage`), // 获取画像信息
-  // getPortrayal: get('http://192.168.90.129:3000/mock/119/relGroup/project_storage'), // 获取画像信息
   groupInit: post(`${relGroupApi}/init`), // 初始化云资源
-  // groupInit: post('http://192.168.90.129:3000/mock/119/relGroup/init'), // 初始化云资源
   getDataTypeSource: get(`${relGroupApi}/storage_type`), // 数据源类型列表
   getDataSource: get(`${relGroupApi}/storage_list`), // 数据源列表
   getEntityList: get(`${relGroupApi}/obj_list`), // 实体列表
   getTagList: get(`${relGroupApi}/tag_list`), // 标签列表
-  // getTagList: get('http://192.168.90.129:3000/mock/119/relGroup/tag_list'), // 标签列表
   getEntityPage: get(`${relGroupApi}/entity_page`), // 实体分页列表
   getEntityInfo: get(`${relGroupApi}/entity_info`), // 实体配置信息
   addEntity: post(`${relGroupApi}/add_entity`), // 添加实体

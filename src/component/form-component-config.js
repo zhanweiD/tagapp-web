@@ -70,7 +70,6 @@ export default ({
     input: <antd.Input placeholder={placeholder || createInputPlaceholder(label)} {...rest} />,
     textArea: <antd.Input.TextArea rows={4} placeholder={placeholder || createInputPlaceholder(label)} {...rest} />,
     select: <SelectTypes label={label} placeholder={placeholder || createSelectPlaceholder(label)} options={options} {...rest} />,
-    // radioGroup: <radioItems defaultValue radios={radios} />,
     radioGroup: <antd.Radio.Group {...rest}>{radios}</antd.Radio.Group>, // 单选按钮
     rangePicker: <antd.DatePicker.RangePicker {...rest} />,
     timePicker: <antd.TimePicker {...rest} />,

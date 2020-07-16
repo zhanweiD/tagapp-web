@@ -55,13 +55,13 @@ export default class TagHistory extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <Link to={`/group/analyze/${record.groupId}/${+this.store.objId}/${record.recordDate}`}>
+            <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.recordDate}`}>
               <a href>群体分析</a>
             </Link>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <Link to={`/group/unit/${record.objId}/${record.id}/${record.computeTime}`}>
+            <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}`}>
               <a href>个体列表</a>
             </Link>
           </Fragment>
@@ -76,7 +76,7 @@ export default class TagHistory extends Component {
       this.getData()
     }
 
-    window.addEventListener('resize', () => this.resize())
+    // window.addEventListener('resize', () => this.resize())
   }
 
   @action getData(gte = this.defStartTime, lte = this.defEndTime) {
@@ -90,23 +90,22 @@ export default class TagHistory extends Component {
     })
   }
 
-  @action resize() {
-    if (this.chartBar) this.chartBar.resize()
-  }
+  // @action resize() {
+  //   if (this.chartBar) this.chartBar.resize()
+  // }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', () => this.resize())
-    if (this.chartBar) this.chartBar.dispose()
-    this.chartBar = null
+    // window.removeEventListener('resize', () => this.resize())
+    // if (this.chartBar) this.chartBar.dispose()
+    // this.chartBar = null
   }
 
   render() {
     const {tagId, store} = this.props
-    const {tableLoading} = store
+    const {id} = store
     const listConfig = {
-      tableLoading,
       columns: this.columns,
-      initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
+      initParams: {id},
       store, // 必填属性
     }
 

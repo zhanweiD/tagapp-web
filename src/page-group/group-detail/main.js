@@ -30,16 +30,6 @@ class GroupDetail extends Component {
 
   componentWillMount() {
     store.getDetail()
-    store.getHistoryList()
-  }
-
-  @action.bound onTabChange(e) {
-    store.tableLoading = true
-    if (e === '1') {
-      store.getHistoryList()
-    } else {
-      store.getApiList()
-    }
   }
 
   @action.bound viewRule() {
@@ -98,10 +88,8 @@ class GroupDetail extends Component {
       <a className="mr8" onClick={this.viewRule}>查看规则</a>,
     ]
     return (
-      // <div className="content-header group-detail">
       <div className="group-detail">
         <div className="detail-h">
-          {/* <Spin> */}
           <DetailHeader
             name={(
               <Fragment>
@@ -123,7 +111,7 @@ class GroupDetail extends Component {
         <Fragment>
           {
             modeType === 1 ? (
-              <Tabs className="header-page h-254" defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+              <Tabs className="header-page h-254" defaultActiveKey="1" animated={false}>
                 <TabPane tab="历史记录" key="1">
                   <TagHistory store={store} />
                 </TabPane>
@@ -132,7 +120,7 @@ class GroupDetail extends Component {
                 </TabPane>
               </Tabs>
             ) : (
-              <Tabs className="header-page" defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+              <Tabs className="header-page" defaultActiveKey="1" animated={false}>
                 <TabPane tab="API列表" key="1">
                   <TabApi store={store} />
                 </TabPane>
@@ -140,7 +128,6 @@ class GroupDetail extends Component {
             ) 
           }
         </Fragment>
-        {/* <ModalEditScene store={store} /> */}
       </div>
     )
   }

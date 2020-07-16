@@ -1,4 +1,4 @@
-const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
+const nameTextStyleColor = 'rgba(0, 0, 0, .65)'
 
 // 标签调用次数趋势图配置
 export default function getOptions(dataX, dataY) {
@@ -6,7 +6,7 @@ export default function getOptions(dataX, dataY) {
   // data, legend = []
   return {
     tooltip: {
-      // trigger: 'axis',
+      trigger: 'axis',
     },
     grid: {
       left: '24px',
@@ -15,22 +15,22 @@ export default function getOptions(dataX, dataY) {
       containLabel: true,
     },
     xAxis: [{
-      // type: 'category',
-      // axisTick: {
-      //     show: false,
-      //     color: '#707070'
-      // },
-      // axisLabel: {
-      //     textStyle: {
-      //         fontSize: 14,
-      //         color: '#4D4D4D'
-      //     }
-      // },
-      // axisLine: {
-      //     lineStyle: {
-      //         color: '#707070'
-      //     }
-      // },
+      type: 'category',
+      axisTick: {
+        show: false,
+        color: '#707070',
+      },
+      axisLabel: {
+        textStyle: {
+          fontSize: 12,
+          color: nameTextStyleColor,
+        },
+      },
+      axisLine: {
+        lineStyle: {
+          color: nameTextStyleColor,
+        },
+      },
       data: dataX,
     }],
     yAxis: {

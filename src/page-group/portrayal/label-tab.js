@@ -5,6 +5,7 @@ import {Select, Button, Tooltip, Progress, Spin} from 'antd'
 import {TagFilled} from '@ant-design/icons'
 
 import {NoData} from '../../component'
+import {debounce} from '../../common/util'
 
 @inject('store')
 @observer
@@ -12,6 +13,16 @@ export default class LabelTab extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
+  }
+
+  // 判断是否是重复的请求
+  @action isRepeat = nowTag => {
+    const {prevTag, tagAnalysis} = this.store
+    if (nowTag === prevTag) {
+      return
+    }
+    this.store.prevTag = nowTag
+    tagAnalysis(nowTag)
   }
 
   // 生成dom结构
@@ -38,15 +49,18 @@ export default class LabelTab extends Component {
                   strokeWidth={4} 
                   strokeColor="#00d5af" 
                   percent={parseInt(y)} 
-                  // color="#fff"
                   style={{color: '#fff', width: '96px', marginRight: '8px'}}
                 />
               </div>
             )}
             color="#639dd1" 
-            onMouseEnter={() => this.store.tagAnalysis(nowRes[index])}
           >
-            <Button className="label-btn">{item.value}</Button>
+            <Button 
+              className="label-btn"
+              onMouseEnter={debounce(() => this.isRepeat(nowRes[index]), 300)}
+            >
+              {item.value}
+            </Button>
           </Tooltip>
         )
       })

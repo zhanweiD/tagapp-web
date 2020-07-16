@@ -11,7 +11,7 @@ class Store {
   @observable queryDate = 0 // 群体日期
   @observable projectId = 0 // 项目ID
   @observable titleList = [] // 个体列表表头
-  @observable tableLoading = true // 个体列表表头
+  @observable tableLoading = true 
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -99,9 +99,9 @@ class Store {
   }
 
   // 重命名校验
-  @action async groupCheckName(name, callbak) {
+  @action async checkName(name, callbak) {
     try {
-      const res = await io.groupCheckName({
+      const res = await io.checkName({
         name,
         objId: this.objId,
         projectId: this.projectId,

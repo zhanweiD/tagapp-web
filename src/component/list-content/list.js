@@ -48,12 +48,11 @@ export default class ListContent extends Component {
 
   componentWillMount() {
     // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
-    const {initGetDataByParent} = this.props
+    const {initGetDataByParent, initParams} = this.props
 
     /*
      *initParams: 列表配置参数值
      */
-    const {initParams} = this.props
     this.store.initParams = initParams
     if (initGetDataByParent) return 
     this.store.getList()
@@ -69,7 +68,7 @@ export default class ListContent extends Component {
 
   @action remoteSearch = (value = {}) => {
     const {
-      onSearch, beforeSearch, paginationConfig, projectId,
+      onSearch, beforeSearch, paginationConfig, 
     } = this.props
     let newVal = value
 
@@ -82,11 +81,9 @@ export default class ListContent extends Component {
       onSearch() 
     } else {
       this.store.searchParams = newVal
-
       this.store.getList({
         pageSize: paginationConfig.pageSize || 10, // 默认pageSize 10
         currentPage: 1, // 搜索重置列表
-        projectId, // 额外参数
         // ...newVal,
       })
     }

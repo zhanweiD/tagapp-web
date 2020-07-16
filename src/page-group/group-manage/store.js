@@ -15,10 +15,8 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable type = 0 // 群体类型
   @observable isCreate = 0 // 是否选中创建群体方式
 
-  @observable searchParams = [] // 搜索内容
   @observable recordObj = {} // 当前编辑群体 无输出标签信息
   @observable nowGroup = {} // 当前编辑群体 有输出标签信息
-  @observable list = [] // 群体表格数组
   @observable fileRes = '' // 上传的文件返回数据
   @observable uploadList = [] // 上传文件列表
   @observable entityList = [] // 实体列表
@@ -31,13 +29,7 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable modalVisible = false // 文件解析结果
   @observable isAdd = true // 判断编辑还是新建
   @observable isPerform = false // id集合执行
-  @observable tableLoading = true // 表格数据加载
   @observable confirmLoading = false // 确认按钮loading
-  @observable pagination = {
-    totalCount: 1,
-    currentPage: 1,
-    pageSize: 10,
-  }
 
   @action handleCancel = () => {
     this.drawerVisible = false
@@ -48,24 +40,6 @@ class Store extends ListContentStore(io.getGroupList) {
     this.uploadList = []
     this.uploadData = false
     this.confirmLoading = false
-  }
-
-  // 获取群体分页列表
-  @action async getGroupList() {
-    try {
-      const res = await io.getGroupList({
-        projectId: this.projectId,
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-      })
-      runInAction(() => {
-        this.list = res.data
-        this.tableLoading = false
-      })
-    } catch (e) {
-      errorTip(e.message)
-      this.tableLoading = false
-    }
   }
 
   // 获取实体列表
@@ -113,7 +87,7 @@ class Store extends ListContentStore(io.getGroupList) {
         if (res) {
           successTip('添加成功')
           this.handleCancel()
-          this.getGroupList()
+          this.getList()
         }
       })
     } catch (e) {
@@ -134,7 +108,7 @@ class Store extends ListContentStore(io.getGroupList) {
         if (res) {
           successTip('编辑成功')
           this.handleCancel()
-          this.getGroupList()
+          this.getList()
         }
       })
     } catch (e) {
@@ -169,7 +143,7 @@ class Store extends ListContentStore(io.getGroupList) {
       runInAction(() => {
         if (res) {
           successTip('删除成功')
-          this.getGroupList()
+          this.getList()
         }
       })
     } catch (e) {
@@ -187,7 +161,7 @@ class Store extends ListContentStore(io.getGroupList) {
       runInAction(() => {
         if (res) {
           successTip('正在执行')
-          this.getGroupList()
+          this.getList()
         } else {
           errorTip('执行失败')
         }
@@ -198,13 +172,13 @@ class Store extends ListContentStore(io.getGroupList) {
   }
 
   // 重命名校验
-  @action async recheckName(name, callback) {
+  @action async checkName(name, callback) {
     if (!this.isAdd) {
       callback()
       return
     }
     try {
-      const res = await io.recheckName({
+      const res = await io.checkName({
         projectId: this.projectId,
         objId: this.objId,
         name,

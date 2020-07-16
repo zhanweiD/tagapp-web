@@ -6,11 +6,12 @@ import {
   successTip, errorTip, changeToOptions, trimFormValues,
 } from '../../common/util'
 import io from './io'
+import {ListContentStore} from '../../component/list-content'
 
 const {Option} = Select
-class Store {
-  @observable dataStorageId = 0 // 配置页面数据源id
-  @observable dataStorageTypeId = '' // 配置页面数据源类型id
+class Store extends ListContentStore(io.getEntityPage) {
+  @observable dataStorageId // 配置页面数据源id
+  @observable dataStorageTypeId // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
 
@@ -88,23 +89,23 @@ class Store {
   }
 
   // 获取实体分页列表
-  @action async getEntityPage() {
-    try {
-      const res = await io.getEntityPage({
-        projectId: this.projectId,
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-      })
+  // @action async getEntityPage() {
+  //   try {
+  //     const res = await io.getEntityPage({
+  //       projectId: this.projectId,
+  //       currentPage: this.pagination.currentPage,
+  //       pageSize: this.pagination.pageSize,
+  //     })
 
-      runInAction(() => {
-        this.list = res.data
-        this.tableLoading = false
-      })
-    } catch (e) {
-      errorTip(e.message)
-      this.tableLoading = false
-    }
-  }
+  //     runInAction(() => {
+  //       this.list = res.data
+  //       this.tableLoading = false
+  //     })
+  //   } catch (e) {
+  //     errorTip(e.message)
+  //     this.tableLoading = false
+  //   }
+  // }
 
   // 获取实体列表
   @action async getEntityList() {
@@ -218,7 +219,7 @@ class Store {
         if (res) {
           successTip('添加成功')
           this.modalCancel()
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {
@@ -239,7 +240,7 @@ class Store {
         if (res) {
           successTip('编辑成功')
           this.modalCancel()
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {
@@ -259,7 +260,7 @@ class Store {
       runInAction(() => {
         if (res) {
           successTip('删除成功')
-          this.getEntityPage()
+          this.getList()
         }
       })
     } catch (e) {

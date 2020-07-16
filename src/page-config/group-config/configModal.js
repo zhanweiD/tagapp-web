@@ -41,7 +41,7 @@ export default class ConfigModal extends Component {
       label: '数据源类型',
       key: 'type',
       placeholder: '请选择',
-      initialValue: dataStorageTypeId,
+      initialValue: dataStorageTypeId || undefined,
       rules: [
         '@requiredSelect',
       ],
@@ -55,7 +55,7 @@ export default class ConfigModal extends Component {
       label: '数据源',
       key: 'storageId',
       placeholder: '请选择',
-      initialValue: dataStorageId,
+      initialValue: dataStorageId || undefined,
       rules: [
         '@requiredSelect',
       ],

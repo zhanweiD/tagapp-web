@@ -3,6 +3,7 @@ import {Button} from 'antd'
 import {observer, inject} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import {ModalForm} from '../../component'
+import {debounce} from '../../common/util'
 
 
 const formItemLayout = {
@@ -60,7 +61,6 @@ export default class StepOne extends Component {
     }]
   }
 
-
   @action.bound selectEntity(e) {
     this.store.objId = e
     this.form.resetFields(['name'])
@@ -91,7 +91,10 @@ export default class StepOne extends Component {
       params.id = this.store.detail.id
     }
     
-    this.store.checkName(params, callback)
+    // 防抖
+    debounce(() => this.store.checkName(params, callback), 500)
+
+    // this.store.checkName(params, callback)
   }
 
   render() {

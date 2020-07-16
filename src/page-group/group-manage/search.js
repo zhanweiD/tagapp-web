@@ -36,7 +36,7 @@ const serach = store => [
       options: [
         {name: '全部', value: ''},
         {name: '规则创建', value: 1},
-        {name: '集合创建', value: 2},
+        {name: 'ID集合创建', value: 2},
       ],
     },
     component: 'select',

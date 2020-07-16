@@ -30,13 +30,12 @@ class GroupConfig extends Component {
     const noDataConfig = {
       btnText: '去初始化',
       onClick: () => this.openModal(),
-      text: '初始化',
+      // text: '初始化',
     }
     return (
       <div>
         <div className="content-header">群体洞察配置</div> 
         <div className="header-page config">
-          {/* <BackConfig store={store} /> */}
           {
             store.initVisible ? (
               <div>

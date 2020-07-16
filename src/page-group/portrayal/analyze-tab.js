@@ -22,7 +22,6 @@ export default class AnalyzeTab extends Component {
   }
   
   componentDidMount() {
-    // this.store.getAnalysis()
     this.store.getLabel(data => {
       if (data && data.links.length) {
         this.draw(data)
