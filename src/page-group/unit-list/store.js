@@ -114,11 +114,13 @@ class Store {
         projectId: this.projectId,
         // id: this.id,
       })
-      if (res.isExit) {
-        callbak('群体名称重复')
-      } else {
-        callbak()
-      }
+      runInAction(() => {
+        if (res.isExist) {
+          callbak('群体名称重复')
+        } else {
+          callbak()
+        }
+      })
     } catch (e) {
       errorTip(e.message)
     }
