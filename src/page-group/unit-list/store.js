@@ -35,8 +35,15 @@ class Store {
       
       runInAction(() => {
         this.list = res.data || []
+        if (!res.data) return
         this.titleList = []
         const {title} = res
+
+        this.pagination = {
+          totalCount: res.totalSize,
+          currentPage: 1,
+          pageSize: 10,
+        }
 
         for (let i = 0; i < title.length; i++) {
           if (title[i] === res.mainTag) {

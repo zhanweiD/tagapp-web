@@ -44,12 +44,12 @@ class GroupManage extends Component {
     // </Menu>
     <Menu>
       <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to="/group/analyze">
+        <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
           <a href disabled={record.status !== 1}>群体分析</a>
         </Link>
       </Menu.Item>
       <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+        <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
           <a href disabled={record.status !== 1}>个体列表</a>
         </Link>
       </Menu.Item>
