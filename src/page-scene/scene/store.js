@@ -126,7 +126,7 @@ class Store {
   }
 
   // 场景新增
-  @action async addScene(params) {
+  @action async addScene(params, cb) {
     this.confirmLoading = true
     try {
       await io.addScene({
@@ -139,6 +139,7 @@ class Store {
         this.modalVisible = false
         this.getList()
         successTip('添加成功')
+        if (cb)cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -166,7 +167,7 @@ class Store {
   }
 
   // 场景编辑
-  @action async editScene(params) {
+  @action async editScene(params, cb) {
     this.confirmLoading = true
     try {
       await io.editScene({
@@ -177,6 +178,8 @@ class Store {
       runInAction(() => {
         this.getList()
         successTip('编辑成功')
+
+        if (cb)cb()
       })
     } catch (e) {
       errorTip(e.message)

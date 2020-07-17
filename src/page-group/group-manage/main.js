@@ -44,7 +44,7 @@ class GroupManage extends Component {
     // </Menu>
     <Menu>
       <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to="/group/analyze">
+        <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
           <a href disabled={record.status !== 1}>群体分析</a>
         </Link>
       </Menu.Item>

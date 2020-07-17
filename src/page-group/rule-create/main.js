@@ -20,7 +20,7 @@ class RuleCreate extends Component {
     const {match: {params}} = props
 
     store.type = params.type
-    console.log(params.groupId)
+    
     store.groupId = params.groupId
   }
 
