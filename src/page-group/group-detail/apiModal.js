@@ -33,10 +33,7 @@ export default class ApiModal extends Component {
         '@requiredSelect',
       ],
       control: {
-        options: [
-          {name: '默认分组', value: ''},
-          ...apiGroupList,
-        ],
+        options: apiGroupList,
       },
       component: 'select',
     }, {

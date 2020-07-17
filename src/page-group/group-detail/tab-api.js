@@ -15,21 +15,21 @@ export default class TabApi extends Component {
   }
   columns = [
     {
-      key: 'name',
+      key: 'apiName',
       title: 'API名称',
-      dataIndex: 'name',
+      dataIndex: 'apiName',
     }, {
-      key: 'objName',
+      key: 'apiPath',
       title: 'API路径',
-      dataIndex: 'objName',
+      dataIndex: 'apiPath',
     }, {
-      key: 'lastCount',
+      key: 'cuserName',
       title: '创建人',
-      dataIndex: 'lastCount',
+      dataIndex: 'cuserName',
     }, {
-      key: 'lastTime',
+      key: 'ctime',
       title: '创建时间',
-      dataIndex: 'lastTime',
+      dataIndex: 'ctime',
       render: text => <Time timestamp={text} />,
     },
   ]

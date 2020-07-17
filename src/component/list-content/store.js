@@ -97,7 +97,7 @@ const ListContentStore = apiFunc => class _Store {
 
         this.pagination = {
           pageSize: res.pageSize || 10,
-          totalCount: res.totalCount,
+          totalCount: res.totalCount || res.count,
           currentPage: res.currentPage,
         }
       })
