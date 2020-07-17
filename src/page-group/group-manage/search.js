@@ -70,7 +70,7 @@ const serach = store => [
     label: '群体名称',
     key: 'keyword',
     control: {
-      placeholder: '请输入项目名称关键字搜索',
+      placeholder: '请输入群体名称关键字搜索',
     },
     component: 'input',
   },

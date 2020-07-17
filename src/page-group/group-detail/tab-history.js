@@ -75,7 +75,6 @@ export default class TagHistory extends Component {
     if (this.store.modeType === 1) {
       this.getData()
     }
-
     // window.addEventListener('resize', () => this.resize())
   }
 
