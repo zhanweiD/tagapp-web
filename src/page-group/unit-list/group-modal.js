@@ -54,8 +54,6 @@ export default class GroupModal extends Component {
     if (value) {
       // 防抖设计
       debounce(() => this.store.checkName(value, callback), 500)
-      // clearTimeout(this.store.timer)
-      // this.store.timer = setTimeout(() => this.store.checkName(value, callback), 500)
     } else {
       callback()
     }

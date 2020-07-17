@@ -16,6 +16,7 @@ export default class ApiModal extends Component {
     const {
       apiGroupList = [],
     } = this.store
+    console.log(toJS(apiGroupList))
     return [{
       label: 'API名称',
       key: 'apiName',
@@ -27,14 +28,14 @@ export default class ApiModal extends Component {
     }, {
       label: 'API分组',
       key: 'apiGroupId',
-      initialValue: '1',
+      initialValue: '',
       rules: [
         '@requiredSelect',
       ],
       control: {
         options: [
-          {name: '默认分组', value: '1'},
-          apiGroupList,
+          {name: '默认分组', value: ''},
+          ...apiGroupList,
         ],
       },
       component: 'select',
@@ -44,6 +45,7 @@ export default class ApiModal extends Component {
       rules: [
         '@transformTrim',
         '@required',
+        {pattern: /^\//, message: '请以/开头'}
       ],
       placeholder: '请输入以/开头的API路径',
       component: 'input',

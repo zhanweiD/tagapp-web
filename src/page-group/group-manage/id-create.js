@@ -49,12 +49,13 @@ export default class IdCreate extends Component {
         this.store.fileRes = file.response.content
         this.store.modalVisible = true
       } else {
+        this.store.uploadList = []
         errorTip(file.response.message)
-        // errorTip('上传文件格式错误')
       }
     }
   }
 
+  // 文件大小限制
   @action beforeUpload = file => {
     const isLt10M = file.size / 1024 / 1024 < 100
     if (!isLt10M) {
@@ -70,7 +71,7 @@ export default class IdCreate extends Component {
   @action checkName = (rule, value, callback) => {
     if (value) {
       // 防抖设计
-      debounce(() => this.store.checkName(value, callback), 500)()
+      debounce(() => this.store.checkName(value, callback), 500)
     } else {
       callback()
     }
@@ -88,7 +89,6 @@ export default class IdCreate extends Component {
       value.mode = mode || recordObj.mode
       value.type = type || recordObj.type
       value.importKey = fileRes.importKey || ''
-      // value.descr = value.descr.trim()
 
       if (isAdd) {
         this.store.addIdGroup(value)
@@ -105,6 +105,7 @@ export default class IdCreate extends Component {
     this.store.modalVisible = false
   }
   
+  // 实体改变重置选项
   @action selectEntity = objId => {
     this.store.objId = objId
     this.store.getTagList()
@@ -128,14 +129,18 @@ export default class IdCreate extends Component {
       handleCancel,
     } = this.store
 
+
+    const {tenantId, userId} = window.frameInfo.sessioninfo.userInfoVO
     const props = {
-      accept: '.xls, .xlsx, .txt',
+      accept: '.xls, .xlsx',
       method: 'post',
       data: file => ({
         fileName: file.name,
         fileData: file,
         projectId,
         objId,
+        tenantId,
+        userId,
       }),
       fileList: uploadList,
       action: `${baseApi}/import/import_id_collection`,
@@ -208,6 +213,7 @@ export default class IdCreate extends Component {
                 {entityOptions}
               </Select>
             </Item>
+
             <Item
               name="name"
               label="群体名称"
@@ -232,6 +238,7 @@ export default class IdCreate extends Component {
             >
               <TextArea disabled={isPerform} style={{minHeight: '8em'}} placeholder="请输入" />
             </Item>
+            
             <Item
               label="上传"
               name="excel"
@@ -273,7 +280,10 @@ export default class IdCreate extends Component {
           </Form>
         </Drawer>
         <Modal {...modalConfig}>
-          <p style={{marginTop: '1em'}}>{`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条`}</p>
+          <p style={{marginTop: '1em'}}>
+            {`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条，无效记录${fileRes.failedCount}条`}
+            （<a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>）
+          </p>
         </Modal>
       </Fragment>
     )

@@ -141,8 +141,10 @@ export function trimFormValues(values) {
   })
   return values
 }
+
 /**
- * @description 将对象中的value值进行trim()转换
+ * @author 凡书
+ * @description 限制select选择个数
  * @number 不能超过number个
  */
 export function limitSelect(rule, values, callback, number) {
@@ -290,9 +292,7 @@ export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
 
 let timer = null // 放内部闭包作用域失效？？
 export function debounce(fn, delay = 200) {
-  return () => {
-    clearTimeout(timer)
-    timer = setTimeout(fn, delay)
-  }
+  clearTimeout(timer)
+  timer = setTimeout(fn, delay)
 }
 
