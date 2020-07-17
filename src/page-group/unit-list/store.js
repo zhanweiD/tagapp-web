@@ -42,9 +42,8 @@ class Store {
         this.pagination = {
           totalCount: res.totalSize,
           currentPage: 1,
-          pageSize: 10,
+          pageSize: 9999,
         }
-
         for (let i = 0; i < title.length; i++) {
           if (title[i] === res.mainTag) {
             this.titleList.unshift({
@@ -114,11 +113,13 @@ class Store {
         projectId: this.projectId,
         // id: this.id,
       })
-      if (res.isExit) {
-        callbak('群体名称重复')
-      } else {
-        callbak()
-      }
+      runInAction(() => {
+        if (res.isExist) {
+          callbak('群体名称重复')
+        } else {
+          callbak()
+        }
+      })
     } catch (e) {
       errorTip(e.message)
     }
