@@ -30,30 +30,30 @@ class GroupManage extends Component {
   formRef = React.createRef()
 
   menu = record => (
-    <Menu>
-      <Menu.Item>
-        <Link to={`/group/analyze/${record.id}/${record.objId}`}>
-          <a href> 群体分析</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
-          <a href>个体列表</a>
-        </Link>
-      </Menu.Item>
-    </Menu>
     // <Menu>
-    //   <Menu.Item disabled={record.status !== 1}>
-    //     <Link disabled={record.status !== 1} to="/group/analyze">
-    //       <a href disabled={record.status !== 1}>群体分析</a>
+    //   <Menu.Item>
+    //     <Link to={`/group/analyze/${record.id}/${record.objId}`}>
+    //       <a href> 群体分析</a>
     //     </Link>
     //   </Menu.Item>
-    //   <Menu.Item disabled={record.status !== 1}>
-    //     <Link disabled={record.status !== 1} to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
-    //       <a href disabled={record.status !== 1}>个体列表</a>
+    //   <Menu.Item>
+    //     <Link to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
+    //       <a href>个体列表</a>
     //     </Link>
     //   </Menu.Item>
     // </Menu>
+    <Menu>
+      <Menu.Item disabled={record.status !== 1}>
+        <Link disabled={record.status !== 1} to="/group/analyze">
+          <a href disabled={record.status !== 1}>群体分析</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item disabled={record.status !== 1}>
+        <Link disabled={record.status !== 1} to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+          <a href disabled={record.status !== 1}>个体列表</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
   )
   columns = [
     {
@@ -107,32 +107,32 @@ class GroupManage extends Component {
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          <Fragment>
+          {/* <Fragment>
             <a onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment>
-          {/* <Fragment>
+          </Fragment> */}
+          <Fragment>
             <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
             <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
             <span className="table-action-line" />
-          </Fragment> */}
+          </Fragment>
                
           <Fragment>
             <Popconfirm 
               placement="topRight" 
               title="你确定要删除该群体吗？" 
-              // disabled={record.status === 3}
+              disabled={record.status === 3}
               onConfirm={() => this.delItem(record.id)}
             >
-              <a href>删除</a>
-              {/* <a disabled={record.status === 3} href>删除</a> */}
+              {/* <a href>删除</a> */}
+              <a disabled={record.status === 3} href>删除</a>
               <span className="table-action-line" />
             </Popconfirm>
           </Fragment>

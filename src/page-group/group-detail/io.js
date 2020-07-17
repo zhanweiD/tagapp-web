@@ -8,6 +8,7 @@ const api = {
   getTagList: get(`${groupConfigApi}/tag_list`), // 标签列表
   getHistoryBar: get(`${groupDetailsApi}/historyCount`), // 群体历史记录柱状图
   getHistoryList: get(`${groupDetailsApi}/history`), // 群体历史记录列表
+  
   getApiList: get(`${baseApi}/groupApi/list`), // 获取API列表
   createApi: get(`${baseApi}/groupApi/create`), // 创建API
   getApiGroup: get(`${baseApi}/groupApi/groups`), // 分组信息

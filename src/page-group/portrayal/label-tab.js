@@ -57,7 +57,7 @@ export default class LabelTab extends Component {
           >
             <Button 
               className="label-btn"
-              onMouseEnter={debounce(() => this.isRepeat(nowRes[index]), 300)}
+              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>

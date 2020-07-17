@@ -66,6 +66,7 @@ class EModal extends Component {
   }
 
   render() {
+    const {getFieldDecorator} = this.form
     const {
       entityVisible, 
       modalType, 
@@ -77,7 +78,6 @@ class EModal extends Component {
       detail,
       modalCancel,
     } = this.store
-    const {getFieldDecorator} = this.form
     const modalConfig = {
       title: modalType === 'edit' ? '编辑实体' : '添加实体',
       visible: entityVisible,

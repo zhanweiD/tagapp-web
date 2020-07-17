@@ -89,7 +89,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.apiGroupList = changeToOptions(toJS(res || []))('groupName', 'apiGroupId')
+        this.apiGroupList = changeToOptions(toJS(res || []))('apiGroupName', 'apiGroupId')
       })
     } catch (e) {
       errorTip(e.message)
