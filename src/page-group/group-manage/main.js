@@ -49,7 +49,7 @@ class GroupManage extends Component {
         </Link>
       </Menu.Item>
       <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/unit/${record.objId}/${record.id}/${record.lastTime}`}>
+        <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
           <a href disabled={record.status !== 1}>个体列表</a>
         </Link>
       </Menu.Item>

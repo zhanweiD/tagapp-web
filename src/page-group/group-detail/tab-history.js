@@ -109,7 +109,7 @@ export default class TagHistory extends Component {
     }
 
     return (
-      <div className="bgf p24 mb16">
+      <div className="bgf mb16 set-time">
         <div className="time-range-wrap">
           <TimeRange
             custom
@@ -126,7 +126,7 @@ export default class TagHistory extends Component {
           />
         </div>
         <div style={{height: '300px'}} ref={ref => this.barRef = ref} />
-        <div className="list-content">
+        <div className="list-content mt16">
           <ListContent {...listConfig} />
         </div>
       </div>

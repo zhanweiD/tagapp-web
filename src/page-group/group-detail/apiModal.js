@@ -28,7 +28,6 @@ export default class ApiModal extends Component {
     }, {
       label: 'API分组',
       key: 'apiGroupId',
-      initialValue: '',
       rules: [
         '@requiredSelect',
       ],
