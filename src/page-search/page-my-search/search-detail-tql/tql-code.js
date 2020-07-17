@@ -107,7 +107,7 @@ export default class TqlCode extends Component {
     return (
       <div className="code-content" id="code-content">
         <Spin spinning={detailLoading || resultLoading}>
-          <div style={{height: 'calc(100vh - 92px)'}}>
+          <div style={{height: 'calc(100vh - 90px)'}}>
             <div className="code-menu">
               <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
                 <img src={yunxing} alt="img" />

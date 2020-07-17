@@ -200,7 +200,7 @@ export default class TagTree extends Component {
                     checkStrictly={false}
                     defaultExpandAll
                     onCheck={this.onCheck}
-                    checkedKeys={toJS(checkedKeys)}
+                    checkedKeys={toJS(checkedKeys).map(String)}
                   >
                     {this.renderTreeNodes(selectTagTreeData)}
                   </Tree>

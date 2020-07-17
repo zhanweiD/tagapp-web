@@ -1,10 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Tree} from 'antd'
-// import {CarryOutOutlined, FormOutlined} from '@ant-design/icons' 
 import {NoBorderInput, OmitTooltip, Loading} from '../../../component'
-import {
-  IconRefresh, IconUnExtend, IconExtend,
-} from '../../../icon-comp'
+import {IconRefresh} from '../../../icon-comp'
+import tag from '../../../icon/tag.svg'
 
 const {TreeNode} = Tree
 
@@ -32,9 +30,10 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
     return (
       <TreeNode
         key={item.aId}
-        title={<OmitTooltip maxWidth={120} text={item.name} />}
+        title={<span style={{display: 'inline-flex', lineHeight: '28px'}}><OmitTooltip maxWidth={120} text={item.name} /></span>}
         selectable={false}
         data={item}
+        icon={<img src={tag} alt="img" style={{width: '14px', height: '14px'}} />}
       />
     )
   })
@@ -69,9 +68,11 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
           ? <Loading mode="block" height={100} />
           : (
             <Tree
-              showLine
-              showIcon={false}
+              showIcon
               defaultExpandAll
+              showLine={{
+                showLeafIcon: false,
+              }}
             >
               {
                 renderTreeNodes(tagTreeData)

@@ -60,9 +60,11 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
           ? <Loading mode="block" height={100} />
           : (
             <Tree
-              showLine
-              showIcon={false}
+              showIcon
               defaultExpandAll
+              showLine={{
+                showLeafIcon: false,
+              }}
             >
               {
                 renderTreeNodes(tagTreeData)

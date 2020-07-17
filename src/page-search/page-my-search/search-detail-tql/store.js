@@ -37,7 +37,6 @@ class Store {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.treeLoading = false
         this.searchExpandedKeys.clear()
         this.treeData = listToTree(res)
 
@@ -61,7 +60,6 @@ class Store {
         searchKey: this.searchKey,
       })
       runInAction(() => {
-        this.treeLoading = false
         this.searchExpandedKeys.clear()
         this.treeData = listToTree(res)
 

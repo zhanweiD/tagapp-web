@@ -67,7 +67,7 @@ class Tql extends Component {
 
   render() {
     return (
-      <div className="tql">
+      <div className="tql-detail">
         <div className="header-button">
           {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
