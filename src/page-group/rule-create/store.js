@@ -268,7 +268,7 @@ class Store {
 
       this.entityList.clear()
       this.configTagList.clear()
-      this.entityList.clear()
+      this.otherEntity.clear()
 
       this.logicExper = {}
       this.posList = {}

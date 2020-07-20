@@ -9,14 +9,6 @@ class Store {
   type
 
   @observable groupId
-
-  // @observable current = 0 // 步骤条
-  // @observable createId = 0 // 如何创建群体 1 规则离线 2 规则实时 3 id集合
-  // @observable recordObj = {} // 当前编辑群体
-  // @observable oneForm = {} // 第一步表单
-  // @observable threeForm = {} // 第三步表单
-  // @observable submitLoading = false
-
   // 第一步 设置基础信息
   @observable entityList = []
   @observable objId
@@ -33,28 +25,9 @@ class Store {
 
   // 编辑
   @observable detail = {}
-  @observable detailLoading = false
+  @observable detailLoading = true
 
-  // @action.bound close() {
-  //   this.current = 0
-  // }
-
-  // // 获取实体列表
-  // @action async getEntityList() {
-  //   try {
-  //     const res = await io.getEntityList({
-  //       projectId: this.projectId,
-  //     })
-
-  //     runInAction(() => {
-  //       this.entityList = changeToOptions(toJS(res || []))('objName', 'objId')
-  //     })
-  //   } catch (e) {
-  //     errorTip(e.message)
-  //   }
-  // }
-
-  // 编辑群体详情信息
+  // 群体详情信息
   @action async getDetail(id, cb) {
     this.detailLoading = true
     try {
@@ -154,20 +127,16 @@ class Store {
     if (this.groupId) {
       this.detail = {}
     }
-
-    this.current = 0
-    this.oneForm = {}
-    this.threeForm = {}
-    this.submitLoading = false
-
+    
     this.entityList.clear()
     this.configTagList.clear()
-    this.entityList.clear()
+    this.otherEntity.clear()
 
     this.logicExper = {}
     this.posList = {}
     this.whereMap = {}
     this.wherePosMap = {}
+    this.detailLoading = false
   }
 }
 

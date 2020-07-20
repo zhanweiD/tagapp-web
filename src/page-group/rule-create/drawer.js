@@ -21,7 +21,11 @@ export default class SetRule extends Component {
     this.formRef.current
       .validateFields()
       .then(values => {
-        submit(getRenderData(values, this.ruleContentRef), formatData(values, this.ruleContentRef))
+        if (Object.keys(values).length) {
+          submit(getRenderData(values, this.ruleContentRef), formatData(values, this.ruleContentRef))
+        } else {
+          submit()
+        }
       })
       .catch(info => {
         console.log('Validate Failed:', info)
