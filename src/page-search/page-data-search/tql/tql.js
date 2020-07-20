@@ -33,6 +33,7 @@ export default class Tql extends Component {
     store.tql = ''
     store.showResult = false
     store.resultInfo = {}
+    store.resultLoading = false
   }
 
 

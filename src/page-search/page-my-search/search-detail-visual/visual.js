@@ -61,6 +61,7 @@ class Visual extends Component {
     store.screenConfig.clear()
     store.showResult = false
     store.resultInfo = {}
+    store.resultLoading = false
   }
 
   // @action.bound selectObj(objId) {
