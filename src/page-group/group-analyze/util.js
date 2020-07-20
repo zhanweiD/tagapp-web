@@ -66,7 +66,7 @@ export const pieOpt = info => {
   }))
 
   return {
-    // color: colors,
+    color: getColors(renderData.length),
     tooltip: {
       trigger: 'item',
       formatter: params => {
@@ -113,7 +113,7 @@ export const barOpt = data => {
       bottom: '3%',
       containLabel: true,
     },
-    color: colors,
+    color: getColors(xAxisData.length),
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -170,7 +170,7 @@ export const acrossBarOpt = data => {
   const tooltip = data.xy.map(d => d.y2)
 
   return {
-    color: colors,
+    color: getColors(xAxisData.length),
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -230,7 +230,7 @@ export const lineOpt = data => {
   const tooltip = data.xy.map(d => d.y2)
 
   return {
-    color: colors,
+    color: getColors(xAxisData.length),
     grid: {
       left: 50,
       right: 50,

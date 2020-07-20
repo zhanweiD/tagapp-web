@@ -40,6 +40,11 @@ class GroupAnalyze extends Component {
   }
 
   @action.bound search(values) {
+    store.tagList.clear()
+    store.selectTagList.clear()
+    store.info.clear()
+    store.roportion = {}
+
     store.getRoportion({
       id: values.id, 
     }, data => {
