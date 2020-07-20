@@ -24,7 +24,6 @@ class GroupDetail extends Component {
     store.projectId = props.projectId
 
     const {match: {params}} = props
-    console.log(params)
     store.id = parseInt(params.id) 
     store.objId = parseInt(params.objId) 
   }

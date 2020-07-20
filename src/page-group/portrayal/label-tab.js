@@ -5,7 +5,7 @@ import {Select, Button, Tooltip, Progress, Spin} from 'antd'
 import {TagFilled} from '@ant-design/icons'
 
 import {NoData} from '../../component'
-import {debounce} from '../../common/util'
+// import {debounce} from '../../common/util'
 
 @inject('store')
 @observer
@@ -49,6 +49,7 @@ export default class LabelTab extends Component {
                   strokeWidth={4} 
                   strokeColor="#00d5af" 
                   percent={parseInt(y)} 
+                  color="#fff"
                   style={{color: '#fff', width: '96px', marginRight: '8px'}}
                 />
               </div>
@@ -57,7 +58,7 @@ export default class LabelTab extends Component {
           >
             <Button 
               className="label-btn"
-              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
+              onMouseEnter={() => this.debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>
@@ -86,7 +87,7 @@ export default class LabelTab extends Component {
         <div className="pl24 pt-0">
           {
             labelRes.length ? (
-              toJS(this.getDom(tooltipX, tooltipY))
+              this.getDom(tooltipX, tooltipY)
             ) : (
               <NoData />
             )

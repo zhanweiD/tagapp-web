@@ -84,8 +84,8 @@ export default class TagHistory extends Component {
       startDate: gte,
       endDate: lte,
     }
-    store.getHistoryBar(params, (dataX, dataY) => {
-      this.chartBar.setOption(getOptions(dataX, dataY))
+    store.getHistoryBar(params, data => {
+      this.chartBar.setOption(getOptions(data))
     })
   }
 

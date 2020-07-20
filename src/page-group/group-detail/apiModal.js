@@ -41,27 +41,11 @@ export default class ApiModal extends Component {
       rules: [
         '@transformTrim',
         '@required',
-        {pattern: /^\//, message: '请以/开头'}
+        {pattern: /^\//, message: '请以/开头'},
       ],
       placeholder: '请输入以/开头的API路径',
       component: 'input',
-    }, 
-    // {
-    //   label: '输出标签',
-    //   key: 'dataStorageId',
-    //   mode: 'multiple',
-    //   rules: [
-    //     '@requiredSelect',
-    //     {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
-    //   ],
-    //   control: {
-    //     options: tagList,
-    //     notFoundContent: selectLoading ? <Spin size="small" /> : null, 
-    //   },
-    //   selectLoading, // 下拉框loading效果
-    //   component: 'select',
-    // }, 
-    {
+    }, {
       label: '描述',
       key: 'descr',
       component: 'textArea',
