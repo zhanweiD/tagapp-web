@@ -27,6 +27,15 @@ export default class Tql extends Component {
     store.getTagTree()
   }
 
+  componentWillUnmount() {
+    store.editor.setValue('')
+    store.log = ''
+    store.tql = ''
+    store.showResult = false
+    store.resultInfo = {}
+  }
+
+
   @action.bound createApi() {
     store.getApiParams()
     store.visibleApi = true

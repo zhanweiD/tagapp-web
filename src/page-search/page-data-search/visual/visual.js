@@ -56,6 +56,13 @@ export default class Visual extends Component {
     store.getHeight()
   }
 
+  componentWillUnmount() {
+    store.outConfig.clear()
+    store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
+  }
+
   @action.bound selectObj(objId) {
     confirm({
       title: '确认切换源标签对象?',
