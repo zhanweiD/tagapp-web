@@ -5,7 +5,7 @@ import {Select, Button, Tooltip, Progress, Spin} from 'antd'
 import {TagFilled} from '@ant-design/icons'
 
 import {NoData} from '../../component'
-// import {debounce} from '../../common/util'
+import {debounce} from '../../common/util'
 
 @inject('store')
 @observer
@@ -58,7 +58,7 @@ export default class LabelTab extends Component {
           >
             <Button 
               className="label-btn"
-              onMouseEnter={() => this.debounce(() => this.isRepeat(nowRes[index]), 200)}
+              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>
