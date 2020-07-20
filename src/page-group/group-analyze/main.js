@@ -116,7 +116,7 @@ class GroupAnalyze extends Component {
             groupId ? (
               <div className="analyze-action">
                 <span>群体画像</span>
-                <Button type="primary" onClick={this.showModal}>添加分析纬度</Button>
+                <Button type="primary" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
               </div>
             ) : null
           }
