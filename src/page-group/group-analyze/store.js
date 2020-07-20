@@ -143,6 +143,7 @@ class Store {
   }
 
   @action.bound editChart(data, index) {
+    this.selectTagList[index] = data.tagId
     this.getChart(data, index)
   }
 
