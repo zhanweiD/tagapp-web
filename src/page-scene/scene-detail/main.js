@@ -39,9 +39,9 @@ class SceneDetail extends Component {
     store.modalVisible = true
   }
 
-  @action.bound onTabChange(e) {
-    store.currentKey = e
-  }
+  // @action.bound onTabChange(e) {
+  //   store.currentKey = e
+  // }
 
   componentWillUnmount() {
     store.info = {}
@@ -126,7 +126,7 @@ class SceneDetail extends Component {
         {
           store.projectId ? (
             <Fragment>
-              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
+              <Tabs activeKey="1">
                 <TabPane tab="标签选择" key="1">
                   <SelectTag 
                     sceneId={store.sceneId} 
