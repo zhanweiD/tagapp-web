@@ -98,7 +98,7 @@ class GroupContrast extends Component {
       .attr('fill', 'rgb(31, 119, 180, .25)')
       .transition()
       .duration(duration)
-      .attr('width', bgW * ((groupBCount / MaxgroupBCount) || 1))
+      .attr('width', bgW * ((groupACount / MaxgroupBCount) || 1))
 
     // 绘制进度条
     box.append('rect')
@@ -108,7 +108,7 @@ class GroupContrast extends Component {
       .attr('fill', 'rgb(255, 127, 14, .25)')
       .transition()
       .duration(duration)
-      .attr('width', bgW * ((groupACount / MaxgroupBCount) || 1))
+      .attr('width', bgW * ((groupBCount / MaxgroupBCount) || 1))
 
     // 绘制文字说明
     const countBox = svg.append('g').attr('transform', 'translate(4,16)')
@@ -116,15 +116,15 @@ class GroupContrast extends Component {
     countBox.append('text')
       .attr('text-anchor', 'middle')
       .attr('x', svgW - (fieldLen * 8))
-      .attr('y', 0)
-      .text(groupBCount)
+      .attr('y', -4)
+      .text(groupACount)
       .style('fill', 'rgba(0,0,0, 0.65)')
 
     countBox.append('text')
       .attr('text-anchor', 'middle')
       .attr('x', svgW - (fieldLen * 8))
       .attr('y', 32)
-      .text(groupACount)
+      .text(groupBCount)
       .attr('fill', 'rgba(0,0,0, 0.65)')
   }
   
@@ -155,7 +155,7 @@ class GroupContrast extends Component {
         }
       })
     
-      store.getGroupCount(groupA, 'B', () => {
+      store.getGroupCount(groupB, 'B', () => {
         if (store.groupAInfo.groupName && store.groupBInfo.groupName) {
           this.draw(groupA, groupB)
         }
@@ -249,6 +249,7 @@ class GroupContrast extends Component {
                   ? info.map(({
                     Comp,
                     tagName,
+                    tagId,
                     ...rest
                   }, index) => (
                     <div className="chart-wrap">
@@ -269,7 +270,7 @@ class GroupContrast extends Component {
 
                           </div>
                         </div>
-                        <Comp data={rest} />
+                        <Comp data={rest} key={tagId}/>
                       </div>
                     </div>
                   ))

@@ -134,6 +134,7 @@ class GroupAnalyze extends Component {
                   ? info.map(({
                     Comp,
                     tagName,
+                    tagId,
                     ...rest
                   }, index) => (
                     <div className="chart-wrap">
@@ -154,7 +155,7 @@ class GroupAnalyze extends Component {
                           
                           </div>
                         </div>
-                        <Comp data={rest} />
+                        <Comp data={rest}  key={tagId}/>
                       </div>
                     </div>
                   ))

@@ -1,5 +1,5 @@
 import {
-  action, runInAction, observable,
+  action, runInAction, observable, toJS
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
@@ -132,6 +132,7 @@ class Store {
 
   @action async getChart(params, index) {
     try {
+      console.log([this.groupAInfo.groupId, this.groupBInfo.groupId])
       const ids = [this.groupAInfo.groupId, this.groupBInfo.groupId].join(',')
       const res = await io.getChart({
         runDate: this.groupTime,
@@ -161,7 +162,7 @@ class Store {
             this.info[index] = data
           }
         }
-       
+        console.log(toJS(this.info))
         this.modalVis = false
         this.modalEditInfo = {}
       })
@@ -176,6 +177,7 @@ class Store {
   }
 
   @action.bound editChart(data, index) {
+    this.selectTagList[index] = data.tagId
     this.getChart(data, index)
   }
 

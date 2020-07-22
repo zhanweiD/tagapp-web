@@ -247,6 +247,22 @@ class Store {
       errorTip(e.message)
     }
   }
+
+  @observable apiGroup = []
+   // 获取api分组列表
+   @action async getApiGroup() {
+    try {
+      const res = await io.getApiGroup({
+        projectId: this.projectId,
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
 }
 
 export default new Store()

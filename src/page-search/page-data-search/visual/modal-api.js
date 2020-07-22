@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import {Drawer, Button, Form, Input, Tabs, Table} from 'antd'
+import {Drawer, Button, Form, Input, Tabs, Table, Select} from 'antd'
 import ApiResponseParams from './api-response-params'
 import ApiRequsetParams from './api-request-params'
 
 const FormItem = Form.Item
 const {TabPane} = Tabs
 const {TextArea} = Input
+const {Option} = Select
 
 const formItemLayout = {
   labelCol: {span: 2},
@@ -45,7 +46,7 @@ export default class DrewerApi extends Component {
 
   render() {
     const {
-      visibleApi, modalApiLoading, apiParamsInfo = {},
+      visibleApi, modalApiLoading, apiParamsInfo = {}, apiGroup,
     } = this.store
 
     const drawerConfig = {
@@ -82,6 +83,22 @@ export default class DrewerApi extends Component {
             ]}
           >
             <Input />
+          </FormItem>
+          <FormItem
+            label="API分组"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: '请输入API名称',
+              },
+            ]}
+          >
+            <Select>
+              {
+                apiGroup.map(d => <Option value={d.apiGroupId}>{d.apiGroupName}</Option>)
+              }
+            </Select>
           </FormItem>
           <FormItem
             label="API路径"
