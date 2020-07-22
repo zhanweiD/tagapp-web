@@ -266,7 +266,7 @@ export const condition = [{
   value: '<',
   name: '小于',
 }, {
-  value: '=<',
+  value: '<=',
   name: '小于等于',
 }, {
   value: '!=',

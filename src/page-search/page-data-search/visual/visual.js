@@ -370,7 +370,7 @@ export default class Visual extends Component {
                             <Popconfirm
                               placement="bottomLeft"
                               title="确认清除筛选设置？"
-                              onConfirm={this.delAllOutConfig}
+                              onConfirm={this.delAllScreenConfig}
                               okText="确实"
                               cancelText="取消"
                             >
