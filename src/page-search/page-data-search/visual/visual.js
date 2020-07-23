@@ -114,6 +114,7 @@ export default class Visual extends Component {
   }
 
   @action.bound createApi() {
+    store.getApiGroup()
     store.getApiParams()
     store.visibleApi = true
   }
@@ -136,7 +137,6 @@ export default class Visual extends Component {
   }
 
   @action.bound menuClick(e) {
-    console.log(e)
     this.menuCode = e.key
   }
 
@@ -149,6 +149,8 @@ export default class Visual extends Component {
 
   @action.bound delAllOutConfig() {
     store.outConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
   }
 
   @action.bound addOutConfig(index) {
@@ -173,6 +175,8 @@ export default class Visual extends Component {
 
   @action.bound delAllScreenConfig() {
     store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
   }
 
   @action.bound addScreenConfig(index) {
@@ -271,6 +275,7 @@ export default class Visual extends Component {
         <div className="header-button">
           <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
+          {/* <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button> */}
           <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
         </div>
         <div className="FBH pt16 pb16">

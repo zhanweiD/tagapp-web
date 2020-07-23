@@ -94,7 +94,7 @@ class ApiResponseParams extends React.Component {
     this.state = {
       dataSource: [],
     }
-    console.log(props)
+  
   }
 
 

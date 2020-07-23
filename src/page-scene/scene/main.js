@@ -17,7 +17,6 @@ const {confirm} = Modal
 class Scene extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     store.projectId = props.projectId
   }
 

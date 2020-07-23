@@ -141,7 +141,10 @@ class GroupContrast extends Component {
       showInfo: true,
     }, () => {
       store.objId = objId
+      store.tagList.clear()
+      store.selectTagList.clear()
       store.info.clear()
+
       store.groupAInfo = {
         groupId: groupA,
       }

@@ -1,7 +1,7 @@
 import {
   action, runInAction, observable,
 } from 'mobx'
-import {successTip, errorTip, listToTree, failureTip} from '../../../common/util'
+import { successTip, errorTip, listToTree, failureTip } from '../../../common/util'
 import io from './io'
 
 class Store {
@@ -51,7 +51,7 @@ class Store {
 
   beforeLogHeight = 226
 
-  @action.bound handleExpend(flag) {
+  @action.bound handleExpend (flag) {
     this.showResult = flag
     this.configDom.height(this.contentBoxH - this.beforeLogHeight)
     this.beforeLogHeight = this.resultDomHeight
@@ -98,7 +98,7 @@ class Store {
   }
 
   // 获取标签树
-  @action async getTagTree(params) {
+  @action async getTagTree (params) {
     this.treeLoading = true
 
     try {
@@ -116,7 +116,7 @@ class Store {
     }
   }
   // 获取标签树
-  @action async searchTree(params) {
+  @action async searchTree (params) {
     this.treeLoading = true
 
     try {
@@ -135,7 +135,7 @@ class Store {
   }
 
   // 获取对象下拉
-  @action async getObjList() {
+  @action async getObjList () {
     try {
       const res = await io.getObjList({
         projectId: this.projectId,
@@ -145,8 +145,8 @@ class Store {
         if (res.length) {
           const objId = res[0].id
           this.objId = objId
-          this.getTagTree({id: objId})
-          this.getExpressionTag({id: objId})
+          this.getTagTree({ id: objId })
+          this.getExpressionTag({ id: objId })
         }
         this.objList = res
       })
@@ -156,7 +156,7 @@ class Store {
   }
 
   // 获取表达式标签
-  @action async getExpressionTag(params) {
+  @action async getExpressionTag (params) {
     try {
       const res = await io.getExpressionTag({
         projectId: this.projectId,
@@ -172,7 +172,7 @@ class Store {
   }
 
   // 运行查询
-  @action async runSearch(params) {
+  @action async runSearch (params) {
     this.resultLoading = true
     try {
       const res = await io.runSearch({
@@ -193,7 +193,7 @@ class Store {
   }
 
   // 保存数据查询 
-  @action async saveSearch(params, cb) {
+  @action async saveSearch (params, cb) {
     try {
       const res = await io.saveSearch({
         projectId: this.projectId,
@@ -215,7 +215,7 @@ class Store {
   }
 
   // 名称校验
-  @action async checkName(params, cb) {
+  @action async checkName (params, cb) {
     try {
       const res = await io.checkName({
         projectId: this.projectId,
@@ -232,13 +232,46 @@ class Store {
   }
 
   // 获取api请求返回参数
-  @action async getApiParams(params, cb) {
+  @action async getApiParams (params, cb) {
     try {
-      const res = await io.getApiParams({
-        projectId: this.projectId,
-        objId: this.objId,
-        ...params,
-      })
+      // const res = await io.getApiParams({
+      //   projectId: this.projectId,
+      //   objId: this.objId,
+      //   sql: this.resultInfo.sql,
+      //   ...params,
+      // })
+
+      const res = {
+        "filedList": [
+          {
+            "fieldName": "id",
+            "fieldType": "java.lang.Long"
+          },
+          {
+            "fieldName": "api_id",
+            "fieldType": "java.lang.String"
+          },
+          {
+            "fieldName": "api_path",
+            "fieldType": "java.lang.String"
+          },
+          {
+            "fieldName": "tenant_id",
+            "fieldType": "java.lang.Long"
+          }
+        ],
+        "varList": [
+          {
+            "fieldName": "id",
+            "fieldType": "long"
+          },
+          {
+            "fieldName": "apiId",
+            "fieldType": "string"
+          }
+        ],
+        "sql": "select * from table1"
+      }
 
       runInAction(() => {
         this.apiParamsInfo = res
@@ -249,8 +282,8 @@ class Store {
   }
 
   @observable apiGroup = []
-   // 获取api分组列表
-   @action async getApiGroup() {
+  // 获取api分组列表
+  @action async getApiGroup () {
     try {
       const res = await io.getApiGroup({
         projectId: this.projectId,
@@ -263,6 +296,23 @@ class Store {
       errorTip(e.message)
     }
   }
+
+  // 创建api
+  @action async createApi (params) {
+    try {
+      const res = await io.createApi({
+        sql: this.resultInfo.sql,
+        ...params
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
 }
 
 export default new Store()

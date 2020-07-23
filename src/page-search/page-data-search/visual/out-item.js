@@ -76,7 +76,12 @@ const OutItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
+              <Select
+                placeholder="请选择标签"
+                style={{ width: '200px' }}
+                showSearch
+                optionFilterProp="children"
+              >
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 

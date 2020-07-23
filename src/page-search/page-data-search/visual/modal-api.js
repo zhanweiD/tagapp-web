@@ -29,19 +29,41 @@ export default class DrewerApi extends Component {
     this.store.visibleApi = false
   }
 
-  onFinish = values => {
-    console.log(values)
-  }
+  // onFinish = values => {
+  //   console.log(values)
+  // }
 
   submit = () => {
     this.formRef.current
       .validateFields()
       .then(values => {
-        console.log(values)
+        const params = {
+          ...values, 
+          ...this.getConfigData()
+        }
       })
       .catch(info => {
         console.log(info)
       })
+  }
+
+  getConfigData = () => {
+    let requestData = []
+    let responseData = []
+    if(this.request.current) {
+      console.log(this.request.current)
+      requestData = this.request.current.state.dataSource
+    }
+
+    if( this.request.current) {
+      console.log(this.request.current)
+      responseData = this.response.current.state.dataSource
+    }
+    console.log(requestData, responseData)
+    return {
+      filedList: requestData,
+      varList: responseData
+    }
   }
 
   render() {
@@ -74,7 +96,7 @@ export default class DrewerApi extends Component {
         >
           <FormItem
             label="API名称"
-            name="username"
+            name="apiName"
             rules={[
               {
                 required: true,
@@ -82,19 +104,19 @@ export default class DrewerApi extends Component {
               },
             ]}
           >
-            <Input />
+            <Input  placeholder="请输入API名称"/>
           </FormItem>
           <FormItem
             label="API分组"
-            name="username"
+            name="apiGroupId"
             rules={[
               {
                 required: true,
-                message: '请输入API名称',
+                message: '请选择API分组',
               },
             ]}
           >
-            <Select>
+            <Select placeholder="请选择API分组">
               {
                 apiGroup.map(d => <Option value={d.apiGroupId}>{d.apiGroupName}</Option>)
               }
@@ -102,19 +124,21 @@ export default class DrewerApi extends Component {
           </FormItem>
           <FormItem
             label="API路径"
-            name="username"
+            name="apiPath"
             rules={[
               {
                 required: true,
                 message: '请输入API路径',
-              },
+              }, {
+                pattern: /^\/[A-Za-z0-9_-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+              }
             ]}
           >
-            <Input />
+            <Input placeholder="请输入API路径"/>
           </FormItem>
           <FormItem
             label="描述"
-            name="username"
+            name="descr"
             rules={[
               {
                 required: true,
@@ -122,7 +146,7 @@ export default class DrewerApi extends Component {
               },
             ]}
           >
-            <TextArea />
+            <TextArea  placeholder="请输入描述"/>
           </FormItem>
 
         </Form>

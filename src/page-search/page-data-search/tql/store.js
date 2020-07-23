@@ -235,6 +235,94 @@ class Store {
       errorTip(e.message)
     }
   }
+
+// ************************* api相关 *********************** //
+  @observable visibleApi = false
+  @observable modalApiLoading = false
+  @observable apiParamsInfo = {}
+
+  @observable apiGroup = []
+
+
+  // 获取api请求返回参数
+  @action async getApiParams (params, cb) {
+    try {
+      // const res = await io.getApiParams({
+      //   projectId: this.projectId,
+      //   objId: this.objId,
+      //   sql: this.resultInfo.sql,
+      //   ...params,
+      // })
+
+      const res = {
+        "filedList": [
+          {
+            "fieldName": "id",
+            "fieldType": "java.lang.Long"
+          },
+          {
+            "fieldName": "api_id",
+            "fieldType": "java.lang.String"
+          },
+          {
+            "fieldName": "api_path",
+            "fieldType": "java.lang.String"
+          },
+          {
+            "fieldName": "tenant_id",
+            "fieldType": "java.lang.Long"
+          }
+        ],
+        "varList": [
+          {
+            "fieldName": "id",
+            "fieldType": "long"
+          },
+          {
+            "fieldName": "apiId",
+            "fieldType": "string"
+          }
+        ],
+        "sql": "select * from table1"
+      }
+
+      runInAction(() => {
+        this.apiParamsInfo = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  // 获取api分组列表
+  @action async getApiGroup () {
+    try {
+      const res = await io.getApiGroup({
+        projectId: this.projectId,
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 创建api
+  @action async createApi (params) {
+    try {
+      const res = await io.createApi({
+        sql: this.resultInfo.sql,
+        ...params
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
 }
 
 export default new Store()
