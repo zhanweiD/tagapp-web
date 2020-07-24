@@ -54,11 +54,12 @@ export default class LabelTab extends Component {
                 />
               </div>
             )}
-            color="#639dd1" 
+            color="rgba(0,0,0,.65)" 
           >
             <Button 
               className="label-btn"
-              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
+              onMouseEnter={() => this.isRepeat(nowRes[index])}
+              // onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>
@@ -66,7 +67,7 @@ export default class LabelTab extends Component {
         )
       })
 
-      // 生成标签标题
+      // 生成段落标签标题
       domList.push(
         <div className="tab-content">
           <div>
