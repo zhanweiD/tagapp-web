@@ -261,40 +261,9 @@ class Store {
         objId: this.objId,
         ...params,
       })
-      const res1 = {
-        filedList: [
-          {
-            fieldName: 'id',
-            fieldType: 'java.lang.Long',
-          },
-          {
-            fieldName: 'api_id',
-            fieldType: 'java.lang.String',
-          },
-          {
-            fieldName: 'api_path',
-            fieldType: 'java.lang.String',
-          },
-          {
-            fieldName: 'tenant_id',
-            fieldType: 'java.lang.Long',
-          },
-        ],
-        varList: [
-          {
-            fieldName: 'id',
-            fieldType: 'long',
-          },
-          {
-            fieldName: 'apiId',
-            fieldType: 'string',
-          },
-        ],
-        sql: 'select * from table1',
-      }
 
       runInAction(() => {
-        this.apiParamsInfo = res1
+        this.apiParamsInfo = res
       })
     } catch (e) {
       errorTip(e.message)

@@ -234,47 +234,21 @@ class Store {
   // 获取api请求返回参数
   @action async getApiParams (params, cb) {
     try {
-      // const res = await io.getApiParams({
-      //   projectId: this.projectId,
-      //   objId: this.objId,
-      //   sql: this.resultInfo.sql,
-      //   ...params,
-      // })
-
-      const res = {
-        "filedList": [
-          {
-            "fieldName": "id",
-            "fieldType": "java.lang.Long"
-          },
-          {
-            "fieldName": "api_id",
-            "fieldType": "java.lang.String"
-          },
-          {
-            "fieldName": "api_path",
-            "fieldType": "java.lang.String"
-          },
-          {
-            "fieldName": "tenant_id",
-            "fieldType": "java.lang.Long"
-          }
-        ],
-        "varList": [
-          {
-            "fieldName": "id",
-            "fieldType": "long"
-          },
-          {
-            "fieldName": "apiId",
-            "fieldType": "string"
-          }
-        ],
-        "sql": "select * from table1"
-      }
+      const res = await io.getApiParams({
+        projectId: this.projectId,
+        objId: this.objId,
+        sql: this.resultInfo.sql,
+        ...params,
+      })
 
       runInAction(() => {
-        this.apiParamsInfo = res
+        this.apiParamsInfo = {
+          filedList: res.filedList.map(d => ({
+            ...d,
+            required: 1,
+          })),
+          varList: res.varList
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -298,18 +272,30 @@ class Store {
   }
 
   // 创建api
-  @action async createApi (params) {
+  @action async createApi (params, cb) {
+    this.modalApiLoading = true
     try {
       const res = await io.createApi({
+        projectId: this.projectId,
         sql: this.resultInfo.sql,
         ...params
       })
 
       runInAction(() => {
-        this.apiGroup = res
+        if(res) {
+          successTip('API创建成功')
+        } else {
+          failureTip('API创建失败')
+        }
+        cb()
+        this.apiParamsInfo = {}
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.modalApiLoading = false
+      })
     }
   }
 

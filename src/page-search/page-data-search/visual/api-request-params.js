@@ -113,7 +113,7 @@ class ApiResponseParams extends React.Component {
     const index = newData.findIndex(item => row.fieldName === item.fieldName)
 
     const item = newData[index]
-    newData.splice(index, 1, {...item, ...row})
+    newData.splice(index, 1, {...item, ...row, required: row.required ? 1: 0 })
     this.setState({
       dataSource: newData,
     })

@@ -275,8 +275,8 @@ export default class Visual extends Component {
         <div className="header-button">
           <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          {/* <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button> */}
-          <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
+          <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+          {/* <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button> */}
         </div>
         <div className="FBH pt16 pb16">
           <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>

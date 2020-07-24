@@ -27,11 +27,8 @@ export default class DrewerApi extends Component {
 
   @action handleCancel = () => {
     this.store.visibleApi = false
+    this.store.modalApiLoading = false
   }
-
-  // onFinish = values => {
-  //   console.log(values)
-  // }
 
   submit = () => {
     this.formRef.current
@@ -41,6 +38,10 @@ export default class DrewerApi extends Component {
           ...values, 
           ...this.getConfigData()
         }
+
+        this.store.createApi(params, () => {
+          this.handleCancel()
+        })
       })
       .catch(info => {
         console.log(info)
@@ -48,18 +49,24 @@ export default class DrewerApi extends Component {
   }
 
   getConfigData = () => {
+    const {
+      apiParamsInfo = {}
+    } = this.store
+
     let requestData = []
     let responseData = []
-    if(this.request.current) {
-      console.log(this.request.current)
+    if(this.request.current && this.request.current.state) {
       requestData = this.request.current.state.dataSource
+    } else {
+      requestData = toJS(apiParamsInfo).filedList
     }
 
-    if( this.request.current) {
-      console.log(this.request.current)
+    if( this.response.currentt && this.response.current.state) {
       responseData = this.response.current.state.dataSource
+    } else {
+      responseData = toJS(apiParamsInfo).varList
     }
-    console.log(requestData, responseData)
+
     return {
       filedList: requestData,
       varList: responseData
