@@ -26,7 +26,7 @@ class ModalAdd extends React.Component {
         let {type} = this
 
         if (+modalEditInfo.tagId === +values.tagId) {
-          type = modalEditInfo.type
+          type = modalEditInfo.type || this.type
         }
         const params = {
           ...values,
@@ -54,13 +54,16 @@ class ModalAdd extends React.Component {
   @action.bound onSelect(e) {
     const {tagList} = this.store
 
-    this.formRef.current
-      .resetFields(['groupType', 'chartType'])
+    const [obj] = toJS(tagList).filter(d => d.tagId === e)
 
-    const [obj] = tagList.filter(d => d.tagId === e)
+    this.formRef.current.resetFields(['groupType', 'chartType'])
+    this.store.modalEditInfo.type = 0
+    this.store.modalEditInfo.chartType = 'bar'
+    this.store.modalEditInfo.groupType = undefined
 
     this.type = obj.type
     this.tagId = e
+
   }
 
   render() {
@@ -94,13 +97,13 @@ class ModalAdd extends React.Component {
               optionFilterProp="children"
             >
               {
-                tagList.map(d => <Option value={d.tagId} disabled={selectTagList.includes(d.tagId)}>{d.tagName}</Option>)
+                tagList.map(d => <Option value={d.tagId} disabled={selectTagList.includes(d.tagId) && (+d.tagId !== +modalEditInfo.tagId)}>{d.tagName}</Option>)
               }
             </Select>
           </Form.Item>
 
           {
-            (+modalEditInfo.type || +this.type) === 2 ? (
+           (+modalEditInfo.type === 2 || +this.type === 2) ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
@@ -116,7 +119,7 @@ class ModalAdd extends React.Component {
           }
 
           {
-            (+modalEditInfo.type || +this.type) === 3 ? (
+           (+modalEditInfo.type === 3 || +this.type === 3) ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
