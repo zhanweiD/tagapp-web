@@ -198,7 +198,7 @@ class GroupContrast extends Component {
 
   render() {
     const {projectId, info, objList, groupAInfo, groupBInfo, overlapCount, loading} = store
-    console.log(loading)
+
     const {showInfo} = this.state
     return (
       <Provider store={store}>
@@ -260,7 +260,7 @@ class GroupContrast extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit(rest, index)} className="mr8 mt8 action" />
+                            <IconEdit size="14" onClick={() => this.edit({tagId: tagId, ...rest}, index)} className="mr8 mt8 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
