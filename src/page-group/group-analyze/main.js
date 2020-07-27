@@ -155,7 +155,7 @@ class GroupAnalyze extends Component {
                           
                           </div>
                         </div>
-                        <Comp data={rest}  key={tagId}/>
+                        <Comp data={rest} key={tagId}/>
                       </div>
                     </div>
                   ))
