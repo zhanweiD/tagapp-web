@@ -132,7 +132,6 @@ class Store {
 
   @action async getChart(params, index) {
     try {
-      console.log([this.groupAInfo.groupId, this.groupBInfo.groupId])
       const ids = [this.groupAInfo.groupId, this.groupBInfo.groupId].join(',')
       const res = await io.getChart({
         runDate: this.groupTime,
@@ -147,9 +146,11 @@ class Store {
           const data = {
             ...params,
             ...res,
+            groupAname: toJS(this.groupAInfo).groupName,
+            groupBname: toJS(this.groupBInfo).groupName,
             Comp: chartMap[params.chartType],
           }
-  
+   
           if (this.selectTagList.includes(params.tagId)) {
             this.selectTagList[index] = params.tagId
           } else {
@@ -162,7 +163,7 @@ class Store {
             this.info[index] = data
           }
         }
-        console.log(toJS(this.info))
+        
         this.modalVis = false
         this.modalEditInfo = {}
       })
