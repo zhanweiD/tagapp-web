@@ -4,7 +4,7 @@ import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
 import {Drawer, Form, Select, Input, Upload, Button, Modal, Alert} from 'antd'
 
-import {errorTip, baseApi, debounce} from '../../common/util'
+import {errorTip, baseApi, debounce, failureTip} from '../../common/util'
 
 const {Item} = Form
 const {TextArea} = Input
@@ -42,8 +42,16 @@ export default class IdCreate extends Component {
     this.store.uploadList = fileList.slice(-1)
 
     if (file.status !== 'uploading') {
-      if (file.response.success) {
+      const {success, content} = file.response
+
+      if (success) {
         // 返回正确
+        if (!content.importKey) {
+          failureTip('请上传有效文件')
+          this.store.uploadList = []
+          return
+        }
+
         this.store.uploadData = true
         this.formRef.current.validateFields(['excel'])
         this.store.fileRes = file.response.content
@@ -128,7 +136,6 @@ export default class IdCreate extends Component {
       confirmLoading,
       handleCancel,
     } = this.store
-
 
     const {tenantId, userId} = window.frameInfo.sessioninfo.userInfoVO
     const props = {
@@ -282,7 +289,9 @@ export default class IdCreate extends Component {
         <Modal {...modalConfig}>
           <p style={{marginTop: '1em'}}>
             {`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条，无效记录${fileRes.failedCount}条`}
-            （<a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>）
+            （
+            <a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>
+）
           </p>
         </Modal>
       </Fragment>

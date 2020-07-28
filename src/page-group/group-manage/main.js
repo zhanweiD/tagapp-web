@@ -96,7 +96,7 @@ class GroupManage extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
+            <a disabled={record.status === 3 || record.type === 2} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
@@ -153,11 +153,12 @@ class GroupManage extends Component {
     } else if (mode === 1) {
       if (type === 1) {
         store.performGroup(id)
-      } else {
-        store.tableLoading = true
-        store.getList()
-        successTip('已执行')
-      }
+      } 
+      // else {
+      //   store.tableLoading = true
+      //   store.getList()
+      //   successTip('已执行')
+      // }
     }
   }
 

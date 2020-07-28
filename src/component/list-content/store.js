@@ -95,7 +95,6 @@ const ListContentStore = apiFunc => class _Store {
         } = res
         this.tableLoading = false
         this.list.replace(data)
-        console.log(res)
         this.pagination = {
           pageSize: res.pageSize || 10,
           totalCount: res.totalCount || res.count,

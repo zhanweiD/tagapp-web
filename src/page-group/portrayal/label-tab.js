@@ -15,6 +15,14 @@ export default class LabelTab extends Component {
     this.store = props.store
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.store.tooltipX !== this.props.tooltipX) {
+  //     const {tooltipX, tooltipY} = this.store
+  //     debugger
+  //     this.getDom(tooltipX, tooltipY)
+  //   }
+  // }
+
   // 判断是否是重复的请求
   @action isRepeat = nowTag => {
     const {prevTag, tagAnalysis} = this.store
