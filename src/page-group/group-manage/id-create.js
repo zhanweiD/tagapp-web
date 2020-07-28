@@ -176,7 +176,7 @@ export default class IdCreate extends Component {
       title: '文件解析结果',
       visible: modalVisible,
       maskClosable: false,
-      closable: true,
+      closable: false,
       footer: (
         <Button type="primary" className="footer-btn" onClick={this.uploadCancel}>知道了</Button>
       ),
