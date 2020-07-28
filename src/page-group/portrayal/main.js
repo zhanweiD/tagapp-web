@@ -21,6 +21,7 @@ class PortrayalLabel extends Component {
     super(props)
     store.projectId = props.projectId
 
+    store.mainLabel = ''
     store.getEntityList()
     const {match: {params}} = props
 
