@@ -56,6 +56,14 @@ class Visual extends Component {
     store.getHeight()
   }
 
+  componentWillUnmount() {
+    store.outConfig.clear()
+    store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
+    store.resultLoading = false
+  }
+
   // @action.bound selectObj(objId) {
   //   // store.objId = objId
   //   // store.getTagTree({id: objId})

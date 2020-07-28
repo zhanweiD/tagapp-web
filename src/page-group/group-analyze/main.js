@@ -40,6 +40,11 @@ class GroupAnalyze extends Component {
   }
 
   @action.bound search(values) {
+    store.tagList.clear()
+    store.selectTagList.clear()
+    store.info.clear()
+    store.roportion = {}
+
     store.getRoportion({
       id: values.id, 
     }, data => {
@@ -116,7 +121,7 @@ class GroupAnalyze extends Component {
             groupId ? (
               <div className="analyze-action">
                 <span>群体画像</span>
-                <Button type="primary" onClick={this.showModal}>添加分析纬度</Button>
+                <Button type="primary" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
               </div>
             ) : null
           }
@@ -129,6 +134,7 @@ class GroupAnalyze extends Component {
                   ? info.map(({
                     Comp,
                     tagName,
+                    tagId,
                     ...rest
                   }, index) => (
                     <div className="chart-wrap">
@@ -136,7 +142,7 @@ class GroupAnalyze extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit(rest, index)} className="mr8 mt8 action" />
+                            <IconEdit size="14" onClick={() => this.edit({tagId: tagId, ...rest}, index)} className="mr8 mt8 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
@@ -149,7 +155,7 @@ class GroupAnalyze extends Component {
                           
                           </div>
                         </div>
-                        <Comp data={rest} />
+                        <Comp data={rest} key={tagId}/>
                       </div>
                     </div>
                   ))

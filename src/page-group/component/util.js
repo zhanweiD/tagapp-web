@@ -38,8 +38,7 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
 
     const comparisionListResult = comparisionList.map(sd => {
       const sdata = formItemData[`${parentFlag}-${sd.flag}`]
-
-      return ({
+      const resultObj = {
         comparision: sdata.comparision,
         left: {
           function: sdata.leftFunction,
@@ -53,8 +52,12 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
             sdata.rightParams,
           ],
         },
-        where: (whereMap && whereMap[`${parentFlag}-${sd.flag}`]),
-      })
+      }
+
+      if (whereMap && whereMap[`${parentFlag}-${sd.flag}`]) {
+        resultObj.where = whereMap && whereMap[`${parentFlag}-${sd.flag}`]
+      }
+      return resultObj
     })
 
     d.comparisionList = comparisionListResult
@@ -263,7 +266,7 @@ export const condition = [{
   value: '<',
   name: '小于',
 }, {
-  value: '=<',
+  value: '<=',
   name: '小于等于',
 }, {
   value: '!=',

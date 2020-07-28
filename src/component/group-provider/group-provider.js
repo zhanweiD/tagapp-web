@@ -64,9 +64,9 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
-        message.success('初始化成功')
+        message.success('初始化成功, 正在前往群体洞察配置')
         // 跳转至群体配置页面
-        window.location.href = `${window.__keeper.pathHrefPrefix}/config/search`
+        window.location.href = `${window.__keeper.pathHrefPrefix}/config/group`
       } else {
         message.error('初始化失败')
       }
@@ -82,7 +82,7 @@ export default PageComponent => {
     }
 
     const noDataConfig = {
-      btnText: '初始化群体洞察',
+      btnText: '去初始化群体洞察',
       onClick: () => {
         getDataTypeSource(projectId)
         changeVisible(true)

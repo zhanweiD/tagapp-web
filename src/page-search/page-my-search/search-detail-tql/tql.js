@@ -32,6 +32,15 @@ class Tql extends Component {
     store.getDetail()
   }
 
+  componentWillUnmount() {
+    store.editor.setValue('')
+    store.log = ''
+    store.tql = ''
+    store.showResult = false
+    store.resultInfo = {}
+    store.resultLoading = false
+  }
+
   @action.bound createApi() {
     store.getApiParams()
     store.visibleApi = true

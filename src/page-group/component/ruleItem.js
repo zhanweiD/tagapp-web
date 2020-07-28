@@ -83,7 +83,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 180}}
+                  style={{width: 170}}
                   optionFilterProp="children"
                   placeholder="请选择"
                   onSelect={onSelectRel}
@@ -107,7 +107,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 180}}
+                  style={{width: 170}}
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onSelect={onSelectRel}
@@ -128,7 +128,7 @@ const RuleItem = ({
           >
             <Select 
               showSearch
-              style={{width: 80}}
+              style={{width: 90}}
               optionFilterProp="children"
               placeholder="选择函数"
               onSelect={onSelectEntityTag}
@@ -149,7 +149,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 180}}
+                  style={{width: 170}}
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
@@ -172,7 +172,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 180}}
+                  style={{width: 170}}
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
@@ -196,7 +196,7 @@ const RuleItem = ({
           >
             <Select 
               showSearch
-              style={{width: 80}}
+              style={{width: 90}}
               optionFilterProp="children"
               disabled={rest.page === 'detail'}
             >
@@ -211,7 +211,7 @@ const RuleItem = ({
             name={[key, 'rightFunction']}
             initialValue={rest.rightFunction || '固定值'}
           >
-            <Select style={{width: 80}} disabled={rest.page === 'detail'}>
+            <Select style={{width: 90}} disabled={rest.page === 'detail'}>
               <Option value="固定值">固定值</Option>
             </Select>
           </FormItem>

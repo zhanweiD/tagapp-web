@@ -38,6 +38,10 @@ class RuleDetail extends Component {
     }
   }
 
+  componentWillUnmount() {
+    store.destroy()
+  }
+
   @action goBack = () => {
     // 返回规则详情
     window.location.href = `${window.__keeper.pathHrefPrefix}/group/manage/${store.groupId}/${store.objId}`
@@ -78,7 +82,7 @@ class RuleDetail extends Component {
           <div className="rule-detail header-page">
       
             {
-              posList ? (
+              posList && !detailLoading ? (
                 <Fragment>
                   <RuleContent 
                     configTagList={toJS(configTagList)}

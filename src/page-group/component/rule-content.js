@@ -161,7 +161,7 @@ export default class RuleContent extends Component {
         {
           page === 'detail' ? null : (
             <div className="mb24">
-              <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup}>添加</Button>
+              <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup} disabled={renderData.length === 10}>添加</Button>
               <Button className="ml8" onClick={this.reset}>重置条件</Button>
             </div>
           )

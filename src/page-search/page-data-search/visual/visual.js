@@ -56,6 +56,14 @@ export default class Visual extends Component {
     store.getHeight()
   }
 
+  componentWillUnmount() {
+    store.outConfig.clear()
+    store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
+    store.resultLoading = false
+  }
+
   @action.bound selectObj(objId) {
     confirm({
       title: '确认切换源标签对象?',
@@ -362,7 +370,7 @@ export default class Visual extends Component {
                             <Popconfirm
                               placement="bottomLeft"
                               title="确认清除筛选设置？"
-                              onConfirm={this.delAllOutConfig}
+                              onConfirm={this.delAllScreenConfig}
                               okText="确实"
                               cancelText="取消"
                             >

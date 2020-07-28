@@ -61,6 +61,18 @@ export default class StepTwo extends Component {
   }
 
   @action submitRule = (posData, data) => {
+    if (!posData && !data) {
+      if (this.wherePosMap[this.drawerFlag]) {
+        delete this.wherePosMap[this.drawerFlag]
+      }
+
+      if (this.whereMap[this.drawerFlag]) {
+        delete this.whereMap[this.drawerFlag]
+      }
+      this.onClose()
+      return 
+    }
+
     this.wherePosMap[this.drawerFlag] = posData
     this.whereMap[this.drawerFlag] = data
     this.onClose()
@@ -69,8 +81,6 @@ export default class StepTwo extends Component {
   @action onClose = () => {
     this.visible = false
     this.drawerFlag = undefined
-
-    // this.store.getConfigTagList()
   }
 
   @action reset = () => {
@@ -81,7 +91,6 @@ export default class StepTwo extends Component {
 
   render() {
     const {current, configTagList, drawerConfigTagList, relList, posList} = this.store
-    // console.log(this.wherePosMap[this.drawerFlag])
     return (
       <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
         <RuleContent 

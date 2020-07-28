@@ -51,7 +51,7 @@ export default class IdCreate extends Component {
           this.store.uploadList = []
           return
         }
-
+        
         this.store.uploadData = true
         this.formRef.current.validateFields(['excel'])
         this.store.fileRes = file.response.content
@@ -132,7 +132,6 @@ export default class IdCreate extends Component {
       projectId,
       fileRes,
       isAdd,
-      isPerform,
       confirmLoading,
       handleCancel,
     } = this.store
@@ -177,7 +176,7 @@ export default class IdCreate extends Component {
       title: '文件解析结果',
       visible: modalVisible,
       maskClosable: false,
-      closable: true,
+      closable: false,
       footer: (
         <Button type="primary" className="footer-btn" onClick={this.uploadCancel}>知道了</Button>
       ),
@@ -192,11 +191,11 @@ export default class IdCreate extends Component {
     return (
       <Fragment>
         <Drawer {...drawerConfig} className="drawer-create">
-          {
+          {/* {
             isPerform ? (
               <Alert style={{marginBottom: '16px'}} message="请重新上传文件" type="info" showIcon />
             ) : null
-          }
+          } */}
           <Form 
             {...formItemLayout} 
             ref={this.formRef} 
@@ -211,7 +210,7 @@ export default class IdCreate extends Component {
               ]}
             >
               <Select 
-                disabled={!isAdd || isPerform} 
+                disabled={!isAdd} 
                 placeholder="请选择实体" 
                 onChange={value => this.selectEntity(value)} 
                 showSearch
@@ -235,7 +234,7 @@ export default class IdCreate extends Component {
                 {validator: this.checkName},
               ]}
             >
-              <Input disabled={!isAdd || isPerform || !objId} placeholder="请输入名称" />
+              <Input disabled={!isAdd || !objId} placeholder="请输入名称" />
             </Item>
             
             <Item
@@ -243,7 +242,7 @@ export default class IdCreate extends Component {
               name="descr"
               initialValue={recordObj.descr}
             >
-              <TextArea disabled={isPerform} style={{minHeight: '8em'}} placeholder="请输入" />
+              <TextArea style={{minHeight: '8em'}} placeholder="请输入" />
             </Item>
             
             <Item
@@ -280,7 +279,7 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select disabled={isPerform} placeholder="请选择标签" mode="multiple" showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" mode="multiple" showSearch optionFilterProp="children">
                 {tagOptions}
               </Select>
             </Item>
@@ -291,7 +290,7 @@ export default class IdCreate extends Component {
             {`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条，无效记录${fileRes.failedCount}条`}
             （
             <a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>
-）
+              ）
           </p>
         </Modal>
       </Fragment>

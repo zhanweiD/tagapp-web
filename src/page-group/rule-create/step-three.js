@@ -22,10 +22,12 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
     if (type === 1) {
       params.scheduleType = scheduleType
       params.scheduleExpression = scheduleExpression
-      params.isStart = +isStart
-      params.startTime = +moment(rangePicker[0]).format('x')
-      params.endTime = +moment(rangePicker[1]).format('x')
+      // params.isStart = isStart ? +isStart : undefined
+      params.startTime = rangePicker && +moment(rangePicker[0]).format('x')
+      params.endTime = rangePicker && +moment(rangePicker[1]).format('x')
     }
+
+    params.isStart = +params.scheduleType === 2 ? 1 : isStart
 
     save(params)
   }
@@ -63,10 +65,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                         label=""
                         name="scheduleExpression"
                         rules={[{required: true, message: '更新周期不能为空'}]}
-                        initialValue={detail.scheduleExpression || CycleSelect.formatCron({
-                          cycle: 'day',
-                        })
-                        }
+                        initialValue={detail.scheduleExpression || '0 10 0 * * ? *'}
                       >
                         <CycleSelect
                           cycleList={['day']}
@@ -93,7 +92,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                         name="rangePicker"
                         rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
                         {...formItemLayout}
-                        initialValue={[moment(detail.startTime), moment(detail.endTime)]}
+                        initialValue={[moment(detail.startTime), detail.endTime ? moment(detail.endTime) : moment().add(7, 'd')]}
                       >
                         <RangePicker />
                       </Form.Item>
