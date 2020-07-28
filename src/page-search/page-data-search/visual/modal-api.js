@@ -36,9 +36,9 @@ export default class DrewerApi extends Component {
       .then(values => {
         const params = {
           ...values, 
+          ...toJS(this.store.saveParams),
           ...this.getConfigData()
         }
-
         this.store.createApi(params, () => {
           this.handleCancel()
         })
@@ -87,8 +87,7 @@ export default class DrewerApi extends Component {
       onClose: this.handleCancel,
       className: 'create-api',
     }
-    
-    
+
     return (
       <Drawer
         {...drawerConfig}

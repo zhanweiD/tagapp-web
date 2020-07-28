@@ -186,8 +186,7 @@ class Store {
       runInAction(() => {
         this.resultInfo = res
         this.log = res.log
-        // this.tql = res.sql
-        // this.tql = params.tql
+        this.tql = params.tql
       })
     } catch (e) {
       errorTip(e.message)
@@ -288,6 +287,7 @@ class Store {
       const res = await io.createApi({
         projectId: this.projectId,
         sql: this.resultInfo.sql,
+        tql:this.tql,
         ...params
       })
 

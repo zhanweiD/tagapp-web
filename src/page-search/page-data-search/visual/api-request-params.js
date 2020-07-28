@@ -30,7 +30,6 @@ const EditableCell = ({
   const save = async e => {
     try {
       const values = await form.validateFields()
-      console.log({...record, ...values})
       handleSave({...record, ...values})
     } catch (errInfo) {
       console.log(errInfo)

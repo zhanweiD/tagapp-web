@@ -129,6 +129,7 @@ export default class Visual extends Component {
         store.screenConfig.clear()
         store.showResult = false
         store.resultInfo = {}
+        store.saveParams = {}
       },
       onCancel() {
         console.log('Cancel')
