@@ -108,7 +108,7 @@ class GroupManage extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a disabled={record.status === 3 || record.type === 2} onClick={() => this.goPerform(record)} href>执行</a>
+            <a disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
@@ -152,21 +152,24 @@ class GroupManage extends Component {
   // 群体执行
   goPerform = record => {
     const {mode, type, id} = record
-    if (mode === 2) {
-      store.isPerform = true
-      record.objId = record.objId.toString()
-      store.objId = record.objId
-      store.recordObj = record
-      store.isAdd = false
-
-      store.getTagList()
-      store.getEditIdGroup(this.childForm.setOutputTags)
-      store.drawerVisible = true
-    } else if (mode === 1) {
-      if (type === 1) {
-        store.performGroup(id)
-      }
+    if (type === 1 && mode === 1) {
+      store.performGroup(id)
     }
+    // if (mode === 2) {
+    //   store.isPerform = true
+    //   record.objId = record.objId.toString()
+    //   store.objId = record.objId
+    //   store.recordObj = record
+    //   store.isAdd = false
+
+    //   store.getTagList()
+    //   store.getEditIdGroup(this.childForm.setOutputTags)
+    //   store.drawerVisible = true
+    // } else if (mode === 1) {
+    //   if (type === 1) {
+    //     store.performGroup(id)
+    //   }
+    // }
   }
 
   // 跳转到群体编辑
