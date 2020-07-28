@@ -14,14 +14,17 @@ export default class LabelTab extends Component {
     super(props)
     this.store = props.store
   }
+  // componentWillUpdate() {
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.store.tooltipX !== this.props.tooltipX) {
-  //     const {tooltipX, tooltipY} = this.store
-  //     debugger
-  //     this.getDom(tooltipX, tooltipY)
-  //   }
   // }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.store.tooltipX !== this.props.tooltipX) {
+      const {tooltipX, tooltipY} = this.store
+      // this.getDom(tooltipX, tooltipY)
+      console.log(tooltipX, tooltipY)
+    }
+  }
 
   // 判断是否是重复的请求
   @action isRepeat = nowTag => {
@@ -49,6 +52,7 @@ export default class LabelTab extends Component {
             title={(
               <div>
                 <div>
+                  {/* <span>{toJS(this.store.tooltipX)}</span> */}
                   <span>{x}</span>
                 </div>
                 <Progress 
@@ -56,7 +60,8 @@ export default class LabelTab extends Component {
                   status="active"
                   strokeWidth={4} 
                   strokeColor="#00d5af" 
-                  percent={parseInt(y)} 
+                  // percent={parseInt(toJS(this.store.tooltipY), 10)} 
+                  percent={parseInt(y, 10)} 
                   color="#fff"
                   style={{color: '#fff', width: '96px', marginRight: '8px'}}
                 />
@@ -66,8 +71,8 @@ export default class LabelTab extends Component {
           >
             <Button 
               className="label-btn"
-              onMouseEnter={() => this.isRepeat(nowRes[index])}
-              // onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
+              // onMouseEnter={() => this.isRepeat(nowRes[index])}
+              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
             >
               {item.value}
             </Button>
@@ -90,19 +95,27 @@ export default class LabelTab extends Component {
   }
 
   render() {
-    const {labelRes, tooltipX, tooltipY, markedLoading} = this.store
+    const {labelRes, tooltipX, tooltipY, markedLoading, domList} = this.store
+    console.log(toJS(labelRes))
     return (
-      <Spin spinning={markedLoading}>
-        <div className="pl24 pt-0">
-          {
-            labelRes.length ? (
-              this.getDom(tooltipX, tooltipY)
-            ) : (
-              <NoData />
-            )
-          }
-        </div>
-      </Spin>
+      // <Spin spinning={markedLoading}>
+      <div className="pl24 pt-0">
+        {
+          labelRes.length ? (
+            domList
+          ) : (
+            <NoData />
+          )
+        }
+        {/* {
+          labelRes.length ? (
+            this.getDom(tooltipX, tooltipY)
+          ) : (
+            <NoData />
+          )
+        } */}
+      </div>
+      // </Spin>
     )
   }
 }

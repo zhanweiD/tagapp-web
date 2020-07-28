@@ -1,8 +1,10 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
+import {Progress, Tooltip, Button} from 'antd'
+import {TagFilled} from '@ant-design/icons'
 import {
-  errorTip, trimFormValues,
+  errorTip, trimFormValues, debounce,
 } from '../../common/util'
 import io from './io'
 
@@ -19,6 +21,7 @@ class Store {
   @observable basicLabel = [] // 基本特征
   @observable tooltipTitle = [] // 单个标签分析提示
   @observable itemLabels = [] // 单个标签
+  @observable domList = [] // 单个标签
   @observable tooltipX = '' // 单个标签分析提示x
   @observable tooltipY = 0 // 单个标签分析提示y2
 
@@ -53,10 +56,79 @@ class Store {
       })
       runInAction(() => {
         this.labelRes = res || []
+        this.getDom()
       })
     } catch (e) {
       errorTip(e.message)
     }
+  }
+
+  // 判断是否是重复的请求
+  @action isRepeat = nowTag => {
+    const {prevTag, tagAnalysis} = this
+    if (nowTag === prevTag) {
+      return
+    }
+    this.prevTag = nowTag
+    tagAnalysis(nowTag)
+  }
+
+  // 生成dom结构
+  @action getDom = (x = '', y = 0) => {
+    this.domList = []
+    const {labelRes} = this
+    for (let i = 0; i < labelRes.length; i++) {
+      const nowRes = labelRes[i].tags || []
+      const nowCategoryName = labelRes[i].categoryName || []
+      
+      // 生成单个提示标签
+      this.itemLabels = toJS(nowRes).map((item, index) => {
+        return (
+          <Tooltip 
+            key={item} 
+            title={(
+              <div>
+                <div>
+                  {/* <span>{toJS(this.store.tooltipX)}</span> */}
+                  <span>{x}</span>
+                </div>
+                <Progress 
+                  showInfo
+                  status="active"
+                  strokeWidth={4} 
+                  strokeColor="#00d5af" 
+                  // percent={parseInt(toJS(this.store.tooltipY), 10)} 
+                  percent={parseInt(y, 10)} 
+                  color="#fff"
+                  style={{color: '#fff', width: '96px', marginRight: '8px'}}
+                />
+              </div>
+            )}
+            color="rgba(0,0,0,.65)" 
+          >
+            <Button 
+              className="label-btn"
+              // onMouseEnter={() => this.isRepeat(nowRes[index])}
+              onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
+            >
+              {item.value}
+            </Button>
+          </Tooltip>
+        )
+      })
+
+      // 生成段落标签标题
+      this.domList.push(
+        <div className="tab-content">
+          <div>
+            <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
+            <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
+          </div>
+          {this.itemLabels}
+        </div>
+      )
+    }
+    // return domList
   }
 
   // 获取单个标签分析信息
@@ -76,6 +148,7 @@ class Store {
       runInAction(() => {
         this.tooltipX = res.x
         this.tooltipY = res.y2
+        this.getDom(this.tooltipX, this.tooltipY)
       })
     } catch (e) {
       errorTip(e.message)
