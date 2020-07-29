@@ -197,7 +197,7 @@ export default class Visual extends Component {
             outputList: outConfig,
             where: screenConfig,
           }
-          store.showResult = true
+          // store.showResult = true
           store.runSearch(params)
         }, () => {
           message.error('筛选设置信息尚未完善！')
@@ -206,7 +206,7 @@ export default class Visual extends Component {
         const params = {
           outputList: outConfig,
         }
-        store.showResult = true
+        // store.showResult = true
         store.runSearch(params)
       }
     }, () => {
@@ -339,7 +339,12 @@ export default class Visual extends Component {
                               const [key] = Object.keys(changedValues)
 
                               if (changedValues[key].function && allValues[key].params) {
-                                this.outConfigRef.current.resetFields([key].params)
+                                this.outConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    params: undefined,
+                                  }
+                                })
                               }
                             }}
                           >
@@ -382,9 +387,22 @@ export default class Visual extends Component {
                             ref={this.screenConfigRef}
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
-
                               if (changedValues[key].leftFunction && allValues[key].leftParams) {
-                                this.screenConfigRef.current.resetFields([key].leftParams)
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    leftParams: undefined
+                                  }
+                                })
+                              }
+
+                              if (changedValues[key].rightFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
+                                  }
+                                })
                               }
                             }}
                           >
