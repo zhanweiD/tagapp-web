@@ -107,16 +107,8 @@ class GroupManage extends Component {
       dataIndex: 'action',
       render: (text, record) => (
         <div className="FBH FBAC">
-          {/* <Fragment>
-            <a onClick={() => this.goPerform(record)} href>执行</a>
-            <span className="table-action-line" />
-          </Fragment>
           <Fragment>
-            <a href onClick={() => this.goGroupEdit(record)}>编辑</a>
-            <span className="table-action-line" />
-          </Fragment> */}
-          <Fragment>
-            <a disabled={record.status === 3} onClick={() => this.goPerform(record)} href>执行</a>
+            <a disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
@@ -160,25 +152,24 @@ class GroupManage extends Component {
   // 群体执行
   goPerform = record => {
     const {mode, type, id} = record
-    if (mode === 2) {
-      store.isPerform = true
-      record.objId = record.objId.toString()
-      store.objId = record.objId
-      store.recordObj = record
-      store.isAdd = false
-
-      store.getTagList()
-      store.getEditIdGroup(this.childForm.setOutputTags)
-      store.drawerVisible = true
-    } else if (mode === 1) {
-      if (type === 1) {
-        store.performGroup(id)
-      } else {
-        store.tableLoading = true
-        store.getList()
-        successTip('已执行')
-      }
+    if (type === 1 && mode === 1) {
+      store.performGroup(id)
     }
+    // if (mode === 2) {
+    //   store.isPerform = true
+    //   record.objId = record.objId.toString()
+    //   store.objId = record.objId
+    //   store.recordObj = record
+    //   store.isAdd = false
+
+    //   store.getTagList()
+    //   store.getEditIdGroup(this.childForm.setOutputTags)
+    //   store.drawerVisible = true
+    // } else if (mode === 1) {
+    //   if (type === 1) {
+    //     store.performGroup(id)
+    //   }
+    // }
   }
 
   // 跳转到群体编辑

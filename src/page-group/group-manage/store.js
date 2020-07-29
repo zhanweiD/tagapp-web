@@ -28,7 +28,7 @@ class Store extends ListContentStore(io.getGroupList) {
   @observable drawerVisible = false // id新建群体
   @observable modalVisible = false // 文件解析结果
   @observable isAdd = true // 判断编辑还是新建
-  @observable isPerform = false // id集合执行
+  // @observable isPerform = false // id集合执行
   @observable confirmLoading = false // 确认按钮loading
 
   @action handleCancel = () => {

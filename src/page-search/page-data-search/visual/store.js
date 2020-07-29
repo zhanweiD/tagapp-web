@@ -185,6 +185,7 @@ class Store {
       runInAction(() => {
         this.resultInfo = res
         this.saveParams = params
+        this.handleExpend(true)
       })
     } catch (e) {
       errorTip(e.message)

@@ -94,7 +94,13 @@ const OutItem = ({
         <Form.Item
           name={[id, 'alias']}
           noStyle
-          rules={[{required: true, message: '请输入显示名称'}]}
+          rules={[{
+            required: true, message: '请输入显示名称'
+            }, {
+              validateFirst: true,
+            }, {
+              pattern: /[^0-9]/, message: '显示名称禁止输入数字'
+            }]}
         >
           <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" />
         </Form.Item>

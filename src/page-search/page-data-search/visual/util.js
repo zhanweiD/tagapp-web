@@ -65,6 +65,69 @@ export const outValueLogic = [{
   type: 1,
 }]
 
+export const screenLogic = [{
+  name: '标签值',
+  value: '标签值',
+  tagTypeList: [1, 2, 3, 4, 5, 6],
+  type: 0, // 0:非聚合函数  1聚合函数
+}, {
+  name: '绝对值',
+  value: 'abs',
+  tagTypeList: [2, 3],
+  type: 0,
+}, {
+  name: '年份',
+  value: 'year',
+  tagTypeList: [5],
+  type: 0,
+}, {
+  name: '月份',
+  value: 'month',
+  tagTypeList: [5],
+  type: 0,
+}, {
+  name: '日',
+  value: 'day',
+  tagTypeList: [5],
+  type: 0,
+}, {
+  name: '距离今天',
+  value: 'datediff',
+  tagTypeList: [5],
+  type: 0,
+}, {
+  name: '时间转换',
+  value: 'date_format',
+  tagTypeList: [5],
+  type: 0,
+}, {
+  name: '总记录数',
+  value: 'count',
+  tagTypeList: [1, 2, 3, 4, 5, 6],
+  type: 1,
+}, {
+  name: '求和',
+  value: 'sum',
+  tagTypeList: [2, 3],
+  type: 1,
+}, {
+  name: '均值',
+  value: 'avg',
+  tagTypeList: [2, 3],
+  type: 1,
+}, {
+  name: '最小值',
+  value: 'min',
+  tagTypeList: [2, 3],
+  type: 1,
+}, {
+  name: '最大值',
+  value: 'max',
+  tagTypeList: [2, 3],
+  type: 1,
+}]
+
+
 export const screenValueLogic = [{
   value: '固定值',
   name: '固定值',

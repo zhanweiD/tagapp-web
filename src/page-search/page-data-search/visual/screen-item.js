@@ -6,7 +6,7 @@ import {
   Select,
 } from 'antd'
 
-import {outValueLogic, screenValueLogic, comparison} from './util'
+import {screenLogic, screenValueLogic, comparison} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -24,7 +24,7 @@ const ScreenItem = ({
   const [showInput, changeShowInput] = useState(false)
 
   const onSelect = e => {
-    const [obj] = outValueLogic.filter(d => d.value === e)
+    const [obj] = screenLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
    
@@ -56,7 +56,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
-              outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
+              screenLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -125,7 +125,7 @@ const ScreenItem = ({
                   noStyle
                   rules={[{required: true, message: '请输入'}]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch  optionFilterProp="children">
                     {
                       expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 
@@ -140,16 +140,16 @@ const ScreenItem = ({
                   <Form.Item
                     name={[id, 'rightParams']}
                     noStyle
-                    rules={[{required: true, message: '请输入'}]}
+                    rules={[{required: true, message: '请输入参数名'}]}
                   >
-                    <Input style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input style={{width: '20%'}} placeholder="请输入参数名" />
                   </Form.Item>
                   <Form.Item
                     name={[id, 'rightParams1']}
                     noStyle
-                    rules={[{required: true, message: '请输入'}]}
+                    rules={[{required: true, message: '请输入参数默认值'}]}
                   >
-                    <Input style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input style={{width: '20%'}} placeholder="参数默认值" />
                   </Form.Item>
                 </Fragment>
                
