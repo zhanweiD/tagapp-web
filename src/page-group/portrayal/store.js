@@ -1,8 +1,10 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
+import {Progress, Tooltip, Button} from 'antd'
+import {TagFilled} from '@ant-design/icons'
 import {
-  errorTip, trimFormValues,
+  errorTip, trimFormValues, debounce,
 } from '../../common/util'
 import io from './io'
 
@@ -19,6 +21,7 @@ class Store {
   @observable basicLabel = [] // 基本特征
   @observable tooltipTitle = [] // 单个标签分析提示
   @observable itemLabels = [] // 单个标签
+  @observable domList = [] // 全部标签dom列表
   @observable tooltipX = '' // 单个标签分析提示x
   @observable tooltipY = 0 // 单个标签分析提示y2
 

@@ -51,6 +51,7 @@ export default class IdCreate extends Component {
           this.store.uploadList = []
           return
         }
+        
         this.store.uploadData = true
         this.formRef.current.validateFields(['excel'])
         this.store.fileRes = file.response.content
@@ -134,7 +135,6 @@ export default class IdCreate extends Component {
       confirmLoading,
       handleCancel,
     } = this.store
-
 
     const {tenantId, userId} = window.frameInfo.sessioninfo.userInfoVO
     const props = {

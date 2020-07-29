@@ -30,18 +30,6 @@ class GroupManage extends Component {
   formRef = React.createRef()
 
   menu = record => (
-    // <Menu>
-    //   <Menu.Item>
-    //     <Link to={`/group/analyze/${record.id}/${record.objId}`}>
-    //       <a href> 群体分析</a>
-    //     </Link>
-    //   </Menu.Item>
-    //   <Menu.Item>
-    //     <Link to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
-    //       <a href>个体列表</a>
-    //     </Link>
-    //   </Menu.Item>
-    // </Menu>
     <Menu>
       <Menu.Item disabled={record.status !== 1}>
         <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>

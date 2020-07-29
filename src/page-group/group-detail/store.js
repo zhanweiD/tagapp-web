@@ -40,14 +40,14 @@ class Store extends ListContentStore(io.getHistoryList) {
         id: this.id,
         ...params,
       })
-      this.barDataX = []
-      this.barDataY = []
+      // this.barDataX = []
+      // this.barDataY = []
       runInAction(() => {
-        res.forEach(item => {
-          this.barDataX.push(item.x)
-          this.barDataY.push(item.y)
-        })
-        cb(this.barDataX, this.barDataY)
+        // res.forEach(item => {
+        //   this.barDataX.push(item.x)
+        //   this.barDataY.push(item.y)
+        // })
+        cb(res)
       })
     } catch (e) {
       errorTip(e.message)

@@ -44,6 +44,7 @@ class Store {
           currentPage: 1,
           pageSize: 9999,
         }
+        
         for (let i = 0; i < title.length; i++) {
           if (title[i] === res.mainTag) {
             this.titleList.unshift({
