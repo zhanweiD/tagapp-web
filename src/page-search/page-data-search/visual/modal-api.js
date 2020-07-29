@@ -136,7 +136,7 @@ export default class DrewerApi extends Component {
                 required: true,
                 message: '请输入API路径',
               }, {
-                pattern: /^\/[A-Za-z0-9_-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+                pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
               }
             ]}
           >
