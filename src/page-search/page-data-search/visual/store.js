@@ -244,11 +244,11 @@ class Store {
 
       runInAction(() => {
         this.apiParamsInfo = {
-          filedList: res.filedList.map(d => ({
+          filedList: res.filedList,
+          varList: res.varList.map(d => ({
             ...d,
             required: 1,
           })),
-          varList: res.varList
         }
       })
     } catch (e) {
@@ -279,6 +279,7 @@ class Store {
       const res = await io.createApi({
         projectId: this.projectId,
         sql: this.resultInfo.sql,
+        runType: 1,
         ...params
       })
 

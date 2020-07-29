@@ -255,11 +255,11 @@ class Store {
       
       runInAction(() => {
         this.apiParamsInfo = {
-          filedList: res.filedList.map(d => ({
+          filedList: res.filedList,
+          varList: res.varList.map(d => ({
             ...d,
             required: 1,
           })),
-          varList: res.varList
         }
       })
     } catch (e) {
@@ -288,6 +288,7 @@ class Store {
         projectId: this.projectId,
         sql: this.resultInfo.sql,
         tql:this.tql,
+        runType: 2,
         ...params
       })
 
