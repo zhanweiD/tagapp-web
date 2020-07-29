@@ -5,6 +5,8 @@ import OnerFrame from '@dtwave/oner-frame'
 import MySearch from './page-my-search/my-search'
 import Tql from './page-my-search/search-detail-tql'
 import Visual from './page-my-search/search-detail-visual'
+import Explain from './search-explain'
+import TqlExplain from './tql-explain'
 
 // 数据查询
 import DataSearch from './page-data-search'
@@ -26,6 +28,9 @@ export default () => {
       <Route exact path={`${prePath}/my-search/visual/:id`} component={Visual} />
       {/* 数据查询 */}
       <Route exact path={`${prePath}/data-search`} component={DataSearch} />
+      {/* 配置说明 */}
+      <Route exact path={`${prePath}/explain`} component={Explain} />
+      <Route exact path={`${prePath}/tql-explain`} component={TqlExplain} />
 
       <Redirect strict to={`${prePath}/my-search`} />
     </Switch>

@@ -16,8 +16,7 @@ import {
   Modal,
   Spin,
 } from 'antd'
-import {ExclamationCircleOutlined} from '@ant-design/icons'
-// import {IconDel, IconTreeAdd} from '../../../icon-comp'
+import {ExclamationCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
 import SearchResult from './search-result'
@@ -304,7 +303,7 @@ export default class Visual extends Component {
                   </span>
                 )
               }
-             
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined/></a> 
             </div>
             <div className="visual-content" id="visual-content">
               <SearchResult 
