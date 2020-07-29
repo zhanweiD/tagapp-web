@@ -273,7 +273,7 @@ class GroupContrast extends Component {
 
                           </div>
                         </div>
-                        <Comp data={rest} key={tagId}/>
+                        <Comp data={rest} key={`${tagId}${rest.groupType || 0}`}/>
                       </div>
                     </div>
                   ))
