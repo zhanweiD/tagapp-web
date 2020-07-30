@@ -4,7 +4,7 @@ import {acrossBarOpt} from './util'
 export default class AcrossBar extends Component {
   componentDidMount() {
     this.chart = echarts.init(this.chartRef)
-    console.log(this.props.data)
+    
     this.drawChart(this.props.data)
   }
 
