@@ -288,9 +288,15 @@ export default class IdCreate extends Component {
         <Modal {...modalConfig}>
           <p style={{marginTop: '1em'}}>
             {`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条，无效记录${fileRes.failedCount}条`}
-            （
-            <a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>
-              ）
+            {
+              fileRes.failedCount ? (
+                <span>
+                (
+                  <a onClick={() => window.open(`${baseApi}/export/failed?failedKey=${fileRes.failedKey}`)}>下载</a>
+                )
+                </span>
+              ) : null
+            }
           </p>
         </Modal>
       </Fragment>

@@ -95,6 +95,14 @@ class GroupManage extends Component {
       title: '创建时间',
       dataIndex: 'lastTime',
       render: text => <Time timestamp={text} />,
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.lastTime - b.lastTime,
+    }, {
+    }, {
+      key: 'updateTime',
+      title: '更新时间',
+      dataIndex: 'updateTime',
+      render: text => <Time timestamp={text} />,
     }, {
       key: 'mode',
       title: '创建方式',
