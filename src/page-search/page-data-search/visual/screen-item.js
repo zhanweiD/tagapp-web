@@ -6,7 +6,7 @@ import {
   Select,
 } from 'antd'
 
-import {screenLogic, screenValueLogic, comparison} from './util'
+import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -22,6 +22,7 @@ const ScreenItem = ({
   const [rightFunction, changeRightFunction] = useState('固定值')
   const [showSelect, changeShowSelect] = useState(true)
   const [showInput, changeShowInput] = useState(false)
+  const [comparisonMap, changeComparisonMap] = useState(comparison)
 
   const onSelect = e => {
     const [obj] = screenLogic.filter(d => d.value === e)
@@ -39,10 +40,21 @@ const ScreenItem = ({
       changeShowSelect(true)
       changeShowInput(false)
     }
+
+    changeComparisonMap(comparison)
   }
 
   const onSelectRightFun = e => {
     changeRightFunction(e)
+  }
+
+  const onSelectTag = e => {
+    const [obj] = expressionTag.filter(d => d.objIdTagId === e)
+    if(obj.tagType === 4) {
+      changeComparisonMap(tagComparison)
+    } else {
+      changeComparisonMap(comparison)
+    }
   }
 
   return (
@@ -79,7 +91,7 @@ const ScreenItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" style={{width: '200px'}} onSelect={onSelectTag} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -98,7 +110,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
             {
-              comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
+              comparisonMap.map(({name, value}) => <Option value={value}>{name}</Option>)
             }                               
           </Select>
 

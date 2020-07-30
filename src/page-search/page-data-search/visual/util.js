@@ -170,6 +170,13 @@ export const comparison = [{
 // }
 ]
 
+export const tagComparison = [{
+  value: '=',
+  name: '等于',
+}, {
+  value: '!=',
+  name: '不等于',
+}]
 
 export const condition = [{
   value: '=',

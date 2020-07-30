@@ -6,7 +6,7 @@ import {
   Select,
 } from 'antd'
 
-import {screenLogic, screenValueLogic, comparison} from './util'
+import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -23,6 +23,8 @@ const ScreenItem = ({
   const [rightFunction, changeRightFunction] = useState((info.right && info.right.function) || '固定值')
   const [showSelect, changeShowSelect] = useState((info.left && info.left.function) === 'count'|| (info.left && info.left.function) === '固定值' ? false: true)
   const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值' ? true: false)
+  const [initTag] = expressionTag.filter(d => d.objIdTagId === (info.left && info.left.params && info.left.params[0]))
+  const [comparisonMap, changeComparisonMap] = useState((initTag && initTag.tagType === 4) ? tagComparison : comparison)
 
   const onSelect = e => {
     const [obj] = screenLogic.filter(d => d.value === e)
@@ -40,10 +42,21 @@ const ScreenItem = ({
       changeShowSelect(true)
       changeShowInput(false)
     }
+
+    changeComparisonMap(comparison)
   }
 
   const onSelectRightFun = e => {
     changeRightFunction(e)
+  }
+
+  const onSelectTag = e => {
+    const [obj] = expressionTag.filter(d => d.objIdTagId === e)
+    if(obj.tagType === 4) {
+      changeComparisonMap(tagComparison)
+    } else {
+      changeComparisonMap(comparison)
+    }
   }
 
   const {left, comparision, right} = info
@@ -70,6 +83,7 @@ const ScreenItem = ({
               name={[id, 'leftParams']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
+              initialValue={left && left.params && left.params[0]}
             >
               <Input style={{width: '200px'}} placeholder="请输入" />
 
@@ -85,7 +99,7 @@ const ScreenItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={left && left.params && left.params[0]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" style={{width: '200px'}}onSelect={onSelectTag} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -103,7 +117,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
             {
-              comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
+              comparisonMap.map(({name, value}) => <Option value={value}>{name}</Option>)
             }                               
           </Select>
 

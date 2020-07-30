@@ -396,6 +396,16 @@ export default class Visual extends Component {
                             ref={this.screenConfigRef}
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
+      
+                              if (changedValues[key].leftParams && allValues[key].leftParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    comparision: "="
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].leftFunction && allValues[key].leftParams) {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {
