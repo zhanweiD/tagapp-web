@@ -61,7 +61,7 @@ export default class DrewerApi extends Component {
       requestData = toJS(apiParamsInfo).varList 
     }
 
-    if( this.response.currentt && this.response.current.state) {
+    if( this.response.current && this.response.current.state) {
       responseData = this.response.current.state.dataSource
     } else {
       responseData = toJS(apiParamsInfo).filedList
@@ -156,8 +156,8 @@ export default class DrewerApi extends Component {
           </FormItem>
 
         </Form>
-        <div className="chart-title">配置参数</div>
-        <Tabs defaultActiveKey="1">
+        <h3>配置参数</h3>
+        <Tabs defaultActiveKey="1" style={{paddingBottom: '50px'}}>
           <TabPane tab="请求参数" key="1">
             <ApiRequsetParams ref={this.request} data={toJS(apiParamsInfo).varList} />
           </TabPane>

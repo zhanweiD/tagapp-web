@@ -234,7 +234,7 @@ export const getScreenConfig = arg => {
       comparision,
       left: {
         function: leftFunction,
-        params: [leftParams],
+        params: leftParams ? [leftParams] : [],
       },
       right: {
         function: rightFunction,

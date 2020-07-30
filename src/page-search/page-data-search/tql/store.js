@@ -283,6 +283,7 @@ class Store {
 
   // 创建api
   @action async createApi (params, cb) {
+    this.modalApiLoading = true
     try {
       const res = await io.createApi({
         projectId: this.projectId,
@@ -303,6 +304,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.modalApiLoading = false
+      })
     }
   }
 }

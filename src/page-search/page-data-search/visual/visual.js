@@ -202,6 +202,8 @@ export default class Visual extends Component {
             where: screenConfig,
           }
           // store.showResult = true
+          store.resultInfo = {}
+          store.saveParams = {}
           store.runSearch(params)
         }, () => {
           message.error('筛选设置信息尚未完善！')
@@ -211,6 +213,8 @@ export default class Visual extends Component {
           outputList: outConfig,
         }
         // store.showResult = true
+        store.resultInfo = {}
+        store.saveParams = {}
         store.runSearch(params)
       }
     }, () => {

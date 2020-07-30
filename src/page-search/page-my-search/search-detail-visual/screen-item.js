@@ -6,7 +6,7 @@ import {
   Select,
 } from 'antd'
 
-import {outValueLogic, screenValueLogic, comparison} from './util'
+import {screenLogic, screenValueLogic, comparison} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -20,12 +20,12 @@ const ScreenItem = ({
   info = {},
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
-  const [rightFunction, changeRightFunction] = useState('固定值')
-  const [showSelect, changeShowSelect] = useState(true)
-  const [showInput, changeShowInput] = useState(false)
+  const [rightFunction, changeRightFunction] = useState((info.right && info.right.function) || '固定值')
+  const [showSelect, changeShowSelect] = useState((info.left && info.left.function) === 'count'|| (info.left && info.left.function) === '固定值' ? false: true)
+  const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值' ? true: false)
 
   const onSelect = e => {
-    const [obj] = outValueLogic.filter(d => d.value === e)
+    const [obj] = screenLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
    
@@ -59,7 +59,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
-              outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
+              screenLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -67,7 +67,7 @@ const ScreenItem = ({
         {
           showInput ? (
             <Form.Item
-              name={[id, 'params']}
+              name={[id, 'leftParams']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
             >
@@ -131,7 +131,7 @@ const ScreenItem = ({
                   rules={[{required: true, message: '请输入'}]}
                   initialValue={right && right.params && right.params[0]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch  optionFilterProp="children">
                     {
                       expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 

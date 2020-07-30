@@ -14,7 +14,7 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
     if (item.children) {
       return (
         <TreeNode
-          title={<OmitTooltip maxWidth={120} text={item.name} />}
+          title={<OmitTooltip maxWidth={80} text={item.name} />}
           key={item.aId}
           dataRef={item}
           selectable={false}
@@ -27,7 +27,7 @@ const TagTree = ({treeLoading, tagTreeData, refreshTree}) => {
     return (
       <TreeNode
         key={item.aId}
-        title={<OmitTooltip maxWidth={120} text={item.name} />}
+        title={<OmitTooltip maxWidth={80} text={item.name} />}
         selectable={false}
         data={item}
       />

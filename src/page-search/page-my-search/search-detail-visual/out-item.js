@@ -22,8 +22,8 @@ const OutItem = ({
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
 
-  const [showSelect, changeShowSelect] = useState(true)
-  const [showInput, changeShowInput] = useState(false)
+  const [showSelect, changeShowSelect] = useState((info.conditionUnit && info.conditionUnit.function) === 'count'|| (info.conditionUnit && info.conditionUnit.function) === '固定值' ? false: true)
+  const [showInput, changeShowInput] = useState((info.conditionUnit && info.conditionUnit.function) === '固定值' ? true: false)
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
@@ -66,6 +66,7 @@ const OutItem = ({
               name={[id, 'params']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
+              initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Input style={{width: '200px'}} placeholder="请输入" />
 
@@ -94,7 +95,13 @@ const OutItem = ({
         <Form.Item
           name={[id, 'alias']}
           noStyle
-          rules={[{required: true, message: '请输入显示名称'}]}
+          rules={[{
+            required: true, message: '请输入显示名称'
+            }, {
+              validateFirst: true,
+            }, {
+              pattern: /[^0-9]/, message: '显示名称禁止输入数字'
+            }]}
           initialValue={alias}
         >
           <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" />
