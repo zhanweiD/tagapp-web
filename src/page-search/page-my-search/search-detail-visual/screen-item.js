@@ -25,6 +25,7 @@ const ScreenItem = ({
   const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值' ? true: false)
   const [initTag] = expressionTag.filter(d => d.objIdTagId === (info.left && info.left.params && info.left.params[0]))
   const [comparisonMap, changeComparisonMap] = useState((initTag && initTag.tagType === 4) ? tagComparison : comparison)
+  const [showLeftInput, changeShowLeftInput] = useState((info.left && info.left.function) === 'date_format' ? true: false)
 
   const onSelect = e => {
     const [obj] = screenLogic.filter(d => d.value === e)
@@ -43,6 +44,12 @@ const ScreenItem = ({
       changeShowInput(false)
     }
 
+    if (obj.value === 'date_format') {
+      changeShowLeftInput(true)
+    } else {
+      changeShowLeftInput(false)
+    }
+
     changeComparisonMap(comparison)
   }
 
@@ -52,13 +59,12 @@ const ScreenItem = ({
 
   const onSelectTag = e => {
     const [obj] = expressionTag.filter(d => d.objIdTagId === e)
-    if(obj.tagType === 4) {
+    if (obj.tagType === 4) {
       changeComparisonMap(tagComparison)
     } else {
       changeComparisonMap(comparison)
     }
   }
-
   const {left, comparision, right} = info
 
   return (
@@ -109,6 +115,20 @@ const ScreenItem = ({
           ) : null
         }
 
+        {
+          showLeftInput ? (
+
+            <Form.Item
+              name={[id, 'leftParams1']}
+              noStyle
+              rules={[{ required: true, message: '请输入' }]}
+              initialValue={left && left.params && left.params[1]}
+            >
+              <Input style={{ width: '200px' }} placeholder="请输入" />
+            </Form.Item>
+          ) : null
+        }
+
         <Form.Item
           name={[id, 'comparision']}
           noStyle
@@ -147,7 +167,7 @@ const ScreenItem = ({
                 >
                   <Select placeholder="请选择标签" style={{width: '200px'}} showSearch  optionFilterProp="children">
                     {
-                      expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+                      tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 
                   </Select>
                 </Form.Item>

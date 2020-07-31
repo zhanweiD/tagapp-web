@@ -318,6 +318,15 @@ class Visual extends Component {
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
 
+                              if (changedValues[key].function && allValues[key].params1) {
+                                this.outConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    params1: undefined,
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].function && allValues[key].params) {
                                 this.outConfigRef.current.setFieldsValue({
                                   [key]: {
