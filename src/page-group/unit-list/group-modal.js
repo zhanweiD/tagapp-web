@@ -62,12 +62,14 @@ export default class GroupModal extends Component {
   render() {
     const {
       visible,
+      confirmLoading,
     } = this.store
     const modalConfig = {
       title: '保存群体',
       visible,
       maskClosable: false,
       closable: true,
+      confirmLoading,
       onCancel: this.handleCancel,
       onOk: this.submit,
       width: 525,

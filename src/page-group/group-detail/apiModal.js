@@ -80,7 +80,6 @@ export default class ApiModal extends Component {
     this.form.validateFields((err, values) => {
       if (!err) {
         store.createApi(values)
-        console.log(values)
       }
     })
   }
