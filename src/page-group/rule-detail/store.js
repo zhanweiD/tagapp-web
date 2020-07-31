@@ -112,6 +112,7 @@ class Store {
     try {
       const res = await io.getOtherEntity({
         projectId: this.projectId,
+        objId: this.objId, // 实体ID
         ...params,
       })
 
