@@ -73,7 +73,7 @@ class GroupManage extends Component {
       key: 'type',
       title: '群体类型',
       dataIndex: 'type',
-      render: text => (text === 1 ? '离线实体' : '实时实体'),
+      render: text => (text === 1 ? '离线群体' : '实时群体'),
     }, {
       key: 'lastCount',
       title: '群体数量',
@@ -94,14 +94,14 @@ class GroupManage extends Component {
       key: 'lastTime',
       title: '创建时间',
       dataIndex: 'lastTime',
+      width: 200,
       render: text => <Time timestamp={text} />,
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.lastTime - b.lastTime,
     }, {
     }, {
       key: 'updateTime',
       title: '更新时间',
       dataIndex: 'updateTime',
+      width: 200,
       render: text => <Time timestamp={text} />,
     }, {
       key: 'mode',
