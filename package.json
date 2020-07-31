@@ -21,7 +21,7 @@
     "@dtwave/oner-flexbox": "2.0.1",
     "@dtwave/oner-mapping": "2.1.0-alpha6",
     "@dtwave/uikit": "3.0.0-alpha1",
-    "@dtwave/oner-frame": "0.0.2-alpha13",
+    "@dtwave/oner-frame": "0.0.2-alpha15",
     "antd": "4.4.2",
     "autoprefixer": "9.4.7",
     "babel-core": "6.26.3",
@@ -45,6 +45,7 @@
     "d3-drag": "^1.2.5",
     "d3-selection": "^1.4.1",
     "dagre-d3": "^0.6.4",
+    "venn.js": "^0.2.20",
     "eslint": "5.13.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-loader": "2.1.2",
@@ -88,6 +89,7 @@
     "webpack": "4.29.3",
     "webpack-bundle-analyzer": "3.3.2",
     "webpack-cli": "3.2.3",
-    "webpack-dev-server": "3.7.2"
+    "webpack-dev-server": "3.7.2",
+    "github-markdown-css": "^4.0.0"
   }
 }

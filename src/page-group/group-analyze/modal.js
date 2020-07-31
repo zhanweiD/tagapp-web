@@ -145,7 +145,7 @@ class ModalAdd extends React.Component {
               <Radio value="bar">柱状图</Radio>
 
               {
-                (+modalEditInfo.type || +this.type) !== 3 ? (
+                (+modalEditInfo.type || +this.type) !== 3 !== 3 ? (
                   <Fragment>
                     <Radio value="loop">环形图</Radio>
                     <Radio value="acrossBar">条形图</Radio>

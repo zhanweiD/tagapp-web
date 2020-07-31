@@ -10,6 +10,10 @@ const api = {
   checkName: post(`${dataSearch}/checkName`), // 查询重名校验
 
   queryInstanceResult: post(`${baseApi}/task/instance/result`),
+
+  getApiParams: post(`${dataSearch}/visual_api_param`), // 获取api请求返回参数
+  getApiGroup: get(`${dataSearch}/api_group_list`), // 获取api分组列表
+  createApi: post(`${dataSearch}/create_api`), // 创建api
 } 
 
 ioContext.create('mySearchTql', api) 

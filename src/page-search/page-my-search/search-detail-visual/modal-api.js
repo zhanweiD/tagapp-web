@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
-import {Drawer, Button, Form, Input, Tabs} from 'antd'
+import {Drawer, Button, Form, Input, Tabs, Table, Select} from 'antd'
 import ApiResponseParams from './api-response-params'
 import ApiRequsetParams from './api-request-params'
 
 const FormItem = Form.Item
 const {TabPane} = Tabs
 const {TextArea} = Input
+const {Option} = Select
 
 const formItemLayout = {
   labelCol: {span: 2},
@@ -26,26 +27,55 @@ export default class DrewerApi extends Component {
 
   @action handleCancel = () => {
     this.store.visibleApi = false
-  }
-
-  onFinish = values => {
-    console.log(values)
+    this.store.modalApiLoading = false
   }
 
   submit = () => {
     this.formRef.current
       .validateFields()
       .then(values => {
-        console.log(values)
+        const params = {
+          ...values, 
+          ...toJS(this.store.saveParams),
+          ...this.getConfigData()
+        }
+        this.store.createApi(params, () => {
+          this.handleCancel()
+        })
       })
       .catch(info => {
         console.log(info)
       })
   }
 
+  getConfigData = () => {
+    const {
+      apiParamsInfo = {}
+    } = this.store
+
+    let requestData = []
+    let responseData = []
+    if(this.request.current && this.request.current.state) {
+      requestData = this.request.current.state.dataSource
+    } else {
+      requestData = toJS(apiParamsInfo).varList 
+    }
+
+    if( this.response.current && this.response.current.state) {
+      responseData = this.response.current.state.dataSource
+    } else {
+      responseData = toJS(apiParamsInfo).filedList
+    }
+
+    return {
+      varList: requestData,
+      filedList: responseData
+    }
+  }
+
   render() {
     const {
-      visibleApi, modalApiLoading, apiParamsInfo = {},
+      visibleApi, modalApiLoading, apiParamsInfo = {}, apiGroup,
     } = this.store
 
     const drawerConfig = {
@@ -57,8 +87,7 @@ export default class DrewerApi extends Component {
       onClose: this.handleCancel,
       className: 'create-api',
     }
-    
-    
+
     return (
       <Drawer
         {...drawerConfig}
@@ -73,7 +102,7 @@ export default class DrewerApi extends Component {
         >
           <FormItem
             label="API名称"
-            name="username"
+            name="apiName"
             rules={[
               {
                 required: true,
@@ -81,23 +110,41 @@ export default class DrewerApi extends Component {
               },
             ]}
           >
-            <Input />
+            <Input  placeholder="请输入API名称"/>
+          </FormItem>
+          <FormItem
+            label="API分组"
+            name="apiGroupId"
+            rules={[
+              {
+                required: true,
+                message: '请选择API分组',
+              },
+            ]}
+          >
+            <Select placeholder="请选择API分组">
+              {
+                apiGroup.map(d => <Option value={d.apiGroupId}>{d.apiGroupName}</Option>)
+              }
+            </Select>
           </FormItem>
           <FormItem
             label="API路径"
-            name="username"
+            name="apiPath"
             rules={[
               {
                 required: true,
                 message: '请输入API路径',
-              },
+              }, {
+                pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+              }
             ]}
           >
-            <Input />
+            <Input placeholder="请输入API路径"/>
           </FormItem>
           <FormItem
             label="描述"
-            name="username"
+            name="descr"
             rules={[
               {
                 required: true,
@@ -105,17 +152,17 @@ export default class DrewerApi extends Component {
               },
             ]}
           >
-            <TextArea />
+            <TextArea  placeholder="请输入描述"/>
           </FormItem>
 
         </Form>
-        <div className="chart-title">配置参数</div>
-        <Tabs defaultActiveKey="1">
+        <h3>配置参数</h3>
+        <Tabs defaultActiveKey="1" style={{paddingBottom: '50px'}}>
           <TabPane tab="请求参数" key="1">
-            <ApiRequsetParams ref={this.request} data={toJS(apiParamsInfo).filedList} />
+            <ApiRequsetParams ref={this.request} data={toJS(apiParamsInfo).varList} />
           </TabPane>
           <TabPane tab="返回参数" key="2">
-            <ApiResponseParams ref={this.response} data={toJS(apiParamsInfo).varList} />
+            <ApiResponseParams ref={this.response} data={toJS(apiParamsInfo).filedList} />
           </TabPane>
         </Tabs>
         <div style={{

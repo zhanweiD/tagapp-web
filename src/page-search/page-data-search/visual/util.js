@@ -170,6 +170,13 @@ export const comparison = [{
 // }
 ]
 
+export const tagComparison = [{
+  value: '=',
+  name: '等于',
+}, {
+  value: '!=',
+  name: '不等于',
+}]
 
 export const condition = [{
   value: '=',
@@ -203,12 +210,22 @@ export const getOutConfig = arg => {
   const data = Object.values(arg) 
   const arr = []
   for (let i = 0; i < data.length; i += 1) {
+    const params = []
+
+    if(data[i].params) {
+      params.push(data[i].params)
+
+      if(data[i].params1) {
+        params.push(data[i].params1)
+      }
+    } 
+
     const obj = {
       aggregateType: getAggregateType(data[i].function),
       alias: data[i].alias,
       conditionUnit: {
         function: data[i].function,
-        params: data[i].params ? [data[i].params] : [],
+        params: params
       },
     }
 
@@ -228,13 +245,23 @@ export const getScreenConfig = arg => {
 
   const arr = []
   for (let i = 0; i < data.length; i += 1) {
-    const {comparision, leftFunction, leftParams, rightFunction, rightParams, rightParams1} = data[i]
+    const {comparision, leftFunction, leftParams, leftParams1, rightFunction, rightParams, rightParams1} = data[i]
+    const resultLeftParams = []
 
+    if(leftParams) {
+      resultLeftParams.push(leftParams)
+
+      if(leftParams1) {
+        resultLeftParams.push(leftParams1)
+      }
+    } 
+    
     const obj = {
       comparision,
+      aggregateType: getAggregateType(leftFunction),
       left: {
         function: leftFunction,
-        params: [leftParams],
+        params: resultLeftParams,
       },
       right: {
         function: rightFunction,

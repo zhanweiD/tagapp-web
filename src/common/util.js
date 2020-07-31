@@ -290,7 +290,7 @@ export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
  * @param delay 间隔时间
  */
 
-let timer = null // 放内部闭包作用域失效？？
+let timer = null
 export function debounce(fn, delay = 200) {
   clearTimeout(timer)
   timer = setTimeout(fn, delay)
