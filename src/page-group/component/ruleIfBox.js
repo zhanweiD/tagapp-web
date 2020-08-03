@@ -112,6 +112,7 @@ export default class RuleIfBox extends Component {
               page={page}
               {...d}
               len={data.length}
+              formRef={this.props.formRef}
             />
           ) 
         }
