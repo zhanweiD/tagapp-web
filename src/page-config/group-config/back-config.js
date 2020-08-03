@@ -1,9 +1,9 @@
 import {Component, Fragment} from 'react'
 import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
-import {Button, Popconfirm, Badge} from 'antd'
+import {Button, Popconfirm, Badge, message} from 'antd'
 import {FormOutlined} from '@ant-design/icons'
-import {ModalForm, ListContent, AuthBox, NoData} from '../../component'
+import {ModalForm, ListContent} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
@@ -61,6 +61,7 @@ export default class BackConfig extends Component {
   // 修改配置弹窗
   @action editClick = () => {
     this.store.visible = true
+    message.warning('不建议修改，修改后会影响之前的使用！')
   }
 
   // 添加实体弹窗
@@ -129,7 +130,7 @@ export default class BackConfig extends Component {
           <div className="cloud-config">
             <p className="config-title">
               <span style={{marginRight: '8px'}}>数据源配置</span>
-              {/* <FormOutlined className="action" onClick={this.editClick} /> */}
+              <FormOutlined className="action" onClick={this.editClick} />
             </p>
             <ModalForm {...formConfig} />
           </div>
