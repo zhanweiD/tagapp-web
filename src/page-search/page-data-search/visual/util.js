@@ -127,7 +127,6 @@ export const screenLogic = [{
   type: 1,
 }]
 
-
 export const screenValueLogic = [{
   value: '固定值',
   name: '固定值',

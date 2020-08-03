@@ -4,6 +4,7 @@ import {
   Form,
   Input,
   Select,
+  Popconfirm
 } from 'antd'
 
 import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
@@ -212,7 +213,16 @@ const ScreenItem = ({
         }
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
-            <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" />
+          <Popconfirm
+              placement="bottomLeft"
+              title="确认删除"
+              onConfirm={() => delScreenConfig(index)}
+              okText="确实"
+              cancelText="取消"
+            >
+              <IconDel size="14" className="ml8 mr4" />
+            </Popconfirm>
+            {/* <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" /> */}
             <IconTreeAdd size="14" onClick={() => addScreenConfig(index)} />
           </div>
 

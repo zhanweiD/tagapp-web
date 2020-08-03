@@ -44,12 +44,21 @@ class Visual extends Component {
 
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
+  outNameMap = {}
 
   @observable menuCode = 'out'
 
   componentWillMount() {
     store.getObjList()
-    store.getDetail()
+    store.getDetail((res) => {
+      const {outputCondition} = res
+      if(outputCondition && outputCondition.length) {
+        for (let i = 0; i < outputCondition.length; i++) {
+          const ele = outputCondition[i]
+          this.outNameMap[i] = ele.alias
+        }
+      }
+    })
   }
 
   componentDidMount() {
@@ -134,6 +143,7 @@ class Visual extends Component {
     store.outConfig.clear()
     store.showResult = false
     store.resultInfo = {}
+    this.outNameMap = {}
   }
 
   @action.bound addOutConfig(index) {
@@ -145,8 +155,9 @@ class Visual extends Component {
     })
   }
 
-  @action.bound delOutConfig(index) {
+  @action.bound delOutConfig(index, id) {
     store.outConfig.splice(index, 1)
+    delete this.outNameMap[id]
   }
 
   @action.bound addFirstScreenConfig() {
@@ -235,6 +246,10 @@ class Visual extends Component {
           }
         })
     }
+  }
+
+  outNameBlur = (value, id) => {
+    this.outNameMap[id] = value
   }
 
   render() {
@@ -346,6 +361,8 @@ class Visual extends Component {
                                   delOutConfig={this.delOutConfig}
                                   addOutConfig={this.addOutConfig}
                                   info={toJS(d)}
+                                  outNameMap={this.outNameMap}
+                                  outNameBlur={this.outNameBlur}
                                 />
                               ))
                             }
@@ -392,6 +409,15 @@ class Visual extends Component {
                                   [key]: {
                                     ...changedValues[key],
                                     leftParams: undefined
+                                  }
+                                })
+                              }
+
+                              if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
                                   }
                                 })
                               }

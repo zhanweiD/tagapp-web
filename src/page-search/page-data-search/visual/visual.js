@@ -435,6 +435,15 @@ export default class Visual extends Component {
                                 })
                               }
 
+                              if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
+                                  }
+                                })
+                              }
+  
                               if (changedValues[key].rightFunction && allValues[key].rightParams) {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {

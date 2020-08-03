@@ -280,7 +280,7 @@ class Store {
 
 
   // 获取详情 
-  @action async getDetail() {
+  @action async getDetail(cb) {
     this.detailLoading = true
 
     try {
@@ -293,6 +293,7 @@ class Store {
         this.objId = res.objId
         this.getTagTree({id: res.objId})
         this.getExpressionTag({id: res.objId})
+        cb(res)
       })
     } catch (e) {
       errorTip(e.message)
