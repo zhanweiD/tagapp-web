@@ -65,6 +65,7 @@ export default class Visual extends Component {
   }
 
   @action.bound selectObj(objId) {
+    const t = this
     confirm({
       title: '确认切换源标签对象?',
       icon: <ExclamationCircleOutlined />,
@@ -75,7 +76,7 @@ export default class Visual extends Component {
         store.screenConfig.clear()
         store.showResult = false
         store.resultInfo = {}
-        this.outNameMap = {}
+        t.outNameMap = {}
 
         // 切换
         store.objId = objId
@@ -121,6 +122,7 @@ export default class Visual extends Component {
   }
 
   @action.bound clearAll() {
+    const t = this
     confirm({
       title: '确认清空?',
       icon: <ExclamationCircleOutlined />,
@@ -131,7 +133,7 @@ export default class Visual extends Component {
         store.showResult = false
         store.resultInfo = {}
         store.saveParams = {}
-        this.outNameMap = {}
+        t.outNameMap = {}
       },
       onCancel() {
         console.log('Cancel')

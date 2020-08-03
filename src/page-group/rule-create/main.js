@@ -45,12 +45,12 @@ class RuleCreate extends Component {
     const {oneForm, submitLoading, groupId} = store
 
     if (groupId) {
-      message.loading({content: `群体 ${oneForm.name} 编辑中...`, submitLoading})
+      message.loading({content: `群体 ${oneForm.name} 编辑中...`, duration: 1})
       store.editGroup(values, res => {
         this.showResult(res)
       })
     } else {
-      message.loading({content: `群体 ${oneForm.name} 创建中...`, submitLoading})
+      message.loading({content: `群体 ${oneForm.name} 创建中...`, duration: 1})
       store.addGroup(values, res => {
         this.showResult(res)
       })
@@ -61,7 +61,7 @@ class RuleCreate extends Component {
     const {oneForm, groupId} = store
 
     if (result) {
-      message.success(`群体 ${oneForm.name} ${groupId ? '编辑' : '创建'}成功, 正在前往群体管理`)
+      message.success(`群体 ${oneForm.name} ${groupId ? '编辑' : '创建'}成功`)
       window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group/manage`
     } else {
       Modal.error({
