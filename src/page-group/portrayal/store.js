@@ -7,7 +7,7 @@ import {
 import io from './io'
 
 class Store {
-  @observable objId = undefined // 当前实体id
+  @observable objId // 当前实体id
   @observable projectId = null // 项目id
   @observable mainLabel = '' // 实体主标签
 
@@ -34,9 +34,9 @@ class Store {
         projectId: this.projectId,
       })
       runInAction(() => {
-        if (res.length === 0) return
-        this.objId = res[0] && res[0].objId.toString()
         this.entityList = res
+        if (res.length === 0 || this.objId) return
+        this.objId = res[0] && res[0].objId.toString()
       })
     } catch (e) {
       errorTip(e.message)

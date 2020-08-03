@@ -3,6 +3,7 @@
  */
 import {Component} from 'react'
 import {observer, Provider} from 'mobx-react'
+import {toJS} from 'mobx'
 import {Layout} from 'antd'
 import {
   projectProvider, NoData, groupProvider,
