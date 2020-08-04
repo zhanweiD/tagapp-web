@@ -39,7 +39,8 @@ export const barOpt = data => {
     color: colors,
     legend: {
       show: true,
-      data: [data.groupAname, data.groupBname]
+      data: [data.groupAname, data.groupBname],
+      selectedMode: false,
     },
     tooltip: {
       trigger: 'axis',
@@ -112,6 +113,7 @@ export const acrossBarOpt = data => {
     color: colors,
     legend: {
       show: true,
+      selectedMode: false,
       data: [data.groupAname, data.groupBname]
     },
     tooltip: {
@@ -185,6 +187,7 @@ export const lineOpt = data => {
     color: getColors(xAxisData.length),
     legend: {
       show: true,
+      selectedMode: false,
       data: [data.groupAname, data.groupBname]
     },
     grid: {
