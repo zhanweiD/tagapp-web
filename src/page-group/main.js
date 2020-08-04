@@ -9,8 +9,10 @@ import RuleCreate from './rule-create'
 import RuleDetail from './rule-detail'
 
 import GroupAnalyze from './group-analyze'
+import GroupContrast from './group-contrast'
 
 import PortrayalLabel from './portrayal'
+import Explain from './config-explain'
 
 const prePath = '/group'
 
@@ -43,11 +45,14 @@ export default () => {
       {/* 群体分析 */}
       <Route exact path={`${prePath}/analyze/:groupId?/:objId?/:time?`} component={GroupAnalyze} />
 
+      {/* 群体对比 */}
+      <Route exact path={`${prePath}/contrast`} component={GroupContrast} />
+
       {/* 微观画像 */}
       <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?`} component={PortrayalLabel} />
 
-      {/* 群体配置 */}
-      {/* <Route exact path={`${prePath}/config`} component={GroupConfig} /> */}
+      {/* 配置说明 */}
+      <Route exact path={`${prePath}/explain`} component={Explain} />
 
       <Redirect strict to={`${prePath}/manage`} />
     </Switch>

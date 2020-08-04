@@ -4,9 +4,10 @@ import {
   Form,
   Input,
   Select,
+  Popconfirm
 } from 'antd'
 
-import {outValueLogic, screenValueLogic, comparison} from './util'
+import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -20,12 +21,15 @@ const ScreenItem = ({
   info = {},
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
-  const [rightFunction, changeRightFunction] = useState('固定值')
-  const [showSelect, changeShowSelect] = useState(true)
-  const [showInput, changeShowInput] = useState(false)
+  const [rightFunction, changeRightFunction] = useState((info.right && info.right.function) || '固定值')
+  const [showSelect, changeShowSelect] = useState((info.left && info.left.function) === 'count'|| (info.left && info.left.function) === '固定值' ? false: true)
+  const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值' ? true: false)
+  const [initTag] = expressionTag.filter(d => d.objIdTagId === (info.left && info.left.params && info.left.params[0]))
+  const [comparisonMap, changeComparisonMap] = useState((initTag && initTag.tagType === 4) ? tagComparison : comparison)
+  const [showLeftInput, changeShowLeftInput] = useState((info.left && info.left.function) === 'date_format' ? true: false)
 
   const onSelect = e => {
-    const [obj] = outValueLogic.filter(d => d.value === e)
+    const [obj] = screenLogic.filter(d => d.value === e)
 
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
    
@@ -40,12 +44,28 @@ const ScreenItem = ({
       changeShowSelect(true)
       changeShowInput(false)
     }
+
+    if (obj.value === 'date_format') {
+      changeShowLeftInput(true)
+    } else {
+      changeShowLeftInput(false)
+    }
+
+    changeComparisonMap(comparison)
   }
 
   const onSelectRightFun = e => {
     changeRightFunction(e)
   }
 
+  const onSelectTag = e => {
+    const [obj] = expressionTag.filter(d => d.objIdTagId === e)
+    if (obj.tagType === 4) {
+      changeComparisonMap(tagComparison)
+    } else {
+      changeComparisonMap(comparison)
+    }
+  }
   const {left, comparision, right} = info
 
   return (
@@ -59,7 +79,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
-              outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
+              screenLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -67,9 +87,10 @@ const ScreenItem = ({
         {
           showInput ? (
             <Form.Item
-              name={[id, 'params']}
+              name={[id, 'leftParams']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
+              initialValue={left && left.params && left.params[0]}
             >
               <Input style={{width: '200px'}} placeholder="请输入" />
 
@@ -85,12 +106,26 @@ const ScreenItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={left && left.params && left.params[0]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" style={{width: '200px'}}onSelect={onSelectTag} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
               </Select>
 
+            </Form.Item>
+          ) : null
+        }
+
+        {
+          showLeftInput ? (
+
+            <Form.Item
+              name={[id, 'leftParams1']}
+              noStyle
+              rules={[{ required: true, message: '请输入' }]}
+              initialValue={left && left.params && left.params[1]}
+            >
+              <Input style={{ width: '200px' }} placeholder="请输入" />
             </Form.Item>
           ) : null
         }
@@ -103,7 +138,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
             {
-              comparison.map(({name, value}) => <Option value={value}>{name}</Option>)
+              comparisonMap.map(({name, value}) => <Option value={value}>{name}</Option>)
             }                               
           </Select>
 
@@ -131,9 +166,9 @@ const ScreenItem = ({
                   rules={[{required: true, message: '请输入'}]}
                   initialValue={right && right.params && right.params[0]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch  optionFilterProp="children">
                     {
-                      expressionTag.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+                      tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 
                   </Select>
                 </Form.Item>
@@ -178,7 +213,16 @@ const ScreenItem = ({
         }
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
-            <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" />
+          <Popconfirm
+              placement="bottomLeft"
+              title="确认删除"
+              onConfirm={() => delScreenConfig(index)}
+              okText="确实"
+              cancelText="取消"
+            >
+              <IconDel size="14" className="ml8 mr4" />
+            </Popconfirm>
+            {/* <IconDel size="14" onClick={() => delScreenConfig(index)} className="ml8 mr4" /> */}
             <IconTreeAdd size="14" onClick={() => addScreenConfig(index)} />
           </div>
 

@@ -68,6 +68,7 @@ const EditableCell = ({
 class ApiResponseParams extends React.Component {
   constructor(props) {
     super(props)
+
     this.columns = [
       {
         title: '参数名称',
@@ -76,13 +77,8 @@ class ApiResponseParams extends React.Component {
         title: '数据类型',
         dataIndex: 'fieldType',
       }, {
-        title: '是否必填',
-        dataIndex: 'name5',
-        editable: true,
-        compType: 'check',
-      }, {
-        title: '默认值',
-        dataIndex: 'name3',
+        title: '示例值',
+        dataIndex: 'fieldValue',
         width: '20%',
         editable: true,
         compType: 'input',
@@ -94,15 +90,24 @@ class ApiResponseParams extends React.Component {
         compType: 'input',
       },
     ]
+
     this.state = {
-      dataSource: [],
+      dataSource: props.data,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.data !==  this.props.data) {
+
+      this.setState({
+        dataSource: this.props.data
+      })
     }
   }
 
   handleSave = row => {
-    console.log(row)
     const newData = [...this.state.dataSource]
-    const index = newData.findIndex(item => row.key === item.key)
+    const index = newData.findIndex(item => row.fieldName === item.fieldName)
     const item = newData[index]
     newData.splice(index, 1, {...item, ...row})
     this.setState({
@@ -112,6 +117,7 @@ class ApiResponseParams extends React.Component {
 
   render() {
     const {dataSource} = this.state
+
     const components = {
       body: {
         row: EditableRow,

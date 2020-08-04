@@ -92,7 +92,7 @@ class MySearch extends Component {
       onClick: this.goDataSearch,
       btnText: '去数据查询创建',
     }
-    console.log(toJS(cardList))
+
     return (
       <div>
         <div className="content-header">我的查询</div>

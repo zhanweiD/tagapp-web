@@ -81,8 +81,7 @@ export default class TqlCode extends Component {
   @action stopOperation() {
     console.log(this.editor.getValue())
   }
-  
-  // 停止
+
   @action codeFormat() {
     const code = this.store.editor.getValue()
     if (!code) {

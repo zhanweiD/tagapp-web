@@ -3,7 +3,7 @@ import {Select, Input, Form} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
 
 import {IconDel, IconTreeAdd} from '../../icon-comp'
-import {functionList, condition} from './util'
+import {functionList, condition, entityFunctionList, textCondition} from './util'
 import io from '../rule-create/io'
 
 const {Option} = Select
@@ -22,15 +22,24 @@ const RuleItem = ({
   relList = [],
   otherEntity = [],
   openDrawer,
-  ...rest
+  ...rest,
+  formRef,
 }) => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
+
   const [relTagList, changeRelTagList] = useState([])
-  const [entityTagList, changeEntityTagList] = useState(configTagList)
   const [tagList, changeTagList] = useState(ruleType === 'set-rule' ? drawerConfigTagList : configTagList)
 
+  // render
+  const [entityTagList, changeEntityTagList] = useState(tagList)
+  const [relRenderTag, changeRelRenderTag] = useState([])
+
+  const [functionRList] = useState((ruleType === 'config' && +ruleIfBoxKey.slice(-1) === 1) ? entityFunctionList : functionList)
+
   const [relId, changeRelId] = useState()
+  // 比较符
+  const [comparisonMap, changeComparisonMap] = useState(condition)
 
   const posStyle = {
     left: pos[0],
@@ -41,10 +50,26 @@ const RuleItem = ({
 
   const key = `${ruleIfBoxKey}-${flag}`
 
-  const onSelectEntityTag = e => {
-    const [obj] = functionList.filter(d => d.value === e)
-    const newTagList = entityTagList.filter(d => obj.tagTypeList.includes(d.tagType))
-    changeEntityTagList(newTagList)
+  const onSelectFun = e => {
+    const [obj] = functionRList.filter(d => d.value === e)
+
+    if(+ruleIfBoxKey.slice(-1) === 1) {
+      const newTagList = relTagList.filter(d => obj.tagTypeList.includes(d.tagType))
+      changeRelRenderTag(newTagList)
+    } else {
+      const newTagList = tagList.filter(d => obj.tagTypeList.includes(d.tagType))
+      changeEntityTagList(newTagList)
+    }
+
+    const key = `${ruleIfBoxKey}-${flag}`
+    const keyData = formRef.current.getFieldValue(key)
+
+    formRef.current.setFieldsValue({
+      [key]: {
+        ...keyData,
+        leftTagId: undefined,
+      }
+    })
   }
 
   async function getRelTagList(id) {
@@ -53,6 +78,7 @@ const RuleItem = ({
       objId: id,
     })
     changeRelTagList(res)
+    changeRelRenderTag(res)
   }
 
   const open = () => {
@@ -62,6 +88,31 @@ const RuleItem = ({
   const onSelectRel = id => {
     changeRelId(id)
     getRelTagList(id)
+  }
+
+  const onSelectTag = e => {
+    let obj = {}
+    if (+ruleIfBoxKey.slice(-1) === 1) {
+      [obj] = relRenderTag.filter(d => d.objIdTagId === e)
+    } else {
+      [obj] = entityTagList.filter(d => d.objIdTagId === e)
+    }
+
+    if (obj.tagType === 4) {
+      changeComparisonMap(textCondition)
+    } else {
+      changeComparisonMap(condition)
+    }
+
+    const key = `${ruleIfBoxKey}-${flag}`
+    const keyData = formRef.current.getFieldValue(key)
+
+    formRef.current.setFieldsValue({
+      [key]: {
+        ...keyData,
+        comparision: '=',
+      }
+    })
   }
 
   if (rest.relId && typeof relId === 'undefined') {
@@ -131,11 +182,11 @@ const RuleItem = ({
               style={{width: 90}}
               optionFilterProp="children"
               placeholder="选择函数"
-              onSelect={onSelectEntityTag}
+              onSelect={onSelectFun}
               disabled={rest.page === 'detail'}
             >
               {
-                functionList.map(d => <Option value={d.value}>{d.name}</Option>)
+                functionRList.map(d => <Option value={d.value}>{d.name}</Option>)
               }
             </Select>
           </FormItem>
@@ -153,9 +204,10 @@ const RuleItem = ({
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
+                  onSelect={onSelectTag}
                 >
                   {
-                    relTagList.map(d => (
+                    relRenderTag.map(d => (
                       <Option value={d.objIdTagId}>
                         <div title={d.objNameTagName} className="omit">{d.objNameTagName}</div>
                       </Option>
@@ -176,9 +228,10 @@ const RuleItem = ({
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
+                  onSelect={onSelectTag}
                 >
                   {
-                    tagList.map(d => (
+                    entityTagList.map(d => (
                       <Option value={d.objIdTagId}>
                         <div title={d.objNameTagName} className="omit">{d.objNameTagName}</div>
                       </Option>
@@ -201,7 +254,7 @@ const RuleItem = ({
               disabled={rest.page === 'detail'}
             >
               {
-                condition.map(d => <Option value={d.value}>{d.name}</Option>)
+                comparisonMap.map(d => <Option value={d.value}>{d.name}</Option>)
               }
          
             </Select>

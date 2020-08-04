@@ -262,6 +262,76 @@ class Store {
       })
     }
   }
+
+  // ************************* api相关 *********************** //
+  @observable visibleApi = false
+  @observable modalApiLoading = false
+  @observable apiParamsInfo = {}
+
+  @observable apiGroup = []
+
+  // 获取api请求返回参数
+  @action async getApiParams (params, cb) {
+    try {
+      const res = await io.getApiParams({
+        projectId: this.projectId,
+        objId: this.objId,
+        sql: this.resultInfo.sql,
+        ...params,
+      })
+      
+      runInAction(() => {
+        this.apiParamsInfo = {
+          filedList: res.filedList,
+          varList: res.varList.map(d => ({
+            ...d,
+            required: 1,
+          })),
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+  // 获取api分组列表
+  @action async getApiGroup () {
+    try {
+      const res = await io.getApiGroup({
+        projectId: this.projectId,
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 创建api
+  @action async createApi (params, cb) {
+    try {
+      const res = await io.createApi({
+        projectId: this.projectId,
+        sql: this.resultInfo.sql,
+        tql:this.tql,
+        runType: 2,
+        ...params
+      })
+
+      runInAction(() => {
+        if(res) {
+          successTip('API创建成功')
+        } else {
+          failureTip('API创建失败')
+        }
+        cb()
+        this.apiParamsInfo = {}
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
 }
 
 export default new Store()

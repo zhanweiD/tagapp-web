@@ -70,7 +70,7 @@ export const pieOpt = info => {
     tooltip: {
       trigger: 'item',
       formatter: params => {
-        return `${params.name}<br />实体数: ${params.value}<br />占比: ${params.percent}%`
+        return `${info.tagName}:${params.name}<br />实体数: ${params.value}<br />占比: ${params.percent}%`
       },   
     },
     series: [
@@ -102,6 +102,7 @@ export const pieOpt = info => {
 } 
 
 export const barOpt = data => {
+  console.log(data)
   const xAxisData = data.xy.map(d => d.x)
   const yAxisData = data.xy.map(d => d.y1)
   const tooltip = data.xy.map(d => d.y2)
@@ -120,7 +121,7 @@ export const barOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },
     },
     xAxis: {
@@ -177,7 +178,7 @@ export const acrossBarOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },
     },
     grid: {
@@ -240,7 +241,7 @@ export const lineOpt = data => {
     tooltip: {
       trigger: 'axis',
       formatter: params => {
-        return `${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },   
     },
     xAxis: {

@@ -16,8 +16,7 @@ import {
   Modal,
   Spin,
 } from 'antd'
-import {ExclamationCircleOutlined} from '@ant-design/icons'
-// import {IconDel, IconTreeAdd} from '../../../icon-comp'
+import {ExclamationCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
 import SearchResult from './search-result'
@@ -45,6 +44,7 @@ export default class Visual extends Component {
 
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
+  outNameMap = {}
 
   @observable menuCode = 'out'
 
@@ -65,6 +65,7 @@ export default class Visual extends Component {
   }
 
   @action.bound selectObj(objId) {
+    const t = this
     confirm({
       title: '确认切换源标签对象?',
       icon: <ExclamationCircleOutlined />,
@@ -75,6 +76,7 @@ export default class Visual extends Component {
         store.screenConfig.clear()
         store.showResult = false
         store.resultInfo = {}
+        t.outNameMap = {}
 
         // 切换
         store.objId = objId
@@ -114,11 +116,13 @@ export default class Visual extends Component {
   }
 
   @action.bound createApi() {
+    store.getApiGroup()
     store.getApiParams()
     store.visibleApi = true
   }
 
   @action.bound clearAll() {
+    const t = this
     confirm({
       title: '确认清空?',
       icon: <ExclamationCircleOutlined />,
@@ -128,6 +132,8 @@ export default class Visual extends Component {
         store.screenConfig.clear()
         store.showResult = false
         store.resultInfo = {}
+        store.saveParams = {}
+        t.outNameMap = {}
       },
       onCancel() {
         console.log('Cancel')
@@ -136,7 +142,6 @@ export default class Visual extends Component {
   }
 
   @action.bound menuClick(e) {
-    console.log(e)
     this.menuCode = e.key
   }
 
@@ -149,6 +154,9 @@ export default class Visual extends Component {
 
   @action.bound delAllOutConfig() {
     store.outConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
+    this.outNameMap = {}
   }
 
   @action.bound addOutConfig(index) {
@@ -160,8 +168,9 @@ export default class Visual extends Component {
     })
   }
 
-  @action.bound delOutConfig(index) {
+  @action.bound delOutConfig(index, id) {
     store.outConfig.splice(index, 1)
+    delete this.outNameMap[id]
   }
 
   @action.bound addFirstScreenConfig() {
@@ -173,6 +182,8 @@ export default class Visual extends Component {
 
   @action.bound delAllScreenConfig() {
     store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
   }
 
   @action.bound addScreenConfig(index) {
@@ -198,6 +209,8 @@ export default class Visual extends Component {
             where: screenConfig,
           }
           // store.showResult = true
+          store.resultInfo = {}
+          store.saveParams = {}
           store.runSearch(params)
         }, () => {
           message.error('筛选设置信息尚未完善！')
@@ -207,6 +220,8 @@ export default class Visual extends Component {
           outputList: outConfig,
         }
         // store.showResult = true
+        store.resultInfo = {}
+        store.saveParams = {}
         store.runSearch(params)
       }
     }, () => {
@@ -250,6 +265,10 @@ export default class Visual extends Component {
     console.log(this.outConfigRef.current.getFieldsValue())
   }
 
+  outNameBlur = (value, id) => {
+    this.outNameMap[id] = value
+  }
+
   render() {
     const {
       outConfig, 
@@ -271,7 +290,8 @@ export default class Visual extends Component {
         <div className="header-button">
           <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
+          <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+          {/* <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button> */}
         </div>
         <div className="FBH pt16 pb16">
           <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
@@ -298,7 +318,7 @@ export default class Visual extends Component {
                   </span>
                 )
               }
-             
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined/></a> 
             </div>
             <div className="visual-content" id="visual-content">
               <SearchResult 
@@ -338,6 +358,15 @@ export default class Visual extends Component {
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
 
+                              if (changedValues[key].function && allValues[key].params1) {
+                                this.outConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    params1: undefined,
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].function && allValues[key].params) {
                                 this.outConfigRef.current.setFieldsValue({
                                   [key]: {
@@ -356,6 +385,8 @@ export default class Visual extends Component {
                                   expressionTag={toJS(expressionTag)}
                                   delOutConfig={this.delOutConfig}
                                   addOutConfig={this.addOutConfig}
+                                  outNameMap={this.outNameMap}
+                                  outNameBlur={this.outNameBlur}
                                 />
                               ))
                             }
@@ -387,6 +418,16 @@ export default class Visual extends Component {
                             ref={this.screenConfigRef}
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
+      
+                              if (changedValues[key].leftParams && allValues[key].leftParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    comparision: "="
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].leftFunction && allValues[key].leftParams) {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {
@@ -396,6 +437,15 @@ export default class Visual extends Component {
                                 })
                               }
 
+                              if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
+                                  }
+                                })
+                              }
+  
                               if (changedValues[key].rightFunction && allValues[key].rightParams) {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {

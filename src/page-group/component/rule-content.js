@@ -1,6 +1,6 @@
 import {Component} from 'react'
 import {Button, Form} from 'antd'
-import {PlusOutlined} from '@ant-design/icons'
+import {PlusOutlined, QuestionCircleOutlined} from '@ant-design/icons'
 import Group from './group'
 import WrapRuleCondition from './wrap-rule-condition'
 
@@ -137,6 +137,10 @@ export default class RuleContent extends Component {
     }) 
   }
 
+  // goToExplain = () => {
+  //   window.location.href = `${window.__keeper.pathHrefPrefix}/group/explain`
+  // }
+
   render() {
     const {
       key,
@@ -162,7 +166,8 @@ export default class RuleContent extends Component {
           page === 'detail' ? null : (
             <div className="mb24">
               <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup} disabled={renderData.length === 10}>添加</Button>
-              <Button className="ml8" onClick={this.reset}>重置条件</Button>
+              <Button className="ml8 mr8" onClick={this.reset}>重置条件</Button>
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/group/explain`}><QuestionCircleOutlined/></a> 
             </div>
           )
         }

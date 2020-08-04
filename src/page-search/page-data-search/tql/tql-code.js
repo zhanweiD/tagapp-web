@@ -7,7 +7,7 @@ import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import cls from 'classnames'
 import {message, Spin} from 'antd'
-
+import {QuestionCircleOutlined} from '@ant-design/icons'
 import sqlFormatter from 'sql-formatter'
 // import LogPanel from '../code-component/log-panel'
 import SearchResult from './search-result'
@@ -120,6 +120,7 @@ export default class TqlCode extends Component {
                 <img src={geshihua} alt="img" />
                 <span>格式化</span>
               </span>
+            <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined/></a> 
             </div>
             <form
               id="code_area"

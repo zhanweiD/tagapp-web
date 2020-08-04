@@ -1,9 +1,7 @@
 const nameTextStyleColor = 'rgba(0, 0, 0, .65)'
 
 // 标签调用次数趋势图配置
-export default function getOptions(dataX, dataY) {
-  console.log(dataX)
-  // data, legend = []
+export default function getOptions(data) {
   return {
     tooltip: {
       trigger: 'axis',
@@ -31,7 +29,7 @@ export default function getOptions(dataX, dataY) {
           color: nameTextStyleColor,
         },
       },
-      data: dataX,
+      data: _.map(data, 'x'),
     }],
     yAxis: {
       show: true,
@@ -58,7 +56,7 @@ export default function getOptions(dataX, dataY) {
         itemStyle: {
           color: '#429ff7',
         },
-        data: dataY,
+        data: _.map(data, 'y'),
       },
     ],
   }

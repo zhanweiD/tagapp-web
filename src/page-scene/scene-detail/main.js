@@ -7,7 +7,7 @@ import {
 } from 'antd'
 
 import {Time} from '../../common/util'
-import {AuthBox, Tag, DetailHeader} from '../../component'
+import {AuthBox, Tag, DetailHeader, TabRoute} from '../../component'
 import ModalEditScene from '../scene/modal'
 
 import SelectTag from './select-tag'
@@ -39,9 +39,9 @@ class SceneDetail extends Component {
     store.modalVisible = true
   }
 
-  @action.bound onTabChange(e) {
-    store.currentKey = e
-  }
+  // @action.bound onTabChange(e) {
+  //   store.currentKey = e
+  // }
 
   componentWillUnmount() {
     store.info = {}
@@ -87,7 +87,15 @@ class SceneDetail extends Component {
 
     const actions = [
       <Button className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</Button>,
+      <Button type="primary">
+        <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api`}>数据服务</a>
+      </Button>
     ]
+
+    const tabConfig = {
+      tabs: [{name: '标签选择', value: 1}],
+      changeUrl: false,
+    }
 
     return (
       <div className="scene-detail">    
@@ -123,23 +131,15 @@ class SceneDetail extends Component {
             actions={actions}
           />
         </Spin>
-        {
-          store.projectId ? (
-            <Fragment>
-              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
-                <TabPane tab="标签选择" key="1">
-                  <SelectTag 
-                    sceneId={store.sceneId} 
-                    projectId={store.projectId}
-                    sceneDetailStore={store}
-                  />
-                </TabPane>
-              </Tabs>
-              <ModalEditScene store={store} />
-            </Fragment>
-          ) : null
-        }
-       
+        <div>
+          <TabRoute {...tabConfig} />
+          <SelectTag
+            sceneId={store.sceneId}
+            projectId={store.projectId}
+            sceneDetailStore={store}
+          />
+          <ModalEditScene store={store} />
+        </div>     
       </div>
     )
   }
