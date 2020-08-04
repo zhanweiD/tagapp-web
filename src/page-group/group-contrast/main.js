@@ -62,7 +62,7 @@ class GroupContrast extends Component {
 
     const chart = venn.VennDiagram().height(120).width(180)
     vennChart.datum(sets).call(chart)
-    d3.selectAll('.label').style('display', 'none')
+    d3.selectAll('#venn .label').style('display', 'none') 
   }
 
   // 绘制子弹图
