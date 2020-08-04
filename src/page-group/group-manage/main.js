@@ -24,6 +24,7 @@ class GroupManage extends Component {
     super(props)
     store.projectId = props.projectId
 
+    store.searchParams = {}
     store.getEntityList()
   }
 
@@ -82,14 +83,14 @@ class GroupManage extends Component {
       key: 'lastTime',
       title: '创建时间',
       dataIndex: 'lastTime',
-      width: 200,
+      width: 170,
       render: text => <Time timestamp={text} />,
     }, {
     }, {
       key: 'updateTime',
       title: '更新时间',
       dataIndex: 'updateTime',
-      width: 200,
+      width: 170,
       render: text => <Time timestamp={text} />,
     }, {
       key: 'mode',
