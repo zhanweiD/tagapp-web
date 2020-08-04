@@ -228,15 +228,17 @@ export const functionList = [{
   tagTypeList: [2, 3],
 }]
 
-export const entityFunctionList = [{
-  name: '标签值',
-  value: '标签值',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '绝对值',
-  value: 'abs',
-  tagTypeList: [2, 3],
-}, {
+export const entityFunctionList = [
+// {
+//   name: '标签值',
+//   value: '标签值',
+//   tagTypeList: [1, 2, 3, 4, 5, 6],
+// }, {
+//   name: '绝对值',
+//   value: 'abs',
+//   tagTypeList: [2, 3],
+// },
+ {
   name: '总记录数',
   value: 'count',
   tagTypeList: [1, 2, 3, 4, 5, 6],
