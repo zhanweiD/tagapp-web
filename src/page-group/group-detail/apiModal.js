@@ -41,7 +41,8 @@ export default class ApiModal extends Component {
       rules: [
         '@transformTrim',
         '@required',
-        {pattern: /^\/[a-zA-Z0-9_-]/, message: '请以/开头，支持英文、数字、下划线、连线符'},
+        {pattern: /^\/[\w+/-]{0,}$/, message: '路径格式错误！支持英文、数字、下划线、连线符'},
+        // {pattern: /^\/[a-zA-Z0-9!@]{0,}/, message: '请以/开头，支持英文、数字、下划线、连线符'},
         {validator: this.checkName},
       ],
       placeholder: '请输入以/开头的API路径',
