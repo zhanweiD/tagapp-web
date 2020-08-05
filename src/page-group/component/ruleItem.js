@@ -288,15 +288,23 @@ const RuleItem = ({
                 && relId 
                       ? <a href onClick={open} className="ml8 fs12">设置筛选</a> : null
                   }
-              
+
                   {
+                    rest.level.length === 3 && rest.isEnd ?  <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> : null
+                  }
+
+                  {
+                    rest.level.length === 2 ? <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" /> : null
+                  }
+              
+                  {/* {
 
                     rest.level.length === 1 ? null : rest.level.length === 3 
                       ? <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> 
 
                       : <IconTreeAdd size="14" onClick={() => addCombineCon()} className="ml8" />
 
-                  }
+                  } */}
                   {/* <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} /> */}
                   {
                     rest.len === 1 ? <IconDel size="14" className="ml8" onClick={() => delCon()} style={{right: '0px'}} /> : null
