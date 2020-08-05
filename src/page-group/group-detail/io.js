@@ -12,6 +12,8 @@ const api = {
   getApiList: get(`${baseApi}/groupApi/list`), // 获取API列表
   createApi: get(`${baseApi}/groupApi/create`), // 创建API
   getApiGroup: get(`${baseApi}/groupApi/groups`), // 分组信息
+  checkName: get(`${baseApi}/groupApi/existApiName`), // api名称查重
+  checkPath: get(`${baseApi}/groupApi/existApiPath`), // api路径查重
   // getApiTags: get(`${baseApi}/groupApi/outputTags`), // 输出标签
 }
 

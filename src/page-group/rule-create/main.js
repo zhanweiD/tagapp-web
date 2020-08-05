@@ -45,12 +45,12 @@ class RuleCreate extends Component {
     const {oneForm, submitLoading, groupId} = store
 
     if (groupId) {
-      message.loading({content: `群体 ${oneForm.name} 编辑中...`, duration: 1})
+      // message.loading({content: `群体 ${oneForm.name} 编辑中...`, duration: 1})
       store.editGroup(values, res => {
         this.showResult(res)
       })
     } else {
-      message.loading({content: `群体 ${oneForm.name} 创建中...`, duration: 1})
+      // message.loading({content: `群体 ${oneForm.name} 创建中...`, duration: 1})
       store.addGroup(values, res => {
         this.showResult(res)
       })

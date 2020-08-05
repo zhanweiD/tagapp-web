@@ -39,9 +39,9 @@ export default class GroupModal extends Component {
     this.form.validateFields((err, values) => {
       if (!err) {
         store.saveUnitList(values)
-        store.addList(values, () => {
-          this.handleCancel()
-        })
+        // store.addList(values, () => {
+        //   this.handleCancel()
+        // })
       }
     })
   }

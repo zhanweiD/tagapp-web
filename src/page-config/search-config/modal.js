@@ -13,6 +13,7 @@ const ConfigModal = ({
   onCancel,
   selectDataType, 
   dataType, 
+  config,
   dataSource}) => {
   const [form] = Form.useForm()
 
@@ -48,6 +49,7 @@ const ConfigModal = ({
         <Form.Item
           name="type"
           label="数据源类型"
+          initialValue={config.storageType}
           rules={[
             {
               required: true,
@@ -64,6 +66,7 @@ const ConfigModal = ({
         <Form.Item 
           name="storageId" 
           label="数据源"
+          initialValue={config.storageName}
           rules={[
             {
               required: true,

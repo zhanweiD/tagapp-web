@@ -175,7 +175,7 @@ const RuleItem = ({
             label={null}
             name={[key, 'leftFunction']}
             rules={[{required: true, message: '请选择函数'}]}
-            initialValue={rest.leftFunction || '标签值'}
+            initialValue={rest.leftFunction || (functionRList.length === 2 ? '标签值' : 'count')}
           >
             <Select 
               showSearch

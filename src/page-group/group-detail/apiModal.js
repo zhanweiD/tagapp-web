@@ -3,7 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal, Spin} from 'antd'
 import {ModalForm} from '../../component'
-import {limitSelect} from '../../common/util'
+import {debounce} from '../../common/util'
 
 @observer
 export default class ApiModal extends Component {
@@ -16,7 +16,6 @@ export default class ApiModal extends Component {
     const {
       apiGroupList = [],
     } = this.store
-    console.log(toJS(apiGroupList))
     return [{
       label: 'API名称',
       key: 'apiName',
@@ -24,6 +23,7 @@ export default class ApiModal extends Component {
       rules: [
         '@transformTrim',
         '@required',
+        {validator: this.checkName},
       ],
     }, {
       label: 'API分组',
@@ -42,6 +42,7 @@ export default class ApiModal extends Component {
         '@transformTrim',
         '@required',
         {pattern: /^\/[a-zA-Z0-9_-]/, message: '请以/开头，支持英文、数字、下划线、连线符'},
+        {validator: this.checkName},
       ],
       placeholder: '请输入以/开头的API路径',
       component: 'input',
@@ -57,6 +58,11 @@ export default class ApiModal extends Component {
 
   @action handleCancel = () => {
     this.store.visible = false
+  }
+
+  @action checkName = (rule, value, callback) => {
+    const isName = rule.field === 'apiName'
+    debounce(() => this.store.checkName(isName, value, callback), 500)
   }
 
   submit = () => {

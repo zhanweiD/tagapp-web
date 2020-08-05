@@ -3,7 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Form, Icon as LegacyIcon} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css' 
-import {Modal, Spin, Select, Button, Upload, message} from 'antd'
+import {Modal, Select, Button, Upload, message} from 'antd'
 import {
   errorTip,
   limitSelect,
