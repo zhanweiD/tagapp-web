@@ -5,6 +5,7 @@ const EditableContext = React.createContext()
 
 const EditableRow = ({index, ...props}) => {
   const [form] = Form.useForm()
+
   return (
     <Form form={form} component={false}>
       <EditableContext.Provider value={form}>
@@ -29,7 +30,6 @@ const EditableCell = ({
   const save = async e => {
     try {
       const values = await form.validateFields()
-
       handleSave({...record, ...values})
     } catch (errInfo) {
       console.log(errInfo)
@@ -49,7 +49,7 @@ const EditableCell = ({
   if (editable && compType === 'input') {
     childNode = (
       <Form.Item name={dataIndex}>
-        <Input onPressEnter={save} onBlur={save} />
+        <Input onBlur={save} />
       </Form.Item>
     )
   }
@@ -57,7 +57,7 @@ const EditableCell = ({
   if (editable && compType === 'check') {
     childNode = (
       <Form.Item name={dataIndex}>
-        <Checkbox onChange={saveCheck} />
+        <Checkbox onChange={saveCheck} defaultChecked/>
       </Form.Item>
     )
   }
@@ -68,7 +68,6 @@ const EditableCell = ({
 class ApiResponseParams extends React.Component {
   constructor(props) {
     super(props)
-
     this.columns = [
       {
         title: '参数名称',
@@ -77,8 +76,13 @@ class ApiResponseParams extends React.Component {
         title: '数据类型',
         dataIndex: 'fieldType',
       }, {
-        title: '示例值',
-        dataIndex: 'name3',
+        title: '是否必填',
+        dataIndex: 'required',
+        editable: true,
+        compType: 'check',
+      }, {
+        title: '默认值',
+        dataIndex: 'fieldValue',
         width: '20%',
         editable: true,
         compType: 'input',
@@ -90,19 +94,25 @@ class ApiResponseParams extends React.Component {
         compType: 'input',
       },
     ]
-
     this.state = {
-      dataSource: [],
+      dataSource: props.data,
     }
-  
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.data !==  this.props.data) {
+      this.setState({
+        dataSource: this.props.data
+      })
+    }
+  }
 
   handleSave = row => {
     const newData = [...this.state.dataSource]
-    const index = newData.findIndex(item => row.key === item.key)
+    const index = newData.findIndex(item => row.fieldName === item.fieldName)
+
     const item = newData[index]
-    newData.splice(index, 1, {...item, ...row})
+    newData.splice(index, 1, {...item, ...row, required: row.required ? 1: 0 })
     this.setState({
       dataSource: newData,
     })

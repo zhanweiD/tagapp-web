@@ -204,8 +204,9 @@ class Store {
       })
 
       runInAction(() => {
-        console.log(res)
         this.resultInfo = res
+        this.saveParams = params
+        this.handleExpend(true)
       })
     } catch (e) {
       errorTip(e.message)
@@ -259,11 +260,18 @@ class Store {
       const res = await io.getApiParams({
         projectId: this.projectId,
         objId: this.objId,
+        sql: this.resultInfo.sql,
         ...params,
       })
 
       runInAction(() => {
-        this.apiParamsInfo = res
+        this.apiParamsInfo = {
+          filedList: res.filedList,
+          varList: res.varList.map(d => ({
+            ...d,
+            required: 1,
+          })),
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -272,7 +280,7 @@ class Store {
 
 
   // 获取详情 
-  @action async getDetail() {
+  @action async getDetail(cb) {
     this.detailLoading = true
 
     try {
@@ -285,6 +293,7 @@ class Store {
         this.objId = res.objId
         this.getTagTree({id: res.objId})
         this.getExpressionTag({id: res.objId})
+        cb(res)
       })
     } catch (e) {
       errorTip(e.message)
@@ -293,6 +302,67 @@ class Store {
         this.detailLoading = false
       })
     }
+  }
+
+  @observable apiGroup = []
+  // 获取api分组列表
+  @action async getApiGroup () {
+    try {
+      const res = await io.getApiGroup({
+        projectId: this.projectId,
+      })
+
+      runInAction(() => {
+        this.apiGroup = res
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 创建api
+  @action async createApi (params, cb) {
+    this.modalApiLoading = true
+    try {
+      const res = await io.createApi({
+        projectId: this.projectId,
+        sql: this.resultInfo.sql,
+        runType: 1,
+        ...params
+      })
+
+      runInAction(() => {
+        if(res) {
+          successTip('API创建成功')
+        } else {
+          failureTip('API创建失败')
+        }
+        cb()
+        this.apiParamsInfo = {}
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.modalApiLoading = false
+      })
+    }
+  }
+
+  // 名称校验
+  apiNameCheck (apiName, cb) {
+    return io.apiNameCheck({
+      projectId: this.projectId,
+      apiName,
+    })
+  }
+
+  // api路径校验
+  async apiPathCheck (apiPath, cb) {
+    return io.apiPathCheck({
+      projectId: this.projectId,
+      apiPath,
+    })
   }
 }
 

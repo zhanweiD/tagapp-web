@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Select,
+  Popconfirm
 } from 'antd'
 
 import {outValueLogic} from './util'
@@ -19,11 +20,13 @@ const OutItem = ({
   addOutConfig,
   index,
   info = {},
+  outNameBlur,
+  outNameMap,
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
-
-  const [showSelect, changeShowSelect] = useState(true)
-  const [showInput, changeShowInput] = useState(false)
+  const [showSelect, changeShowSelect] = useState((info.conditionUnit && info.conditionUnit.function) === 'count'|| (info.conditionUnit && info.conditionUnit.function) === '固定值' ? false: true)
+  const [showInput, changeShowInput] = useState((info.conditionUnit && info.conditionUnit.function) === '固定值' ? true: false)
+  const [showLeftInput, changeShowLeftInput] = useState((info.conditionUnit && info.conditionUnit.function) === 'date_format' ? true: false)
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
@@ -41,9 +44,24 @@ const OutItem = ({
       changeShowSelect(true)
       changeShowInput(false)
     }
+
+    if (obj.value === 'date_format') {
+      changeShowLeftInput(true)
+    } else {
+      changeShowLeftInput(false)
+    }
+  }
+
+  function onBlur(e) {
+    outNameBlur(e.target.value, id)
   }
 
   const {alias, conditionUnit} = info
+
+  const obj = {...outNameMap}
+
+  delete obj[id]
+
   return (
     <Form.Item key={id}>
       <Input.Group compact>
@@ -66,6 +84,7 @@ const OutItem = ({
               name={[id, 'params']}
               noStyle
               rules={[{required: true, message: '请输入'}]}
+              initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Input style={{width: '200px'}} placeholder="请输入" />
 
@@ -90,18 +109,58 @@ const OutItem = ({
             </Form.Item>
           ) : null
         }
+
+        {
+          showLeftInput ? (
+
+            <Form.Item
+              name={[id, 'params1']}
+              noStyle
+              rules={[{ required: true, message: '请输入' }]}
+              initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[1])}
+            >
+              <Input style={{ width: '200px' }} placeholder="请输入" />
+            </Form.Item>
+          ) : null
+        }
        
         <Form.Item
           name={[id, 'alias']}
           noStyle
-          rules={[{required: true, message: '请输入显示名称'}]}
+          rules={[{
+            required: true, message: '请输入显示名称'
+            }, {
+              pattern: /[^0-9]/, message: '显示名称禁止输入数字'
+            }, 
+            {
+              validator: (rule, value) => {
+                if(Object.values(obj).includes(value) ) {
+                  return Promise.reject('显示名称重复')
+                }
+
+                return Promise.resolve()
+              }
+            }, 
+            {
+              validateFirst: true,
+            }
+          ]}
           initialValue={alias}
         >
-          <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" />
+          <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} />
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
-            <IconDel size="14" onClick={() => delOutConfig(index)} className="ml8 mr4" />
+          <Popconfirm
+              placement="bottomLeft"
+              title="确认删除"
+              onConfirm={() => delOutConfig(index, id)}
+              okText="确实"
+              cancelText="取消"
+            >
+              <IconDel size="14" className="ml8 mr4" />
+            </Popconfirm>
+
             <IconTreeAdd size="14" onClick={() => addOutConfig(index)} />
           </div>
         </Form.Item>

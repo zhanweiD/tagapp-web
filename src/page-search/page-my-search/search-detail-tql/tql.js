@@ -10,6 +10,7 @@ import OnerFrame from '@dtwave/oner-frame'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 import ModalSave from './modal-save'
+import DrewerApi from '../search-detail-visual/modal-api'
 
 import store from './store'
 import './tql.styl'
@@ -42,6 +43,7 @@ class Tql extends Component {
   }
 
   @action.bound createApi() {
+    store.getApiGroup()
     store.getApiParams()
     store.visibleApi = true
   }
@@ -75,17 +77,22 @@ class Tql extends Component {
   }
 
   render() {
+    const {
+      resultInfo
+    } = store
+    
     return (
       <div className="tql-detail">
         <div className="header-button">
           {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
           <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          <Button className="mr8" type="primary">生成API</Button>
+          <Button className="mr8" type="primary" disabled={!resultInfo.sql} onClick={this.createApi}>生成API</Button>
         </div>
         <div className="tql-content-detail">
           <TqlTree store={store} />
           <TqlCode store={store} />
           <ModalSave store={store} />
+          <DrewerApi store={store} />
         </div>
       </div>
     )

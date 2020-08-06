@@ -21,7 +21,6 @@ export default class StepTwo extends Component {
 
   @observable visible = false
 
-
   @action pre = () => {
     this.store.current -= 1
   }
@@ -31,8 +30,9 @@ export default class StepTwo extends Component {
       .validateFields()
       .then(values => {
         if (JSON.stringify(values) !== '{}') {
+          console.log(formatData(values, this.ruleContentRef, this.whereMap))
           this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
-          this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap)
+          this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap, this.whereMap)
 
           this.store.whereMap = this.whereMap
           this.store.wherePosMap = this.wherePosMap

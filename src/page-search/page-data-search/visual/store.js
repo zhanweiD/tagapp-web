@@ -302,6 +302,21 @@ class Store {
     }
   }
 
+  // 名称校验
+  apiNameCheck (apiName, cb) {
+    return io.apiNameCheck({
+      projectId: this.projectId,
+      apiName,
+    })
+  }
+
+  // api路径校验
+  async apiPathCheck (apiPath, cb) {
+    return io.apiPathCheck({
+      projectId: this.projectId,
+      apiPath,
+    })
+  }
 }
 
 export default new Store()

@@ -4,6 +4,7 @@
 
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
+import {message} from 'antd'
 import {projectProvider, searchProvider} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
@@ -64,7 +65,9 @@ const GroupConfig = ({projectId}) => {
   
   const editClick = () => {
     changeVisible(true)
+    message.warning('不建议修改，修改后会影响之前的使用！')
     getStorageType()
+    // getStorageList()
   }
 
   const onCancel = () => {
@@ -80,8 +83,8 @@ const GroupConfig = ({projectId}) => {
       <div className="content-header">数据查询配置</div> 
       <div className="header-page p24">
         <h3>
-数据源配置
-          {/* <FormOutlined className="ml8" onClick={editClick} /> */}
+          数据源配置
+          <FormOutlined className="ml8" onClick={editClick} />
         </h3>
         <div className="search-config-item">
           <div className="search-config-label">数据源类型：</div>
@@ -99,6 +102,7 @@ const GroupConfig = ({projectId}) => {
         selectDataType={selectDataType}
         onCancel={onCancel}
         onCreate={params => initSearch(params)}
+        config={config}
       />
     </div>
   )

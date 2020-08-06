@@ -130,6 +130,36 @@ class Store extends ListContentStore(io.getHistoryList) {
       errorTip(e.message)
     }
   }
+
+  // 重命名校验
+  @action async checkName(isName, name, callback) {
+    let res
+    try {
+      if (isName) {
+        res = await io.checkName({
+          projectId: this.projectId,
+          apiName: name,
+        })
+      } else {
+        res = await io.checkPath({
+          projectId: this.projectId,
+          apiPath: name,
+        })
+      }
+      
+      runInAction(() => {
+        if (res && isName) {
+          callback('API名称重复')
+        } else if (res && !isName) {
+          callback('API路径重复')
+        } else {
+          callback()
+        }
+      })
+    } catch (error) {
+      errorTip(error)
+    }
+  }
 }
 
 export default new Store()

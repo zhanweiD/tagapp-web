@@ -283,6 +283,7 @@ class Store {
 
   // 创建api
   @action async createApi (params, cb) {
+    this.modalApiLoading = true
     try {
       const res = await io.createApi({
         projectId: this.projectId,
@@ -303,7 +304,27 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.modalApiLoading = false
+      })
     }
+  }
+
+  // 名称校验
+  apiNameCheck (apiName, cb) {
+    return io.apiNameCheck({
+      projectId: this.projectId,
+      apiName,
+    })
+  }
+
+  // api路径校验
+  async apiPathCheck (apiPath, cb) {
+    return io.apiPathCheck({
+      projectId: this.projectId,
+      apiPath,
+    })
   }
 }
 

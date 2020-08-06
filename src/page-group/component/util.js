@@ -149,14 +149,14 @@ export function formatData(formItemData, domRef, whereMap) {
     const groupResult = {
       logic: current.logic,
       comparisionList: [],
-      children: [],
+      childList: [],
     }
   
     if (pos[currentFlagEntity] && entityResult) {
       if (pos[currentFlagEntity].length === 1) {
         groupResult.comparisionList.push(entityResult)
       } else {
-        groupResult.children.push(...entityResult)
+        groupResult.childList.push(...entityResult)
       }
     }
    
@@ -164,7 +164,7 @@ export function formatData(formItemData, domRef, whereMap) {
       if (pos[currentFlagRel].length === 1) {
         groupResult.comparisionList.push(relResult)
       } else {
-        groupResult.children.push(...relResult)
+        groupResult.childList.push(...relResult)
       }
     }
  
@@ -174,7 +174,7 @@ export function formatData(formItemData, domRef, whereMap) {
   return result
 }
 
-export const getRenderData = (formItemData, domRef, wherePosMap) => {
+export const getRenderData = (formItemData, domRef, wherePosMap, whereMap) => {
   const {renderData, pos, selfCon, logicMap} = domRef
 
   const rule = []
@@ -210,18 +210,13 @@ export const getRenderData = (formItemData, domRef, wherePosMap) => {
 
   const resule = {
     wherePosMap,
+    whereMap,
     selfCon,
     rule,
   }
 
   return resule
 }
-
-export const ruleFunctionList = [{
-  name: '标签值',
-  value: '标签值',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}]
 
 export const functionList = [{
   name: '标签值',
@@ -231,7 +226,19 @@ export const functionList = [{
   name: '绝对值',
   value: 'abs',
   tagTypeList: [2, 3],
-}, {
+}]
+
+export const entityFunctionList = [
+// {
+//   name: '标签值',
+//   value: '标签值',
+//   tagTypeList: [1, 2, 3, 4, 5, 6],
+// }, {
+//   name: '绝对值',
+//   value: 'abs',
+//   tagTypeList: [2, 3],
+// },
+ {
   name: '总记录数',
   value: 'count',
   tagTypeList: [1, 2, 3, 4, 5, 6],
@@ -283,3 +290,11 @@ export const condition = [{
 //   name: '为空',
 // }
 ]
+
+export const textCondition = [{
+  value: '=',
+  name: '等于',
+}, {
+  value: '!=',
+  name: '不等于',
+}]

@@ -44,12 +44,21 @@ class Visual extends Component {
 
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
+  outNameMap = {}
 
   @observable menuCode = 'out'
 
   componentWillMount() {
     store.getObjList()
-    store.getDetail()
+    store.getDetail((res) => {
+      const {outputCondition} = res
+      if(outputCondition && outputCondition.length) {
+        for (let i = 0; i < outputCondition.length; i++) {
+          const ele = outputCondition[i]
+          this.outNameMap[i] = ele.alias
+        }
+      }
+    })
   }
 
   componentDidMount() {
@@ -97,6 +106,7 @@ class Visual extends Component {
   }
 
   @action.bound createApi() {
+    store.getApiGroup()
     store.getApiParams()
     store.visibleApi = true
   }
@@ -119,7 +129,6 @@ class Visual extends Component {
   // }
 
   @action.bound menuClick(e) {
-    console.log(e)
     this.menuCode = e.key
   }
 
@@ -132,6 +141,9 @@ class Visual extends Component {
 
   @action.bound delAllOutConfig() {
     store.outConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
+    this.outNameMap = {}
   }
 
   @action.bound addOutConfig(index) {
@@ -143,8 +155,9 @@ class Visual extends Component {
     })
   }
 
-  @action.bound delOutConfig(index) {
+  @action.bound delOutConfig(index, id) {
     store.outConfig.splice(index, 1)
+    delete this.outNameMap[id]
   }
 
   @action.bound addFirstScreenConfig() {
@@ -156,6 +169,8 @@ class Visual extends Component {
 
   @action.bound delAllScreenConfig() {
     store.screenConfig.clear()
+    store.showResult = false
+    store.resultInfo = {}
   }
 
   @action.bound addScreenConfig(index) {
@@ -180,7 +195,9 @@ class Visual extends Component {
             outputList: outConfig,
             where: screenConfig,
           }
-          store.showResult = true
+          // store.showResult = true
+          store.resultInfo = {}
+          store.saveParams = {}
           store.runSearch(params)
         }, () => {
           message.error('筛选设置信息尚未完善！')
@@ -189,7 +206,9 @@ class Visual extends Component {
         const params = {
           outputList: outConfig,
         }
-        store.showResult = true
+        // store.showResult = true
+        store.resultInfo = {}
+        store.saveParams = {}
         store.runSearch(params)
       }
     }, () => {
@@ -229,6 +248,10 @@ class Visual extends Component {
     }
   }
 
+  outNameBlur = (value, id) => {
+    this.outNameMap[id] = value
+  }
+
   render() {
     const {
       outConfig, 
@@ -253,7 +276,7 @@ class Visual extends Component {
           <div className="header-button">
             {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
             <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-            <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button>
+            <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
           </div>
           <div className="FBH pt16 pb16">
             <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
@@ -310,8 +333,22 @@ class Visual extends Component {
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
 
+                              if (changedValues[key].function && allValues[key].params1) {
+                                this.outConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    params1: undefined,
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].function && allValues[key].params) {
-                                this.outConfigRef.current.resetFields([key].params)
+                                this.outConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    params: undefined,
+                                  }
+                                })
                               }
                             }}
                           >
@@ -324,6 +361,8 @@ class Visual extends Component {
                                   delOutConfig={this.delOutConfig}
                                   addOutConfig={this.addOutConfig}
                                   info={toJS(d)}
+                                  outNameMap={this.outNameMap}
+                                  outNameBlur={this.outNameBlur}
                                 />
                               ))
                             }
@@ -343,7 +382,7 @@ class Visual extends Component {
                             <Popconfirm
                               placement="bottomLeft"
                               title="确认清除筛选设置？"
-                              onConfirm={this.delAllOutConfig}
+                              onConfirm={this.delAllScreenConfig}
                               okText="确实"
                               cancelText="取消"
                             >
@@ -356,8 +395,40 @@ class Visual extends Component {
                             onValuesChange={(changedValues, allValues) => {
                               const [key] = Object.keys(changedValues)
 
+                              if (changedValues[key].leftParams && allValues[key].leftParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    comparision: "="
+                                  }
+                                })
+                              }
+
                               if (changedValues[key].leftFunction && allValues[key].leftParams) {
-                                this.screenConfigRef.current.resetFields([key].leftParams)
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    leftParams: undefined
+                                  }
+                                })
+                              }
+
+                              if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
+                                  }
+                                })
+                              }
+
+                              if (changedValues[key].rightFunction && allValues[key].rightParams) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightParams: undefined
+                                  }
+                                })
                               }
                             }}
                           >

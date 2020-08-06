@@ -92,16 +92,18 @@ class Store {
 
       runInAction(() => {
         this.objId = res.objId
-
-        this.logicExper = JSON.parse(res.logicExper)
-        this.posList = JSON.parse(this.logicExper.posList)
-
-        this.wherePosMap = this.posList.wherePosMap // 回显
-        this.whereMap = this.posList.whereMap // 添加
-
-        this.getConfigTagList()
-        this.getRelList()
         this.detail = res
+
+        if(res.logicExper) {
+          this.logicExper = JSON.parse(res.logicExper)
+          this.posList = JSON.parse(this.logicExper.posList)
+  
+          this.wherePosMap = this.posList.wherePosMap // 回显
+          this.whereMap = this.posList.whereMap // 添加
+  
+          this.getConfigTagList()
+          this.getRelList()
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -110,6 +112,7 @@ class Store {
 
   // 编辑群体
   @action async editGroup(params, cb) {
+    this.submitLoading = true
     try {
       const logicExper = {
         ...toJS(this.logicExper),

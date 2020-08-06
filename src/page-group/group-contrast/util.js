@@ -39,7 +39,8 @@ export const barOpt = data => {
     color: colors,
     legend: {
       show: true,
-      data: [data.groupAname, data.groupBname]
+      data: [data.groupAname, data.groupBname],
+      selectedMode: false,
     },
     tooltip: {
       trigger: 'axis',
@@ -47,7 +48,7 @@ export const barOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `群体：${data.groupAname}<br />${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip0[params[0].dataIndex]}<br />群体：${data.groupBname}<br />${params[1].axisValue}<br />实体数: ${params[1].data}<br />占比: ${tooltip1[params[1].dataIndex]}`
+        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
       },
     },
     xAxis: {
@@ -112,6 +113,7 @@ export const acrossBarOpt = data => {
     color: colors,
     legend: {
       show: true,
+      selectedMode: false,
       data: [data.groupAname, data.groupBname]
     },
     tooltip: {
@@ -120,7 +122,7 @@ export const acrossBarOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `群体：${data.groupAname}<br />${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip0[params[0].dataIndex]}<br />群体：${data.groupBname}<br />${params[1].axisValue}<br />实体数: ${params[1].data}<br />占比: ${tooltip1[params[1].dataIndex]}`
+        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
       },
     },
     grid: {
@@ -185,6 +187,7 @@ export const lineOpt = data => {
     color: getColors(xAxisData.length),
     legend: {
       show: true,
+      selectedMode: false,
       data: [data.groupAname, data.groupBname]
     },
     grid: {
@@ -196,7 +199,7 @@ export const lineOpt = data => {
     tooltip: {
       trigger: 'axis',
       formatter: params => {
-        return `群体：${data.groupAname}<br />${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip0[params[0].dataIndex]}<br />群体：${data.groupBname}<br />${params[1].axisValue}<br />实体数: ${params[1].data}<br />占比: ${tooltip1[params[1].dataIndex]}`
+        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
       },   
     },
     xAxis: {

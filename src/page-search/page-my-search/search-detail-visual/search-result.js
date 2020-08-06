@@ -37,7 +37,6 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
       })}
       id="search-result"
     >
-
       {
         !isExpend ? null : (
           <div className="drag-bottom" onMouseDown={onDraggableLogMouseDown} />

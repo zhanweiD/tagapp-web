@@ -112,6 +112,7 @@ export default class RuleIfBox extends Component {
               page={page}
               {...d}
               len={data.length}
+              formRef={this.props.formRef}
             />
           ) 
         }
@@ -182,6 +183,7 @@ export default class RuleIfBox extends Component {
       this.props.formRef.current.resetFields([itemKey])
     } else {
       const itemArr = data.filter(item => item.type === 2)  
+
       const levelTwoArr = data.filter(item => item.level.length === 2)  
       
       const lastItem = levelTwoArr[levelTwoArr.length - 1] 
@@ -197,25 +199,24 @@ export default class RuleIfBox extends Component {
         source: [22, lastItem.y + 16],
         target: [88, itemArr.length * 64 + 16],
       }
-
       data.push(newItem)
     }
 
     this.setState({data})
-    // this.setState({data}, () => {
-    //   this.refreshLineH(data)
-    // })
   }
 
   addCombineItem = (itemData, i) => {
+
     const data = _.cloneDeep(this.state.data)
 
-    const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
+    data[i].isEnd = false
 
-    const current = brotherNode[brotherNode.length - 1]
+    // const brotherNode = data.filter(d => d.type === 2 && itemData.flag.slice(0, -2) === d.flag.slice(0, -2))
+
+    // const current = brotherNode[brotherNode.length - 1]
 
     const newData = data.map(d => {
-      if (d.y > current.y && d.level.length === 3) {
+      if (d.y > itemData.y && d.level.length === 3) {
         return {
           flag: d.flag,
           level: d.level,
@@ -224,10 +225,11 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
+          isEnd: d.isEnd 
         }
       }
 
-      if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
+      if (d.y > itemData.y && d.level.length === 2 && d.level[1] === itemData.level[1] + 1) {
         return {
           flag: d.flag,
           level: d.level,
@@ -236,10 +238,11 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
+          isEnd: d.isEnd 
         }
       }
 
-      if (d.y > current.y && d.level.length === 2 && d.level[1] !== current.level[1] + 1) {
+      if (d.y > itemData.y && d.level.length === 2 && d.level[1] !== itemData.level[1] + 1) {
         return {
           flag: d.flag,
           level: d.level,
@@ -248,29 +251,31 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
+          isEnd: d.isEnd 
         }
       }
 
       return d
     })
 
-    current.level[itemData.level.length - 1] = brotherNode.length
+    // itemData.level[itemData.level.length - 1] = brotherNode.length
+
+    const newItemLevel = itemData.level
+    newItemLevel[2] = itemData.level[2] + 1
 
     const newItem = {
       type: 2,
-      flag: current.level.join('-'),
-      level: current.level,
-      source: [current.x - 66, brotherNode[0].y + brotherNode.length * 64 - 48],
-      target: [current.x, brotherNode[0].y + brotherNode.length * 64 + 16],
-      x: current.x,
-      y: brotherNode[0].y + brotherNode.length * 64,
+      flag: newItemLevel.join('-'),
+      level: newItemLevel,
+      source: [itemData.source[0], itemData.target[1]],
+      target: [itemData.target[0], itemData.target[1] + 64 ],
+      x: itemData.x,
+      y: itemData.y + 64,
+      isEnd: true,
     }
 
     newData.push(newItem)
     this.setState({data: newData})
-    // this.setState({data: newData}, () => {
-    //   this.refreshLineH(newData)
-    // })
   }
 
   // 添加联合条件
@@ -293,6 +298,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
+          isEnd: d.isEnd 
         }
       }
 
@@ -305,6 +311,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
+          isEnd: d.isEnd 
         }
       }
 
@@ -333,6 +340,7 @@ export default class RuleIfBox extends Component {
       x: current.x + 88,
       y: current.y,
       ...formContent,
+      isEnd: false,
     }
 
     const newChildrenItemLevel = current.level.concat([1])
@@ -353,38 +361,66 @@ export default class RuleIfBox extends Component {
     newData.push(newChildrenItem)
     this.setState({data: newData})
     this.props.formRef.current.resetFields([itemKey])
-    // this.setState({data: newData}, () => {
-    //   this.refreshLineH(newData)
-    // })
   }
 
   // 删除单个条件
   delCon = (current, i) => {
     const data = _.cloneDeep(this.state.data)
     data.splice(i, 1)
- 
     const itemKey = `${this.props.ruleIfBoxKey}-${current.flag}`
 
     let newData = []
-    
-    const bortherNode = data.filter(d => d.flag.slice(0, -2) === current.flag.slice(0, -2))
+    let bortherNode = []
+    if(current.level.length === 2) {
+      bortherNode = data.filter(d => d.level.length === 2 && d.level[0] === current.level[0])
+    } 
 
+    if(current.level.length === 3) {
+      bortherNode = data.filter(d => d.level.length === 3 && d.level[0] === current.level[0] && d.level[1] === current.level[1])
+    }
     if (bortherNode.length > 1) {
+      // 删除三层最后一个  添加按钮移动至上一位
       newData = data.map(d => {
-        // 同级
         if (
+          d.level.length === 3
+          && current.level.length === 3
+          && d.level[0] === current.level[0]
+          && d.level[1] === current.level[1]
+          && d.level[2] === current.level[2] - 1
+          && current.isEnd
+        ) {
+          return {
+            ...d,
+            isEnd: true
+          }
+        }
+
+        // 同级(二层 level.length === 2)
+        if(
           d.y > current.y 
-          && d.level.length > 1 
-          && d.level.length === current.level.length
-          && d.flag.slice(0, -2) === current.flag.slice(0, -2)) {
-          const {level} = d
-
-          const last = d.flag.slice(-1)
-
-          const len = level.length
-      
-          level[len - 1] = +last - 1
+          && d.level.length === 2
+          && current.level.length === 2
+          && d.level[0] === current.level[0]
+        ) {
           
+          if (d.level[1] === current.level[1] + 1) {
+            const {level} = d
+
+            level[1] = d.level[1] - 1
+
+            return {
+              flag: level.join('-'),
+              level: level,
+              source: current.source,
+              target: [d.target[0], d.target[1] - 64],
+              type: d.type,
+              x: d.x,
+              y: d.y - 64,
+            }
+          }
+
+          const {level} = d
+          level[1] = d.level[1] - 1
           return {
             flag: level.join('-'),
             level,
@@ -395,16 +431,43 @@ export default class RuleIfBox extends Component {
             y: d.y - 64,
           }
         }
+
+        // 同级(三层 level.length === 3)
+        if (
+          d.y > current.y
+          && d.level.length === 3
+          && current.level.length === 3
+          && d.level[0] === current.level[0]
+          && d.level[1] === current.level[1]
+          ) {
+          
+          const { level } = d
+
+          level[2] = d.level[2] - 1
+
+          return {
+            flag: level.join('-'),
+            level,
+            source: [d.source[0], d.source[1] - 64],
+            target: [d.target[0], d.target[1] - 64],
+            type: d.type,
+            x: d.x,
+            y: d.y - 64,
+            isEnd: d.isEnd
+          }
+        }
       
-        // 更新三层子节点flag
+        // 删除二层 更新三层子节点flag
         if (
           d.y > current.y
           && current.level.length === 2 
           && d.level.length === 3
         ) {
+          
           const {level} = d
+          const index = level[1]
       
-          level[1] = current.level[1]
+          level[1] = index - 1
 
           return {
             flag: level.join('-'),
@@ -414,13 +477,15 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
+            isEnd: d.isEnd 
           }
         }
-
+        // 删除三层 更新二层子节点flag
         if (
           d.y > current.y
+          && current.level.length === 3
           && d.level.length === 2
-          && d.level[1] === current.level[1] - 1
+          && d.level[1] === current.level[1] + 1
         ) {
           return {
             flag: d.flag,
@@ -434,6 +499,7 @@ export default class RuleIfBox extends Component {
         }
       
         if (d.y > current.y && d.level.length > 1) {
+          
           return {
             flag: d.flag,
             level: d.level,
@@ -442,6 +508,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
+            isEnd: d.isEnd 
           }
         }
       
@@ -450,12 +517,12 @@ export default class RuleIfBox extends Component {
     }
 
     if (bortherNode.length === 1) {
-      const formContent = this.props.formRef.current.getFieldValue(itemKey)
-    
-      const lastIndex = current.flag.slice(-1)
-      const bortherIndex = lastIndex === '0' ? _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}1`) : _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      // const formContent = this.props.formRef.current.getFieldValue(itemKey)
+      const len = current.level.length
+      const lastIndex = current.level[len-1]
+      // const bortherIndex = lastIndex === '0' ? _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}1`) : _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      const bortherIndex = _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
       const fatherIndex = _.findIndex(data, d => d.flag === current.flag.slice(0, -2))
-
       const {x, y, level} = data[bortherIndex]
 
       data[bortherIndex].x = x - 88
@@ -482,6 +549,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
+            isEnd: d.isEnd 
           }
         }
 
@@ -494,6 +562,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
+            isEnd: d.isEnd 
           }
         }
 
@@ -502,12 +571,14 @@ export default class RuleIfBox extends Component {
 
       newData.splice(fatherIndex, 1)
     }
-    this.props.formRef.current.resetFields([itemKey])
+    // this.props.formRef.current.resetFields([itemKey]) 
+    this.props.formRef.current.setFieldsValue({
+      [itemKey]: {
+        comparision: '=',
+        rightFunction: '固定值',
+      }
+    }) 
     this.setState({data: newData})
-
-    // this.setState({data: newData}, () => {
-    //   this.refreshLineH(newData)
-    // })
   }
 
   render() {

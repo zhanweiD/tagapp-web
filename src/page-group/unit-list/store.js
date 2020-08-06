@@ -6,6 +6,7 @@ import io from './io'
 
 class Store {
   @observable visible = false // 保存群体窗口
+  @observable confirmLoading = false // 保存群体按钮
   @observable id = 0 // 群体ID
   @observable objId = 0 // 实体ID
   @observable queryDate = 0 // 群体日期
@@ -87,6 +88,7 @@ class Store {
 
   // 保存群体
   @action async saveUnitList(obj) {
+    this.confirmLoading = true
     try {
       const res = await io.saveUnitList({
         projectId: this.projectId,
@@ -102,6 +104,8 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      this.confirmLoading = false
     }
   }
 

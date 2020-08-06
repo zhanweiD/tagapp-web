@@ -61,7 +61,7 @@ export default class DrewerApi extends Component {
       requestData = toJS(apiParamsInfo).varList 
     }
 
-    if( this.response.currentt && this.response.current.state) {
+    if( this.response.current && this.response.current.state) {
       responseData = this.response.current.state.dataSource
     } else {
       responseData = toJS(apiParamsInfo).filedList
@@ -73,6 +73,24 @@ export default class DrewerApi extends Component {
     }
   }
 
+  apiNameCheck = async (rule, value) => {
+    const res = await this.store.apiNameCheck(value)
+    if (res) {
+      return Promise.reject('API名称已存在')
+    } else {
+      return Promise.resolve()
+    }
+  }
+
+  apiPathCheck = async (rule, value) => {
+    const res = await this.store.apiPathCheck(value)
+    if(res) {
+      return Promise.reject('API路径已存在')
+    } else {
+      return Promise.resolve()
+    }
+  }
+  
   render() {
     const {
       visibleApi, modalApiLoading, apiParamsInfo = {}, apiGroup,
@@ -107,7 +125,11 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请输入API名称',
-              },
+              },{
+                validator: this.apiNameCheck
+              }, {
+                validateFirst: true,
+              }
             ]}
           >
             <Input  placeholder="请输入API名称"/>
@@ -119,7 +141,7 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请选择API分组',
-              },
+              } 
             ]}
           >
             <Select placeholder="请选择API分组">
@@ -137,6 +159,10 @@ export default class DrewerApi extends Component {
                 message: '请输入API路径',
               }, {
                 pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+              }, {
+                validateFirst: true,
+              }, {
+                validator: this.apiPathCheck
               }
             ]}
           >
@@ -156,8 +182,8 @@ export default class DrewerApi extends Component {
           </FormItem>
 
         </Form>
-        <div className="chart-title">配置参数</div>
-        <Tabs defaultActiveKey="1">
+        <h3>配置参数</h3>
+        <Tabs defaultActiveKey="1" style={{paddingBottom: '50px'}}>
           <TabPane tab="请求参数" key="1">
             <ApiRequsetParams ref={this.request} data={toJS(apiParamsInfo).varList} />
           </TabPane>

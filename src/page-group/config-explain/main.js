@@ -310,7 +310,6 @@ const Explain = () => {
             <li>会员（member）：会员号（id_number）、手机号（phone）、姓名（name）、性别（sex）</li>
             <li>浏览记录（Browse）：浏览id（Browse_id）、浏览时间（Browse_time）</li>
             <li>购买记录（buyer）：购买id（buyer_id）、购买时间（buyer_time）</li>
-            <li>浏览记录（Browse）：浏览id（Browse_id）、浏览时间（Browse_time）</li>
             <li>会员产生浏览记录（member_Browse）：浏览id（Browse_id）、会员号（id_number）</li>
             <li>会员产生购买记录（member_buyer）：购买id（buyer_id）、会员号（id_number）</li>
           </ul>

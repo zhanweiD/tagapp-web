@@ -39,9 +39,9 @@ export default class GroupModal extends Component {
     this.form.validateFields((err, values) => {
       if (!err) {
         store.saveUnitList(values)
-        store.addList(values, () => {
-          this.handleCancel()
-        })
+        // store.addList(values, () => {
+        //   this.handleCancel()
+        // })
       }
     })
   }
@@ -62,12 +62,14 @@ export default class GroupModal extends Component {
   render() {
     const {
       visible,
+      confirmLoading,
     } = this.store
     const modalConfig = {
       title: '保存群体',
       visible,
       maskClosable: false,
       closable: true,
+      confirmLoading,
       onCancel: this.handleCancel,
       onOk: this.submit,
       width: 525,
