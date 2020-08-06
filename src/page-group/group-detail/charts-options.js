@@ -9,7 +9,8 @@ export default function getOptions(data) {
     grid: {
       left: '24px',
       right: '24px',
-      bottom: '4%',
+      bottom: '0px',
+      top: '32px',
       containLabel: true,
     },
     xAxis: [{
