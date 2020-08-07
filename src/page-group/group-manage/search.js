@@ -21,7 +21,7 @@ const serach = store => [
       defaultAll: true,
       options: [
         {name: '全部', value: ''},
-        {name: '离线实体', value: 1},
+        {name: '离线群体', value: 1},
         {name: '实时群体', value: 2},
       ],
     },

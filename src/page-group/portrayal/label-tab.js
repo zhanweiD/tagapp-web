@@ -44,14 +44,13 @@ export default class LabelTab extends Component {
                       <div>
                         <div>
                           <span>{tooltipX}</span>
-                          {console.log(tooltipX)}
                         </div>
                         <Progress 
                           showInfo
                           status="active"
                           strokeWidth={4} 
                           strokeColor="#00d5af" 
-                          percent={parseInt(tooltipY, 10)} 
+                          percent={parseFloat(tooltipY, 10)} 
                           color="#fff"
                           style={{color: '#fff', width: '96px', marginRight: '8px'}}
                         />
