@@ -15,26 +15,7 @@ const titleSetMap = {
 export default class Group extends Component {
   constructor(props) {
     super(props)
-    // this.posData = props.pos || {
-    //   [`${props.flag}-0`]: [{
-    //     type: 2,
-    //     flag: '0',
-    //     level: [0],
-    //     x: 20,
-    //     y: 0,
-    //     source: null,
-    //     target: null,
-    //   }],
-    //   [`${props.flag}-1`]: [{
-    //     type: 2,
-    //     flag: '0',
-    //     level: [0],
-    //     x: 20,
-    //     y: 0,
-    //     source: null,
-    //     target: null,
-    //   }],
-    // }
+
     this.posData = props.pos || {}
     this.state = {
       conditionH: 66,
@@ -114,7 +95,7 @@ export default class Group extends Component {
       pos,
       page,
     } = this.props
-
+    
     const {conditionH} = this.state
 
     const style = {
@@ -134,6 +115,7 @@ export default class Group extends Component {
               </div>
               <div className="group-item-content">
                 <RuleIfBox 
+                  key={`${flag}-${d}`}
                   {...this.props}
                   refreshLineH={this.refreshLineH} 
                   ruleIfBoxKey={`${flag}-${d}`}
