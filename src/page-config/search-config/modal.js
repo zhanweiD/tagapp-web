@@ -57,7 +57,14 @@ const ConfigModal = ({
             },
           ]}
         >
-          <Select placeholder="请选择数据源类型" onChange={onChange} showSearch optionFilterProp="children">
+          <Select 
+            placeholder="请选择数据源类型"
+            onChange={onChange} 
+            size="small"
+            showSearch 
+            optionFilterProp="children"
+            getPopupContainer={triggerNode => triggerNode.parentElement}
+          >
             {
               dataType.map(d => <Option value={d.type}>{d.name}</Option>)
             }
@@ -74,7 +81,13 @@ const ConfigModal = ({
             },
           ]}
         >
-          <Select placeholder="请选择数据源" showSearch optionFilterProp="children">
+          <Select 
+            placeholder="请选择数据源" 
+            showSearch 
+            size="small"
+            optionFilterProp="children"
+            getPopupContainer={triggerNode => triggerNode.parentElement}
+          >
             {
               dataSource.map(d => <Option value={d.storageId}>{d.storageName}</Option>)
             }

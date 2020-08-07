@@ -110,7 +110,9 @@ class EModal extends Component {
               rules: [{required: true, message: '请选择实体名称！'}],
             })(
               <Select
+                size="small"
                 placeholder="请选择实体名称"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
                 disabled={modalType !== 'add'}
                 onChange={value => this.selectEntity(value)}
               >
@@ -131,6 +133,8 @@ class EModal extends Component {
             })(
               <Select
                 mode="multiple"
+                size="small"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
                 placeholder="请选择实体下的标签"
               >
                 {tagList}
@@ -150,6 +154,8 @@ class EModal extends Component {
             })(
               <Select
                 mode="multiple"
+                size="small"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
                 placeholder="请选择实体下的标签"
               >
                 {tagList}

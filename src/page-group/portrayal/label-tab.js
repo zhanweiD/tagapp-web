@@ -41,10 +41,11 @@ export default class LabelTab extends Component {
                   <Tooltip 
                     key={item.value} 
                     title={(
-                      <div>
+                      <div 
+                        style={{padding: '0px 4px'}}
+                      >
                         <div>
                           <span>{tooltipX}</span>
-                          {console.log(tooltipX)}
                         </div>
                         <Progress 
                           showInfo
