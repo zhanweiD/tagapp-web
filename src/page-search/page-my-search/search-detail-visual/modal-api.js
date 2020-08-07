@@ -73,6 +73,24 @@ export default class DrewerApi extends Component {
     }
   }
 
+  apiNameCheck = async (rule, value) => {
+    const res = await this.store.apiNameCheck(value)
+    if (res) {
+      return Promise.reject('API名称已存在')
+    } else {
+      return Promise.resolve()
+    }
+  }
+
+  apiPathCheck = async (rule, value) => {
+    const res = await this.store.apiPathCheck(value)
+    if(res) {
+      return Promise.reject('API路径已存在')
+    } else {
+      return Promise.resolve()
+    }
+  }
+
   render() {
     const {
       visibleApi, modalApiLoading, apiParamsInfo = {}, apiGroup,
@@ -107,7 +125,11 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请输入API名称',
-              },
+              },{
+                validator: this.apiNameCheck
+              }, {
+                validateFirst: true,
+              }
             ]}
           >
             <Input  placeholder="请输入API名称"/>
@@ -137,6 +159,10 @@ export default class DrewerApi extends Component {
                 message: '请输入API路径',
               }, {
                 pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+              }, {
+                validateFirst: true,
+              }, {
+                validator: this.apiPathCheck
               }
             ]}
           >

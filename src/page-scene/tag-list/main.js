@@ -1,5 +1,5 @@
 import {Component, useEffect} from 'react'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Table, Badge} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
@@ -31,17 +31,8 @@ class TagList extends Component {
     title: '数据类型',
     dataIndex: 'type',
   }, {
-    title: '价值分',
-    dataIndex: 'worthScore',
-    sorter: true,
-  }, {
-    title: '质量分',
-    dataIndex: 'qualityScore',
-    sorter: true,
-  }, {
-    title: '热度',
-    dataIndex: 'hotScore',
-    sorter: true,
+    title: '对象',
+    dataIndex: 'objName',
   }, {
     title: '创建人',
     dataIndex: 'cuser',
@@ -59,6 +50,7 @@ class TagList extends Component {
 
   componentWillMount() {
     store.getList()
+    store.getObjList()
   }
 
   @action handleChange(e) {
@@ -109,6 +101,7 @@ class TagList extends Component {
         pagination,
         loading,
       },
+      objList,
     } = store
     return (
       <div className="scene-tags box-border">
@@ -117,6 +110,7 @@ class TagList extends Component {
           onChange={() => this.handleChange(this.searchForm.getFieldsValue())}
           onSearch={() => this.handleSearch()}
           onReset={() => this.handleReset()}
+          objList={toJS(objList)}
         />
         <Table 
           className="bgf p16"

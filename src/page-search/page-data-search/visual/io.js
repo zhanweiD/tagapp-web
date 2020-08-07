@@ -1,5 +1,5 @@
 import ioContext from '../../../common/io-context'
-import {dataSearch, get, post} from '../../../common/util'
+import {dataSearch, get, post, baseApi} from '../../../common/util'
 
 const api = {
   getObjList: get(`${dataSearch}/visual_objs`), // 获取对象列表（可视化）
@@ -15,6 +15,9 @@ const api = {
   getApiParams: post(`${dataSearch}/visual_api_param`), // 获取api请求返回参数
   getApiGroup: get(`${dataSearch}/api_group_list`), // 获取api分组列表
   createApi: post(`${dataSearch}/create_api`), // 创建api
+
+  apiNameCheck: get(`${baseApi}/groupApi/existApiName`),
+  apiPathCheck: get(`${baseApi}/groupApi/existApiPath`),
 }
 
 ioContext.create('dataSearchVisaul', api) 

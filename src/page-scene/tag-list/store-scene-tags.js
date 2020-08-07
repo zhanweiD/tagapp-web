@@ -1,7 +1,7 @@
 import {
   observable, action, runInAction,
 } from 'mobx'
-import {successTip, errorTip} from '../../common/util'
+import { successTip, errorTip } from '../../common/util'
 import io from './io'
 
 
@@ -15,13 +15,29 @@ class SceneTagsStore {
     loading: false,
   }
 
+  @observable objList = []
+
   @observable params = {
     pageSize: 10,
     currentPage: 1,
   }
 
+  // 对象下拉
+  @action async getObjList () {
+    try {
+      const res = await io.getObjList({
+        occasionId: this.sceneId,
+      })
+      runInAction(() => {
+        this.objList.replace(res)
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
   // 标签列表
-  @action async getList() {
+  @action async getList () {
     this.tagInfo.loading = true
     try {
       const res = await io.getList({
