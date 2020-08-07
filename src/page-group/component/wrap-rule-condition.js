@@ -48,7 +48,7 @@ const RuleCondition = ({
             </Button>
           )
         }
-        {/* {
+        {
           canDelete && page !== 'detail' && flag !== '0' ? (
             <Popconfirm
               placement="topLeft"
@@ -60,7 +60,7 @@ const RuleCondition = ({
               <IconDel size="16" className="delete-icon" />
             </Popconfirm>
           ) : null
-        } */}
+        }
       </div>
       {
         showLine ? <div className="wrap-rule-condition-line" style={{top: height / 2}} /> : null 
