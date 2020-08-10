@@ -35,6 +35,7 @@ export default class StepTwo extends Component {
 
           this.store.whereMap = this.whereMap
           this.store.wherePosMap = this.wherePosMap
+          console.log(toJS(this.store.logicExper), toJS(this.store.posList), this.whereMap, this.wherePosMap)
           this.store.getOutputTags()
           this.store.current += 1
         } else {
@@ -47,6 +48,7 @@ export default class StepTwo extends Component {
   }
 
   @action openDrawer = (flag, relId) => {
+    console.log(flag)
     this.store.getOtherEntity({
       relationId: relId,
     })
@@ -88,6 +90,37 @@ export default class StepTwo extends Component {
     this.store.wherePosMap = {}
   }
 
+  @action changeRuleConfig = (before, now) => {
+    console.log(before, now)
+    if(before && !now) {
+      delete this.wherePosMap[before]
+      delete this.whereMap[before]
+    }
+
+    if (this.wherePosMap[before] && now) {
+      this.wherePosMap[now] = this.wherePosMap[before]
+      delete this.wherePosMap[before]
+    }
+
+    if (this.whereMap[before] && now) {
+      this.whereMap[now] = this.whereMap[before]
+      delete this.whereMap[before]
+    }
+
+    console.log(this.wherePosMap, this.whereMap)
+  }
+
+  @action changeRelWithRuleConfig = key => {
+    console.log(key)
+    if (this.wherePosMap[key] ) {
+      delete this.wherePosMap[key]
+    }
+
+    if (this.whereMap[key]) {
+      delete this.whereMap[key]
+    }
+  }
+
   render() {
     const {current, configTagList, drawerConfigTagList, relList, posList} = this.store
     return (
@@ -101,6 +134,8 @@ export default class StepTwo extends Component {
           openDrawer={this.openDrawer}
           posList={toJS(posList)}
           reset={this.reset}
+          changeRuleConfig={this.changeRuleConfig}
+          changeRelWithRuleConfig={this.changeRelWithRuleConfig}
           type="config"
         />
         <SetRule 

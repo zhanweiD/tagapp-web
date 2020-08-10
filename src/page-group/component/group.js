@@ -77,9 +77,6 @@ export default class Group extends Component {
       flag,
       level,
     })
-    // , () => {
-    //   this.refreshLineH()
-    // })
   }
 
   render() {
@@ -94,6 +91,7 @@ export default class Group extends Component {
       logic,
       pos,
       page,
+      changeRelWithRuleConfig
     } = this.props
     
     const {conditionH} = this.state
@@ -121,6 +119,7 @@ export default class Group extends Component {
                   ruleIfBoxKey={`${flag}-${d}`}
                   changeCondition={data => changeCondition(data, `${flag}-${d}`)}
                   pos={pos ? pos[`${+flag}-${d}`] : this.posData[`${+flag}-${d}`]}
+                  changeRelWithRuleConfig={changeRelWithRuleConfig}
                 />
               </div>
             </div>
