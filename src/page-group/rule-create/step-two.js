@@ -30,7 +30,6 @@ export default class StepTwo extends Component {
       .validateFields()
       .then(values => {
         if (JSON.stringify(values) !== '{}') {
-          console.log(formatData(values, this.ruleContentRef, this.whereMap))
           this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
           this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap, this.whereMap)
 

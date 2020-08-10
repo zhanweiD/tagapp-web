@@ -50,7 +50,7 @@ export default class RuleContent extends Component {
     const len = data.length
 
     this.heightFirst = document.getElementById(`${type}-second-rule-condition0`).getBoundingClientRect()
-    this.heightEnd = document.getElementById(`${type}-second-rule-condition${len - 1}`).getBoundingClientRect()
+    this.heightEnd = document.getElementById(`${type}-second-rule-condition${data[len - 1].flag}`).getBoundingClientRect()
 
     const firstConditionT = 21 + this.heightFirst.height / 2
     const firstConditionH = (this.heightEnd.top + this.heightEnd.height / 2) - (this.heightFirst.top + this.heightFirst.height / 2)
@@ -84,7 +84,8 @@ export default class RuleContent extends Component {
 
     const obj = {
       type: 0,
-      flag: renderData.length,
+      // flag: renderData.length,
+      flag: Math.floor(Math.random() * 1000),
       logic: 1,
     }
 
@@ -101,23 +102,14 @@ export default class RuleContent extends Component {
 
   delGroupItem = props => {
     const data = _.cloneDeep(this.state.renderData)
-    data.splice(props.groupIndex, 1)
+   
+    data.splice(+props.groupIndex, 1)
 
-    const newData = data.map(d => {
-      if (+d.flag > +props.groupIndex) {
-        return {
-          ...d,
-          flag: +d.flag - 1,
-        }
-      }
-      return d
-    })
-    this.renderData = newData
-
+    this.renderData = data 
     this.setState({
-      renderData: newData,
+      renderData: data,
     }, () => {
-      this.refreshLineH(newData)
+      this.refreshLineH(data)
     })
   }
 
@@ -180,6 +172,7 @@ export default class RuleContent extends Component {
             {
               renderData.map((d, i) => (
                 <Group 
+                  key={d.flag}
                   groupIndex={i}
                   ml={80} 
                   id={`group-combine${d.flag}`}

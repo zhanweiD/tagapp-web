@@ -139,6 +139,7 @@ export default class ListContent extends Component {
           pagination={false}
           loading={tableLoading}
           dataSource={toJS(list)}
+          rowClassName={(rowData, index) => `ant-table-row-${index % 2}`}
           onChange={handleTableChange}
           {...rest}
           className="table"
