@@ -41,7 +41,7 @@ export default class LabelTab extends Component {
                   <Tooltip 
                     key={item.value} 
                     title={(
-                      <div>
+                      <div style={{padding: '0xp 4px'}}>
                         <div>
                           <span>{tooltipX}</span>
                         </div>

@@ -16,7 +16,7 @@ export default class ConfigModal extends Component {
     this.store.dataStorageId = storageId
   }
   @action.bound selectDataTypeSource(storageTypeId) {
-    this.form.resetFields(['storageId'])
+    this.form.setFieldsValue({storageId: undefined})
     this.store.dataStorageTypeId = storageTypeId
     this.store.getDataSource()
   }
@@ -71,13 +71,18 @@ export default class ConfigModal extends Component {
 
   @action handleCancel = () => {
     this.store.visible = false
+    this.store.isInit = true
   }
 
   @action submit = () => {
     this.form.validateFields((err, value) => {
       if (!err) {
         this.store.confirmLoading = true
-        this.store.groupInit(value)
+        if (this.store.isInit) {
+          this.store.groupInit(value)
+        } else {
+          this.store.updateInit(value)
+        }
       } else {
         this.store.confirmLoading = false
         errorTip(err)
@@ -89,10 +94,11 @@ export default class ConfigModal extends Component {
     const {
       visible, 
       confirmLoading,
+      isInit,
     } = this.store
 
     const modalConfig = {
-      title: '初始化',
+      title: isInit ? '初始化' : '修改初始化',
       visible,
       onCancel: this.handleCancel,
       onOk: this.submit,

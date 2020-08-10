@@ -18,12 +18,13 @@ class GroupConfig extends Component {
   constructor(props) {
     super(props)
     store.projectId = props.projectId
-    store.getPortrayal()
+    // store.getPortrayal()
+    store.hasInit()
+    store.getDataTypeSource()
   }
   
   @action openModal = () => {
     store.visible = true
-    store.getDataTypeSource()
   }
 
   render() {
@@ -38,6 +39,8 @@ class GroupConfig extends Component {
         <div className="header-page config">
           {
             store.initVisible ? (
+              <BackConfig store={store} />
+            ) : (
               <div>
                 <NoData
                 // isLoading={tableLoading}
@@ -45,8 +48,6 @@ class GroupConfig extends Component {
                 />
                 <ConfigModal store={store} />
               </div>
-            ) : (
-              <BackConfig store={store} />
             )
           }
         </div>

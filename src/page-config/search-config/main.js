@@ -8,6 +8,7 @@ import {message} from 'antd'
 import {projectProvider, searchProvider} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
+import {successTip, errorTip} from '../../common/util'
 
 const GroupConfig = ({projectId}) => {
   const [config, changeConfig] = useState({})
@@ -15,63 +16,110 @@ const GroupConfig = ({projectId}) => {
   const [visible, changeVisible] = useState(false)
   const [dataType, changeDataType] = useState([])
   const [dataSource, changedataSource] = useState([])
+  const [isInit, changeIsInit] = useState(true)
 
+  // 获取配置信息
   async function searchConfig() {
-    const res = await io.searchConfig({
-      projectId,
-    })
-  
-    changeConfig(res)
+    try {
+      const res = await io.searchConfig({
+        projectId,
+      })
+    
+      changeConfig(res)
+    } catch (error) {
+      errorTip(error.message)
+    }
   }
+
   // 获取数据源类型
   async function getStorageType() {
-    const res = await io.getStorageType({
-      projectId,
-    })
-
-    const result = res || []
-
-    changeDataType(result)
+    try {
+      const res = await io.getStorageType({
+        projectId,
+      })
+  
+      const result = res || []
+  
+      changeDataType(result)
+    } catch (error) {
+      errorTip(error.message)
+    }
   }
 
   // 获取数据源
   async function getStorageList(type) {
-    const res = await io.getStorageList({
-      projectId,
-      dataStorageType: type,
-    })
-
-    const result = res || []
-
-    changedataSource(result)
+    try {
+      const res = await io.getStorageList({
+        projectId,
+        dataStorageType: type,
+      })
+  
+      const result = res || []
+  
+      changedataSource(result)
+    } catch (error) {
+      errorTip(error.message)
+    }
   }
 
   // 初始化项目
   async function initSearch(params) {
-    const res = await io.initSearch({
-      ...params,
-      projectId,
-    })
+    try {
+      const res = await io.initSearch({
+        ...params,
+        projectId,
+      })
+  
+      if (res) {
+        successTip('初始化成功')
+        changeVisible(false)
+        changeHasInit(true)
+      }
+    } catch (error) {
+      errorTip(error.message)
+    }
+  }
 
-    if (res) {
-      changeVisible(false)
-      changeHasInit(true)
+  // 修改初始化项目
+  async function updateSearch(params) {
+    try {
+      const res = await io.updateSearch({
+        ...params,
+        projectId,
+        id: config.id,
+      })
+  
+      if (res) {
+        successTip('修改成功')
+        changeVisible(false)
+        changeIsInit(true)
+        searchConfig()
+      }
+    } catch (error) {
+      console.log(error)
+      errorTip(error.message)
     }
   }
 
   useEffect(() => {
     searchConfig(projectId)
+    getStorageType()
   }, [projectId])
   
   const editClick = () => {
+    getStorageList(config.storageTypeId)
     changeVisible(true)
+    changeIsInit(false)
     message.warning('不建议修改，修改后会影响之前的使用！')
-    getStorageType()
-    // getStorageList()
   }
 
   const onCancel = () => {
     changeVisible(false)
+    changeIsInit(true)
+  }
+
+  const onUpdate = params => {
+    updateSearch(params)
   }
 
   const selectDataType = type => {
@@ -97,10 +145,12 @@ const GroupConfig = ({projectId}) => {
       </div>
       <ConfigModal 
         visible={visible}
+        isInit={isInit}
         dataType={dataType}
         dataSource={dataSource}
         selectDataType={selectDataType}
         onCancel={onCancel}
+        onUpdate={onUpdate}
         onCreate={params => initSearch(params)}
         config={config}
       />
