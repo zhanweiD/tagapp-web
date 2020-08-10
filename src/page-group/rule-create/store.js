@@ -233,10 +233,10 @@ class Store {
         projectId: this.projectId,
         objId: this.objId,
         ...params,
-      })
+      }) || {}
 
       runInAction(() => {
-        this.otherEntity = [res]
+        this.otherEntity = res.objId ? [res] : []
       })
     } catch (e) {
       errorTip(e.message)

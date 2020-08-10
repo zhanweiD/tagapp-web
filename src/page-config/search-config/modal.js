@@ -11,27 +11,30 @@ const ConfigModal = ({
   visible, 
   onCreate, 
   onCancel,
+  onUpdate,
   selectDataType, 
   dataType, 
   config,
+  isInit,
   dataSource}) => {
   const [form] = Form.useForm()
 
   const onChange = e => {
     selectDataType(e)
+    form.setFieldsValue({dataStorageId: undefined})
   }
 
   return (
     <Modal
       visible={visible}
-      title="初始化"
+      title={isInit ? '初始化' : '修改初始化'}
       onCancel={onCancel}
       onOk={() => {
         form
           .validateFields()
           .then(values => {
             form.resetFields()
-            onCreate(values)
+            isInit ? onCreate(values) : onUpdate(values)
           })
           .catch(info => {
             console.log('Validate Failed:', info)
@@ -47,9 +50,9 @@ const ConfigModal = ({
         {...formItemLayout}
       >
         <Form.Item
-          name="type"
+          name="dataStorageType"
           label="数据源类型"
-          initialValue={config.storageType}
+          initialValue={config.storageTypeId}
           rules={[
             {
               required: true,
@@ -71,9 +74,9 @@ const ConfigModal = ({
           </Select>
         </Form.Item>
         <Form.Item 
-          name="storageId" 
+          name="dataStorageId" 
           label="数据源"
-          initialValue={config.storageName}
+          initialValue={config.storageId}
           rules={[
             {
               required: true,

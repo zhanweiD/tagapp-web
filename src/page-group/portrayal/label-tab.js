@@ -41,9 +41,7 @@ export default class LabelTab extends Component {
                   <Tooltip 
                     key={item.value} 
                     title={(
-                      <div 
-                        style={{padding: '0px 4px'}}
-                      >
+                      <div style={{padding: '0xp 4px'}}>
                         <div>
                           <span>{tooltipX}</span>
                         </div>
@@ -52,7 +50,7 @@ export default class LabelTab extends Component {
                           status="active"
                           strokeWidth={4} 
                           strokeColor="#00d5af" 
-                          percent={parseInt(tooltipY, 10)} 
+                          percent={parseFloat(tooltipY, 10)} 
                           color="#fff"
                           style={{color: '#fff', width: '96px', marginRight: '8px'}}
                         />

@@ -15,6 +15,7 @@ export default class BackConfig extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
+    // this.store.getDataSource()
     // this.store.getPortrayal()
   }
 
@@ -60,7 +61,9 @@ export default class BackConfig extends Component {
 
   // 修改配置弹窗
   @action editClick = () => {
+    this.store.getDataSource()
     this.store.visible = true
+    this.store.isInit = false
     message.warning('不建议修改，修改后会影响之前的使用！')
   }
 

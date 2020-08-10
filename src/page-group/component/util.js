@@ -142,7 +142,10 @@ export function formatData(formItemData, domRef, whereMap) {
 
     const currentFlagEntity = `${current.flag}-0`
     const currentFlagRel = `${current.flag}-1`
-  
+
+    if(!pos[currentFlagEntity] && !pos[currentFlagRel]) {
+      break
+    }
     const entityResult = getGroupItemData(pos[currentFlagEntity], currentFlagEntity, formItemData, logicMap)
     const relResult = getGroupItemData(pos[currentFlagRel], currentFlagRel, formItemData, logicMap, whereMap)
 

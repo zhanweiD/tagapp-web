@@ -14,6 +14,7 @@ class Store extends ListContentStore(io.getEntityPage) {
   @observable dataStorageTypeId // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
+  @observable configId = 0 // 修改初始化配置需要的ID
 
   @observable dataSource = [] // 数据源 
   @observable dataTypeSource = [] // 数据源类型
@@ -26,10 +27,11 @@ class Store extends ListContentStore(io.getEntityPage) {
   @observable visible = false // 控制配置弹窗
   @observable confirmLoading = false // 确认按钮loading
   @observable entityVisible = false // 控制实体弹窗
-  @observable initVisible = true // 初始化页面是否显示
+  @observable initVisible = false // 是否初始化
   @observable uploadLoading = false // 图片上传
   @observable selectLoading = false // 下拉框加载
   @observable tableLoading = true
+  @observable isInit = true // 初始化还是修改
   @observable pagination = {
     totalCount: 1,
     currentPage: 1,
@@ -55,13 +57,40 @@ class Store extends ListContentStore(io.getEntityPage) {
       })
 
       runInAction(() => {
+        successTip('初始化成功')
         this.getPortrayal()
         this.confirmLoading = false
-        this.initVisible = false
+        this.initVisible = true
         this.visible = false
       })
     } catch (e) {
       errorTip(e.message)
+      this.confirmLoading = false
+    }
+  }
+
+  // 修改初始化云资源
+  @action async updateInit(data) {
+    try {
+      const res = await io.updateInit({
+        id: this.configId,
+        projectId: this.projectId,
+        dataStorageId: data.storageId,
+        dataStorageType: data.type,
+      })
+
+      runInAction(() => {
+        if (res) {
+          successTip('修改成功')
+          this.getPortrayal()
+          this.initVisible = true
+          this.visible = false
+          this.isInit = true
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
       this.confirmLoading = false
     }
   }
@@ -74,15 +103,25 @@ class Store extends ListContentStore(io.getEntityPage) {
       })
 
       runInAction(() => {
-        this.initVisible = !res.dataStorageType
         this.dataStorageId = res.dataStorageId
         this.dataStorageTypeId = res.dataStorageType
-
-        if (this.dataStorageTypeId) {
-          this.getDataTypeSource()
-          this.getDataSource()
-        }
+        this.configId = res.id
+        if (res) this.getDataSource()
+        // this.getDataTypeSource()
+        // this.getDataSource()
       })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  @action async hasInit() {
+    try {
+      const res = await io.hasInit({
+        projectId: this.projectId,
+      })
+      this.initVisible = res
+      if (res) this.getPortrayal()
     } catch (e) {
       errorTip(e.message)
     }
