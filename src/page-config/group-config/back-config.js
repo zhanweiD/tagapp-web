@@ -132,14 +132,14 @@ export default class BackConfig extends Component {
         <div className="herder-page back-config">
           <div>
             <div className="config-title config-df">
-              <span style={{marginRight: '8px'}}>数据源配置</span>
+              <span>数据源配置</span>
               {/* <FormOutlined className="action" onClick={this.editClick} /> */}
               <Button type="primary" onClick={this.editClick}>编辑</Button>
             </div>
             <ModalForm className="cloud-config" {...formConfig} />
           </div>
 
-          <div className="entity-config mt16">
+          <div className="entity-config mt12">
             <p className="config-title">实体配置</p>
             <div className="list-content">
               <ListContent {...listConfig} />

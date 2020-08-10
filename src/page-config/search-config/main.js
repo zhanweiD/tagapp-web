@@ -4,7 +4,7 @@
 
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
-import {message} from 'antd'
+import {message, Button} from 'antd'
 import {projectProvider, searchProvider} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
@@ -130,10 +130,14 @@ const GroupConfig = ({projectId}) => {
     <div>
       <div className="content-header">数据查询配置</div> 
       <div className="header-page p24">
-        <h3>
+        <div className="config-data">
+          <span>数据源配置</span>
+          <Button type="primary" onClick={editClick}>编辑</Button>
+        </div>
+        {/* <h3>
           数据源配置
           <FormOutlined className="ml8" onClick={editClick} />
-        </h3>
+        </h3> */}
         <div className="search-config-item">
           <div className="search-config-label">数据源类型：</div>
           <div className="search-config-value">{config.storageType}</div>
