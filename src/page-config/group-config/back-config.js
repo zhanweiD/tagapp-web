@@ -45,8 +45,8 @@ export default class BackConfig extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a href onClick={() => this.openModal('edit', record)} style={{marginRight: '6px'}}>编辑</a>
-            <span className="table-action-line" />
+            <a className="mr16" href onClick={() => this.openModal('edit', record)} style={{marginRight: '6px'}}>编辑</a>
+            {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
             <Popconfirm placement="topRight" title="你确认要移除该实体吗？" onConfirm={() => this.delItem(record.objId)}>
@@ -127,15 +127,16 @@ export default class BackConfig extends Component {
       <Fragment>
         {/* <div className="content-header">群体洞察配置</div> */}
         <div className="herder-page back-config">
-          <div className="cloud-config">
-            <p className="config-title">
+          <div>
+            <div className="config-title config-df">
               <span style={{marginRight: '8px'}}>数据源配置</span>
-              <FormOutlined className="action" onClick={this.editClick} />
-            </p>
-            <ModalForm {...formConfig} />
+              {/* <FormOutlined className="action" onClick={this.editClick} /> */}
+              <Button type="primary" onClick={this.editClick}>编辑</Button>
+            </div>
+            <ModalForm className="cloud-config" {...formConfig} />
           </div>
 
-          <div className="entity-config">
+          <div className="entity-config mt16">
             <p className="config-title">实体配置</p>
             <div className="list-content">
               <ListContent {...listConfig} />

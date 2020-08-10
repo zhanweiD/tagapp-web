@@ -70,8 +70,8 @@ export default class ModalGroup extends Component {
       <Modal {...modalConfig} className="add-group">
         <Fragment>
           <Button className="create-flex" onClick={() => this.createType(1, 1)}>
-            <div className="create-icon">
-              <PlusCircleFilled style={{fontSize: '85px', color: '#3396DB'}} />
+            <div className="mr8">
+              <PlusCircleFilled style={{fontSize: '24px', color: '#5acbaa'}} />
             </div>
             <div className="create-type">
               <p className="create-group">
@@ -83,8 +83,8 @@ export default class ModalGroup extends Component {
             </div>
           </Button>
           <Button className="create-flex" onClick={() => this.createType(1, 2)}>
-            <div className="create-icon">
-              <PlusCircleFilled style={{fontSize: '85px', color: '#D49621'}} />
+            <div className="mr8">
+              <PlusCircleFilled style={{fontSize: '24px', color: '#3385f6'}} />
             </div>
             <div className="create-type">
               <p className="create-group">
@@ -96,8 +96,8 @@ export default class ModalGroup extends Component {
             </div>
           </Button>
           <Button className="create-flex" onClick={() => this.createType(2, 1)}>
-            <div className="create-icon">
-              <PlusCircleFilled style={{fontSize: '85px', color: '#33AE06'}} />
+            <div className="mr8">
+              <PlusCircleFilled style={{fontSize: '24px', color: '#586df6'}} />
             </div>
             <div className="create-type">
               <p className="create-group">

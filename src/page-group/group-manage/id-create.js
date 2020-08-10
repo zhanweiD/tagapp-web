@@ -161,7 +161,7 @@ export default class IdCreate extends Component {
       placement: 'right',
       maskClosable: false,
       closable: true,
-      width: 600,
+      width: 560,
       destroyOnClose: true,
       onClose: handleCancel,
       footer: (
@@ -242,7 +242,7 @@ export default class IdCreate extends Component {
               name="descr"
               initialValue={recordObj.descr}
             >
-              <TextArea style={{minHeight: '8em'}} placeholder="请输入" />
+              <TextArea style={{minHeight: '6em'}} placeholder="请输入" />
             </Item>
             
             <Item
@@ -279,7 +279,7 @@ export default class IdCreate extends Component {
                 {required: true, message: '请选择标签'},
               ]}
             >
-              <Select placeholder="请选择标签" mode="multiple" showSearch optionFilterProp="children">
+              <Select size="small" placeholder="请选择标签" mode="multiple" showSearch optionFilterProp="children">
                 {tagOptions}
               </Select>
             </Item>

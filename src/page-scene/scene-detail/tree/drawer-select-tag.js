@@ -75,6 +75,7 @@ export default class SelectTag extends Component {
       title: '选择标签',
       visible: selectTag,
       width: 1120,
+      closable: true,
       maskClosable: false,
       destroyOnClose: true,
       onClose: this.closeDrawer,

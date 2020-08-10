@@ -125,6 +125,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
         >
           <Select
             mode="multiple"
+            size="small"
             showSearch
             optionFilterProp="children"
             placeholder="请选择标签"

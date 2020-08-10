@@ -34,6 +34,7 @@ export default class SetRule extends Component {
     const drawerConfig = {
       title: '设置筛选条件',
       visible,
+      closable: true,
       width: 1120,
       maskClosable: false,
       destroyOnClose: true,

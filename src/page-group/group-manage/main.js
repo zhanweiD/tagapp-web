@@ -86,7 +86,6 @@ class GroupManage extends Component {
       width: 170,
       render: text => <Time timestamp={text} />,
     }, {
-    }, {
       key: 'updateTime',
       title: '更新时间',
       dataIndex: 'updateTime',
@@ -105,12 +104,12 @@ class GroupManage extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
-            <span className="table-action-line" />
+            <a className="mr16" disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
+            {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
-            <a disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
-            <span className="table-action-line" />
+            <a className="mr16" disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
+            {/* <span className="table-action-line" /> */}
           </Fragment>
                
           <Fragment>
@@ -121,8 +120,8 @@ class GroupManage extends Component {
               onConfirm={() => this.delItem(record.id)}
             >
               {/* <a href>删除</a> */}
-              <a disabled={record.status === 3} href>删除</a>
-              <span className="table-action-line" />
+              <a className="mr16" disabled={record.status === 3} href>删除</a>
+              {/* <span className="table-action-line" /> */}
             </Popconfirm>
           </Fragment>
           <Dropdown overlay={() => this.menu(record)}>
