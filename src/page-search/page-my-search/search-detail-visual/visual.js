@@ -15,6 +15,7 @@ import {
   Spin,
 } from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
+import {Authority} from '../../../component'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
 import SearchResult from './search-result'
@@ -275,8 +276,18 @@ class Visual extends Component {
         <div className="visual-detail">
           <div className="header-button">
             {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
-            <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-            <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+            <Authority
+              authCode="tag_app:clear_visual_search[d]"
+            >
+              <Button className="mr8" onClick={this.save}>保存数据查询</Button>
+
+            </Authority>
+            <Authority
+              authCode="tag_app:create_visual_api[c]"
+            >
+              <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+
+            </Authority>
           </div>
           <div className="FBH pt16 pb16">
             <div style={{lineHeight: '34px', paddingLeft: '8px'}}>源标签对象</div>
@@ -290,10 +301,23 @@ class Visual extends Component {
             <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
             <div className="visual-content-warp">
               <div className="code-menu">
-                <span className="code-menu-item mr16" onClick={() => this.search()}>
-                  <img src={yunxing} alt="img" />
-                  <span>查询</span>
-                </span>
+              <Authority
+                authCode="tag_app:run_visual_search[x]"
+              >
+                {
+                  resultLoading ? (
+                    <span className="code-menu-item mr16 disabled">
+                      <img src={yunxing} alt="img" />
+                      <span>查询</span>
+                    </span>
+                  ) : (
+                      <span className="code-menu-item mr16" onClick={() => this.search()}>
+                        <img src={yunxing} alt="img" />
+                        <span>查询</span>
+                      </span>
+                    )
+                }
+              </Authority>
               </div>
               <div className="visual-content" id="visual-content">
                 <SearchResult 

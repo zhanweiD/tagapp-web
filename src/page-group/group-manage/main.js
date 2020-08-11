@@ -10,7 +10,7 @@ import {DownOutlined} from '@ant-design/icons'
 
 import {Time, successTip} from '../../common/util'
 import {
-  ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider,
+  ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider, Authority
 } from '../../component'
 
 import search from './search'
@@ -32,16 +32,24 @@ class GroupManage extends Component {
 
   menu = record => (
     <Menu>
-      <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
-          <a href disabled={record.status !== 1}>群体分析</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
-          <a href disabled={record.status !== 1}>个体列表</a>
-        </Link>
-      </Menu.Item>
+      <Authority
+        authCode="tag_app:analyze_group[x]"
+      >
+        <Menu.Item disabled={record.status !== 1}>
+          <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
+            <a href disabled={record.status !== 1}>群体分析</a>
+          </Link>
+        </Menu.Item>
+      </Authority>
+      <Authority
+        authCode="tag_app:individuals_list[r]"
+      >
+        <Menu.Item disabled={record.status !== 1}>
+          <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
+            <a href disabled={record.status !== 1}>个体列表</a>
+          </Link>
+        </Menu.Item>
+      </Authority>
     </Menu>
   )
   columns = [
@@ -104,25 +112,40 @@ class GroupManage extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a className="mr16" disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
-            {/* <span className="table-action-line" /> */}
+            <Authority
+              authCode="tag_app:run_group[x]"
+            >
+              <a className="mr16" disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
+
+            </Authority>
+            <span className="table-action-line" />
           </Fragment>
           <Fragment>
+          <Authority
+              authCode="tag_app:update_group[u]"
+            >
             <a className="mr16" disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
-            {/* <span className="table-action-line" /> */}
+
+            </Authority>
+            <span className="table-action-line" />
           </Fragment>
                
           <Fragment>
-            <Popconfirm 
-              placement="topRight" 
-              title="你确定要删除该群体吗？" 
-              disabled={record.status === 3}
-              onConfirm={() => this.delItem(record.id)}
+            <Authority
+              authCode="tag_app:delete_group[d]"
             >
-              {/* <a href>删除</a> */}
-              <a className="mr16" disabled={record.status === 3} href>删除</a>
-              {/* <span className="table-action-line" /> */}
-            </Popconfirm>
+              <Popconfirm
+                placement="topRight"
+                title="你确定要删除该群体吗？"
+                disabled={record.status === 3}
+                onConfirm={() => this.delItem(record.id)}
+              >
+                {/* <a href>删除</a> */}
+                <a disabled={record.status === 3} href className="mr16">删除</a>
+                <span className="table-action-line" />
+              </Popconfirm>
+            </Authority>
+           
           </Fragment>
           <Dropdown overlay={() => this.menu(record)}>
             <a href>

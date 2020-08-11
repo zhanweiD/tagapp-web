@@ -7,7 +7,7 @@ import {
 } from 'antd'
 
 import {Time} from '../../common/util'
-import {AuthBox, Tag, DetailHeader, TabRoute} from '../../component'
+import {Authority, Tag, DetailHeader, TabRoute} from '../../component'
 import ModalEditScene from '../scene/modal'
 
 import SelectTag from './select-tag'
@@ -87,9 +87,14 @@ class SceneDetail extends Component {
 
     const actions = [
       <Button className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</Button>,
-      <Button type="primary">
-        <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api`}>数据服务</a>
-      </Button>
+      <Authority
+        authCode="tag_app:config_data_service[c]"
+      >
+        <Button type="primary">
+          <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api`}>数据服务</a>
+        </Button>
+      </Authority>
+    
     ]
 
     const tabConfig = {

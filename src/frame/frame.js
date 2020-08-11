@@ -1,6 +1,5 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
-// import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {Layout, ConfigProvider} from 'antd'
 import zhCn from 'antd/lib/locale-provider/zh_CN'
 import OnerFrame from '@dtwave/oner-frame'
@@ -9,9 +8,9 @@ import '@dtwave/oner-flexbox/flexbox.css'
 // import '../common/common.styl'
 import '../common/util.styl'
 import './frame.styl'
+import store from './store'
 
 const {Content} = Layout
-
 @observer
 class Frame extends Component {
   render() {
@@ -19,9 +18,14 @@ class Frame extends Component {
     return (
       <ConfigProvider locale={zhCn}>
         <OnerFrame {...this.props}>
-          <Layout>
-            <Content className="tag-content">{me.props.children}</Content>
-          </Layout>
+          {
+            store.functionCodeDone ? (
+              <Layout>
+                <Content className="tag-content">{me.props.children}</Content>
+              </Layout>
+            ) : <div />
+          }
+        
         </OnerFrame>
       </ConfigProvider>
     )

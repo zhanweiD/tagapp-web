@@ -3,7 +3,7 @@ import {action} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Button, Popconfirm, Badge, message} from 'antd'
 import {FormOutlined} from '@ant-design/icons'
-import {ModalForm, ListContent} from '../../component'
+import {ModalForm, ListContent, Authority} from '../../component'
 import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
@@ -134,7 +134,10 @@ export default class BackConfig extends Component {
             <div className="config-title config-df">
               <span>数据源配置</span>
               {/* <FormOutlined className="action" onClick={this.editClick} /> */}
-              <Button type="primary" onClick={this.editClick}>编辑</Button>
+              <Authority authCode="tag_config:group_config[u]">
+                <Button type="primary" onClick={this.editClick}>编辑</Button>
+              </Authority>
+              
             </div>
             <ModalForm className="cloud-config" {...formConfig} />
           </div>
