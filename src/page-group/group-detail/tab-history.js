@@ -62,8 +62,7 @@ export default class TagHistory extends Component {
                 <a href className="mr16">群体分析</a>
               </Link>
             </Authority>
-          
-            <span className="table-action-line" />
+            {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
             <Authority

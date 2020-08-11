@@ -10,7 +10,7 @@ import {DownOutlined} from '@ant-design/icons'
 
 import {Time, successTip} from '../../common/util'
 import {
-  ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider, Authority
+  ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider, Authority,
 } from '../../component'
 
 import search from './search'
@@ -118,16 +118,16 @@ class GroupManage extends Component {
               <a className="mr16" disabled={record.status === 3 || record.type === 2 || record.mode === 2} onClick={() => this.goPerform(record)} href>执行</a>
 
             </Authority>
-            <span className="table-action-line" />
+            {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
-          <Authority
+            <Authority
               authCode="tag_app:update_group[u]"
             >
-            <a className="mr16" disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
+              <a className="mr16" disabled={record.status === 3} href onClick={() => this.goGroupEdit(record)}>编辑</a>
 
             </Authority>
-            <span className="table-action-line" />
+            {/* <span className="table-action-line" /> */}
           </Fragment>
                
           <Fragment>
@@ -142,7 +142,7 @@ class GroupManage extends Component {
               >
                 {/* <a href>删除</a> */}
                 <a disabled={record.status === 3} href className="mr16">删除</a>
-                <span className="table-action-line" />
+                {/* <span className="table-action-line" /> */}
               </Popconfirm>
             </Authority>
            
