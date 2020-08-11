@@ -1,72 +1,91 @@
+html
+  .ant-legacy-form label
+    font-size 12px !important
 
-.ant-legacy-form label
-  font-size 12px !important
+  .ant-legacy-form-explain
+    font-size 12px !important
+  .ant-legacy-form-extra
+    font-size 12px !important
 
-.ant-legacy-form-explain
-  font-size 12px !important
-.ant-legacy-form-extra
-  font-size 12px !important
+  /* 5.0样式 -- 表格 */
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td
+    padding 8px 16px
+    line-height 23px
+    border-bottom 1px solid rgba(0,0,0, .04)
+  .ant-pagination-item
+    min-width 24px
+    height 24px
+    line-height 22px
 
-// .ant-tabs-nav-wrap
-//   margin-left 16px !important
-// .ant-tabs-content
-//   .ct-title
-//     font-size 14px
-//     margin-bottom 16px
-//     padding-left 8px
-//     position relative
-//     line-height 32px
-//     &:before
-//       position absolute
-//       content ""
-//       height 14px
-//       width 2px
-//       left 0
-//       top 9px
-//       background #0078ff
+  .ant-pagination-prev, .ant-pagination-next, .ant-pagination-jump-prev, .ant-pagination-jump-next
+    min-width 24px
+    width 24px
+    height 24px
+    line-height 22px
+  .ant-pagination-total-text
+    height 24px
+    line-height 24px
+  .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link
+    line-height 10px
 
-// .ant-tabs-bar
-//   margin-bottom 24px
+  .ant-table-row-1
+    background-color #fbfbfb
+  .ant-table-thead > tr > th
+    background-color #f6f6f6
+    color rgba(0,0,0,.45) 
 
-// // antd 表头不换行
-// .ant-table
-//   overflow auto
-//   .ant-table-tbody>tr>td,
-//   .ant-table-thead>tr>th
-//     white-space nowrap
-// .ant-table-placeholder
-//   font-size 12px
+  .ant-table-tbody >.ant-table-row:hover > td 
+     background-color rgba(36,102,255,0.10) // #2466FF 10%
+   
+  /* 5.0样式 -- 按钮 */
+  .ant-btn
+    height 24px
+    line-height 24px
+    padding 0px 8px
+  .ant-form-item .ant-upload
+    margin-top 4px
 
-// /*************** 版本间尺寸差异 ******************/
-// // fix 3.10.4==>>>3.18.2表单报错字号
-// .ant-form-explain, .ant-form-extra
-//   font-size 12px
+  /* 5.0样式 -- 选择框 */
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector
+    height 24px
+  .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder
+    line-height 24px
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input
+    height 22px
+  .ant-select-multiple.ant-select-sm .ant-select-selection-item
+    line-height 12.8px
 
-// // fix: error modal框内容不对齐问题
-// .ant-modal-confirm-body .ant-modal-confirm-content
-//   margin-top 0
+  /* .ant-select-multiple .ant-select-selector
+  * height 24px
+  * .ant-select-multiple .ant-select-selection-search
+  * height 24px */
 
-// // confirm字体太大
-// .dt-ant-12 .ant-modal-confirm-body .ant-modal-confirm-content
-//   font-size 12px
-//   display block
-//   padding-top 8px
+  /* 5.0 -- 输入框 */
+  .ant-input
+    height 24px
+  // 时间类
+  .ant-picker
+    height 24px
 
-// // Badge字体太大
-// .ant-badge-status-text
-//   font-size 12px
-//   min-width 200px
+  // uikit时间选择组件 更新兼容
+  .ant-form-item-control-wrapper
+    padding-top 4px
 
-// // 截断提示  
-// .ant-tooltip.tooltip-light
-//   .ant-tooltip-inner
-//     background-color #fff
-//     color #666
-//   &.ant-tooltip-placement-right
-//     .ant-tooltip-arrow
-//       border-right-color #fff
+  /* 5.0 -- tabs字体 */
+  .ant-tabs-tab
+    font-size 14px
 
-// .ant-tooltip-inner
-//   min-width 120px
+  /* 5.0 -- 表单 */
+  .ant-legacy-form-item-label > label 
+    color rgba(0, 0, 0, 0.65)
+  form .ant-mentions, form textarea.ant-input
+    margin-top 4px
+  .ant-form-item
+    margin-bottom 8px
+  .ant-form-item:last-child
+    margin-bottom 0px
 
-// mahua
+  /* 5.0 -- 抽屉 */
+  .ant-drawer-title
+    font-size 16px
+
