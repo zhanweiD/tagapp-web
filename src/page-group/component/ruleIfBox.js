@@ -18,11 +18,6 @@ export default class RuleIfBox extends Component {
     }
   }
 
-  // refreshLineH = data => {
-  //   const {ruleIfBoxKey, refreshLineH} = this.props
-  //   refreshLineH(data, ruleIfBoxKey)
-  // }
-
   componentDidUpdate(preProps, preState) {
     const {data} = this.state
     if (preState.data !== data) {
@@ -90,6 +85,7 @@ export default class RuleIfBox extends Component {
       openDrawer,
       type,
       page,
+      changeRelWithRuleConfig
     } = this.props
 
     return (
@@ -113,6 +109,7 @@ export default class RuleIfBox extends Component {
               {...d}
               len={data.length}
               formRef={this.props.formRef}
+              changeRelWithRuleConfig={() => changeRelWithRuleConfig(`${ruleIfBoxKey}-${d.flag}`)}
             />
           ) 
         }
@@ -181,15 +178,21 @@ export default class RuleIfBox extends Component {
         target: [88, 80],
       }]
       this.props.formRef.current.resetFields([itemKey])
+
+      if( this.props.type === 'config') {
+        this.props.changeRuleConfig(itemKey, `${this.props.ruleIfBoxKey}-0-0`)
+      }
+      
     } else {
       const itemArr = data.filter(item => item.type === 2)  
 
-      const levelTwoArr = data.filter(item => item.level.length === 2)  
-      
-      const lastItem = levelTwoArr[levelTwoArr.length - 1] 
+      const levelTwoArr = data.filter(item => item.level.length === 2)   
 
-      const level = [0, lastItem.level[1] + 1]
+      const lastIndex = _.findIndex(data, d => d.flag === `0-${levelTwoArr.length - 1}`)
+   
+      const lastItem = data[lastIndex]
 
+      const level = [0, levelTwoArr.length]
       const newItem = {
         type: 2,
         flag: level.join('-'),
@@ -201,7 +204,6 @@ export default class RuleIfBox extends Component {
       }
       data.push(newItem)
     }
-
     this.setState({data})
   }
 
@@ -285,9 +287,7 @@ export default class RuleIfBox extends Component {
     const current = _.cloneDeep(itemData) 
     
     const itemKey = `${this.props.ruleIfBoxKey}-${current.flag}`
-
     const formContent = this.props.formRef.current.getFieldValue(itemKey)
-
     const newData = data.map(d => {
       if (d.y > current.y && d.level.length === 2 && d.level[1] === current.level[1] + 1) {
         return {
@@ -359,8 +359,13 @@ export default class RuleIfBox extends Component {
     newData.splice(i, 1, newItemAction)
     newData.push(updateItem)
     newData.push(newChildrenItem)
+
     this.setState({data: newData})
     this.props.formRef.current.resetFields([itemKey])
+
+    if (this.props.type === 'config') {
+      this.props.changeRuleConfig(itemKey, `${this.props.ruleIfBoxKey}-${updateItemLevel.join('-')}`)
+    }
   }
 
   // 删除单个条件
@@ -514,14 +519,21 @@ export default class RuleIfBox extends Component {
       
         return d
       })
+
+      if (this.props.type === 'config') {
+        this.props.changeRuleConfig(itemKey, null)
+      }
     }
 
     if (bortherNode.length === 1) {
-      // const formContent = this.props.formRef.current.getFieldValue(itemKey)
+      const formContent = this.props.formRef.current.getFieldValue(itemKey)
       const len = current.level.length
-      const lastIndex = current.level[len-1]
-      // const bortherIndex = lastIndex === '0' ? _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}1`) : _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      
       const bortherIndex = _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
+      const borderOriginFlag =  data[bortherIndex].flag
+
+      this.props.formRef.current.resetFields([`${this.props.ruleIfBoxKey}-${borderOriginFlag}`]) 
+
       const fatherIndex = _.findIndex(data, d => d.flag === current.flag.slice(0, -2))
       const {x, y, level} = data[bortherIndex]
 
@@ -537,6 +549,8 @@ export default class RuleIfBox extends Component {
       data[bortherIndex].level = level
       
       data[bortherIndex].flag = level.join('-')
+
+      data[bortherIndex] = {...data[bortherIndex], ...formContent}
 
       newData = data.map(d => {
         // 2层2
@@ -570,15 +584,19 @@ export default class RuleIfBox extends Component {
       })
 
       newData.splice(fatherIndex, 1)
-    }
-    // this.props.formRef.current.resetFields([itemKey]) 
-    this.props.formRef.current.setFieldsValue({
-      [itemKey]: {
-        comparision: '=',
-        rightFunction: '固定值',
+
+      if (this.props.type === 'config') {
+        this.props.changeRuleConfig(`${this.props.ruleIfBoxKey}-${borderOriginFlag}`, `${this.props.ruleIfBoxKey}-${level.join('-')}`)
       }
-    }) 
+    }
+
+    if (bortherNode.length === 0) {
+      if (this.props.type === 'config') {
+        this.props.changeRuleConfig(itemKey, null)
+      }
+    }
     this.setState({data: newData})
+    this.props.formRef.current.resetFields([itemKey]) 
   }
 
   render() {

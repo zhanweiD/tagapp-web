@@ -37,14 +37,16 @@ class Store {
       })
 
       runInAction(() => {
-        this.posList = JSON.parse(res)
+        if(res) {
+          this.posList = JSON.parse(res)
 
-        this.wherePosMap = this.posList.wherePosMap // 回显
-        this.whereMap = this.posList.whereMap // 添加
-
-        this.detail = res
-
-        if (cb) cb()
+          this.wherePosMap = this.posList.wherePosMap // 回显
+          this.whereMap = this.posList.whereMap // 添加
+  
+          this.detail = res
+  
+          if (cb) cb()
+        }
       })
     } catch (e) {
       errorTip(e.message)
@@ -117,7 +119,7 @@ class Store {
       })
 
       runInAction(() => {
-        this.otherEntity = [res]
+        this.otherEntity = res.objId ? [res] : []
       })
     } catch (e) {
       errorTip(e.message)
