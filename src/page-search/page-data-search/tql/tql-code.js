@@ -9,6 +9,7 @@ import cls from 'classnames'
 import {message, Spin} from 'antd'
 import {QuestionCircleOutlined} from '@ant-design/icons'
 import sqlFormatter from 'sql-formatter'
+import {Authority} from '../../../component'
 // import LogPanel from '../code-component/log-panel'
 import SearchResult from './search-result'
 
@@ -112,15 +113,25 @@ export default class TqlCode extends Component {
         <Spin spinning={resultLoading}>
           <div style={{height: 'calc(100vh - 90px)'}}> 
             <div className="code-menu">
-              <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
-                <img src={yunxing} alt="img" />
-                <span>运行</span>
-              </span>
+              <Authority
+                authCode="tag_app:run_tql_search[x]"
+              >
+                {
+                  resultLoading ? <span className="code-menu-item mr16 disabled">
+                    <img src={yunxing} alt="img" />
+                    <span>运行</span>
+                  </span> : <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
+                      <img src={yunxing} alt="img" />
+                      <span>运行</span>
+                    </span>
+                }
+              </Authority>
+
               <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
                 <img src={geshihua} alt="img" />
                 <span>格式化</span>
               </span>
-            <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined/></a> 
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{ marginLeft: '-8px' }}><QuestionCircleOutlined /></a>
             </div>
             <form
               id="code_area"

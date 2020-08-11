@@ -5,7 +5,7 @@
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
 import {message, Button} from 'antd'
-import {projectProvider, searchProvider} from '../../component'
+import {projectProvider, searchProvider, Authority} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
 import {successTip, errorTip} from '../../common/util'
@@ -132,7 +132,10 @@ const GroupConfig = ({projectId}) => {
       <div className="header-page p24">
         <div className="config-data">
           <span>数据源配置</span>
-          <Button type="primary" onClick={editClick}>编辑</Button>
+          <Authority authCode="tag_config:search_config[u]">
+            <Button type="primary" onClick={editClick}>编辑</Button>
+          </Authority>
+         
         </div>
         {/* <h3>
           数据源配置

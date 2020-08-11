@@ -2,7 +2,7 @@ import {Component} from 'react'
 import {action} from 'mobx'
 import {Button} from 'antd'
 
-import {ListContent} from '../../component'
+import {ListContent, Authority} from '../../component'
 import {Time} from '../../common/util'
 
 import ApiModal from './apiModal'
@@ -50,7 +50,7 @@ export default class TabApi extends Component {
     const listConfig = {
       columns: this.columns,
       initParams: {id},
-      buttons: [<Button type="primary" onClick={() => this.openModal()}>新建API</Button>],
+      buttons: [<Authority authCode="tag_app:create_group_api[c]"><Button type="primary" onClick={() => this.openModal()}>新建API</Button></Authority>],
       store: apiStore, // 必填属性
     }
 

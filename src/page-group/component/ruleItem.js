@@ -1,7 +1,7 @@
 import {useState} from 'react'
-import {Select, Input, Form} from 'antd'
+import {Select, Input, Form, message, Tooltip} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
-
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {IconDel, IconTreeAdd} from '../../icon-comp'
 import {functionList, condition, entityFunctionList, textCondition} from './util'
 import io from '../rule-create/io'
@@ -24,6 +24,7 @@ const RuleItem = ({
   openDrawer,
   ...rest,
   formRef,
+  changeRelWithRuleConfig,
 }) => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
@@ -86,8 +87,13 @@ const RuleItem = ({
   }
 
   const onSelectRel = id => {
-    changeRelId(id)
-    getRelTagList(id)
+    if(+relId !== +id) {
+      if(relId && ruleType === 'config') {
+        changeRelWithRuleConfig(id)
+      } 
+      changeRelId(id)
+      getRelTagList(id)
+    }
   }
 
   const onSelectTag = e => {
@@ -148,20 +154,45 @@ const RuleItem = ({
             ) : null
           }
           {
+            ruleType === 'config' && +ruleIfBoxKey.slice(-1) === 1 && rest.page !== 'detail' ? (
+              <Tooltip title="更换关系对象会导致已设置的筛选条件被删除!">
+                <FormItem
+                  label={null}
+                  name={[key, 'relId']}
+                  rules={[{ required: true, message: '请选择关系' }]}
+                  initialValue={rest.relId}
+                >
+                  <Select
+                    showSearch
+                    style={{ width: 170 }}
+                    optionFilterProp="children"
+                    placeholder="请选择关系"
+                    onChange={onSelectRel}
+                    disabled={rest.page === 'detail'}
+                  >
+                    {
+                      relList.map(d => <Option value={d.objId}>{d.objName}</Option>)
+                    }
+                  </Select>
+                </FormItem>
+              </Tooltip>
+            ) : null
+          }
 
-            ruleType === 'config' && +ruleIfBoxKey.slice(-1) === 1 ? (
+          {
+            ruleType === 'config' && +ruleIfBoxKey.slice(-1) === 1 && rest.page === 'detail' ? (
               <FormItem
                 label={null}
                 name={[key, 'relId']}
-                rules={[{required: true, message: '请选择关系'}]}
+                rules={[{ required: true, message: '请选择关系' }]}
                 initialValue={rest.relId}
               >
-                <Select 
+                <Select
                   showSearch
-                  style={{width: 170}}
+                  style={{ width: 170 }}
                   optionFilterProp="children"
                   placeholder="请选择关系"
-                  onSelect={onSelectRel}
+                  onChange={onSelectRel}
                   disabled={rest.page === 'detail'}
                 >
                   {

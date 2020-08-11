@@ -3,7 +3,7 @@ import {action, toJS} from 'mobx'
 import {observer, inject} from 'mobx-react'
 import {Spin, Modal, Button} from 'antd'
 import {
-  Tag, NoData, AuthBox, projectProvider, Card, DtGrid,
+  Tag, NoData, Authority, projectProvider, Card, DtGrid,
 } from '../../component'
 import {IconDel, IconEdit} from '../../icon-comp'
 
@@ -57,8 +57,8 @@ class Scene extends Component {
     const noDataConfig = {
       btnText: '添加场景',
       onClick: () => this.handleModalVisible(),
-      // code: 'asset_tag_project_occ_operator',
-      // noAuthText: '暂无数据',
+      code: 'tag_app:create_occ[cud]',
+      noAuthText: '暂无数据',
       // myFunctionCodes: functionCodes,
     }
 
@@ -71,15 +71,16 @@ class Scene extends Component {
             {
               list.length ? (
                 <Fragment>
-                  <AuthBox 
-                    className="mb16" 
-                    code="asset_tag_project_occ_operator" 
-                    myFunctionCodes={store.functionCodes}
-                    type="primary" 
-                    onClick={() => this.handleModalVisible()}
-                  >
+                  <Authority authCode="tag_app:create_occ[cud]">
+                    <Button
+                      className="mb16"
+                      type="primary"
+                      onClick={() => this.handleModalVisible()}
+                    >
                       添加场景
-                  </AuthBox>
+                  </Button>
+                  </Authority>
+                 
                   <DtGrid row={3} fixedHeight={192}>
                     {
                       list.map(({
@@ -113,24 +114,30 @@ class Scene extends Component {
                             label: 'API数',
                             value: apiCount,
                           }]}
-                          actions={[
-                            <Button 
-                              type="link" // antd@Button 属性
-                              disabled={used}
-                              className="p0"
-                              onClick={() => this.handleModalVisible('edit', list[d])}
-                            >
-                              <IconEdit size="14" className={used ? 'i-used' : ''} />
-                            </Button>,
-                            <Button 
-                              type="link" // antd@Button 属性
-                              disabled={used} 
-                              className="p0"
-                              onClick={() => this.handleDel(id)}
-                            >
-                              <IconDel size="14" className={used ? 'i-used' : ''} />
-                            </Button>,
-                          ]}
+                            actions={[
+                              <Authority authCode="tag_app:create_occ[cud]">
+                                <Button
+                                  type="link" // antd@Button 属性
+                                  disabled={used}
+                                  className="p0"
+                                  onClick={() => this.handleModalVisible('edit', list[d])}
+                                >
+                                  <IconEdit size="14" className={used ? 'i-used' : ''} />
+                                </Button>
+                              </Authority>
+                              ,
+                              <Authority authCode="tag_app:create_occ[cud]">
+                                <Button
+                                  type="link" // antd@Button 属性
+                                  disabled={used}
+                                  className="p0"
+                                  onClick={() => this.handleDel(id)}
+                                >
+                                  <IconDel size="14" className={used ? 'i-used' : ''} />
+                                </Button>
+                              </Authority>
+                              ,
+                            ]}
                         />
                       )) 
                     }

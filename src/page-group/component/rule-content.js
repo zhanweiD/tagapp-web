@@ -150,6 +150,8 @@ export default class RuleContent extends Component {
       configTagList,
       drawerConfigTagList,
       page,
+      changeRuleConfig,
+      changeRelWithRuleConfig,
     } = this.props
 
     return (
@@ -192,6 +194,8 @@ export default class RuleContent extends Component {
                   page={page}
                   delGroupItem={this.delGroupItem}
                   formRef={formRef}
+                  changeRuleConfig={changeRuleConfig}
+                  changeRelWithRuleConfig={changeRelWithRuleConfig}
                 />
               ))
             }

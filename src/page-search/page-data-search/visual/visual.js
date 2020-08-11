@@ -17,6 +17,7 @@ import {
   Spin,
 } from 'antd'
 import {ExclamationCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons'
+import {Authority} from '../../../component'
 import Tree from './tree'
 import yunxing from '../../../icon/yunxing.svg'
 import SearchResult from './search-result'
@@ -288,9 +289,21 @@ export default class Visual extends Component {
     return (
       <div className="visual">
         <div className="header-button">
-          <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
-          <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+          <Authority
+            authCode="tag_app:clear_visual_search[d]"
+          >
+            <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
+          </Authority>
+          <Authority
+            authCode="tag_app:clear_visual_search[d]"
+          >
+            <Button className="mr8" onClick={this.save}>保存数据查询</Button>
+          </Authority>
+          <Authority
+            authCode="tag_app:create_visual_api[c]"
+          >
+            <Button className="mr8" type="primary" onClick={this.createApi} disabled={!resultInfo.sql}>生成API</Button>
+          </Authority>
           {/* <Button className="mr8" type="primary" onClick={this.createApi}>生成API</Button> */}
         </div>
         <div className="FBH pt16 pb16">
@@ -304,20 +317,26 @@ export default class Visual extends Component {
         <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
           <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
           <div className="visual-content-warp">
+        
             <div className="code-menu">
-              {
-                resultLoading ? (
-                  <span className="code-menu-item mr16 disabled">
-                    <img src={yunxing} alt="img" />
-                    <span>查询</span>
-                  </span>
-                ) : (
-                  <span className="code-menu-item mr16" onClick={() => this.search()}>
-                    <img src={yunxing} alt="img" />
-                    <span>查询</span>
-                  </span>
-                )
-              }
+              <Authority
+                authCode="tag_app:run_visual_search[x]"
+              >
+                {
+                  resultLoading ? (
+                    <span className="code-menu-item mr16 disabled">
+                      <img src={yunxing} alt="img" />
+                      <span>查询</span>
+                    </span>
+                  ) : (
+                      <span className="code-menu-item mr16" onClick={() => this.search()}>
+                        <img src={yunxing} alt="img" />
+                        <span>查询</span>
+                      </span>
+                    )
+                }
+              </Authority>
+             
               <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a> 
             </div>
             <div className="visual-content" id="visual-content">
@@ -394,7 +413,11 @@ export default class Visual extends Component {
                           </Form>
                         </div>
                       )
-                        : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                        : <Authority
+                          authCode="tag_app:config_visual_output[u]"
+                        >
+                          <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                          </Authority>
                     }
                   </div>
                   {/* 渲染筛选设置 */}
@@ -478,7 +501,9 @@ export default class Visual extends Component {
                           </Form>
                         </div>
                       )
-                        : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
+                        : <Authority
+                          authCode="tag_app:config_visual_where[u]"
+                        ><Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button></Authority>
                     }
                   </div>
                 </div>

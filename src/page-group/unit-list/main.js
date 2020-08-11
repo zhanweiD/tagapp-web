@@ -7,7 +7,7 @@ import {action, toJS} from 'mobx'
 import {Button} from 'antd'
 import moment from 'moment'
 
-import {projectProvider, NoData, ListContent} from '../../component'
+import {projectProvider, NoData, ListContent, Authority} from '../../component'
 import {baseApi} from '../../common/util'
 import GroupModal from './group-modal'
 
@@ -50,8 +50,14 @@ class UnitList extends Component {
       tableLoading,
       initGetDataByParent: true,
       buttons: [
-        <Button type="primary" onClick={this.outputUnitList}>导出个体列表</Button>,
-        <Button type="primary" onClick={this.openModal}>保存群体</Button>,
+        <Authority
+          authCode="tag_app:export_group[x]"
+        >
+          <Button type="primary" onClick={this.outputUnitList}>导出个体列表</Button>,
+      </Authority>,
+        <Authority
+          authCode="tag_app:create_individuals_group[c]"
+        ><Button type="primary" onClick={this.openModal}>保存群体</Button></Authority>,
       ],
       store, // 必填属性
     }
