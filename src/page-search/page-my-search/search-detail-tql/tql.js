@@ -7,6 +7,7 @@ import {action} from 'mobx'
 import {Button, Modal, message} from 'antd'
 import {ExclamationCircleOutlined} from '@ant-design/icons'
 import OnerFrame from '@dtwave/oner-frame'
+import {Authority} from '../../../component'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 import ModalSave from './modal-save'
@@ -85,8 +86,17 @@ class Tql extends Component {
       <div className="tql-detail">
         <div className="header-button">
           {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
-          <Button className="mr8" onClick={this.save}>保存数据查询</Button>
-          <Button className="mr8" type="primary" disabled={!resultInfo.sql} onClick={this.createApi}>生成API</Button>
+          <Authority
+            authCode="tag_app:create_tql_search[c]"
+          >
+            <Button className="mr8" onClick={this.save}>保存数据查询</Button>
+
+          </Authority>
+          <Authority
+            authCode="tag_app:create_tql_api[c]"
+          >
+            <Button className="mr8" type="primary" disabled={!resultInfo.sql} onClick={this.createApi}>生成API</Button>
+          </Authority>
         </div>
         <div className="tql-content-detail">
           <TqlTree store={store} />

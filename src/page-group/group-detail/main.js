@@ -7,7 +7,7 @@ import {observer, inject} from 'mobx-react'
 import {Tabs} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
 import {Time} from '../../common/util'
-import {Tag, DetailHeader, TimeRange} from '../../component'
+import {Tag, DetailHeader, Authority} from '../../component'
 import TagHistory from './tab-history'
 import TabApi from './tab-api'
 import store from './store'
@@ -85,7 +85,9 @@ class GroupDetail extends Component {
     }
 
     const actions = [
-      <a className="mr8" onClick={this.viewRule}>查看规则</a>,
+      <Authority
+        authCode="tag_app:group_rule[r]"
+      ><a className="mr8" onClick={this.viewRule}>查看规则</a></Authority> ,
     ]
     return (
       <div className="group-detail">

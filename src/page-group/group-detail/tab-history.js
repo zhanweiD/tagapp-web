@@ -2,7 +2,7 @@ import {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {action} from 'mobx'
 import {Badge} from 'antd'
-import {TimeRange, ListContent} from '../../component'
+import {TimeRange, ListContent, Authority} from '../../component'
 import getOptions from './charts-options'
 import {Time} from '../../common/util'
 
@@ -55,15 +55,25 @@ export default class TagHistory extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.recordDate}`}>
-              <a href>群体分析</a>
-            </Link>
+            <Authority
+              authCode="tag_app:detail_analyze_group[x]"
+            >
+              <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.recordDate}`}>
+                <a href>群体分析</a>
+              </Link>
+            </Authority>
+          
             <span className="table-action-line" />
           </Fragment>
           <Fragment>
-            <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}`}>
-              <a href>个体列表</a>
-            </Link>
+            <Authority
+              authCode="tag_app:detail_individuals_list[r]"
+            >
+              <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}`}>
+                <a href>个体列表</a>
+              </Link>
+            </Authority>
+          
           </Fragment>
         </div>
       ),

@@ -5,7 +5,7 @@
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
 import {message} from 'antd'
-import {projectProvider, searchProvider} from '../../component'
+import {projectProvider, searchProvider, Authority} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
 
@@ -84,7 +84,9 @@ const GroupConfig = ({projectId}) => {
       <div className="header-page p24">
         <h3>
           数据源配置
-          <FormOutlined className="ml8" onClick={editClick} />
+          <Authority authCode="tag_config:search_config[u]">
+            <FormOutlined className="ml8" onClick={editClick} />
+          </Authority>
         </h3>
         <div className="search-config-item">
           <div className="search-config-label">数据源类型：</div>

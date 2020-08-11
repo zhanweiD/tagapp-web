@@ -143,37 +143,57 @@ class MySearch extends Component {
                           }]}
                           descr={descr}
                           actions={[
-                            <Button
-                              type="link" // antd@Button 属性
-                              disabled={used}
-                              className="p0"
-                              onClick={() => this.edit({
-                                id,
-                                name,
-                                used,
-                                descr,
-                              })}
+                            <Authority
+                              authCode="tag_app:update_search[cud]"
                             >
-                              <IconEdit size="14" className={used ? 'i-used' : ''} />
-                            </Button>,
-                            <Button
-                              type="link" // antd@Button 属性
-                              disabled={used}
-                              className="p0"
-                              onClick={() => this.del(id)}
+                              <Tooltip placement="topRight" title="编辑">
+                                <Button
+                                  type="link" // antd@Button 属性
+                                  disabled={used}
+                                  className="p0"
+                                  onClick={() => this.edit({
+                                    id,
+                                    name,
+                                    used,
+                                    descr,
+                                  })}
+                                >
+                                  <IconEdit size="14" className={used ? 'i-used' : ''} />
+                                </Button>
+                              </Tooltip>
+                            </Authority>
+                           ,
+                            <Authority
+                              authCode="tag_app:update_search[cud]"
                             >
-                              <IconDel size="14" className={used ? 'i-used' : ''} />
-                            </Button>,
-                            <Tooltip placement="topRight" title="克隆">
-                              <Button
-                                type="link" // antd@Button 属性
-                                disabled={used}
-                                className="p0"
-                                onClick={() => this.clone(id)}
-                              >
-                                <CopyOutlined size="14" className={used ? 'i-used' : ''} />
-                              </Button>
-                            </Tooltip>,
+                              <Tooltip placement="topRight" title="删除">
+                                <Button
+                                  type="link" // antd@Button 属性
+                                  disabled={used}
+                                  className="p0"
+                                  onClick={() => this.del(id)}
+                                >
+                                  <IconDel size="14" className={used ? 'i-used' : ''} />
+                                </Button>
+                              </Tooltip>
+                            
+                            </Authority>
+                           ,
+                            <Authority
+                              authCode="tag_app:update_search[cud]"
+                            >
+                              <Tooltip placement="topRight" title="克隆">
+                                <Button
+                                  type="link" // antd@Button 属性
+                                  disabled={used}
+                                  className="p0"
+                                  onClick={() => this.clone(id)}
+                                >
+                                  <CopyOutlined size="14" className={used ? 'i-used' : ''} />
+                                </Button>
+                              </Tooltip>
+                            </Authority>
+                            ,
                            
                           ]}
                         />
