@@ -66,6 +66,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                         name="scheduleExpression"
                         rules={[{required: true, message: '更新周期不能为空'}]}
                         initialValue={detail.scheduleExpression || '0 10 0 * * ? *'}
+                        style={{marginBottom: '0px'}}
                       >
                         <CycleSelect
                           cycleList={['day']}
@@ -136,7 +137,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
           </Select>
         </Form.Item>
 
-        <Form.Item className="steps-action mb0">
+        <Form.Item className="steps-action mb0" style={{marginBottom: '0px', padding: '6px 16px'}}>
           <Button
             style={{marginRight: 16}}
             onClick={() => prev()}

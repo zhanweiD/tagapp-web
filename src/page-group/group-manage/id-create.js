@@ -259,7 +259,7 @@ export default class IdCreate extends Component {
                 </Button>
               </Upload>
               <a 
-                style={{marginTop: '12px', display: 'block'}}
+                style={{marginTop: '4px', display: 'block'}}
                 onClick={() => {
                   if (objId) {
                     window.open(`${baseApi}/export/example?objId=${objId}&projectId=${projectId}`)

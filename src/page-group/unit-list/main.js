@@ -53,11 +53,14 @@ class UnitList extends Component {
         <Authority
           authCode="tag_app:export_group[x]"
         >
-          <Button type="primary" onClick={this.outputUnitList}>导出个体列表</Button>,
-      </Authority>,
+          <Button type="primary" onClick={this.outputUnitList}>导出个体列表</Button>
+        </Authority>,
         <Authority
           authCode="tag_app:create_individuals_group[c]"
-        ><Button type="primary" onClick={this.openModal}>保存群体</Button></Authority>,
+        >
+          <Button type="primary" onClick={this.openModal}>保存群体</Button>
+
+        </Authority>,
       ],
       store, // 必填属性
     }
