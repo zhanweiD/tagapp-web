@@ -3,6 +3,9 @@ import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {PlusCircleFilled} from '@ant-design/icons'
 import {Modal, Spin, Button} from 'antd' 
+import newGroup1 from '../../icon/new-group1.svg'
+import newGroup2 from '../../icon/new-group2.svg'
+import newGroup3 from '../../icon/new-group3.svg'
 
 @observer
 export default class ModalGroup extends Component {
@@ -49,7 +52,7 @@ export default class ModalGroup extends Component {
       closable: true,
       onCancel: this.handleCancel,
       onOk: this.createGroup,
-      width: 576,
+      width: 520,
       destroyOnClose: true,
       footer: [
         <Button onClick={this.handleCancel} style={{fontSize: '12px'}}>
@@ -71,41 +74,44 @@ export default class ModalGroup extends Component {
         <Fragment>
           <Button className="create-flex" onClick={() => this.createType(1, 1)}>
             <div className="mr8">
-              <PlusCircleFilled style={{fontSize: '24px', color: '#5acbaa'}} />
+              <img alt="新建群体" height="24px" width="24px" src={newGroup1} />
+              {/* <PlusCircleFilled style={{fontSize: '24px', color: '#5acbaa'}} /> */}
             </div>
             <div className="create-type">
               <p className="create-group">
                 标签规则创建离线群体
               </p>
-              <p className="create-descr">
+              <div className="create-descr">
                 使用群体的标签及群体关系的标签，离线筛选出符合条件的群体。如：“按天取出过去7天有刷卡记录的女性用户作为每日营销的人群”，则需要根据标签规则设置一个按日更新的离线群体。
-              </p>
+              </div>
             </div>
           </Button>
           <Button className="create-flex" onClick={() => this.createType(1, 2)}>
             <div className="mr8">
-              <PlusCircleFilled style={{fontSize: '24px', color: '#3385f6'}} />
+              <img alt="新建群体" height="24px" width="24px" src={newGroup2} />
+              {/* <PlusCircleFilled style={{fontSize: '24px', color: '#3385f6'}} /> */}
             </div>
             <div className="create-type">
               <p className="create-group">
                 标签规则创建实时群体
               </p>
-              <p className="create-descr">
+              <div className="create-descr">
                 使用群体属性及群体关系数据，实时筛选出符合条件的群体。如：“有个不定期营销活动，有活动了才产生人群”，则需要根据标签规则设置实时群体，触发一次产出一批群体。
-              </p>
+              </div>
             </div>
           </Button>
           <Button className="create-flex" onClick={() => this.createType(2, 1)}>
             <div className="mr8">
-              <PlusCircleFilled style={{fontSize: '24px', color: '#586df6'}} />
+              <img alt="新建群体" height="24px" width="24px" src={newGroup3} />
+              {/* <PlusCircleFilled style={{fontSize: '24px', color: '#586df6'}} /> */}
             </div>
             <div className="create-type">
               <p className="create-group">
                 ID集合创建离线群体
               </p>
-              <p className="create-descr">
+              <div className="create-descr">
               通过已有的实体ID集合，创建为一个群体。如“将业务人员线下梳理的白名单用户”的ID存放在一个文件中，将文件上传为“白名单”的群体。
-              </p>
+              </div>
             </div>
           </Button>
         </Fragment>
