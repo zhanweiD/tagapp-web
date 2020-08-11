@@ -30,20 +30,35 @@ class GroupManage extends Component {
 
   formRef = React.createRef()
 
-  menu = record => (
-    <Menu>
-      <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
-          <a href disabled={record.status !== 1}>群体分析</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item disabled={record.status !== 1}>
-        <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
-          <a href disabled={record.status !== 1}>个体列表</a>
-        </Link>
-      </Menu.Item>
-    </Menu>
-  )
+  menu = record => {
+    const {status, mode, type} = record
+    let isClick = false
+    if (status === 1) {
+      isClick = false
+    } else if (status === 2) {
+      if (mode === 2 || type === 2) {
+        isClick = false
+      } else {
+        isClick = true
+      }
+    } else {
+      isClick = true
+    }
+    return (
+      <Menu>
+        <Menu.Item disabled={isClick}>
+          <Link disabled={isClick} to={`/group/analyze/${record.id}/${record.objId}`}>
+            <a href disabled={isClick}>群体分析</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item disabled={isClick}>
+          <Link disabled={isClick} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
+            <a href disabled={isClick}>个体列表</a>
+          </Link>
+        </Menu.Item>
+      </Menu>
+    )
+  }
   columns = [
     {
       key: 'name',
