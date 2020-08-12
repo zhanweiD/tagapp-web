@@ -160,7 +160,7 @@ class GroupAnalyze extends Component {
                     </div>
                   ))
 
-                  : <NoData text="暂无分析数据" />
+                  : <NoData text={roportion.time ? '请添加分析纬度': '请选择目标群体，完成群体分析'} />
               }
             </div>
             <ModalAdd add={this.add} />
