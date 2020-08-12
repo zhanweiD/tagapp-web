@@ -1,7 +1,6 @@
 /* type和相应antd组件映射 */
 import React from 'react'
 import * as antd from 'antd'
-// import './main.styl'
 
 const createInputPlaceholder = label => (label ? `请输入${label}` : undefined) // 生成input默认的Placeholder值
 
