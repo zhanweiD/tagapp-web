@@ -52,7 +52,7 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
           }
         </div>
       </div>
-      <div className="p16" style={{display: isExpend ? 'block' : 'none'}}>
+      <div className="p16 pb48" style={{display: isExpend ? 'block' : 'none', 'overflowY': 'auto', 'height': '100%', 'paddingBottom': '48px'}}>
         <Spin spinning={loading}>
           <Table 
             columns={getColumns(resultInfo.title)}

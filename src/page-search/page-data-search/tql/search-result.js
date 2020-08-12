@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Table, Spin, Tabs, Empty} from 'antd'
+import {Table, Spin, Tabs, Empty, Alert} from 'antd'
 import cls from 'classnames'
 
 import iconup from '../../../icon/xiangshangzhankai.svg'
@@ -66,7 +66,10 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
             tabKey === '1' ? (
               <div className="log">
                 {
-                  log || <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  log ? <div>
+                    <Alert message="查询失败" type="error" showIcon />
+                    <div>{log}</div>
+                  </div> :<Alert message="查询成功，请查看查询结果" type="success" showIcon />
                 }
               </div>
             ) : (
@@ -79,9 +82,8 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                       dataSource={resultInfo.data} 
                       pagination={{
                         total: resultInfo.totalSize,
-                        // pageSize: 5,
+                        pageSize: 5,
                         showTotal: () => `合计${resultInfo.totalSize}条记录`,
-                        showSizeChanger: true,
                       }}
                     />
                   ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

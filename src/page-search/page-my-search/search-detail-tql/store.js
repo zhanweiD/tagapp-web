@@ -173,7 +173,7 @@ class Store {
 
   // 运行查询
   @action async runSearch(params) {
-    this.runLoading = true
+    this.resultLoading = true
     try {
       const res = await io.runSearch({
         projectId: this.projectId,
@@ -190,7 +190,7 @@ class Store {
     } catch (e) {
       errorTip(e.message)
     } finally {
-      this.runLoading = false
+      this.resultLoading = false
     }
   }
 

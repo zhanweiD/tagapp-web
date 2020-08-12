@@ -6,7 +6,7 @@ import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import cls from 'classnames'
-import {message, Spin} from 'antd'
+import {message, Spin, Tooltip} from 'antd'
 
 import sqlFormatter from 'sql-formatter'
 // import LogPanel from '../code-component/log-panel'
@@ -105,36 +105,50 @@ export default class TqlCode extends Component {
 
     return (
       <div className="code-content" id="code-content">
-        <Spin spinning={detailLoading || resultLoading}>
+        <Spin spinning={detailLoading}>
           <div style={{height: 'calc(100vh - 90px)'}}>
             <div className="code-menu">
-              <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
-                <img src={yunxing} alt="img" />
-                <span>运行</span>
-              </span>
+            {
+                resultLoading ? (
+                  <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                    <span className="mr16 disabled">
+                      <img src={yunxing} alt="img" className="disabled"/>
+                      <span>查询</span>
+                    </span>
+                  </Tooltip>
+                ) : (
+                    <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
+                      <img src={yunxing} alt="img" />
+                      <span>查询</span>
+                    </span>
+                  )
+              }
               <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
                 <img src={geshihua} alt="img" />
                 <span>格式化</span>
               </span>
             </div>
-            <form
-              id="code_area"
-              className={cls({
-                new_codearea: true,
-                new_codearea_nolog: !this.store.isRuned,
-                max_height: this.store.isRuned,
-              })}
-            >
-              <textarea
-                id="codeArea"
-                ref={t => this.codeArea = t}
-                placeholder="code goes here..."
+            <Spin spinning={resultLoading}>
+              <form
+                id="code_area"
+                className={cls({
+                  new_codearea: true,
+                  new_codearea_nolog: !this.store.isRuned,
+                  max_height: this.store.isRuned,
+                })}
               >
-                {
-                  toJS(detail.source)
-                }
-              </textarea>
-            </form>
+                <textarea
+                  id="codeArea"
+                  ref={t => this.codeArea = t}
+                  placeholder="code goes here..."
+                >
+                  {
+                    toJS(detail.source)
+                  }
+                </textarea>
+              </form>
+            </Spin>
+
           </div>
         </Spin>
         
