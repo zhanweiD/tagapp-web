@@ -106,6 +106,7 @@ class Store {
   @observable resultLoading = false
   @observable log = ''
   @observable tql = ''
+  @observable isRuned = false
 
   // 获取高度
   @action getHeight = () => {
@@ -186,6 +187,7 @@ class Store {
         this.log = res.log
         // this.tql = res.sql
         this.tql = params.tql
+        this.isRuned = true
       })
     } catch (e) {
       errorTip(e.message)

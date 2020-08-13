@@ -106,6 +106,7 @@ export default class TqlCode extends Component {
       log,
       handleExpend,
       onDraggableLogMouseDown,
+      isRuned
     } = this.store
 
     return (
@@ -121,7 +122,7 @@ export default class TqlCode extends Component {
                   <Tooltip placement="topRight" title="正在查询中，不可重复查询">
                     <span className="mr16 disabled">
                       {/* <img src={yunxing} alt="img" className="disabled"/> */}
-                      <i className="iconfont dtwave icon-run" />
+                      <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}}/>
                       <span className="ml4">查询</span>
                     </span>
                   </Tooltip>
@@ -170,6 +171,7 @@ export default class TqlCode extends Component {
           resultInfo={toJS(resultInfo)}
           handleExpend={handleExpend}
           onDraggableLogMouseDown={onDraggableLogMouseDown}
+          isRuned={isRuned}
         />
       </div>
     )
