@@ -7,7 +7,7 @@ import icondown from '../../../icon/xiangxiazhankai.svg'
 
 const {TabPane} = Tabs
 
-const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown}) => {
+const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned}) => {
   const [isExpend, changeExpend] = useState(0) 
   const [tabKey, changeTabKey] = useState('1') 
  
@@ -63,12 +63,20 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
           {
             tabKey === '1' ? (
               <div className="log">
-                 {
-                  log ? <div>
-                    <Alert message="查询失败" type="error" showIcon />
-                    <div>{log}</div>
-                  </div> :<Alert message="查询成功，请查看查询结果" type="success" showIcon />
-                }
+                {(() => {
+                  if (isRuned) {
+                    if (log) {
+                      return <div>
+                        <Alert message="查询失败" type="error" showIcon />
+                        <div>{log}</div>
+                      </div>
+                    } else {
+                      return <Alert message="查询成功，请查看查询结果" type="success" showIcon />
+                    }
+                  } else {
+                    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  }
+                })()}
               </div>
             ) : (
               <div className="result-table">

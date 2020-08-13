@@ -36,6 +36,7 @@ export default class Tql extends Component {
     store.showResult = false
     store.resultInfo = {}
     store.resultLoading = false
+    store.isRuned = false
   }
 
   @action.bound createApi() {

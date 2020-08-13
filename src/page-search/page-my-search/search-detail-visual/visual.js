@@ -302,20 +302,20 @@ class Visual extends Component {
             <Tree store={store} />
             <div className="visual-content-warp">
               <div className="code-menu">
-                <Authority
+              <Authority
                   authCode="tag_app:run_visual_search[x]"
                 >
-                  {
-                    resultLoading ? (
-                      <Tooltip placement="topRight" title="正在查询中，不可重复查询">
-                        <span className="disabled">
-                          {/* <img src={yunxing} alt="img" className="disabled" /> */}
-                          <i className="iconfont dtwave icon-run" />
-                          <span className="ml4">查询</span>
-                        </span>
-                      </Tooltip>
+                {
+                  resultLoading ? (
+                    <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                      <span className="mr16 disabled">
+                        {/* <img src={yunxing} alt="img" className="disabled" /> */}
+                        <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}}/>
+                        <span className="ml4">查询</span>
+                      </span>
+                    </Tooltip>
 
-                    ) : (
+                  ) : (
                       <span className="code-menu-item mr16" onClick={() => this.search()}>
                         {/* <img src={yunxing} alt="img" /> */}
                         <i className="iconfont dtwave icon-run" />
