@@ -12,8 +12,8 @@ import sqlFormatter from 'sql-formatter'
 // import LogPanel from '../code-component/log-panel'
 import SearchResult from './search-result'
 
-import yunxing from '../../../icon/yunxing.svg'
-import geshihua from '../../../icon/geshihua.svg'
+// import yunxing from '../../../icon/yunxing.svg'
+// import geshihua from '../../../icon/geshihua.svg'
 
 @observer
 export default class TqlCode extends Component {
@@ -112,20 +112,23 @@ export default class TqlCode extends Component {
                 resultLoading ? (
                   <Tooltip placement="topRight" title="正在查询中，不可重复查询">
                     <span className="mr16 disabled">
-                      <img src={yunxing} alt="img" className="disabled"/>
-                      <span>查询</span>
+                      {/* <img src={yunxing} alt="img" className="disabled"/> */}
+                      <i className="iconfont dtwave icon-run" />
+                      <span className="ml4">查询</span>
                     </span>
                   </Tooltip>
                 ) : (
                     <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
-                      <img src={yunxing} alt="img" />
-                      <span>查询</span>
+                      {/* <img src={yunxing} alt="img" /> */}
+                      <i className="iconfont dtwave icon-run" />
+                      <span className="ml4">查询</span>
                     </span>
                   )
               }
               <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
-                <img src={geshihua} alt="img" />
-                <span>格式化</span>
+                {/* <img src={geshihua} alt="img" /> */}
+                <i className="iconfont dtwave icon-geshihua1" />
+                <span className="ml4">格式化</span>
               </span>
             </div>
             <Spin spinning={resultLoading}>

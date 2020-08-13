@@ -295,15 +295,17 @@ class Visual extends Component {
                   resultLoading ? (
                     <Tooltip placement="topRight" title="正在查询中，不可重复查询">
                       <span className="disabled">
-                        <img src={yunxing} alt="img" className="disabled" />
-                        <span>查询</span>
+                        {/* <img src={yunxing} alt="img" className="disabled" /> */}
+                        <i className="iconfont dtwave icon-run" />
+                        <span className="ml4">查询</span>
                       </span>
                     </Tooltip>
 
                   ) : (
                       <span className="code-menu-item mr16" onClick={() => this.search()}>
-                        <img src={yunxing} alt="img" />
-                        <span>查询</span>
+                        {/* <img src={yunxing} alt="img" /> */}
+                        <i className="iconfont dtwave icon-run" />
+                        <span className="ml4">查询</span>
                       </span>
                     )
                 }
