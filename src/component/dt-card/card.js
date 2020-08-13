@@ -126,8 +126,11 @@ export default class Card extends Component {
         {/* Title */}
         {
           link 
-            ? <a title={title} className={`${preCls}-head-title card-omit hover-style `} href={link}>{title}</a>
+            ? <a title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</a>
             : <span title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</span>
+          // link 
+          //   ? <a title={title} className={`${preCls}-head-title card-omit hover-style `} href={link}>{title}</a>
+          //   : <span title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</span>
         }
 
         {/* Tag */}
@@ -177,7 +180,7 @@ export default class Card extends Component {
 
     return (
       <div className={classnames(preCls, className)} {...restProps}>
-        <div className={`${preCls}-wrap`}>
+        <div onClick={() => (link ? window.location.href = link : null)} className={`${preCls}-wrap`}>
           {headDom}
           {InfoDom}
           {DescrDom}

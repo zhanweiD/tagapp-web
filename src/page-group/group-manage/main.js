@@ -37,7 +37,7 @@ class GroupManage extends Component {
       >
         <Menu.Item disabled={record.status !== 1}>
           <Link disabled={record.status !== 1} to={`/group/analyze/${record.id}/${record.objId}`}>
-            <a href disabled={record.status !== 1}>群体分析</a>
+            <a className="m8" href disabled={record.status !== 1}>群体分析</a>
           </Link>
         </Menu.Item>
       </Authority>
@@ -46,7 +46,7 @@ class GroupManage extends Component {
       >
         <Menu.Item disabled={record.status !== 1}>
           <Link disabled={record.status !== 1} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
-            <a href disabled={record.status !== 1}>个体列表</a>
+            <a className="m8" href disabled={record.status !== 1}>个体列表</a>
           </Link>
         </Menu.Item>
       </Authority>

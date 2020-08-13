@@ -4,7 +4,7 @@
 
 import {useEffect, useState} from 'react'
 import {FormOutlined} from '@ant-design/icons'
-import {message, Button} from 'antd'
+import {message, Button, Popconfirm} from 'antd'
 import {projectProvider, searchProvider, Authority} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
@@ -110,7 +110,6 @@ const GroupConfig = ({projectId}) => {
     getStorageList(config.storageTypeId)
     changeVisible(true)
     changeIsInit(false)
-    message.warning('不建议修改，修改后会影响之前的使用！')
   }
 
   const onCancel = () => {
@@ -133,9 +132,17 @@ const GroupConfig = ({projectId}) => {
         <div className="config-data">
           <span>数据源配置</span>
           <Authority authCode="tag_config:search_config[u]">
-            <Button type="primary" onClick={editClick}>编辑</Button>
+            <Popconfirm
+              title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
+              onConfirm={editClick}
+              onCancel={() => {}}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button type="primary">编辑</Button>
+            </Popconfirm>
+            {/* <Button type="primary" onClick={editClick}>编辑</Button> */}
           </Authority>
-         
         </div>
         {/* <h3>
           数据源配置

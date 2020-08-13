@@ -1,4 +1,4 @@
-import {Component, useEffect} from 'react'
+import {Component, useEffect, Fragment} from 'react'
 import {observer, Provider} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import OnerFrame from '@dtwave/oner-frame'
@@ -11,6 +11,7 @@ import StepThree from './step-three'
 import './main.styl'
 
 const {Step} = Steps
+let headerTitle = ''
 @observer
 class RuleCreate extends Component {
   constructor(props) {
@@ -22,6 +23,12 @@ class RuleCreate extends Component {
     store.type = params.type
     
     store.groupId = params.groupId
+
+    if (params.groupId) {
+      headerTitle = params.type === '1' ? '编辑规则离线群体' : '编辑规则实时群体'
+    } else {
+      headerTitle = params.type === '1' ? '新建规则离线群体' : '新建规则实时群体'
+    }
   }
 
   componentWillMount() {
@@ -75,32 +82,35 @@ class RuleCreate extends Component {
 
     return (
       <Provider store={store}>
-        <div className="rule-create">
-          <Steps current={current} style={{width: '80%', margin: '0 auto'}}>
-            <Step title="设置基础信息" />
-            <Step title="设置群体圈选规则" />
-            <Step title="设置群体参数" />
-          </Steps>
-          <StepOne />
+        <div>
+          <div className="content-header">{headerTitle}</div>
+          <div className="rule-create">
+            <Steps current={current} style={{width: '80%', margin: '0 auto'}}>
+              <Step title="设置基础信息" />
+              <Step title="设置群体圈选规则" />
+              <Step title="设置群体参数" />
+            </Steps>
+            <StepOne />
           
-          {
-            store.current === 1 ? <StepTwo /> : null
-          }
+            {
+              store.current === 1 ? <StepTwo /> : null
+            }
          
-          {
-            store.current === 2 ? (
-              <StepThree 
-                configTagList={toJS(outputTags)}
-                current={current} 
-                prev={this.prev}
-                save={this.save}
-                loading={submitLoading} 
-                detail={toJS(detail)}
-                type={+type}
-              />
-            ) : null
-          }
+            {
+              store.current === 2 ? (
+                <StepThree 
+                  configTagList={toJS(outputTags)}
+                  current={current} 
+                  prev={this.prev}
+                  save={this.save}
+                  loading={submitLoading} 
+                  detail={toJS(detail)}
+                  type={+type}
+                />
+              ) : null
+            }
          
+          </div>
         </div>
       </Provider>
     )

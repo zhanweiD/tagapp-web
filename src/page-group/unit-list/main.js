@@ -59,7 +59,6 @@ class UnitList extends Component {
           authCode="tag_app:create_individuals_group[c]"
         >
           <Button type="primary" onClick={this.openModal}>保存群体</Button>
-
         </Authority>,
       ],
       store, // 必填属性

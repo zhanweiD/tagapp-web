@@ -78,7 +78,7 @@ class Scene extends Component {
                       onClick={() => this.handleModalVisible()}
                     >
                       添加场景
-                  </Button>
+                    </Button>
                   </Authority>
                  
                   <DtGrid row={3} fixedHeight={192}>
@@ -114,30 +114,28 @@ class Scene extends Component {
                             label: 'API数',
                             value: apiCount,
                           }]}
-                            actions={[
-                              <Authority authCode="tag_app:create_occ[cud]">
-                                <Button
-                                  type="link" // antd@Button 属性
-                                  disabled={used}
-                                  className="p0"
-                                  onClick={() => this.handleModalVisible('edit', list[d])}
-                                >
-                                  <IconEdit size="14" className={used ? 'i-used' : ''} />
-                                </Button>
-                              </Authority>
-                              ,
-                              <Authority authCode="tag_app:create_occ[cud]">
-                                <Button
-                                  type="link" // antd@Button 属性
-                                  disabled={used}
-                                  className="p0"
-                                  onClick={() => this.handleDel(id)}
-                                >
-                                  <IconDel size="14" className={used ? 'i-used' : ''} />
-                                </Button>
-                              </Authority>
-                              ,
-                            ]}
+                          actions={[
+                            <Authority authCode="tag_app:create_occ[cud]">
+                              <Button
+                                type="link" // antd@Button 属性
+                                disabled={used}
+                                className="p0"
+                                onClick={() => this.handleModalVisible('edit', list[d])}
+                              >
+                                <IconEdit size="14" className={used ? 'i-used' : ''} />
+                              </Button>
+                            </Authority>,                              
+                            <Authority authCode="tag_app:create_occ[cud]">
+                              <Button
+                                type="link" // antd@Button 属性
+                                disabled={used}
+                                className="p0"
+                                onClick={() => this.handleDel(id)}
+                              >
+                                <IconDel size="14" className={used ? 'i-used' : ''} />
+                              </Button>
+                            </Authority>,                              
+                          ]}
                         />
                       )) 
                     }

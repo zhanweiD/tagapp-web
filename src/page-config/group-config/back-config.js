@@ -46,7 +46,15 @@ export default class BackConfig extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <a className="mr16" href onClick={() => this.openModal('edit', record)} style={{marginRight: '6px'}}>编辑</a>
+            <Popconfirm
+              title="更改后原数据源中的群体及群体下的API都将会失效，请谨慎操作。"
+              onConfirm={() => this.openModal('edit', record)}
+              onCancel={() => {}}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a className="mr16" href>编辑</a>
+            </Popconfirm>
             {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
@@ -64,7 +72,6 @@ export default class BackConfig extends Component {
     this.store.getDataSource()
     this.store.visible = true
     this.store.isInit = false
-    message.warning('不建议修改，修改后会影响之前的使用！')
   }
 
   // 添加实体弹窗
