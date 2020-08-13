@@ -28,7 +28,12 @@ class Store {
 
   // 标签树 & 对象
   @observable treeLoading = false
-  @observable tagTreeData = [] // 标签树
+
+  @observable searchKey = undefined
+  @observable expandAll = true
+  @observable treeData = [] // 类目树数据
+  @observable searchExpandedKeys = [] // 关键字搜索展开的树节点
+
   @observable objList = [] // 对象下拉列表
   @observable objId // 对象Id
 
@@ -113,7 +118,7 @@ class Store {
         ...params,
       })
       runInAction(() => {
-        this.tagTreeData = listToTree(res)
+        this.treeData = listToTree(res)
       })
     } catch (e) {
       errorTip(e.message)
@@ -132,7 +137,7 @@ class Store {
         ...params,
       })
       runInAction(() => {
-        this.tagTreeData = listToTree(res)
+        this.treeData = listToTree(res)
       })
     } catch (e) {
       errorTip(e.message)

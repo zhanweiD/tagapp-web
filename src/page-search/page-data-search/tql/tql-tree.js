@@ -62,6 +62,7 @@ export default class TqlTree extends Component {
       onSelect: this.onselect,
       defaultExpandAll: expandAll,
       defaultExpandedKeys: searchExpandedKeys.slice(),
+      showDetail: true,
     }
 
     const treeBoxConfig = {

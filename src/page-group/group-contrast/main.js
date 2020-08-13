@@ -277,7 +277,7 @@ class GroupContrast extends Component {
                       </div>
                     </div>
                   ))
-                  : <NoData text="暂无对比数据" />
+                  : <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} />
               }
             </div>
             <ModalAdd add={this.add} />

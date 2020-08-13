@@ -6,7 +6,7 @@ import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import cls from 'classnames'
-import {message, Spin} from 'antd'
+import {message, Spin, Tooltip} from 'antd'
 import {QuestionCircleOutlined} from '@ant-design/icons'
 import sqlFormatter from 'sql-formatter'
 import {Authority} from '../../../component'
@@ -110,29 +110,35 @@ export default class TqlCode extends Component {
 
     return (
       <div className="code-content" id="code-content">
-        <Spin spinning={resultLoading}>
-          <div style={{height: 'calc(100vh - 90px)'}}> 
-            <div className="code-menu">
-              <Authority
-                authCode="tag_app:run_tql_search[x]"
-              >
-                {
-                  resultLoading ? <span className="code-menu-item mr16 disabled">
-                    <img src={yunxing} alt="img" />
-                    <span>运行</span>
-                  </span> : <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
-                      <img src={yunxing} alt="img" />
-                      <span>运行</span>
-                    </span>
-                }
-              </Authority>
 
-              <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
-                <img src={geshihua} alt="img" />
-                <span>格式化</span>
-              </span>
-              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{ marginLeft: '-8px' }}><QuestionCircleOutlined /></a>
-            </div>
+        <div style={{height: 'calc(100vh - 90px)'}}> 
+          <div className="code-menu">
+            <Authority
+              authCode="tag_app:run_tql_search[x]"
+            >
+              {
+                resultLoading ? (
+                  <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                    <span className="mr16 disabled">
+                      <img src={yunxing} alt="img" className="disabled" />
+                      <span>查询</span>
+                    </span>
+                  </Tooltip>
+                ) : (
+                  <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
+                    <img src={yunxing} alt="img" />
+                    <span>查询</span>
+                  </span>
+                )
+              }
+            </Authority>
+            <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
+              <img src={geshihua} alt="img" />
+              <span>格式化</span>
+            </span>
+            <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a>
+          </div>
+          <Spin spinning={resultLoading}>
             <form
               id="code_area"
               className={cls({
@@ -151,10 +157,9 @@ export default class TqlCode extends Component {
                 }
               </textarea>
             </form>
-          </div>
-         
-        </Spin>
-    
+          </Spin>
+           
+        </div>
         <SearchResult 
           log={toJS(log)}
           expend={showResult} 

@@ -273,6 +273,7 @@ render() {
     // actionList,
     showIcon: true,
     defaultExpandedKeys: this.store.searchExpandedKeys.slice(),
+    showDetail: true,
   }
 
   return (

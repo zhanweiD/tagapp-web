@@ -28,9 +28,17 @@ const quickEntrance = [
     icon: 'setting',
     url: '/tag-model/index.html#/config/environment',
   },
+  {
+    tip: '审批管理',
+    icon: 'approver',
+    url: '/tag-model/index.html#/common/approval',
+  },
+  {
+    tip: '项目管理',
+    url: '/project/index.html',
+    icon: 'project',
+  },
 ]
-
-
 function Entry() {
   return (
     <Frame 

@@ -15,6 +15,7 @@ import {
   Popconfirm,
   Modal,
   Spin,
+  Tooltip,
 } from 'antd'
 import {ExclamationCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons'
 import {Authority} from '../../../component'
@@ -90,9 +91,9 @@ export default class Visual extends Component {
     })
   }
 
-  @action.bound refreshTree(searchKey) {
-    store.searchTree({id: store.objId, searchKey})
-  }
+  // @action.bound refreshTree(searchKey) {
+  //   store.searchTree({id: store.objId, searchKey})
+  // }
 
   @action.bound save() {
     const t = this
@@ -276,8 +277,8 @@ export default class Visual extends Component {
       screenConfig, 
       objList, 
       objId,
-      treeLoading, 
-      tagTreeData, 
+      // treeLoading, 
+      // tagTreeData, 
       expressionTag, 
       showResult, 
       resultInfo,
@@ -315,7 +316,8 @@ export default class Visual extends Component {
           </Select>
         </div>
         <div className="FBH" style={{height: 'calc(100% - 66px)'}}>
-          <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
+          <Tree store={store} />
+          {/* <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} /> */}
           <div className="visual-content-warp">
         
             <div className="code-menu">
@@ -324,19 +326,21 @@ export default class Visual extends Component {
               >
                 {
                   resultLoading ? (
-                    <span className="code-menu-item mr16 disabled">
+                    <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                      <span className="mr16 disabled">
+                        <img src={yunxing} alt="img" className="disabled" />
+                        <span>查询</span>
+                      </span>
+                    </Tooltip>
+                 
+                  ) : (
+                    <span className="code-menu-item mr16" onClick={() => this.search()}>
                       <img src={yunxing} alt="img" />
                       <span>查询</span>
                     </span>
-                  ) : (
-                      <span className="code-menu-item mr16" onClick={() => this.search()}>
-                        <img src={yunxing} alt="img" />
-                        <span>查询</span>
-                      </span>
-                    )
+                  )
                 }
               </Authority>
-             
               <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a> 
             </div>
             <div className="visual-content" id="visual-content">
@@ -382,7 +386,7 @@ export default class Visual extends Component {
                                   [key]: {
                                     ...changedValues[key],
                                     params1: undefined,
-                                  }
+                                  },
                                 })
                               }
 
@@ -413,11 +417,13 @@ export default class Visual extends Component {
                           </Form>
                         </div>
                       )
-                        : <Authority
-                          authCode="tag_app:config_visual_output[u]"
-                        >
-                          <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                        : (
+                          <Authority
+                            authCode="tag_app:config_visual_output[u]"
+                          >
+                            <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
                           </Authority>
+                        )
                     }
                   </div>
                   {/* 渲染筛选设置 */}
@@ -446,8 +452,8 @@ export default class Visual extends Component {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {
                                     ...changedValues[key],
-                                    comparision: "="
-                                  }
+                                    comparision: '=',
+                                  },
                                 })
                               }
 
@@ -464,8 +470,8 @@ export default class Visual extends Component {
                                 this.screenConfigRef.current.setFieldsValue({
                                   [key]: {
                                     ...changedValues[key],
-                                    rightParams: undefined
-                                  }
+                                    rightParams: undefined,
+                                  },
                                 })
                               }
   
@@ -501,9 +507,13 @@ export default class Visual extends Component {
                           </Form>
                         </div>
                       )
-                        : <Authority
-                          authCode="tag_app:config_visual_where[u]"
-                        ><Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button></Authority>
+                        : (
+                          <Authority
+                            authCode="tag_app:config_visual_where[u]"
+                          >
+                            <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
+                          </Authority>
+                        )
                     }
                   </div>
                 </div>

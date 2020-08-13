@@ -13,6 +13,7 @@ import {
   message,
   Popconfirm,
   Spin,
+  Tooltip,
 } from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
 import {Authority} from '../../../component'
@@ -24,7 +25,7 @@ import DrewerApi from './modal-api'
 import OutItem from './out-item'
 import ScreenItem from './screen-item'
 import {
-  getOutConfig, 
+  getOutConfig,
   getScreenConfig,
 } from './util'
 
@@ -51,9 +52,9 @@ class Visual extends Component {
 
   componentWillMount() {
     store.getObjList()
-    store.getDetail((res) => {
+    store.getDetail(res => {
       const {outputCondition} = res
-      if(outputCondition && outputCondition.length) {
+      if (outputCondition && outputCondition.length) {
         for (let i = 0; i < outputCondition.length; i++) {
           const ele = outputCondition[i]
           this.outNameMap[i] = ele.alias
@@ -80,9 +81,9 @@ class Visual extends Component {
   //   // store.getExpressionTag({id: objId})
   // }
 
-  @action.bound refreshTree(searchKey) {
-    store.searchTree({id: store.objId, searchKey})
-  }
+  // @action.bound refreshTree(searchKey) {
+  //   store.searchTree({id: store.objId, searchKey})
+  // }
 
   @action.bound save() {
     const t = this
@@ -96,7 +97,7 @@ class Visual extends Component {
           store.visibleSave = true
         }, () => {
           message.error('筛选设置信息尚未完善！')
-        }) 
+        })
       } else {
         store.saveParams.outputList = outConfig
         store.visibleSave = true
@@ -202,7 +203,7 @@ class Visual extends Component {
           store.runSearch(params)
         }, () => {
           message.error('筛选设置信息尚未完善！')
-        }) 
+        })
       } else {
         const params = {
           outputList: outConfig,
@@ -214,7 +215,7 @@ class Visual extends Component {
       }
     }, () => {
       message.error('输出设置信息尚未完善！')
-    }) 
+    })
   }
 
   @action.bound checkOutConfig(successCb, errorCb) {
@@ -255,14 +256,14 @@ class Visual extends Component {
 
   render() {
     const {
-      outConfig, 
-      screenConfig, 
-      objList, 
+      outConfig,
+      screenConfig,
+      objList,
       objId,
-      treeLoading, 
-      tagTreeData, 
-      expressionTag, 
-      showResult, 
+      // treeLoading,
+      // tagTreeData,
+      expressionTag,
+      showResult,
       resultInfo,
       resultLoading,
       detail,
@@ -272,7 +273,7 @@ class Visual extends Component {
     } = store
 
     return (
-      <Spin spinning={detailLoading}> 
+      <Spin spinning={detailLoading}>
         <div className="visual-detail">
           <div className="header-button">
             {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
@@ -298,191 +299,195 @@ class Visual extends Component {
             </Select>
           </div>
           <div className="FBH" style={{height: 'calc(100vh - 114px)'}}>
-            <Tree tagTreeData={toJS(tagTreeData)} treeLoading={treeLoading} refreshTree={this.refreshTree} />
+            <Tree store={store} />
             <div className="visual-content-warp">
               <div className="code-menu">
-              <Authority
-                authCode="tag_app:run_visual_search[x]"
-              >
-                {
-                  resultLoading ? (
-                    <span className="code-menu-item mr16 disabled">
-                      <img src={yunxing} alt="img" />
-                      <span>查询</span>
-                    </span>
-                  ) : (
+                <Authority
+                  authCode="tag_app:run_visual_search[x]"
+                >
+                  {
+                    resultLoading ? (
+                      <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                        <span className="disabled">
+                          <img src={yunxing} alt="img" className="disabled" />
+                          <span>查询</span>
+                        </span>
+                      </Tooltip>
+                    ) : (
                       <span className="code-menu-item mr16" onClick={() => this.search()}>
                         <img src={yunxing} alt="img" />
                         <span>查询</span>
                       </span>
                     )
-                }
-              </Authority>
+                  }
+                </Authority>
               </div>
               <div className="visual-content" id="visual-content">
-                <SearchResult 
-                  loading={resultLoading} 
-                  expend={showResult} 
-                  resultInfo={toJS(resultInfo)} 
+                <SearchResult
+                  loading={resultLoading}
+                  expend={showResult}
+                  resultInfo={toJS(resultInfo)}
                   handleExpend={handleExpend}
                   onDraggableLogMouseDown={onDraggableLogMouseDown}
                 />
                 <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                   <Menu.Item key="out">
-                  输出设置
+                    输出设置
                   </Menu.Item>
                   <Menu.Item key="screen">
-                  筛选设置
+                    筛选设置
                   </Menu.Item>
                 </Menu>
-                <div className="visual-config" id="visual-config">
-               
-                  {/* 渲染输出设置 */}
-                  <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
-                    {
-                      outConfig.length ? (
-                        <div>
-                          <Popconfirm
-                            placement="bottomLeft"
-                            title="确认清除输出设置？"
-                            onConfirm={this.delAllOutConfig}
-                            okText="确实"
-                            cancelText="取消"
-                          >
-                            <Button type="primary" className="mb16">清除输出设置</Button>
-                          </Popconfirm>
-                          <Form
-                            name="out" 
-                            ref={this.outConfigRef}
-                            onValuesChange={(changedValues, allValues) => {
-                              const [key] = Object.keys(changedValues)
+                <Spin spinning={resultLoading}>
+                  <div className="visual-config" id="visual-config">
 
-                              if (changedValues[key].function && allValues[key].params1) {
-                                this.outConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    params1: undefined,
-                                  }
-                                })
-                              }
-
-                              if (changedValues[key].function && allValues[key].params) {
-                                this.outConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    params: undefined,
-                                  }
-                                })
-                              }
-                            }}
-                          >
-                            {
-                              outConfig.map((d, i) => (
-                                <OutItem 
-                                  id={d.id}
-                                  index={i}
-                                  expressionTag={toJS(expressionTag)}
-                                  delOutConfig={this.delOutConfig}
-                                  addOutConfig={this.addOutConfig}
-                                  info={toJS(d)}
-                                  outNameMap={this.outNameMap}
-                                  outNameBlur={this.outNameBlur}
-                                />
-                              ))
-                            }
-                     
-                          </Form>
-                        </div>
-                      )
-                        : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
-                    }
-                  </div>
-                  {/* 渲染筛选设置 */}
-                  <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
-                    {
-                      screenConfig.length ? (
-                        <div>
+                    {/* 渲染输出设置 */}
+                    <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
+                      {
+                        outConfig.length ? (
                           <div>
                             <Popconfirm
                               placement="bottomLeft"
-                              title="确认清除筛选设置？"
-                              onConfirm={this.delAllScreenConfig}
+                              title="确认清除输出设置？"
+                              onConfirm={this.delAllOutConfig}
                               okText="确实"
                               cancelText="取消"
                             >
-                              <Button type="primary" className="mb16">清除筛选设置</Button>
+                              <Button type="primary" className="mb16">清除输出设置</Button>
                             </Popconfirm>
+                            <Form
+                              name="out"
+                              ref={this.outConfigRef}
+                              onValuesChange={(changedValues, allValues) => {
+                                const [key] = Object.keys(changedValues)
+
+                                if (changedValues[key].function && allValues[key].params1) {
+                                  this.outConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      params1: undefined,
+                                    },
+                                  })
+                                }
+
+                                if (changedValues[key].function && allValues[key].params) {
+                                  this.outConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      params: undefined,
+                                    },
+                                  })
+                                }
+                              }}
+                            >
+                              {
+                                outConfig.map((d, i) => (
+                                  <OutItem
+                                    id={d.id}
+                                    index={i}
+                                    expressionTag={toJS(expressionTag)}
+                                    delOutConfig={this.delOutConfig}
+                                    addOutConfig={this.addOutConfig}
+                                    info={toJS(d)}
+                                    outNameMap={this.outNameMap}
+                                    outNameBlur={this.outNameBlur}
+                                  />
+                                ))
+                              }
+
+                            </Form>
                           </div>
-                          <Form 
-                            name="srceen" 
-                            ref={this.screenConfigRef}
-                            onValuesChange={(changedValues, allValues) => {
-                              const [key] = Object.keys(changedValues)
+                        )
+                          : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                      }
+                    </div>
+                    {/* 渲染筛选设置 */}
+                    <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
+                      {
+                        screenConfig.length ? (
+                          <div>
+                            <div>
+                              <Popconfirm
+                                placement="bottomLeft"
+                                title="确认清除筛选设置？"
+                                onConfirm={this.delAllScreenConfig}
+                                okText="确实"
+                                cancelText="取消"
+                              >
+                                <Button type="primary" className="mb16">清除筛选设置</Button>
+                              </Popconfirm>
+                            </div>
+                            <Form
+                              name="srceen"
+                              ref={this.screenConfigRef}
+                              onValuesChange={(changedValues, allValues) => {
+                                const [key] = Object.keys(changedValues)
 
-                              if (changedValues[key].leftParams && allValues[key].leftParams) {
-                                this.screenConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    comparision: "="
-                                  }
-                                })
+                                if (changedValues[key].leftParams && allValues[key].leftParams) {
+                                  this.screenConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      comparision: '=',
+                                    },
+                                  })
+                                }
+
+                                if (changedValues[key].leftFunction && allValues[key].leftParams) {
+                                  this.screenConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      leftParams: undefined,
+                                    },
+                                  })
+                                }
+
+                                if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                  this.screenConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      rightParams: undefined,
+                                    },
+                                  })
+                                }
+
+                                if (changedValues[key].rightFunction && allValues[key].rightParams) {
+                                  this.screenConfigRef.current.setFieldsValue({
+                                    [key]: {
+                                      ...changedValues[key],
+                                      rightParams: undefined,
+                                    },
+                                  })
+                                }
+                              }}
+                            >
+                              <Form.Item name="whereType" initialValue={(detail.whereCondition && detail.whereCondition.whereType) || 'and'}>
+                                <Radio.Group>
+                                  <Radio value="and">符合全部以下条件</Radio>
+                                  <Radio value="or">符合任何以下条件</Radio>
+                                </Radio.Group>
+                              </Form.Item>
+
+                              {
+                                screenConfig.map((d, i) => (
+                                  <ScreenItem
+                                    id={d.id}
+                                    index={i}
+                                    expressionTag={toJS(expressionTag)}
+                                    delScreenConfig={this.delScreenConfig}
+                                    addScreenConfig={this.addScreenConfig}
+                                    info={toJS(d)}
+                                  />
+                                ))
                               }
 
-                              if (changedValues[key].leftFunction && allValues[key].leftParams) {
-                                this.screenConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    leftParams: undefined
-                                  }
-                                })
-                              }
-
-                              if (changedValues[key].leftFunction && allValues[key].rightParams) {
-                                this.screenConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    rightParams: undefined
-                                  }
-                                })
-                              }
-
-                              if (changedValues[key].rightFunction && allValues[key].rightParams) {
-                                this.screenConfigRef.current.setFieldsValue({
-                                  [key]: {
-                                    ...changedValues[key],
-                                    rightParams: undefined
-                                  }
-                                })
-                              }
-                            }}
-                          >
-                            <Form.Item name="whereType" initialValue={(detail.whereCondition && detail.whereCondition.whereType) || 'and'}>
-                              <Radio.Group>
-                                <Radio value="and">符合全部以下条件</Radio>
-                                <Radio value="or">符合任何以下条件</Radio>
-                              </Radio.Group>
-                            </Form.Item>
-                        
-                            {
-                              screenConfig.map((d, i) => (
-                                <ScreenItem 
-                                  id={d.id}
-                                  index={i}
-                                  expressionTag={toJS(expressionTag)}
-                                  delScreenConfig={this.delScreenConfig}
-                                  addScreenConfig={this.addScreenConfig}
-                                  info={toJS(d)}
-                                />
-                              ))
-                            }
-                      
-                          </Form>
-                        </div>
-                      )
-                        : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
-                    }
+                            </Form>
+                          </div>
+                        )
+                          : <Button type="primary" onClick={this.addFirstScreenConfig}>新增</Button>
+                      }
+                    </div>
                   </div>
-                </div>
+                </Spin>
               </div>
             </div>
           </div>
