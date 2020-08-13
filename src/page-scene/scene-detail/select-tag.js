@@ -166,7 +166,7 @@ export default class SelectTag extends Component {
     // 详情信息
     const baseInfo = [
       {
-        title: '唯一标识',
+        title: '标签标识',
         value: enName,
       }, {
         title: '数据类型',
@@ -201,7 +201,7 @@ export default class SelectTag extends Component {
                           // 点击“标签详情”按钮，进入标签详情
                           actions={[<Button type="primary">   
                             <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}`}>标签详情</a>
-                          </Button>]}
+                                    </Button>]}
                         />
                       </Spin>
                       <TrendTag store={this.store} tagId={this.store.tagId} />

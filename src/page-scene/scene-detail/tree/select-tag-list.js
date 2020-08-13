@@ -29,7 +29,7 @@ export default class TagList extends Component {
       // render: text => <OmitTooltip maxWidth={50} text={text} />,
     },
     {
-      title: '唯一标识',
+      title: '标签标识',
       dataIndex: 'enName',
       key: 'enName',
       width: 80,
