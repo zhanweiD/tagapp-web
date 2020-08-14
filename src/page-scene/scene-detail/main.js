@@ -88,7 +88,7 @@ class SceneDetail extends Component {
     const actions = [
       <Button className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</Button>,
       <Button type="primary">
-        <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api`}>数据服务</a>
+        <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api-development`}>数据服务</a>
       </Button>
     ]
 
