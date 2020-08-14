@@ -28,7 +28,7 @@ export default class BackConfig extends Component {
       key: 'objDescr',
       title: '实体描述',
       dataIndex: 'objDescr',
-      render: text => (text.length ? text : '-'),
+      render: text => (text || '-'),
     }, {
       key: 'addTime',
       title: '添加时间',
