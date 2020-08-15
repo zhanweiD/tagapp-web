@@ -37,7 +37,7 @@ export default class DrewerApi extends Component {
         const params = {
           ...values, 
           ...toJS(this.store.saveParams),
-          ...this.getConfigData()
+          ...this.getConfigData(),
         }
         this.store.createApi(params, () => {
           this.handleCancel()
@@ -50,18 +50,18 @@ export default class DrewerApi extends Component {
 
   getConfigData = () => {
     const {
-      apiParamsInfo = {}
+      apiParamsInfo = {},
     } = this.store
 
     let requestData = []
     let responseData = []
-    if(this.request.current && this.request.current.state) {
+    if (this.request.current && this.request.current.state) {
       requestData = this.request.current.state.dataSource
     } else {
       requestData = toJS(apiParamsInfo).varList 
     }
 
-    if( this.response.current && this.response.current.state) {
+    if (this.response.current && this.response.current.state) {
       responseData = this.response.current.state.dataSource
     } else {
       responseData = toJS(apiParamsInfo).filedList
@@ -69,7 +69,7 @@ export default class DrewerApi extends Component {
 
     return {
       varList: requestData,
-      filedList: responseData
+      filedList: responseData,
     }
   }
 
@@ -77,18 +77,16 @@ export default class DrewerApi extends Component {
     const res = await this.store.apiNameCheck(value)
     if (res) {
       return Promise.reject('API名称已存在')
-    } else {
-      return Promise.resolve()
-    }
+    } 
+    return Promise.resolve()
   }
 
   apiPathCheck = async (rule, value) => {
     const res = await this.store.apiPathCheck(value)
-    if(res) {
+    if (res) {
       return Promise.reject('API路径已存在')
-    } else {
-      return Promise.resolve()
-    }
+    } 
+    return Promise.resolve()
   }
   
   render() {
@@ -125,14 +123,14 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请输入API名称',
-              },{
-                validator: this.apiNameCheck
+              }, {
+                validator: this.apiNameCheck,
               }, {
                 validateFirst: true,
-              }
+              },
             ]}
           >
-            <Input  placeholder="请输入API名称"/>
+            <Input size="small" placeholder="请输入API名称" />
           </FormItem>
           <FormItem
             label="API分组"
@@ -141,7 +139,7 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请选择API分组',
-              } 
+              }, 
             ]}
           >
             <Select placeholder="请选择API分组">
@@ -158,15 +156,15 @@ export default class DrewerApi extends Component {
                 required: true,
                 message: '请输入API路径',
               }, {
-                pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）'
+                pattern: /^\/[A-Za-z0-9_/-]*$/g, message: 'API路径以/开头，支持英文、数字、下划线、连线符（-）',
               }, {
                 validateFirst: true,
               }, {
-                validator: this.apiPathCheck
-              }
+                validator: this.apiPathCheck,
+              },
             ]}
           >
-            <Input placeholder="请输入API路径"/>
+            <Input size="small" placeholder="请输入API路径" />
           </FormItem>
           <FormItem
             label="描述"
@@ -178,7 +176,7 @@ export default class DrewerApi extends Component {
               },
             ]}
           >
-            <TextArea  placeholder="请输入描述"/>
+            <TextArea placeholder="请输入描述" />
           </FormItem>
 
         </Form>

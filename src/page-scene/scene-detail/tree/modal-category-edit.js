@@ -120,7 +120,7 @@ class ModalEditCategory extends Component {
                   {validator: this.handleNameValidator},
                 ],
                 validateFirst: true,
-              })(<Input autoComplete="off" placeholder="不超过32个字，允许中文、英文、数字或下划线" />)}
+              })(<Input size="small" autoComplete="off" placeholder="不超过32个字，允许中文、英文、数字或下划线" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="所属类目">
@@ -134,7 +134,7 @@ class ModalEditCategory extends Component {
                   {max: 128, message: '描述不能超过128个字符'},
                 ],
                 initialValue: editCategory ? cateDetail.descr : undefined,
-              })(<Input.TextArea autoComplete="off" rows="3" placeholder="不超过128个字" />)}
+              })(<Input.TextArea size="small" autoComplete="off" rows="3" placeholder="不超过128个字" />)}
             </FormItem>
           </Spin>
         </Form>

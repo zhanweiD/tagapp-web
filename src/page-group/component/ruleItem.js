@@ -134,6 +134,7 @@ const RuleItem = ({
             ruleType === 'set-rule' && +ruleIfBoxKey.slice(-1) === 1 ? (
               <FormItem
                 label={null}
+                size="small"
                 name={[key, 'relId']}
                 initialValue={rest.relId}
                 rules={[{required: true, message: '请选择'}]}
@@ -306,7 +307,7 @@ const RuleItem = ({
             rules={[{required: true, message: '不能为空'}]}
             initialValue={rest.rightParams}
           >
-            <Input placeholder="请输入" style={{width: 120}} disabled={rest.page === 'detail'} />
+            <Input size="small" placeholder="请输入" style={{width: 120}} disabled={rest.page === 'detail'} />
           </FormItem>
 
           {

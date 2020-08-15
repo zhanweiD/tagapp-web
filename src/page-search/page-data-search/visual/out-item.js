@@ -5,7 +5,7 @@ import {
   Form,
   Input,
   Select,
-  Popconfirm
+  Popconfirm,
 } from 'antd'
 
 import {outValueLogic} from './util'
@@ -64,6 +64,7 @@ const OutItem = ({
     <Form.Item key={id}>
       <Input.Group compact>
         <Form.Item
+          size="small"
           name={[id, 'function']}
           noStyle
           rules={[{required: true, message: '请选择取值逻辑'}]}
@@ -82,7 +83,7 @@ const OutItem = ({
               noStyle
               rules={[{required: true, message: '请输入'}]}
             >
-              <Input style={{width: '200px'}} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
             </Form.Item>
           ) : null
@@ -96,7 +97,7 @@ const OutItem = ({
             >
               <Select
                 placeholder="请选择标签"
-                style={{ width: '200px' }}
+                style={{width: '200px'}}
                 showSearch
                 optionFilterProp="children"
               >
@@ -115,9 +116,9 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{ required: true, message: '请输入' }]}
+              rules={[{required: true, message: '请输入'}]}
             >
-              <Input style={{ width: '200px' }} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
           ) : null
         }
@@ -126,25 +127,25 @@ const OutItem = ({
           name={[id, 'alias']}
           noStyle
           rules={[{
-            required: true, message: '请输入显示名称'
-            }, {
-              pattern: /[^0-9]/, message: '显示名称禁止输入数字'
-            }, 
-            {
-              validator: (rule, value) => {
-                if(Object.values(obj).includes(value) ) {
-                  return Promise.reject('显示名称重复')
-                }
-
-                return Promise.resolve()
+            required: true, message: '请输入显示名称',
+          }, {
+            pattern: /[^0-9]/, message: '显示名称禁止输入数字',
+          }, 
+          {
+            validator: (rule, value) => {
+              if (Object.values(obj).includes(value)) {
+                return Promise.reject('显示名称重复')
               }
-            }, 
-            {
-              validateFirst: true,
-            }
+
+              return Promise.resolve()
+            },
+          }, 
+          {
+            validateFirst: true,
+          },
           ]}
         >
-          <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur}/>
+          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} />
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>

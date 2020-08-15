@@ -4,7 +4,7 @@ import {
   Form,
   Input,
   Select,
-  Popconfirm
+  Popconfirm,
 } from 'antd'
 
 import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
@@ -22,11 +22,11 @@ const ScreenItem = ({
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
   const [rightFunction, changeRightFunction] = useState((info.right && info.right.function) || '固定值')
-  const [showSelect, changeShowSelect] = useState((info.left && info.left.function) === 'count'|| (info.left && info.left.function) === '固定值' ? false: true)
-  const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值' ? true: false)
+  const [showSelect, changeShowSelect] = useState(!((info.left && info.left.function) === 'count' || (info.left && info.left.function) === '固定值'))
+  const [showInput, changeShowInput] = useState((info.left && info.left.function) === '固定值')
   const [initTag] = expressionTag.filter(d => d.objIdTagId === (info.left && info.left.params && info.left.params[0]))
   const [comparisonMap, changeComparisonMap] = useState((initTag && initTag.tagType === 4) ? tagComparison : comparison)
-  const [showLeftInput, changeShowLeftInput] = useState((info.left && info.left.function) === 'date_format' ? true: false)
+  const [showLeftInput, changeShowLeftInput] = useState((info.left && info.left.function) === 'date_format')
 
   const onSelect = e => {
     const [obj] = screenLogic.filter(d => d.value === e)
@@ -74,6 +74,7 @@ const ScreenItem = ({
         <Form.Item
           name={[id, 'leftFunction']}
           noStyle
+          size="small"
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue={(left && left.function) || '标签值'}
         >
@@ -92,7 +93,7 @@ const ScreenItem = ({
               rules={[{required: true, message: '请输入'}]}
               initialValue={left && left.params && left.params[0]}
             >
-              <Input style={{width: '200px'}} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
             </Form.Item>
           ) : null
@@ -106,7 +107,7 @@ const ScreenItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={left && left.params && left.params[0]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}}onSelect={onSelectTag} showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" style={{width: '200px'}} onSelect={onSelectTag} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -122,10 +123,10 @@ const ScreenItem = ({
             <Form.Item
               name={[id, 'leftParams1']}
               noStyle
-              rules={[{ required: true, message: '请输入' }]}
+              rules={[{required: true, message: '请输入'}]}
               initialValue={left && left.params && left.params[1]}
             >
-              <Input style={{ width: '200px' }} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
           ) : null
         }
@@ -166,7 +167,7 @@ const ScreenItem = ({
                   rules={[{required: true, message: '请输入'}]}
                   initialValue={right && right.params && right.params[0]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch  optionFilterProp="children">
+                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
                     {
                       tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     } 
@@ -184,7 +185,7 @@ const ScreenItem = ({
                     rules={[{required: true, message: '请输入'}]}
                     initialValue={right && right.params && right.params[0]}
                   >
-                    <Input style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数" />
                   </Form.Item>
                   <Form.Item
                     name={[id, 'rightParams1']}
@@ -192,7 +193,7 @@ const ScreenItem = ({
                     rules={[{required: true, message: '请输入'}]}
                     initialValue={right && right.params && right.params[1]}
                   >
-                    <Input style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数" />
                   </Form.Item>
                 </Fragment>
                
@@ -206,14 +207,14 @@ const ScreenItem = ({
                 rules={[{required: true, message: '请输入'}]}
                 initialValue={right && right.params && right.params[0]}
               >
-                <Input style={{width: '20%'}} placeholder="请输入" />
+                <Input size="small" style={{width: '20%'}} placeholder="请输入" />
               </Form.Item>
             )
           })()
         }
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
-          <Popconfirm
+            <Popconfirm
               placement="bottomLeft"
               title="确认删除"
               onConfirm={() => delScreenConfig(index)}

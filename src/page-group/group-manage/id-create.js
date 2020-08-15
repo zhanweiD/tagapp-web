@@ -234,7 +234,7 @@ export default class IdCreate extends Component {
                 {validator: this.checkName},
               ]}
             >
-              <Input disabled={!isAdd || !objId} placeholder="请输入名称" />
+              <Input size="small" disabled={!isAdd || !objId} placeholder="请输入名称" />
             </Item>
             
             <Item

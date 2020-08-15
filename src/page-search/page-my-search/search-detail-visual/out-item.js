@@ -5,7 +5,7 @@ import {
   Form,
   Input,
   Select,
-  Popconfirm
+  Popconfirm,
 } from 'antd'
 
 import {outValueLogic} from './util'
@@ -24,9 +24,9 @@ const OutItem = ({
   outNameMap,
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
-  const [showSelect, changeShowSelect] = useState((info.conditionUnit && info.conditionUnit.function) === 'count'|| (info.conditionUnit && info.conditionUnit.function) === '固定值' ? false: true)
-  const [showInput, changeShowInput] = useState((info.conditionUnit && info.conditionUnit.function) === '固定值' ? true: false)
-  const [showLeftInput, changeShowLeftInput] = useState((info.conditionUnit && info.conditionUnit.function) === 'date_format' ? true: false)
+  const [showSelect, changeShowSelect] = useState(!((info.conditionUnit && info.conditionUnit.function) === 'count' || (info.conditionUnit && info.conditionUnit.function) === '固定值'))
+  const [showInput, changeShowInput] = useState((info.conditionUnit && info.conditionUnit.function) === '固定值')
+  const [showLeftInput, changeShowLeftInput] = useState((info.conditionUnit && info.conditionUnit.function) === 'date_format')
 
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
@@ -68,6 +68,7 @@ const OutItem = ({
         <Form.Item
           name={[id, 'function']}
           noStyle
+          size="small"
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue={(conditionUnit && conditionUnit.function) || '标签值'}
         >
@@ -86,7 +87,7 @@ const OutItem = ({
               rules={[{required: true, message: '请输入'}]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
-              <Input style={{width: '200px'}} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
             </Form.Item>
           ) : null
@@ -116,10 +117,10 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{ required: true, message: '请输入' }]}
+              rules={[{required: true, message: '请输入'}]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[1])}
             >
-              <Input style={{ width: '200px' }} placeholder="请输入" />
+              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
           ) : null
         }
@@ -128,30 +129,30 @@ const OutItem = ({
           name={[id, 'alias']}
           noStyle
           rules={[{
-            required: true, message: '请输入显示名称'
-            }, {
-              pattern: /[^0-9]/, message: '显示名称禁止输入数字'
-            }, 
-            {
-              validator: (rule, value) => {
-                if(Object.values(obj).includes(value) ) {
-                  return Promise.reject('显示名称重复')
-                }
-
-                return Promise.resolve()
+            required: true, message: '请输入显示名称',
+          }, {
+            pattern: /[^0-9]/, message: '显示名称禁止输入数字',
+          }, 
+          {
+            validator: (rule, value) => {
+              if (Object.values(obj).includes(value)) {
+                return Promise.reject('显示名称重复')
               }
-            }, 
-            {
-              validateFirst: true,
-            }
+
+              return Promise.resolve()
+            },
+          }, 
+          {
+            validateFirst: true,
+          },
           ]}
           initialValue={alias}
         >
-          <Input style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} />
+          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} />
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
-          <Popconfirm
+            <Popconfirm
               placement="bottomLeft"
               title="确认删除"
               onConfirm={() => delOutConfig(index, id)}

@@ -72,6 +72,7 @@ class Search extends React.Component {
             rules={[{required: true, message: '请输入'}]}
           >
             <Input 
+              size="small"
               style={{width: '196px'}} 
               placeholder="请输入" 
             />

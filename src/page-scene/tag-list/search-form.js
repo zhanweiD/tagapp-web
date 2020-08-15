@@ -45,7 +45,7 @@ exports.SearchForm = Form.create({
               label="标签名称"
             >
               {getFieldDecorator('tagName')(
-                <Input placeholder="请输入" />
+                <Input size="small" placeholder="请输入" />
               )}
             </FormItem>
           </Col>
@@ -60,9 +60,9 @@ exports.SearchForm = Form.create({
                   optionFilterProp="children"
                   placeholder="请下拉选择"
                 >
-                  <Option value={""}>全部</Option>
+                  <Option value="">全部</Option>
                   {
-                    objList.map(({ objId, objName }) => (
+                    objList.map(({objId, objName}) => (
                       <Option key={objId} value={objId}>{objName}</Option>
                     ))
                   }

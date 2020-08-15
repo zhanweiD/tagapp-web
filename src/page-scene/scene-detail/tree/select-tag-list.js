@@ -7,6 +7,7 @@ import {observable, action} from 'mobx'
 import {
   Table, Input, Popconfirm, Tooltip,
 } from 'antd'
+import {SearchOutlined} from '@ant-design/icons'
 import {OmitTooltip} from '../../../component'
 
 const {Search} = Input
@@ -111,11 +112,19 @@ export default class TagList extends Component {
 
     return (
       <div className="FB1 select-tag-list">
-        <Search
+        {/* <Search
           placeholder="请输入标签名称关键字"
           onChange={this.onChange}
           style={{width: 300}}
           className="select-tag-search"
+        /> */}
+        <Input
+          onChange={this.onChange}
+          style={{width: 300}}
+          size="small"
+          className="select-tag-search"
+          placeholder="请输入标签名称关键字"
+          suffix={<SearchOutlined />}
         />
         <Table {...listConfig} />
       </div>

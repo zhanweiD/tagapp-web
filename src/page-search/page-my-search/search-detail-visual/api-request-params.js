@@ -49,7 +49,7 @@ const EditableCell = ({
   if (editable && compType === 'input') {
     childNode = (
       <Form.Item name={dataIndex}>
-        <Input onBlur={save} />
+        <Input size="small" onBlur={save} />
       </Form.Item>
     )
   }
@@ -57,7 +57,7 @@ const EditableCell = ({
   if (editable && compType === 'check') {
     childNode = (
       <Form.Item name={dataIndex}>
-        <Checkbox onChange={saveCheck} defaultChecked/>
+        <Checkbox onChange={saveCheck} defaultChecked />
       </Form.Item>
     )
   }
@@ -100,9 +100,9 @@ class ApiResponseParams extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevProps.data !==  this.props.data) {
+    if (prevProps.data !== this.props.data) {
       this.setState({
-        dataSource: this.props.data
+        dataSource: this.props.data,
       })
     }
   }
@@ -112,7 +112,7 @@ class ApiResponseParams extends React.Component {
     const index = newData.findIndex(item => row.fieldName === item.fieldName)
 
     const item = newData[index]
-    newData.splice(index, 1, {...item, ...row, required: row.required ? 1: 0 })
+    newData.splice(index, 1, {...item, ...row, required: row.required ? 1 : 0})
     this.setState({
       dataSource: newData,
     })

@@ -91,7 +91,7 @@ class MySearch extends Component {
       text: '暂无查询数据',
       onClick: this.goDataSearch,
       btnText: '去数据查询创建',
-      isLoading: loading
+      isLoading: loading,
     }
 
     return (
@@ -115,7 +115,7 @@ class MySearch extends Component {
                 <Option value="2">TQL方式</Option>
               </Select>
               <span className="mr8">查询名称</span>
-              <Input placeholder="请输入数据查询关键字" onChange={this.searchName} style={{width: 200}} />
+              <Input size="small" placeholder="请输入数据查询关键字" onChange={this.searchName} style={{width: 200}} />
             </div>
             {
               toJS(cardList).length ? (
@@ -162,8 +162,7 @@ class MySearch extends Component {
                                   <IconEdit size="14" className={used ? 'i-used' : ''} />
                                 </Button>
                               </Tooltip>
-                            </Authority>
-                           ,
+                            </Authority>,                           
                             <Authority
                               authCode="tag_app:update_search[cud]"
                             >
@@ -178,8 +177,7 @@ class MySearch extends Component {
                                 </Button>
                               </Tooltip>
                             
-                            </Authority>
-                           ,
+                            </Authority>,                           
                             <Authority
                               authCode="tag_app:update_search[cud]"
                             >
@@ -193,8 +191,7 @@ class MySearch extends Component {
                                   <CopyOutlined size="14" className={used ? 'i-used' : ''} />
                                 </Button>
                               </Tooltip>
-                            </Authority>
-                            ,
+                            </Authority>,                            
                            
                           ]}
                         />

@@ -49,7 +49,7 @@ const EditableCell = ({
   if (editable && compType === 'input') {
     childNode = (
       <Form.Item name={dataIndex}>
-        <Input onPressEnter={save} onBlur={save} />
+        <Input size="small" onPressEnter={save} onBlur={save} />
       </Form.Item>
     )
   }
@@ -97,10 +97,9 @@ class ApiResponseParams extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevProps.data !==  this.props.data) {
-
+    if (prevProps.data !== this.props.data) {
       this.setState({
-        dataSource: this.props.data
+        dataSource: this.props.data,
       })
     }
   }
