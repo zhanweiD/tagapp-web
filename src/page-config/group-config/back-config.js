@@ -47,15 +47,13 @@ export default class BackConfig extends Component {
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
-            <Popconfirm
-              title="更改后原数据源中的群体及群体下的API都将会失效，请谨慎操作。"
-              onConfirm={() => this.openModal('edit', record)}
-              onCancel={() => {}}
-              okText="确认"
-              cancelText="取消"
+            <a 
+              className="mr16"
+              href
+              onClick={() => this.openModal('edit', record)}
             >
-              <a className="mr16" href>编辑</a>
-            </Popconfirm>
+              编辑
+            </a>
             {/* <span className="table-action-line" /> */}
           </Fragment>
           <Fragment>
@@ -143,7 +141,15 @@ export default class BackConfig extends Component {
               <span>数据源配置</span>
               {/* <FormOutlined className="action" onClick={this.editClick} /> */}
               <Authority authCode="tag_config:group_config[u]">
-                <Button type="primary" onClick={this.editClick}>编辑</Button>
+                <Popconfirm
+                  title="更改后原数据源中的群体及群体下的API都将会失效，请谨慎操作。"
+                  onConfirm={this.editClick}
+                  onCancel={() => {}}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <Button type="primary">编辑</Button>
+                </Popconfirm>
               </Authority>
               
             </div>
