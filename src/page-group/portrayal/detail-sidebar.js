@@ -17,7 +17,7 @@ export default class DetailSidebar extends Component {
       <div>
         <div className="content-header sidebar-header">基本特征</div>
         <div className="p24 pt-0">
-          {basicLabel.length ? basicLabel : <NoData />}
+          {basicLabel.length ? basicLabel : <NoData  text="暂无数据"/>}
         </div>
       </div>
     )

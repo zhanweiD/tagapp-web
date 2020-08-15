@@ -26,8 +26,13 @@ export default PageComponent => {
 
 
     const noProjectDataConfig = {
-      text: '没有任何项目，去创建项目吧！',
+      text: <span>
+          无可用项目 去
+        <a target="_blank" className="a-href-color" rel="noopener noreferrer" href="/project/index.html#/project">项目管理</a>
+    添加
+            </span>,
     }
+
 
     // 判断项目是否初始化
     async function judgeInit(id) {
@@ -60,9 +65,9 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
-        message.success('初始化环境成功')
+        message.success('环境初始化成功')
       } else {
-        message.error('初始化环境失败')
+        message.error('环境初始化失败')
       }
     }
 
@@ -71,14 +76,13 @@ export default PageComponent => {
       judgeInit(projectId)
     }, [projectId])
     
-
     const noDataConfig = {
-      btnText: '去初始化环境',
+      btnText: '初始化环境',
       onClick: () => {
         getWorkspaceList(projectId)
         changeVisible(true)
       },
-      text: '初始化',
+      text: '该项目下，标签中心的环境未初始化',
     }
 
     if (!projectId) {

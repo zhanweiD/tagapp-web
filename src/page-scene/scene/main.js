@@ -60,6 +60,7 @@ class Scene extends Component {
       code: 'tag_app:create_occ[cud]',
       noAuthText: '暂无数据',
       // myFunctionCodes: functionCodes,
+      isLoading: loading
     }
 
     return (
@@ -143,7 +144,6 @@ class Scene extends Component {
                 </Fragment>
               ) : (
                 <NoData
-                  isLoading={loading}
                   {...noDataConfig}
                 />
               )

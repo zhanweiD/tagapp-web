@@ -82,7 +82,8 @@ export default PageComponent => {
     }
 
     const noDataConfig = {
-      btnText: '去初始化群体洞察',
+      text: '该项目下，群体洞察的数据源未初始化',
+      btnText: '初始化数据源',
       onClick: () => {
         getDataTypeSource(projectId)
         changeVisible(true)

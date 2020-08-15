@@ -80,7 +80,7 @@ export default class LabelTab extends Component {
               )
             })
           ) : (
-            <NoData />
+            <NoData text="暂无数据"/>
           )
         }
       </div>

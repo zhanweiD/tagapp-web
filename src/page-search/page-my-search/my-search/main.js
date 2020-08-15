@@ -91,6 +91,7 @@ class MySearch extends Component {
       text: '暂无查询数据',
       onClick: this.goDataSearch,
       btnText: '去数据查询创建',
+      isLoading: loading
     }
 
     return (
@@ -204,7 +205,6 @@ class MySearch extends Component {
                 </div>
               ) : (
                 <NoData
-                  isLoading={loading}
                   {...noDataConfig}
                 />
               )

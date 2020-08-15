@@ -29,9 +29,10 @@ class GroupConfig extends Component {
 
   render() {
     const noDataConfig = {
-      btnText: '去初始化',
       onClick: () => this.openModal(),
       // text: '初始化',
+      text: '该项目下，群体洞察的数据源未初始化',
+      btnText: '初始化数据源',
     }
     return (
       <div>
@@ -43,7 +44,6 @@ class GroupConfig extends Component {
             ) : (
               <div>
                 <NoData
-                // isLoading={tableLoading}
                   {...noDataConfig}
                 />
                 <ConfigModal store={store} />

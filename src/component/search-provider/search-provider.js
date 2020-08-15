@@ -75,7 +75,8 @@ export default PageComponent => {
     }, [projectId])
     
     const noDataConfig = {
-      btnText: '去初始化数据查询',
+      text: '该项目下，数据分析的数据源未初始化',
+      btnText: '初始化数据源',
       onClick: () => {
         getStorageType(projectId)
         changeVisible(true)
