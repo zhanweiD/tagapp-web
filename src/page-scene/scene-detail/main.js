@@ -99,7 +99,7 @@ class SceneDetail extends Component {
         authCode="tag_app:config_data_service[c]"
       >
         <Button type="primary">
-          <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api">数据服务</a>
+          <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api-development`}>数据服务</a>
         </Button>
       </Authority>,
     ]
