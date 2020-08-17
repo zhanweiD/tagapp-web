@@ -186,7 +186,7 @@ export const lineOpt = data => {
   const tooltip1 = data.xy.map(d => d.y4)
 
   return {
-    color: getColors(xAxisData.length),
+    color: colors,
     legend: {
       show: true,
       selectedMode: false,
