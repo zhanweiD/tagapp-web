@@ -121,7 +121,7 @@ class MySearch extends Component {
               toJS(cardList).length ? (
                 <div>
 
-                  <DtGrid row={3} fixedHeight={192}>
+                  <DtGrid row={3} fixedHeight={152}>
                     {
                       cardList.map(({
                         id,
@@ -203,6 +203,7 @@ class MySearch extends Component {
               ) : (
                 <NoData
                   {...noDataConfig}
+                  style={{marginTop: '15%'}}
                 />
               )
 
