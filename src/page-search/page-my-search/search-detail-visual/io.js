@@ -21,6 +21,6 @@ const api = {
   apiPathCheck: get(`${baseApi}/groupApi/existApiPath`),
 }
 
-ioContext.create('dataSearchVisaul', api) 
+ioContext.create('mySearchVisaul', api) 
 
-export default ioContext.api.dataSearchVisaul
+export default ioContext.api.mySearchVisaul

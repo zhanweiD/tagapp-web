@@ -4,7 +4,7 @@
 import {Component} from 'react'
 import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
-import {Button} from 'antd'
+import {Button, Spin} from 'antd'
 import moment from 'moment'
 
 import {projectProvider, NoData, ListContent, Authority} from '../../component'
@@ -36,7 +36,7 @@ class UnitList extends Component {
 
   render() {
     const {
-      list, tableLoading, titleList,
+      list, tableLoading, titleList, totalCount,
     } = store
 
     const noDataConfig = {
@@ -48,6 +48,7 @@ class UnitList extends Component {
     const listConfig = {
       columns: toJS(titleList),
       tableLoading,
+      hasPaging: false,
       initGetDataByParent: true,
       buttons: [
         <Authority
@@ -62,22 +63,29 @@ class UnitList extends Component {
         </Authority>,
       ],
       store, // 必填属性
+      pagination: {
+        totalCount,
+        currentPage: 1,
+        // pageSize: 10,
+      },
     }
 
     return (
       <div className="page-unit">
         <div className="content-header">个体列表</div>
-        {
-          list.length ? (
-            <div className="header-page list-content">
-              <ListContent {...listConfig} />
-            </div>
-          ) : (
-            <div className="header-page" style={{paddingTop: '25%'}}>
-              <NoData {...noDataConfig} />
-            </div>
-          )
-        }
+        <Spin spinning={tableLoading}>
+          {
+            list.length ? (
+              <div className="header-page list-content">
+                <ListContent {...listConfig} />
+              </div>
+            ) : (
+                <div className="header-page" style={{ paddingTop: '25%' }}>
+                  <NoData {...noDataConfig} />
+                </div>
+            )
+          }
+        </Spin>
         <GroupModal store={store} />
       </div>
     )
