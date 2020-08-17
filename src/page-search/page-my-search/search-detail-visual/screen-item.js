@@ -182,18 +182,18 @@ const ScreenItem = ({
                   <Form.Item
                     name={[id, 'rightParams']}
                     noStyle
-                    rules={[{required: true, message: '请输入'}]}
+                    rules={[{required: true, message: '请输入参数名'}]}
                     initialValue={right && right.params && right.params[0]}
                   >
-                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数名" />
                   </Form.Item>
                   <Form.Item
                     name={[id, 'rightParams1']}
                     noStyle
-                    rules={[{required: true, message: '请输入'}]}
+                    rules={[{required: true, message: '请输入参数默认值'}]}
                     initialValue={right && right.params && right.params[1]}
                   >
-                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数" />
+                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数默认值" />
                   </Form.Item>
                 </Fragment>
                

@@ -9,7 +9,7 @@ import icondown from '../../../icon/xiangxiazhankai.svg'
 const {TabPane} = Tabs
 
 const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned}) => {
-  const [isExpend, changeExpend] = useState(0) 
+  const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
  
   const getColumns = col => {
@@ -23,7 +23,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
     return []
   }
   
-  if (expend && isExpend === 0) {
+  if (expend && !isExpend) {
     changeExpend(true)
   }
 
@@ -90,7 +90,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                       dataSource={resultInfo.data} 
                       pagination={{
                         total: resultInfo.totalSize,
-                        pageSize: 5,
+                        // pageSize: 5,
                         showTotal: () => `合计${resultInfo.totalSize}条记录`,
                       }}
                     />
