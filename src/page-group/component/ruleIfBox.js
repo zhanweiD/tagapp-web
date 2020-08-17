@@ -609,7 +609,7 @@ export default class RuleIfBox extends Component {
       <div className="rule-if-box" id={id} style={{height}}>
         
         {
-          page === 'detail' ? null : <Button onClick={() => this.addCon()} className="rule-add-btn">添加</Button>
+          page === 'detail' ? null : <Button onClick={() => this.addCon()} className="rule-add-btn mt4">添加</Button>
         }
    
         <svg style={{height: '100%', width: '100%', margin: '16px 0 0 16px'}}>

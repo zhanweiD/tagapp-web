@@ -113,7 +113,7 @@ class TagList extends Component {
           objList={toJS(objList)}
         />
         <Table 
-          className="bgf p16"
+          className="bgf"
           loading={loading}
           columns={this.columns} 
           dataSource={data.slice()} 
