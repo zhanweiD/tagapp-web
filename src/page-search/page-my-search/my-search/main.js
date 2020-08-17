@@ -6,7 +6,7 @@ import {observer} from 'mobx-react'
 import {action, toJS} from 'mobx'
 import {Button, Spin, Select, Input, Modal, Tooltip} from 'antd'
 import {ExclamationCircleOutlined, CopyOutlined} from '@ant-design/icons'
-import {Card, NoData, projectProvider, DtGrid, searchProvider} from '../../../component'
+import {Card, NoData, projectProvider, DtGrid, searchProvider, Authority} from '../../../component'
 import {IconDel, IconEdit} from '../../../icon-comp'
 import ModalEdit from './modal'
 
@@ -121,7 +121,7 @@ class MySearch extends Component {
               toJS(cardList).length ? (
                 <div>
 
-                  <DtGrid row={3} fixedHeight={192}>
+                  <DtGrid row={3} fixedHeight={152}>
                     {
                       cardList.map(({
                         id,
@@ -203,6 +203,7 @@ class MySearch extends Component {
               ) : (
                 <NoData
                   {...noDataConfig}
+                  style={{marginTop: '15%'}}
                 />
               )
 

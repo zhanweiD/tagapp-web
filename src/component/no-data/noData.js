@@ -96,12 +96,12 @@ export default class NoData extends Component {
   }
 
   render() {
-    const {isLoading, size = 'big'} = this.props
+    const {isLoading, size = 'big', style} = this.props
 
     const imgWidth = size === 'small' ? '200px' : '300px'
 
     return (
-      <div className={`nodata ${isLoading ? 'no-show' : ''}`}>
+      <div className={`nodata ${isLoading ? 'no-show' : ''}`} style={style}>
         <div>
           <div className="mb16">
             <img width={imgWidth} src={nodata} alt="暂无数据" />

@@ -39,11 +39,11 @@ const RuleCondition = ({
       <div style={childPosStyle} className="wrap-rule-condition-btn">
         {
           page === 'detail' ? (
-            <Button>
+            <Button className="btn-and-or">
               {isAnd ? '且' : '或'}
             </Button>
           ) : (
-            <Button onClick={change}>
+            <Button onClick={change} className="btn-and-or">
               {isAnd ? '且' : '或'}
             </Button>
           )
