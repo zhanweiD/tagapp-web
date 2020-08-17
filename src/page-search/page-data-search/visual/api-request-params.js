@@ -65,16 +65,16 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>
 }
 
-class ApiResponseParams extends React.Component {
+class ApiRequsetParams extends React.Component {
   constructor(props) {
     super(props)
     this.columns = [
       {
         title: '参数名称',
-        dataIndex: 'fieldName',
+        dataIndex: 'paramName',
       }, {
         title: '数据类型',
-        dataIndex: 'fieldType',
+        dataIndex: 'paramType',
       }, {
         title: '是否必填',
         dataIndex: 'required',
@@ -157,4 +157,4 @@ class ApiResponseParams extends React.Component {
   }
 }
 
-export default ApiResponseParams
+export default ApiRequsetParams
