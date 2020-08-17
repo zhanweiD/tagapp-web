@@ -132,7 +132,7 @@ const GroupConfig = ({projectId}) => {
         <div className="config-data">
           <span>数据源配置</span>
           <Authority authCode="tag_config:search_config[u]">
-            <Popconfirm
+            {/* <Popconfirm
               title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
               onConfirm={editClick}
               onCancel={() => {}}
@@ -140,8 +140,8 @@ const GroupConfig = ({projectId}) => {
               cancelText="取消"
             >
               <Button type="primary">编辑</Button>
-            </Popconfirm>
-            {/* <Button type="primary" onClick={editClick}>编辑</Button> */}
+            </Popconfirm> */}
+            <Button type="primary" onClick={editClick}>编辑</Button>
           </Authority>
         </div>
         {/* <h3>
@@ -162,6 +162,7 @@ const GroupConfig = ({projectId}) => {
         isInit={isInit}
         dataType={dataType}
         dataSource={dataSource}
+        projectId={projectId}
         selectDataType={selectDataType}
         onCancel={onCancel}
         onUpdate={onUpdate}

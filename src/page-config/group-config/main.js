@@ -35,14 +35,14 @@ class GroupConfig extends Component {
       btnText: '初始化数据源',
     }
     return (
-      <div>
+      <div className="h-100">
         <div className="content-header">群体洞察配置</div> 
         <div className="header-page config">
           {
             store.initVisible ? (
               <BackConfig store={store} />
             ) : (
-              <div>
+              <div style={{marginTop: '25%'}}>
                 <NoData
                   {...noDataConfig}
                 />

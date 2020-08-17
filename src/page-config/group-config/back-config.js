@@ -141,7 +141,7 @@ export default class BackConfig extends Component {
               <span>数据源配置</span>
               {/* <FormOutlined className="action" onClick={this.editClick} /> */}
               <Authority authCode="tag_config:group_config[u]">
-                <Popconfirm
+                {/* <Popconfirm
                   title="更改后原数据源中的群体及群体下的API都将会失效，请谨慎操作。"
                   onConfirm={this.editClick}
                   onCancel={() => {}}
@@ -149,7 +149,8 @@ export default class BackConfig extends Component {
                   cancelText="取消"
                 >
                   <Button type="primary">编辑</Button>
-                </Popconfirm>
+                </Popconfirm> */}
+                <Button type="primary" onClick={this.editClick}>编辑</Button>
               </Authority>
               
             </div>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Modal, Form, Select, Input} from 'antd'
+import {Modal, Form, Select, Input, Button, Popconfirm} from 'antd'
 
 const {Option} = Select
 const formItemLayout = {
@@ -16,6 +16,7 @@ const ConfigModal = ({
   dataType, 
   config,
   isInit,
+  projectId,
   dataSource}) => {
   const [form] = Form.useForm()
 
@@ -29,19 +30,41 @@ const ConfigModal = ({
       visible={visible}
       title={isInit ? '初始化' : '修改初始化'}
       onCancel={onCancel}
-      onOk={() => {
-        form
-          .validateFields()
-          .then(values => {
-            form.resetFields()
-            isInit ? onCreate(values) : onUpdate(values)
-          })
-          .catch(info => {
-            console.log('Validate Failed:', info)
-          })
-      }}
+      // onOk={() => {
+      //   form
+      //     .validateFields()
+      //     .then(values => {
+      //       form.resetFields()
+      //       isInit ? onCreate(values) : onUpdate(values)
+      //     })
+      //     .catch(info => {
+      //       console.log('Validate Failed:', info)
+      //     })
+      // }}
       destroyOnClose
       maskClosable={false}
+      footer={[
+        <Button onClick={onCancel}>取消</Button>,
+        <Popconfirm
+          title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
+          onCancel={() => {}}
+          onConfirm={() => {
+            form
+              .validateFields()
+              .then(values => {
+                form.resetFields()
+                isInit ? onCreate(values) : onUpdate(values)
+              })
+              .catch(info => {
+                console.log('Validate Failed:', info)
+              })
+          }}
+          okText="确认"
+          cancelText="取消"
+        >
+          <Button type="primary">确定</Button>
+        </Popconfirm>,
+      ]}
     >
       <Form
         form={form}
@@ -83,6 +106,13 @@ const ConfigModal = ({
               message: '请选择数据源',
             },
           ]}
+          extra={(
+            <span>
+              若无可用的数据源，请到
+              <a target="_blank" rel="noopener noreferrer" href={`/project/index.html?projectId=${projectId}#/detail/env`}>项目管理-环境配置</a>
+              中添加数据源
+            </span>
+          )}
         >
           <Select 
             placeholder="请选择数据源" 

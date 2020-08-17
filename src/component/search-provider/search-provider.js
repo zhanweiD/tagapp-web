@@ -91,10 +91,13 @@ export default PageComponent => {
 
     if (!hasInit) {
       return (
-        <Fragment>
-          <NoData
-            {...noDataConfig}
-          />
+        <div className="h-100">
+          <div className="content-header">数据查询配置</div>
+          <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '25%'}}>
+            <NoData
+              {...noDataConfig}
+            />
+          </div>
           <ConfigModal 
             visible={visible}
             dataType={dataType}
@@ -103,7 +106,7 @@ export default PageComponent => {
             onCancel={() => changeVisible(false)}
             onCreate={params => initSearch(params)}
           />
-        </Fragment>
+        </div>
        
       )
     }
