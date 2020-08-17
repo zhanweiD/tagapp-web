@@ -7,7 +7,7 @@ import icondown from '../../../icon/xiangxiazhankai.svg'
 // import xiazai from '../../../icon/geshihua.svg'
 
 const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown}) => {
-  const [isExpend, changeExpend] = useState(0) 
+  const [isExpend, changeExpend] = useState(false) 
  
   const getColumns = col => {
     if (col && col.length) {
@@ -20,7 +20,7 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
     return []
   }
 
-  if (expend && isExpend === 0) {
+  if (expend && !isExpend) {
     changeExpend(true)
   }
 
@@ -28,7 +28,7 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
     changeExpend(flag)
     handleExpend(flag)
   }
-
+  
   return (
     <div
       className={cls({
@@ -60,7 +60,7 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
             dataSource={resultInfo.data} 
             pagination={{
               total: resultInfo.totalSize,
-              pageSize: 5,
+              // pageSize: 5,
               showTotal: () => `合计${resultInfo.totalSize}条记录`,
             }}
           />

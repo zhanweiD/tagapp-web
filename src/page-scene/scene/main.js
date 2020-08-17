@@ -103,7 +103,7 @@ class Scene extends Component {
                             value: cuser,
                           }, {
                             label: '创建时间',
-                            value: moment(+cdate).format('YYYY-MM-DD HH-MM-SS'),
+                            value: moment(+cdate).format('YYYY-MM-DD'),
                           }]}
                           descr={descr}
                           countList={[{
