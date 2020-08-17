@@ -119,9 +119,9 @@ class GroupAnalyze extends Component {
 
           {
             groupId ? (
-              <div className="analyze-action">
+              <div className="analyze-action mb12 mt12">
                 <span>群体画像</span>
-                <Button type="primary" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
+                <Button type="primary" className="mt4" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
               </div>
             ) : null
           }
@@ -142,7 +142,7 @@ class GroupAnalyze extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit({tagId: tagId, ...rest}, index)} className="mr8 mt8 action" />
+                            <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
@@ -155,12 +155,12 @@ class GroupAnalyze extends Component {
                           
                           </div>
                         </div>
-                        <Comp data={{tagName:tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`}/>
+                        <Comp data={{tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
                       </div>
                     </div>
                   ))
 
-                  : <NoData text={roportion.time ? '请添加分析纬度': '请选择目标群体，完成群体分析'} style={{marginTop: '10%'}}/>
+                  : <div className="header-page" style={{margin: '0px 8px 16px'}}><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '25%'}} /></div>
               }
             </div>
             <ModalAdd add={this.add} />

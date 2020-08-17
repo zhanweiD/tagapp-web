@@ -260,7 +260,7 @@ class GroupContrast extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit({tagId: tagId, ...rest}, index)} className="mr8 mt8 action" />
+                            <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
@@ -273,11 +273,15 @@ class GroupContrast extends Component {
 
                           </div>
                         </div>
-                        <Comp data={{tagName:tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`}/>
+                        <Comp data={{tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
                       </div>
                     </div>
                   ))
-                  : <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '10%'}}/>
+                  : (
+                    <div className="box-border" style={{margin: '8px 8px 16px', minHeight: 'calc(100vh - 192px)'}}>
+                      <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '25%'}} />
+                    </div>
+                  )
               }
             </div>
             <ModalAdd add={this.add} />
