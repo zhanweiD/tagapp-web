@@ -42,7 +42,7 @@ const quickEntrance = [
 function Entry() {
   return (
     <Frame 
-      productCode="be_tag" 
+      productCode="tag_app" 
       theme="ocean" 
       logoText="标签中心" 
       showAllProduct 
