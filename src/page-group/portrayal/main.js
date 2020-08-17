@@ -56,7 +56,7 @@ class PortrayalLabel extends Component {
               <Layout className="label-main">
                 <Sider className="label-sider box-border"><DetailSidebar /></Sider>
                 <Layout>
-                  <Content className="label-content box-border"><ShowLabel /></Content>
+                  <Content className="label-content box-border h-100"><ShowLabel /></Content>
                 </Layout>
               </Layout>
             ) : (

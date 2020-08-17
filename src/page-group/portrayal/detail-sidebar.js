@@ -14,10 +14,10 @@ export default class DetailSidebar extends Component {
   render() {
     const {basicLabel} = this.store
     return (
-      <div>
+      <div className="h-100">
         <div className="content-header sidebar-header">基本特征</div>
-        <div className="p24 pt-0">
-          {basicLabel.length ? basicLabel : <NoData  text="暂无数据" size="small"/>}
+        <div className="p24 pt-0 h-97">
+          {basicLabel.length ? basicLabel : <NoData text="暂无数据" size="small" />}
         </div>
       </div>
     )

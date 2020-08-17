@@ -23,8 +23,8 @@ export default class ShowLabel extends Component {
           <TabPane tab="标签分析" key="1" className="fz14">
             <AnalyzeTab key={`${mainLabel}${objId}`} />
           </TabPane>
-          <TabPane tab="全部标签" key="2" className="fz14">
-            <LabelTab />
+          <TabPane tab="全部标签" key="2" className="fz14 h-100">
+            <LabelTab className="h-100" />
           </TabPane>
         </Tabs>
       </Fragment>

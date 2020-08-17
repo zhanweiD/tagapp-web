@@ -28,7 +28,7 @@ export default class LabelTab extends Component {
   render() {
     const {labelRes, tooltipX, tooltipY} = this.store
     return (
-      <div className="pl24 pt-0">
+      <div className="pl24 pt-0 h-100">
         {
           labelRes.length ? (
             labelRes.map(now => {
@@ -80,7 +80,7 @@ export default class LabelTab extends Component {
               )
             })
           ) : (
-            <NoData text="暂无数据" size="small"/>
+            <NoData text="暂无数据" size="small" />
           )
         }
       </div>
