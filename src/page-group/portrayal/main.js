@@ -60,7 +60,7 @@ class PortrayalLabel extends Component {
                 </Layout>
               </Layout>
             ) : (
-              <div className="header-page" style={{paddingTop: '25%'}}>
+              <div className="header-page" style={{paddingTop: '15%'}}>
                 <NoData {...noDataConfig} />
               </div>
             )

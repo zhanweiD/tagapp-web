@@ -160,7 +160,7 @@ class GroupAnalyze extends Component {
                     </div>
                   ))
 
-                  : <div className="header-page" style={{margin: '0px 8px 16px'}}><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '25%'}} /></div>
+                  : <div className="header-page" style={{margin: '0px 8px 16px'}}><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '15%'}} /></div>
               }
             </div>
             <ModalAdd add={this.add} />
