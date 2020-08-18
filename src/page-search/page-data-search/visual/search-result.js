@@ -4,9 +4,9 @@ import cls from 'classnames'
 
 import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
-// import xiazai from '../../../icon/geshihua.svg'
+import xiazai from '../../../icon/xiazai.svg'
 
-const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown}) => {
+const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, downloadResult}) => {
   const [isExpend, changeExpend] = useState(false) 
  
   const getColumns = col => {
@@ -54,10 +54,14 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
       </div>
       <div className="p16" style={{display: isExpend ? 'block' : 'none', 'overflowY': 'auto', 'height': '100%', 'paddingBottom': '48px'}}>
         <Spin spinning={loading}>
+          {resultInfo.data && resultInfo.data.length ? <div className="mb8">
+            <span>共查出{resultInfo.totalSize}条记录</span>
+            <img src={xiazai} style={{width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult}/>
+          </div> : null}
           <Table 
             columns={getColumns(resultInfo.title)}
             size="small" 
-            dataSource={resultInfo.data} 
+            dataSource={resultInfo.data && resultInfo.data.slice()} 
             pagination={{
               total: resultInfo.totalSize,
               // pageSize: 5,
