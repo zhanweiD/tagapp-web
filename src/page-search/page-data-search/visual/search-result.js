@@ -57,7 +57,7 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
           <Table 
             columns={getColumns(resultInfo.title)}
             size="small" 
-            dataSource={resultInfo.data} 
+            dataSource={resultInfo.data && resultInfo.data.slice()} 
             pagination={{
               total: resultInfo.totalSize,
               // pageSize: 5,

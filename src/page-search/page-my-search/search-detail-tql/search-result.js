@@ -85,7 +85,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                     <Table 
                       columns={getColumns(resultInfo.title)}
                       size="small" 
-                      dataSource={resultInfo.data} 
+                      dataSource={resultInfo.data && resultInfo.data.slice()} 
                       pagination={{
                         total: resultInfo.totalSize,
                         // pageSize: 5,
