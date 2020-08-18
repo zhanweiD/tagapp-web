@@ -75,7 +75,8 @@ export default class Tql extends Component {
 
   render() {
     const {
-      resultInfo
+      resultInfo,
+      isRuned
     } = store
 
     return (
@@ -94,7 +95,7 @@ export default class Tql extends Component {
           <Authority
             authCode="tag_app:create_tql_api[c]"
           >
-            <Button className="mr8" type="primary" disabled={!resultInfo.sql} onClick={this.createApi}>生成API</Button>
+            <Button className="mr8" type="primary" disabled={!resultInfo.sql || !isRuned} onClick={this.createApi}>生成API</Button>
           </Authority>
         </div>
         <div className="tql-content">

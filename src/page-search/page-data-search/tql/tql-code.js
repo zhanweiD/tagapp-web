@@ -55,6 +55,8 @@ export default class TqlCode extends Component {
   @action checkIsCanHint = (instance, change) => {
     this.store.log = ''
     this.store.tql = ''
+    this.store.isRuned = false
+    this.store.resultInfo = {}
     
     const {text} = change
     const {origin} = change
@@ -76,7 +78,7 @@ export default class TqlCode extends Component {
     if (!code) {
       message.error('请输入运行代码')
     } else {
-      this.store.showResult = true
+      // this.store.showResult = true
 
       this.store.runSearch({
         tql: code,
