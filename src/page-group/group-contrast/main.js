@@ -231,7 +231,7 @@ class GroupContrast extends Component {
                     }
                    
                   </div>
-                  <div className="contrast-action">
+                  {/* <div className="contrast-action">
                     <Button 
                       type="primary"
                       onClick={this.showModal}
@@ -239,13 +239,27 @@ class GroupContrast extends Component {
                     >
                 添加分析纬度  
                     </Button>
-                  </div>
+                  </div> */}
                 </Spin>
               
               ) : null
           } 
 
-          <div className="group-contrast">
+          <div className="group-contrast header-page" style={{minHeight: 'calc(100vh - 192px)'}}>
+            {
+              showInfo ? (
+                <div className="contrast-action"> 
+                  <Button 
+                    type="primary"
+                    onClick={this.showModal}
+                    disabled={info.length === 10}
+                  >
+          添加分析纬度  
+                  </Button>
+                </div>
+              ) : null
+            }
+            
             <div className="chart-content">
               {
                 info.length
@@ -278,7 +292,7 @@ class GroupContrast extends Component {
                     </div>
                   ))
                   : (
-                    <div className="box-border" style={{margin: '8px 8px 16px', minHeight: 'calc(100vh - 192px)'}}>
+                    <div>
                       <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '15%'}} />
                     </div>
                   )

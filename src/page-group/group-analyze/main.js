@@ -117,16 +117,24 @@ class GroupAnalyze extends Component {
             </div>
           </div>
 
-          {
+          {/* {
             groupId ? (
               <div className="analyze-action mb12 mt12">
                 <span>群体画像</span>
                 <Button type="primary" className="mt4" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
               </div>
             ) : null
-          }
+          } */}
          
-          <div className="group-analyze">
+          <div className="group-analyze header-page">
+            {
+              groupId ? (
+                <div className="analyze-action bgf content-header">
+                  <span>群体画像</span>
+                  <Button type="primary" className="mt16" onClick={this.showModal} disable={info.length === 20}>添加分析纬度</Button>
+                </div>
+              ) : null
+            }
             <div className="chart-content">
               {
 
@@ -142,7 +150,7 @@ class GroupAnalyze extends Component {
                         <div className="chart-item-title">
                           <span>{tagName}</span>
                           <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 action" />
+                            <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 mb16 action" />
                             <Popconfirm
                               placement="bottomLeft"
                               title="确定要删除吗？"
@@ -159,8 +167,8 @@ class GroupAnalyze extends Component {
                       </div>
                     </div>
                   ))
-
-                  : <div className="header-page" style={{margin: '0px 8px 16px'}}><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '15%'}} /></div>
+                  // className="header-page" style={{margin: '0px 8px 16px'}}
+                  : <div><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '15%'}} /></div>
               }
             </div>
             <ModalAdd add={this.add} />
