@@ -189,6 +189,8 @@ class Store {
         this.log = res.log
         this.tql = params.tql
         this.isRuned = true
+
+        this.handleExpend(true)
       })
     } catch (e) {
       errorTip(e.message)

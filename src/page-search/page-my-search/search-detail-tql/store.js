@@ -185,9 +185,10 @@ class Store {
       runInAction(() => {
         this.resultInfo = res
         this.log = res.log
-        // this.tql = res.sql
         this.tql = params.tql
         this.isRuned = true
+
+        this.handleExpend(true)
       })
     } catch (e) {
       errorTip(e.message)
