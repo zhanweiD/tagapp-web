@@ -80,9 +80,9 @@ class UnitList extends Component {
                 <ListContent {...listConfig} />
               </div>
             ) : (
-                <div className="header-page" style={{ paddingTop: '25%' }}>
-                  <NoData {...noDataConfig} />
-                </div>
+              <div className="header-page" style={{paddingTop: '15%'}}>
+                <NoData {...noDataConfig} />
+              </div>
             )
           }
         </Spin>

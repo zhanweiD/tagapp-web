@@ -42,7 +42,7 @@ class GroupConfig extends Component {
             store.initVisible ? (
               <BackConfig store={store} />
             ) : (
-              <div style={{marginTop: '25%'}}>
+              <div style={{marginTop: '15%'}}>
                 <NoData
                   {...noDataConfig}
                 />

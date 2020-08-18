@@ -279,7 +279,7 @@ class GroupContrast extends Component {
                   ))
                   : (
                     <div className="box-border" style={{margin: '8px 8px 16px', minHeight: 'calc(100vh - 192px)'}}>
-                      <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '25%'}} />
+                      <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '15%'}} />
                     </div>
                   )
               }
