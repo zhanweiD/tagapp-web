@@ -138,6 +138,10 @@ class Visual extends Component {
     store.outConfig.push({
       id,
     })
+
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound delAllOutConfig () {
@@ -154,11 +158,19 @@ class Visual extends Component {
       const id = Math.floor(Math.random() * 1000)
       store.outConfig.splice(index + 1, 0, { id })
     })
+
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound delOutConfig (index, id) {
     store.outConfig.splice(index, 1)
     delete this.outNameMap[id]
+
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound addFirstScreenConfig () {
@@ -166,6 +178,9 @@ class Visual extends Component {
     store.screenConfig.push({
       id,
     })
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound delAllScreenConfig () {
@@ -180,10 +195,18 @@ class Visual extends Component {
       const id = Math.floor(Math.random() * 1000)
       store.screenConfig.splice(index + 1, 0, { id })
     })
+
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound delScreenConfig (index) {
     store.screenConfig.splice(index, 1)
+
+    if(store.resultInfo.sql) {
+      this.clearResult()
+    }
   }
 
   @action.bound search () {
@@ -251,6 +274,10 @@ class Visual extends Component {
 
   outNameBlur = (value, id) => {
     this.outNameMap[id] = value
+  }
+
+  @action.bound clearResult() {
+    store.resultInfo = {}
   }
 
   render () {
@@ -347,6 +374,9 @@ class Visual extends Component {
                               name="out"
                               ref={this.outConfigRef}
                               onValuesChange={(changedValues, allValues) => {
+                                if(resultInfo.sql) {
+                                  this.clearResult()
+                                }
                                 const [key] = Object.keys(changedValues)
 
                                 if (changedValues[key].function && allValues[key].params1) {
@@ -409,6 +439,10 @@ class Visual extends Component {
                               name="srceen"
                               ref={this.screenConfigRef}
                               onValuesChange={(changedValues, allValues) => {
+                                if(resultInfo.sql) {
+                                  this.clearResult()
+                                }
+
                                 const [key] = Object.keys(changedValues)
 
                                 if (changedValues[key].leftParams && allValues[key].leftParams) {
