@@ -4,11 +4,11 @@ import cls from 'classnames'
 
 import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
-// import xiazai from '../../../icon/geshihua.svg'
+import xiazai from '../../../icon/xiazai.svg'
 
 const {TabPane} = Tabs
 
-const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned}) => {
+const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, downloadResult}) => {
   const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
  
@@ -84,16 +84,22 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
               <div className="result-table">
                 {
                   getColumns(resultInfo.title).length ? (
-                    <Table 
-                      columns={getColumns(resultInfo.title)}
-                      size="small" 
-                      dataSource={resultInfo.data} 
-                      pagination={{
-                        total: resultInfo.totalSize,
-                        // pageSize: 5,
-                        showTotal: () => `合计${resultInfo.totalSize}条记录`,
-                      }}
-                    />
+                      <div>
+                        {resultInfo.data && resultInfo.data.length ? <div className="mb8">
+                          <span>共查出{resultInfo.totalSize}条记录</span>
+                          <img src={xiazai} style={{ width: '14px', cursor: 'pointer' }} className="ml8" onClick={downloadResult} />
+                        </div> : null}
+                        <Table
+                          columns={getColumns(resultInfo.title)}
+                          size="small"
+                          dataSource={resultInfo.data && resultInfo.data.slice()}
+                          pagination={{
+                            total: resultInfo.totalSize,
+                            // pageSize: 5,
+                            showTotal: () => `合计${resultInfo.totalSize}条记录`,
+                          }}
+                        />
+                      </div>
                   ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
               </div>

@@ -12,9 +12,10 @@ import sqlFormatter from 'sql-formatter'
 import {Authority} from '../../../component'
 // import LogPanel from '../code-component/log-panel'
 import SearchResult from './search-result'
+import {downloadResult} from '../../../common/util'
 
-import yunxing from '../../../icon/yunxing.svg'
-import geshihua from '../../../icon/geshihua.svg'
+// import yunxing from '../../../icon/yunxing.svg'
+// import geshihua from '../../../icon/geshihua.svg'
 
 @observer
 export default class TqlCode extends Component {
@@ -99,6 +100,15 @@ export default class TqlCode extends Component {
     }
   }
 
+  downloadResult = () => {
+    const code = this.store.editor.getValue()
+    downloadResult({
+      projectId: this.store.projectId,
+      runType: 2,
+      tql: code
+    })
+  }
+
   render() {
     const {
       tqlDetail,
@@ -174,6 +184,7 @@ export default class TqlCode extends Component {
           handleExpend={handleExpend}
           onDraggableLogMouseDown={onDraggableLogMouseDown}
           isRuned={isRuned}
+          downloadResult={this.downloadResult}
         />
       </div>
     )

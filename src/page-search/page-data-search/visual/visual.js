@@ -30,6 +30,7 @@ import {
   getOutConfig, 
   getScreenConfig,
 } from './util'
+import {downloadResult} from '../../../common/util'
 
 import store from './store'
 import './visual.styl'
@@ -271,6 +272,15 @@ export default class Visual extends Component {
     this.outNameMap[id] = value
   }
 
+  downloadResult = () => {
+    downloadResult({
+      projectId: store.projectId,
+      objId: store.objId,
+      runType: 1,
+      ...toJS(store.saveParams)
+    })
+  }
+
   render() {
     const {
       outConfig, 
@@ -352,6 +362,7 @@ export default class Visual extends Component {
                 resultInfo={toJS(resultInfo)} 
                 handleExpend={handleExpend}
                 onDraggableLogMouseDown={onDraggableLogMouseDown}
+                downloadResult={this.downloadResult}
               />
               <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                 <Menu.Item key="out">

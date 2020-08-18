@@ -296,3 +296,21 @@ export function debounce(fn, delay = 200) {
   timer = setTimeout(fn, delay)
 }
 
+export function downloadResult(params) {
+  const req = new XMLHttpRequest()
+  req.open('POST', '/api/tagapp/1_0_0/search/run_search_export' , true)
+  req.responseType = 'blob'
+  req.setRequestHeader('Content-Type', 'application/json')
+  req.onload = () => {
+
+    const data = req.response
+    const blob = new Blob([data])
+    const blobUrl = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.download = `查询结果.xls`
+    a.href = blobUrl
+    a.click()
+  }
+
+  req.send(JSON.stringify(params))
+}
