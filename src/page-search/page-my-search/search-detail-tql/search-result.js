@@ -7,7 +7,7 @@ import icondown from '../../../icon/xiangxiazhankai.svg'
 
 const {TabPane} = Tabs
 
-const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned}) => {
+const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
  
@@ -83,6 +83,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                 {
                   getColumns(resultInfo.title).length ? (
                     <Table 
+                      key={resultKey}
                       columns={getColumns(resultInfo.title)}
                       size="small" 
                       dataSource={resultInfo.data && resultInfo.data.slice()} 

@@ -6,7 +6,7 @@ import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
 // import xiazai from '../../../icon/geshihua.svg'
 
-const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown}) => {
+const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
  
   const getColumns = col => {
@@ -55,11 +55,13 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
       <div className="p16" style={{display: isExpend ? 'block' : 'none', 'overflowY': 'auto', 'height': '100%', 'paddingBottom': '48px'}}>
         <Spin spinning={loading}>
           <Table 
+            key={resultKey}
             columns={getColumns(resultInfo.title)}
             size="small" 
             dataSource={resultInfo.data && resultInfo.data.slice()} 
             pagination={{
               total: resultInfo.totalSize,
+              defaultCurrent: 1,
               // pageSize: 5,
               showTotal: () => `合计${resultInfo.totalSize}条记录`,
             }}
