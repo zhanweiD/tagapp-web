@@ -4,7 +4,7 @@
 
 import {Component} from 'react'
 import {observer} from 'mobx-react'
-import {action, toJS} from 'mobx'
+import {action, toJS, observable} from 'mobx'
 import cls from 'classnames'
 import {message, Spin, Tooltip} from 'antd'
 import {QuestionCircleOutlined} from '@ant-design/icons'
@@ -23,6 +23,8 @@ export default class TqlCode extends Component {
     super(props)
     this.store = props.store
   }
+
+  @observable resultKey = 0
 
   componentDidMount() {
     this.store.getHeight()
@@ -80,7 +82,7 @@ export default class TqlCode extends Component {
       message.error('请输入运行代码')
     } else {
       // this.store.showResult = true
-
+      this.resultKey = Math.floor(Math.random() * 1000)
       this.store.runSearch({
         tql: code,
       })
@@ -185,6 +187,7 @@ export default class TqlCode extends Component {
           onDraggableLogMouseDown={onDraggableLogMouseDown}
           isRuned={isRuned}
           downloadResult={this.downloadResult}
+          resultKey={this.resultKey}
         />
       </div>
     )

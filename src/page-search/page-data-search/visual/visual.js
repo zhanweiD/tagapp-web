@@ -50,6 +50,7 @@ export default class Visual extends Component {
   outNameMap = {}
 
   @observable menuCode = 'out'
+  @observable resultKey = 0
 
   componentWillMount() {
     store.getObjList()
@@ -237,6 +238,7 @@ export default class Visual extends Component {
           store.resultInfo = {}
           store.saveParams = {}
           store.runSearch(params)
+          t.resultKey = Math.floor(Math.random() * 1000)
         }, () => {
           message.error('筛选设置信息尚未完善！')
         }) 
@@ -389,6 +391,7 @@ export default class Visual extends Component {
                 handleExpend={handleExpend}
                 onDraggableLogMouseDown={onDraggableLogMouseDown}
                 downloadResult={this.downloadResult}
+                resultKey={this.resultKey}
               />
               <Menu onClick={this.menuClick} selectedKeys={this.menuCode} mode="inline" className="visual-content-menu">
                 <Menu.Item key="out">

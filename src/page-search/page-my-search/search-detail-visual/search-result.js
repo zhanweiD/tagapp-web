@@ -6,7 +6,7 @@ import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
 import xiazai from '../../../icon/xiazai.svg'
 
-const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, downloadResult}) => {
+const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, downloadResult, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
  
   const getColumns = col => {
@@ -59,11 +59,13 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
             <img src={xiazai} style={{ width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult} />
           </div> : null}
           <Table 
+            key={resultKey}
             columns={getColumns(resultInfo.title)}
             size="small" 
             dataSource={resultInfo.data && resultInfo.data.slice()} 
             pagination={{
               total: resultInfo.totalSize,
+              defaultCurrent: 1,
               // pageSize: 5,
               showTotal: () => `合计${resultInfo.totalSize}条记录`,
             }}

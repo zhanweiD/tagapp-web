@@ -8,7 +8,7 @@ import xiazai from '../../../icon/xiazai.svg'
 
 const {TabPane} = Tabs
 
-const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, downloadResult}) => {
+const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, downloadResult, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
  
@@ -89,6 +89,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                           <img src={xiazai} style={{ width: '14px', cursor: 'pointer' }} className="ml8" onClick={downloadResult} />
                         </div> : null}
                         <Table
+                          key={resultKey}
                           columns={getColumns(resultInfo.title)}
                           size="small"
                           dataSource={resultInfo.data && resultInfo.data.slice()}
