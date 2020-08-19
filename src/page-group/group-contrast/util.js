@@ -40,7 +40,8 @@ export const barOpt = data => {
     legend: {
       show: true,
       // top: 15,
-		  right: 20,
+      right: 16,
+      top: 8,
       data: [data.groupAname, data.groupBname],
       selectedMode: false,
     },
@@ -116,6 +117,8 @@ export const acrossBarOpt = data => {
     legend: {
       show: true,
       selectedMode: false,
+      right: 16,
+      top: 8,
       data: [data.groupAname, data.groupBname],
     },
     tooltip: {
@@ -190,6 +193,8 @@ export const lineOpt = data => {
     legend: {
       show: true,
       selectedMode: false,
+      right: 16,
+      top: 8,
       data: [data.groupAname, data.groupBname],
     },
     grid: {
