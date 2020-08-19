@@ -19,6 +19,7 @@ class GroupConfig extends Component {
     super(props)
     store.projectId = props.projectId
     // store.getPortrayal()
+    store.config = {}
     store.hasInit()
     store.getDataTypeSource()
   }

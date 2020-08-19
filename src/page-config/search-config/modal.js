@@ -24,23 +24,22 @@ const ConfigModal = ({
     selectDataType(e)
     form.setFieldsValue({dataStorageId: undefined})
   }
-
   return (
     <Modal
       visible={visible}
       title={isInit ? '初始化' : '修改初始化'}
-      onCancel={onCancel}
-      // onOk={() => {
-      //   form
-      //     .validateFields()
-      //     .then(values => {
-      //       form.resetFields()
-      //       isInit ? onCreate(values) : onUpdate(values)
-      //     })
-      //     .catch(info => {
-      //       console.log('Validate Failed:', info)
-      //     })
-      // }}
+      onCancel={() => onCancel(form)}
+      onOk={() => {
+        form
+          .validateFields()
+          .then(values => {
+            form.resetFields()
+            isInit ? onCreate(values) : onUpdate(values)
+          })
+          .catch(info => {
+            console.log('Validate Failed:', info)
+          })
+      }}
       destroyOnClose
       maskClosable={false}
       footer={[

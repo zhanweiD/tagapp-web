@@ -15,8 +15,6 @@ export default class BackConfig extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
-    // this.store.getDataSource()
-    // this.store.getPortrayal()
   }
 
   columns = [
@@ -68,7 +66,7 @@ export default class BackConfig extends Component {
 
   // 修改配置弹窗
   @action editClick = () => {
-    this.store.getDataSource()
+    this.store.getDataSource(this.store.config.dataStorageType)
     this.store.visible = true
     this.store.isInit = false
   }
@@ -93,13 +91,12 @@ export default class BackConfig extends Component {
     const {
       dataSource = [],
       dataTypeSource = [],
-      dataStorageTypeId,
-      dataStorageId,
+      config,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
-      initialValue: dataStorageTypeId,
+      initialValue: config.dataStorageType,
       disabled: true,
       control: {
         options: dataTypeSource,
@@ -108,7 +105,7 @@ export default class BackConfig extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: dataStorageId,
+      initialValue: config.dataStorageId,
       disabled: true,
       control: {
         options: dataSource,

@@ -55,8 +55,7 @@ const GroupConfig = ({projectId}) => {
       })
   
       const result = res || []
-  
-      changedataSource(result)
+      changedataSource(() => result)
     } catch (error) {
       errorTip(error.message)
     }
@@ -112,9 +111,10 @@ const GroupConfig = ({projectId}) => {
     changeIsInit(false)
   }
 
-  const onCancel = () => {
+  const onCancel = form => {
     changeVisible(false)
     changeIsInit(true)
+    form.resetFields()
   }
 
   const onUpdate = params => {
