@@ -98,7 +98,7 @@ class GroupContrast extends Component {
       .attr('fill', 'rgb(31, 119, 180, .25)')
       .transition()
       .duration(duration)
-      .attr('width', bgW * ((groupACount / MaxgroupBCount) || 1))
+      .attr('width', groupACount === 0 && groupBCount ? 0 : bgW * ((groupACount / MaxgroupBCount) || 1))
 
     // 绘制进度条
     box.append('rect')
@@ -108,7 +108,7 @@ class GroupContrast extends Component {
       .attr('fill', 'rgb(255, 127, 14, .25)')
       .transition()
       .duration(duration)
-      .attr('width', bgW * ((groupBCount / MaxgroupBCount) || 1))
+      .attr('width',  groupBCount === 0 && groupACount ? 0 : bgW * ((groupBCount / MaxgroupBCount) || 1))
 
     // 绘制文字说明
     const countBox = svg.append('g').attr('transform', 'translate(4,16)')
