@@ -201,6 +201,7 @@ class Store {
 
   // 保存数据查询 
   @action async saveSearch(params, cb) {
+    this.modalSaveLoading = true
     try {
       const res = await io.saveSearch({
         projectId: this.projectId,
@@ -219,6 +220,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.modalSaveLoading = false
+      })
     }
   }
 
