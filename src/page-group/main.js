@@ -18,10 +18,11 @@ const prePath = '/group'
 
 export default () => {
   const ctx = OnerFrame.useFrame()
-
+  const projectId = ctx.useProjectId()
   useEffect(() => {
     ctx.querySiderMenus({
       productCode: 'tag_app',
+      projectId
     })
   }, [])
 
