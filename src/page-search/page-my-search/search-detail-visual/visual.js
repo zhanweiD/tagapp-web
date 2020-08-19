@@ -313,7 +313,7 @@ class Visual extends Component {
 
     return (
       <Spin spinning={detailLoading}>
-        <div className="visual-detail">
+        <div className="visual-detail" style={{height: 'calc(100vh - 48px)'}}>
           <div className="header-button">
             {/* <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button> */}
             <Authority
@@ -337,7 +337,7 @@ class Visual extends Component {
               }
             </Select>
           </div>
-          <div className="FBH" style={{height: 'calc(100vh - 114px)'}}>
+          <div className="FBH" style={{height: 'calc(100vh - 104px)'}}>
             <Tree store={store} />
             <div className="visual-content-warp">
               <div className="code-menu">

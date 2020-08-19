@@ -10,7 +10,7 @@ import {message, Spin, Tooltip} from 'antd'
 
 import sqlFormatter from 'sql-formatter'
 import {Authority} from '../../../component'
-// import LogPanel from '../code-component/log-panel'
+import {QuestionCircleOutlined} from '@ant-design/icons'
 import SearchResult from './search-result'
 import {downloadResult} from '../../../common/util'
 // import yunxing from '../../../icon/yunxing.svg'
@@ -151,6 +151,7 @@ export default class TqlCode extends Component {
                 <i className="iconfont dtwave icon-geshihua1" />
                 <span className="ml4">格式化</span>
               </span>
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a> 
             </div>
             <Spin spinning={resultLoading}>
               <form
