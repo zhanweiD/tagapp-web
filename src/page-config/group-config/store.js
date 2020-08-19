@@ -10,8 +10,7 @@ import {ListContentStore} from '../../component/list-content'
 
 const {Option} = Select
 class Store extends ListContentStore(io.getEntityPage) {
-  @observable dataStorageId // 配置页面数据源id
-  @observable dataStorageTypeId // 配置页面数据源类型id
+  @observable config = {} // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
   @observable configId = 0 // 修改初始化配置需要的ID
@@ -103,12 +102,10 @@ class Store extends ListContentStore(io.getEntityPage) {
       })
 
       runInAction(() => {
-        this.dataStorageId = res.dataStorageId
-        this.dataStorageTypeId = res.dataStorageType
         this.configId = res.id
-        if (res) this.getDataSource()
-        // this.getDataTypeSource()
-        // this.getDataSource()
+
+        this.config = res
+        if (res) this.getDataSource(res.dataStorageType)
       })
     } catch (e) {
       errorTip(e.message)
@@ -202,12 +199,12 @@ class Store extends ListContentStore(io.getEntityPage) {
   }
 
   // 获取数据源列表
-  @action async getDataSource() {
+  @action async getDataSource(type) {
     this.selectLoading = true
     try {
       const res = await io.getDataSource({
         projectId: this.projectId,
-        dataStorageType: this.dataStorageTypeId,
+        dataStorageType: type,
       })
 
       runInAction(() => {
@@ -250,8 +247,8 @@ class Store extends ListContentStore(io.getEntityPage) {
       const res = await io.addEntity({
         ...data,
         projectId: this.projectId,
-        dataStorageId: this.dataStorageId,
-        dataStorageType: this.dataStorageTypeId,
+        dataStorageId: this.config.dataStorageId,
+        dataStorageType: this.config.dataStorageTypeId,
       })
 
       runInAction(() => {

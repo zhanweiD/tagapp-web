@@ -55,8 +55,7 @@ const GroupConfig = ({projectId}) => {
       })
   
       const result = res || []
-  
-      changedataSource(result)
+      changedataSource(() => result)
     } catch (error) {
       errorTip(error.message)
     }
@@ -113,9 +112,10 @@ const GroupConfig = ({projectId}) => {
     message.warning('不建议修改，修改后会影响之前的使用！')
   }
 
-  const onCancel = () => {
+  const onCancel = form => {
     changeVisible(false)
     changeIsInit(true)
+    form.resetFields()
   }
 
   const onUpdate = params => {

@@ -23,12 +23,11 @@ const ConfigModal = ({
     selectDataType(e)
     form.setFieldsValue({dataStorageId: undefined})
   }
-
   return (
     <Modal
       visible={visible}
       title={isInit ? '初始化' : '修改初始化'}
-      onCancel={onCancel}
+      onCancel={() => onCancel(form)}
       onOk={() => {
         form
           .validateFields()

@@ -12,13 +12,9 @@ export default class ConfigModal extends Component {
     this.store = props.store
   }
 
-  @action.bound selectDataSource(storageId) {
-    this.store.dataStorageId = storageId
-  }
   @action.bound selectDataTypeSource(storageTypeId) {
     this.form.setFieldsValue({storageId: undefined})
-    this.store.dataStorageTypeId = storageTypeId
-    this.store.getDataSource()
+    this.store.getDataSource(storageTypeId)
   }
 
   formItemLayout = () => {
@@ -34,14 +30,13 @@ export default class ConfigModal extends Component {
       selectLoading, 
       dataSource = [], 
       dataTypeSource = [],
-      dataStorageTypeId,
-      dataStorageId,
+      config,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
       placeholder: '请选择',
-      initialValue: dataStorageTypeId || undefined,
+      initialValue: config.dataStorageType || undefined,
       rules: [
         '@requiredSelect',
       ],
@@ -55,13 +50,12 @@ export default class ConfigModal extends Component {
       label: '数据源',
       key: 'storageId',
       placeholder: '请选择',
-      initialValue: dataStorageId || undefined,
+      initialValue: config.dataStorageId || undefined,
       rules: [
         '@requiredSelect',
       ],
       control: {
         options: dataSource,
-        onSelect: v => this.selectDataSource(v),
         notFoundContent: selectLoading ? <Spin size="small" /> : null, 
       },
       selectLoading, // 下拉框loading效果
