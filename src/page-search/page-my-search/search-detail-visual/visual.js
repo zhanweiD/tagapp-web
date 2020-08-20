@@ -430,6 +430,7 @@ class Visual extends Component {
                               {
                                 outConfig.map((d, i) => (
                                   <OutItem
+                                    key={d.id}
                                     id={d.id}
                                     index={i}
                                     expressionTag={toJS(expressionTag)}
@@ -521,6 +522,7 @@ class Visual extends Component {
                               {
                                 screenConfig.map((d, i) => (
                                   <ScreenItem
+                                    key={d.id}
                                     id={d.id}
                                     index={i}
                                     expressionTag={toJS(expressionTag)}
