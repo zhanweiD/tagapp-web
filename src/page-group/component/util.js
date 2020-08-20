@@ -182,32 +182,32 @@ export const getRenderData = (formItemData, domRef, wherePosMap, whereMap) => {
 
   const rule = []
   for (let i = 0; i < renderData.length; i++) {
-    const entityPos = pos[`${i}-0`] && pos[`${i}-0`].map(d => ({
+    const renderItem = renderData[i]
+    const entityPos = pos[`${renderItem.flag}-0`] && pos[`${renderItem.flag}-0`].map(d => ({
       ...d,
-      ...formItemData[`${i}-0-${d.flag}`],
-      logic: logicMap[`${i}-0-${d.flag}`] || 1,
+      ...formItemData[`${renderItem.flag}-0-${d.flag}`],
+      logic: logicMap[`${renderItem.flag}-0-${d.flag}`] || 1,
     }))
 
-    const relPos = pos[`${i}-1`] && pos[`${i}-1`].map(d => ({
+    const relPos = pos[`${renderItem.flag}-1`] && pos[`${renderItem.flag}-1`].map(d => ({
       ...d,
-      ...formItemData[`${i}-1-${d.flag}`],
+      ...formItemData[`${renderItem.flag}-1-${d.flag}`],
     }))
 
     const posInfo = {}
 
     if (entityPos) {
-      posInfo[`${i}-0`] = entityPos
+      posInfo[`${renderItem.flag}-0`] = entityPos
     }
 
     if (relPos) {
-      posInfo[`${i}-1`] = relPos
+      posInfo[`${renderItem.flag}-1`] = relPos
     }
 
     const result = {
       ...renderData[i],
       pos: posInfo,
     }
-
     rule.push(result)
   }
 
