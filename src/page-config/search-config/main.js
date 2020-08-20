@@ -111,10 +111,9 @@ const GroupConfig = ({projectId}) => {
     changeIsInit(false)
   }
 
-  const onCancel = form => {
+  const onCancel = () => {
     changeVisible(false)
     changeIsInit(true)
-    form.resetFields()
   }
 
   const onUpdate = params => {
@@ -132,22 +131,9 @@ const GroupConfig = ({projectId}) => {
         <div className="config-data">
           <span>数据源配置</span>
           <Authority authCode="tag_config:search_config[u]">
-            {/* <Popconfirm
-              title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
-              onConfirm={editClick}
-              onCancel={() => {}}
-              okText="确认"
-              cancelText="取消"
-            >
-              <Button type="primary">编辑</Button>
-            </Popconfirm> */}
             <Button type="primary" onClick={editClick}>编辑</Button>
           </Authority>
         </div>
-        {/* <h3>
-          数据源配置
-          <FormOutlined className="ml8" onClick={editClick} />
-        </h3> */}
         <div className="search-config-item">
           <div className="search-config-label">数据源类型：</div>
           <div className="search-config-value">{config.storageType}</div>

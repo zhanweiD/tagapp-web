@@ -50,9 +50,10 @@ export default class LabelTab extends Component {
                           status="active"
                           strokeWidth={4} 
                           strokeColor="#00d5af" 
-                          percent={parseFloat(tooltipY, 10)} 
+                          percent={parseFloat(tooltipY, 10).toFixed(2)} 
+                          // percent={parseFloat(tooltipY, 10)} 
                           color="#fff"
-                          style={{color: '#fff', width: '96px', marginRight: '8px'}}
+                          style={{color: '#fff', width: '96px', marginRight: '18px'}}
                         />
                       </div>
                     )}
@@ -72,7 +73,7 @@ export default class LabelTab extends Component {
               return (
                 <div className="tab-content">
                   <div>
-                    <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '12px'}} />
+                    <TagFilled rotate={270} style={{color: 'rgba(0,0,0,.65)', marginRight: '8px'}} />
                     <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
                   </div>
                   {this.itemLabels}

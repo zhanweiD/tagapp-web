@@ -28,22 +28,31 @@ const ConfigModal = ({
     <Modal
       visible={visible}
       title={isInit ? '初始化' : '修改初始化'}
-      onCancel={() => onCancel(form)}
-      onOk={() => {
-        form
-          .validateFields()
-          .then(values => {
-            form.resetFields()
-            isInit ? onCreate(values) : onUpdate(values)
-          })
-          .catch(info => {
-            console.log('Validate Failed:', info)
-          })
+      onCancel={() => {
+        onCancel()
+        form.resetFields()
       }}
+      // onOk={() => {
+      //   form
+      //     .validateFields()
+      //     .then(values => {
+      //       form.resetFields()
+      //       isInit ? onCreate(values) : onUpdate(values)
+      //     })
+      //     .catch(info => {
+      //       console.log('Validate Failed:', info)
+      //     })
+      // }}
       destroyOnClose
       maskClosable={false}
       footer={[
-        <Button onClick={onCancel}>取消</Button>,
+        <Button onClick={() => {
+          onCancel()
+          form.resetFields()
+        }}
+        >
+          取消
+        </Button>,
         <Popconfirm
           title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
           onCancel={() => {}}
