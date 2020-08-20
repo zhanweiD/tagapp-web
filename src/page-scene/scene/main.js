@@ -145,6 +145,7 @@ class Scene extends Component {
               ) : (
                 <NoData
                   {...noDataConfig}
+                  style={{marginTop: '15%'}}
                 />
               )
             }
