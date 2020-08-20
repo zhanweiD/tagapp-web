@@ -56,6 +56,7 @@ class Scene extends Component {
     
     const noDataConfig = {
       btnText: '添加场景',
+      text: '没有任何场景，去新建场景吧',
       onClick: () => this.handleModalVisible(),
       code: 'tag_app:create_occ[cud]',
       noAuthText: '暂无数据',

@@ -72,9 +72,9 @@ export default class NoData extends Component {
     // 渲染按钮
     if (btnText) {
       //  按钮存在情况 判断按钮权限
-      if (code) { 
-        return this.getBtnAutn()
-      } 
+      // if (code) { 
+      //   return this.getBtnAutn()
+      // } 
 
       return <Button type="primary" disabled={btnDisabled} onClick={this.onClick}>{btnText}</Button>
     }
