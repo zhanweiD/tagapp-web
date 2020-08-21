@@ -60,7 +60,7 @@ class Scene extends Component {
       code: 'tag_app:create_occ[cud]',
       noAuthText: '暂无数据',
       // myFunctionCodes: functionCodes,
-      isLoading: loading
+      isLoading: loading,
     }
 
     return (
@@ -143,9 +143,11 @@ class Scene extends Component {
                   </DtGrid>
                 </Fragment>
               ) : (
-                <NoData
-                  {...noDataConfig}
-                />
+                <div className="header-page" style={{paddingTop: '15%', margin: 0}}>
+                  <NoData
+                    {...noDataConfig}
+                  />
+                </div>
               )
             }
             <ModalAdd store={store} />

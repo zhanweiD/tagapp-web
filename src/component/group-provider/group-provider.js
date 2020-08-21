@@ -99,9 +99,12 @@ export default PageComponent => {
     if (!hasInit) {
       return (
         <Fragment>
-          <NoData
-            {...noDataConfig}
-          />
+          <div className="content-header">群体洞察</div>
+          <div className="header-page" style={{paddingTop: '15%'}}>
+            <NoData
+              {...noDataConfig}
+            />
+          </div>
           <ConfigModal 
             visible={visible}
             dataType={dataType}
