@@ -127,6 +127,18 @@ export const screenLogic = [{
   type: 1,
 }]
 
+// 聚合函数
+export const aggregation = ['count', 'sum', 'avg', 'min', 'max']
+
+// 聚合函数
+export const aggregationLogic = [{
+  value: '固定值',
+  name: '固定值',
+}, {
+  value: 'param',
+  name: '参数',
+}]
+
 export const screenValueLogic = [{
   value: '固定值',
   name: '固定值',

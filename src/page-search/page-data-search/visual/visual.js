@@ -532,6 +532,15 @@ export default class Visual extends Component {
                                   },
                                 })
                               }
+
+                              if (changedValues[key].leftFunction && allValues[key].rightFunction) {
+                                this.screenConfigRef.current.setFieldsValue({
+                                  [key]: {
+                                    ...changedValues[key],
+                                    rightFunction: '固定值',
+                                  },
+                                })
+                              }
   
                               if (changedValues[key].rightFunction && allValues[key].rightParams) {
                                 this.screenConfigRef.current.setFieldsValue({

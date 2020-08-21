@@ -7,7 +7,7 @@ import {
   Popconfirm,
 } from 'antd'
 
-import {screenLogic, screenValueLogic, comparison, tagComparison} from './util'
+import {screenLogic, screenValueLogic, comparison, tagComparison, aggregation, aggregationLogic} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
 
 const {Option} = Select
@@ -21,6 +21,7 @@ const ScreenItem = ({
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
   const [rightFunction, changeRightFunction] = useState('固定值')
+  const [leftFunction, changeLeftFunction] = useState('标签值')
   const [showSelect, changeShowSelect] = useState(true)
   const [showLeftInput, changeShowLeftInput] = useState(false)
   const [showInput, changeShowInput] = useState(false)
@@ -28,7 +29,7 @@ const ScreenItem = ({
 
   const onSelect = e => {
     const [obj] = screenLogic.filter(d => d.value === e)
-
+    changeLeftFunction(obj.value)
     const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
 
     if (obj.value === '固定值') {
@@ -144,7 +145,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
             {
-              screenValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
+             (aggregation.includes(leftFunction) ? aggregationLogic : screenValueLogic).map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
 
