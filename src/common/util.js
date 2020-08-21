@@ -204,11 +204,12 @@ export const getDataTypeName = (code) => {
 }
 
 
-export const codeInProduct = code => {
-  const functionCodes = window.productFunctionCode || []
+export const codeInProduct = (code, isCommon) => {
+  const {tagProductFunctionCode = [], projectFunctionCode = []} = window.frameInfo || {}
+  const functionCodes = isCommon ? tagProductFunctionCode : projectFunctionCode.map(d => d.functionCode)
+
   return functionCodes.indexOf(code) > -1
 }
-
 //*------------------------------ 组件类 (返回组件) ------------------------------*//
 /**
  * @description 异步加载组件

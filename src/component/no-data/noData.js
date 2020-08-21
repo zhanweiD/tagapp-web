@@ -30,11 +30,13 @@ export default class NoData extends Component {
     super(props)
     const {code} = props
     if (code) {
-      const {tagProductFunctionCode = [], projectFunctionCode = []} = window.frameinfo || {}
-      const functionCodes = props.isCommon ? tagProductFunctionCode : projectFunctionCode
+      const {tagProductFunctionCode = [], projectFunctionCode = []} = window.frameInfo || {}
+      const functionCodes = props.isCommon ? tagProductFunctionCode : projectFunctionCode.map(d => d.functionCode)
 
       this.auth = functionCodes.includes(code)
+      // this.auth = true
     }
+    
   }
 
   onClick = () => {
@@ -85,7 +87,7 @@ export default class NoData extends Component {
   // 获取按钮权限
   getBtnAutn = () => {
     const {btnText, btnDisabled} = this.props
-
+    
     // 拥有权限
     if (this.auth) {
       return <Button type="primary" disabled={btnDisabled} onClick={this.onClick}>{btnText}</Button>

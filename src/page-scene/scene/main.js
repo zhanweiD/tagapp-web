@@ -56,6 +56,7 @@ class Scene extends Component {
     
     const noDataConfig = {
       btnText: '添加场景',
+      text: '没有任何场景，去新建场景吧',
       onClick: () => this.handleModalVisible(),
       code: 'tag_app:create_occ[cud]',
       noAuthText: '暂无数据',
@@ -146,6 +147,7 @@ class Scene extends Component {
                 <div className="header-page" style={{paddingTop: '15%', margin: 0}}>
                   <NoData
                     {...noDataConfig}
+                    // style={{marginTop: '15%'}}
                   />
                 </div>
               )

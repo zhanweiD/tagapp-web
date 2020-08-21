@@ -31,9 +31,10 @@ class GroupConfig extends Component {
   render() {
     const noDataConfig = {
       onClick: () => this.openModal(),
-      // text: '初始化',
       text: '该项目下，群体洞察的数据源未初始化',
       btnText: '初始化数据源',
+      code: 'tag_config:group_config[u]',
+      noAuthText: '该项目下，群体洞察的数据源未初始化',
     }
     return (
       <div className="h-100">
