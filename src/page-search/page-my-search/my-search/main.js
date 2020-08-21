@@ -92,6 +92,8 @@ class MySearch extends Component {
       onClick: this.goDataSearch,
       btnText: '去数据查询创建',
       isLoading: loading,
+      code: "tag_app:clear_visual_search[d]",
+      noAuthText: '暂无查询数据',
     }
 
     return (
