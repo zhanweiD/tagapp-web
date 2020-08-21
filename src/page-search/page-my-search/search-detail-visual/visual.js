@@ -98,14 +98,14 @@ class Visual extends Component {
           store.visibleSave = true
         }, () => {
           message.error('筛选设置信息尚未完善！')
-        })
+        }, 'save')
       } else {
         store.saveParams.outputList = outConfig
         store.visibleSave = true
       }
     }, () => {
       message.error('输出设置信息尚未完善！')
-    })
+    }, 'save')
   }
 
   @action.bound createApi() {
@@ -136,7 +136,7 @@ class Visual extends Component {
   }
 
   @action.bound addFirstOutConfig() {
-    const id = Math.floor(Math.random() * 1000)
+    const id = Math.floor(Math.random() * 10000)
     store.outConfig.push({
       id,
     })
@@ -157,7 +157,7 @@ class Visual extends Component {
     const t = this
 
     this.checkOutConfig(() => {
-      const id = Math.floor(Math.random() * 1000)
+      const id = Math.floor(Math.random() * 10000)
       store.outConfig.splice(index + 1, 0, {id})
     })
 
@@ -176,7 +176,7 @@ class Visual extends Component {
   }
 
   @action.bound addFirstScreenConfig() {
-    const id = Math.floor(Math.random() * 1000)
+    const id = Math.floor(Math.random() * 10000)
     store.screenConfig.push({
       id,
     })
@@ -194,7 +194,7 @@ class Visual extends Component {
   @action.bound addScreenConfig(index) {
     const t = this
     this.checkScreenConfig(() => {
-      const id = Math.floor(Math.random() * 1000)
+      const id = Math.floor(Math.random() * 10000)
       store.screenConfig.splice(index + 1, 0, {id})
     })
 
@@ -226,10 +226,10 @@ class Visual extends Component {
           store.saveParams = {}
           store.runSearch(params)
 
-          t.resultKey = Math.floor(Math.random() * 1000)
+          t.resultKey = Math.floor(Math.random() * 10000)
         }, () => {
           message.error('筛选设置信息尚未完善！')
-        })
+        }, 'search')
       } else {
         const params = {
           outputList: outConfig,
@@ -241,15 +241,19 @@ class Visual extends Component {
       }
     }, () => {
       message.error('输出设置信息尚未完善！')
-    })
+    }, 'search')
   }
 
-  @action.bound checkOutConfig(successCb, errorCb) {
+  @action.bound checkOutConfig(successCb, errorCb, type) {
     if (this.outConfigRef.current) {
       this.outConfigRef.current
         .validateFields()
         .then(values => {
-          successCb(getOutConfig(values))
+          if (type) {
+            successCb(getOutConfig(values, toJS(store.outConfig)))
+          } else {
+            successCb()
+          }
         })
         .catch(info => {
           if (errorCb) {
@@ -261,12 +265,17 @@ class Visual extends Component {
     }
   }
 
-  @action.bound checkScreenConfig(successCb, errorCb) {
+  @action.bound checkScreenConfig(successCb, errorCb, type) {
     if (this.screenConfigRef.current) {
       this.screenConfigRef.current
         .validateFields()
         .then(values => {
-          successCb(getScreenConfig(values))
+          if(type) {
+            successCb(getScreenConfig(values))
+          } else {
+            successCb()
+          }
+         
         })
         .catch(info => {
           if (errorCb) {

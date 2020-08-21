@@ -205,8 +205,11 @@ export const getAggregateType = fun => {
 }
 
 // 输出设置信息数据处理
-export const getOutConfig = arg => {
-  const data = Object.values(arg) 
+export const getOutConfig = (arg, ord) => {
+  const order = ord.map(d => d.id)
+
+  const data = order.map(d => arg[d])
+
   const arr = []
   for (let i = 0; i < data.length; i += 1) {
     const params = []
