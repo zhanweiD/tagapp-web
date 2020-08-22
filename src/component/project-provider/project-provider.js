@@ -30,7 +30,7 @@ export default PageComponent => {
           无可用项目 去
         <a target="_blank" className="a-href-color" rel="noopener noreferrer" href="/project/index.html#/project">项目管理</a>
     添加
-            </span>,
+      </span>,
     }
 
 
@@ -103,17 +103,20 @@ export default PageComponent => {
 
     if (!hasInit) {
       return (
-        <Fragment>
-          <NoData
-            {...noDataConfig}
-          />
-          <ConfigModal 
-            visible={visible}
-            workspace={workspace}
-            handleCancel={() => changeVisible(false)}
-            submit={params => initProject(params)}
-          />
-        </Fragment>
+        <div className="h-100">
+          <div className="content-header">环境配置</div>
+          <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '15%'}}>
+            <NoData
+              {...noDataConfig}
+            />
+            <ConfigModal 
+              visible={visible}
+              workspace={workspace}
+              handleCancel={() => changeVisible(false)}
+              submit={params => initProject(params)}
+            />
+          </div>
+        </div>
        
       )
     }

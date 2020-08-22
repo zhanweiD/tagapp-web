@@ -121,6 +121,21 @@ export default class ConfigModal extends Component {
         </Popconfirm>,
       ],
     }
+
+    const modalConfigC = {
+      title: isInit ? '初始化' : '修改初始化',
+      visible,
+      onCancel: this.handleCancel,
+      // onOk: this.submit,
+      maskClosable: false,
+      width: 525,
+      destroyOnClose: true,
+      confirmLoading,
+      footer: [
+        <Button onClick={this.handleCancel}>取消</Button>,
+        <Button type="primary" onConfirm={this.submit}>确定</Button>,
+      ],
+    }
     
     const formConfig = {
       selectContent: visible && this.selectContent(),
@@ -128,9 +143,15 @@ export default class ConfigModal extends Component {
       wrappedComponentRef: form => { this.form = form ? form.props.form : form },
     }
     return (
-      <Modal {...modalConfig}>
-        <ModalForm {...formConfig} />
-      </Modal>
+      isInit ? (
+        <Modal {...modalConfigC}>
+          <ModalForm {...formConfig} />
+        </Modal>
+      ) : (
+        <Modal {...modalConfig}>
+          <ModalForm {...formConfig} />
+        </Modal>
+      )
     )
   }
 }

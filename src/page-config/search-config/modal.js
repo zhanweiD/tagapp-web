@@ -24,28 +24,17 @@ const ConfigModal = ({
     selectDataType(e)
     form.setFieldsValue({dataStorageId: undefined})
   }
-  return (
-    <Modal
-      visible={visible}
-      title={isInit ? '初始化' : '修改初始化'}
-      onCancel={() => {
-        onCancel()
-        form.resetFields()
-      }}
-      // onOk={() => {
-      //   form
-      //     .validateFields()
-      //     .then(values => {
-      //       form.resetFields()
-      //       isInit ? onCreate(values) : onUpdate(values)
-      //     })
-      //     .catch(info => {
-      //       console.log('Validate Failed:', info)
-      //     })
-      // }}
-      destroyOnClose
-      maskClosable={false}
-      footer={[
+  const modalConfig = {
+    visible,
+    title: isInit ? '初始化' : '修改初始化',
+    onCancel: () => {
+      onCancel()
+      form.resetFields()
+    },
+    destroyOnClose: true,
+    maskClosable: false,
+    footer: isInit ? (
+      [
         <Button onClick={() => {
           onCancel()
           form.resetFields()
@@ -53,10 +42,9 @@ const ConfigModal = ({
         >
           取消
         </Button>,
-        <Popconfirm
-          title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
-          onCancel={() => {}}
-          onConfirm={() => {
+        <Button 
+          type="primary"
+          onClick={() => {
             form
               .validateFields()
               .then(values => {
@@ -67,12 +55,78 @@ const ConfigModal = ({
                 console.log('Validate Failed:', info)
               })
           }}
-          okText="确认"
-          cancelText="取消"
         >
-          <Button type="primary">确定</Button>
-        </Popconfirm>,
-      ]}
+            确定
+        </Button>,
+      ]
+    ) : ([
+      <Button onClick={() => {
+        onCancel()
+        form.resetFields()
+      }}
+      >
+        取消
+      </Button>,
+      <Popconfirm
+        title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
+        onCancel={() => {}}
+        onConfirm={() => {
+          form
+            .validateFields()
+            .then(values => {
+              form.resetFields()
+              isInit ? onCreate(values) : onUpdate(values)
+            })
+            .catch(info => {
+              console.log('Validate Failed:', info)
+            })
+        }}
+        okText="确认"
+        cancelText="取消"
+      >
+        <Button type="primary">确定</Button>
+      </Popconfirm>,
+    ]),
+  }
+  return (
+    <Modal
+      {...modalConfig}
+      // visible={visible}
+      // title={isInit ? '初始化' : '修改初始化'}
+      // onCancel={() => {
+      //   onCancel()
+      //   form.resetFields()
+      // }}
+      // destroyOnClose
+      // maskClosable={false}
+      // footer={[
+      //   <Button onClick={() => {
+      //     onCancel()
+      //     form.resetFields()
+      //   }}
+      //   >
+      //     取消
+      //   </Button>,
+      //   <Popconfirm
+      //     title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
+      //     onCancel={() => {}}
+      //     onConfirm={() => {
+      //       form
+      //         .validateFields()
+      //         .then(values => {
+      //           form.resetFields()
+      //           isInit ? onCreate(values) : onUpdate(values)
+      //         })
+      //         .catch(info => {
+      //           console.log('Validate Failed:', info)
+      //         })
+      //     }}
+      //     okText="确认"
+      //     cancelText="取消"
+      //   >
+      //     <Button type="primary">确定</Button>
+      //   </Popconfirm>,
+      // ]}
     >
       <Form
         form={form}
