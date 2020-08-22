@@ -28,6 +28,7 @@ class SceneDetailStore {
     try {
       const res = await io.getDetail({
         occasionId: this.sceneId,
+        projectId: this.projectId
       })
 
       runInAction(() => {
@@ -44,7 +45,10 @@ class SceneDetailStore {
     this.confirmLoading = true
 
     try {
-      await io.editScene(params)
+      await io.editScene({
+        ...params,
+        projectId: this.projectId
+      })
 
       runInAction(() => {
         this.modalVisible = false
@@ -60,7 +64,10 @@ class SceneDetailStore {
   // 名称校验
   @action async checkName(params, cb) {
     try {
-      const res = await io.checkName(params)
+      const res = await io.checkName({
+        ...params,
+        projectId: this.projectId
+      })
 
       runInAction(() => {
         if (cb) cb(res)

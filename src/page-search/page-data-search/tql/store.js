@@ -4,6 +4,7 @@ import {errorTip, listToTree, successTip, failureTip} from '../../../common/util
 import io from './io'
 
 class Store {
+  projectId
   // ************************* 函数树 & 标签树 start ************************* //
   @observable treeLoading = false
 
@@ -79,7 +80,9 @@ class Store {
   @action async getFunTree() {
     this.treeLoading = true
     try {
-      const res = await io.getFunTree()
+      const res = await io.getFunTree({
+        projectId: this.projectId
+      })
       runInAction(() => {
         this.treeFunData = res.map(d => ({
           id: d,

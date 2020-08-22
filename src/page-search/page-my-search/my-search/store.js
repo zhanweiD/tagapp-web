@@ -34,7 +34,10 @@ class Store {
   // 编辑
   @action async edit(params, cb) {
     try {
-      const res = await io.edit(params)
+      const res = await io.edit({
+        ...params,
+        projectId: this.projectId
+      })
       runInAction(() => {
         if (res) {
           successTip('编辑成功')
@@ -53,7 +56,10 @@ class Store {
   // 删除
   @action async del(params, cb) {
     try {
-      const res = await io.del(params)
+      const res = await io.del({
+        ...params,
+        projectId: this.projectId
+      })
       runInAction(() => {
         if (res) {
           successTip('删除成功')
@@ -74,6 +80,7 @@ class Store {
     try {
       const res = await io.clone({
         id,
+        projectId: this.projectId
       })
       runInAction(() => {
         if (res) {

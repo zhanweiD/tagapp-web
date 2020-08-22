@@ -48,6 +48,7 @@ class SelectTagStore {
       const res = await io.getTagDetail({
         occasionId: this.sceneId,
         tagId: this.tagId,
+        projectId: this.projectId
       })
 
       runInAction(() => {
@@ -69,6 +70,7 @@ class SelectTagStore {
         occasionId: this.sceneId,
         tagId: this.tagId,
         ...params,
+        projectId: this.projectId
       })
 
       runInAction(() => {
@@ -88,6 +90,7 @@ class SelectTagStore {
         occasionId: this.sceneId,
         tagId: this.tagId,
         ...params,
+        projectId: this.projectId
       })
 
       runInAction(() => {
@@ -108,7 +111,9 @@ class SelectTagStore {
    @action async isObjExist(cb) {
     this.tagExistFlagLoading = true
     try {
-      const res = await io.isObjExist()
+      const res = await io.isObjExist({
+        projectId: this.projectId
+      })
 
       runInAction(() => {
         this.tagExistFlagLoading = false

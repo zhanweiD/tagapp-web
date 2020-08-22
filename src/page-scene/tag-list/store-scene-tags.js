@@ -8,6 +8,7 @@ import io from './io'
 class SceneTagsStore {
   // 场景id
   @observable sceneId = undefined
+  @observable projectId = undefined
 
   @observable tagInfo = {
     data: [],
@@ -27,6 +28,7 @@ class SceneTagsStore {
     try {
       const res = await io.getObjList({
         occasionId: this.sceneId,
+        projectId: this.projectId
       })
       runInAction(() => {
         this.objList.replace(res)
@@ -43,6 +45,7 @@ class SceneTagsStore {
       const res = await io.getList({
         occasionId: this.sceneId,
         ...this.params,
+        projectId: this.projectId
       })
       runInAction(() => {
         this.tagInfo.data.replace(res.data)

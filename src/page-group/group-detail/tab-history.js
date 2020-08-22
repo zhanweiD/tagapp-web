@@ -113,7 +113,7 @@ export default class TagHistory extends Component {
     const {id} = store
     const listConfig = {
       columns: this.columns,
-      initParams: {id},
+      initParams: {id, projectId: this.store.projectId},
       store, // 必填属性
     }
 
