@@ -49,7 +49,7 @@ export default class TabApi extends Component {
 
     const listConfig = {
       columns: this.columns,
-      initParams: {id},
+      initParams: {id, projectId: this.store.projectId},
       buttons: [<Authority authCode="tag_app:create_group_api[c]"><Button type="primary" onClick={() => this.openModal()}>新建API</Button></Authority>],
       store: apiStore, // 必填属性
     }

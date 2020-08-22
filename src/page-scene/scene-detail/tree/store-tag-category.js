@@ -96,10 +96,12 @@ class TagCategoryStore {
         res = await io.searchCategory({
           occasionId: this.sceneId,
           searchKey: this.searchKey,
+          projectId: this.projectId,
         })
       } else {
         res = await io.getCategoryList({
           occasionId: this.sceneId,
+          projectId: this.projectId,
         })
       }
 
@@ -170,6 +172,7 @@ class TagCategoryStore {
       await io.saveObj({
         occasionId: this.sceneId,
         ...params,
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -191,6 +194,7 @@ class TagCategoryStore {
       const res = await io.getCategoryDetail({
         occasionId: this.sceneId,
         catId: this.currentTreeItemKey,
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.cateDetail = res
@@ -209,6 +213,7 @@ class TagCategoryStore {
     const params = {
       occasionId: this.sceneId,
       ...param,
+      projectId: this.projectId,
     }
     this.confirmLoading = true
 
@@ -246,16 +251,19 @@ class TagCategoryStore {
       if (type === 2) {
         await io.deleteObject({
           occasionId: this.sceneId,
+          projectId: this.projectId,
         })
       } else if (type === 1) {
         await io.deleteCategory({
           occasionId: this.sceneId,
           catId: this.currentTreeItemKey,
+          projectId: this.projectId,
         })
       } else {
         await io.deleteTag({
           occasionId: this.sceneId,
           tagId: this.currentTreeItemKey,
+          projectId: this.projectId,
         })
       }
       runInAction(() => {
@@ -291,6 +299,7 @@ class TagCategoryStore {
       const res = await io.checkIsExist({
         occasionId: this.sceneId,
         ...params,
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -325,6 +334,7 @@ class TagCategoryStore {
       const res = await io.selectTag({
         occasionId: this.sceneId,
         catId: this.currentTreeItemKey,
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.selectTagData.replace(res)
@@ -354,6 +364,7 @@ class TagCategoryStore {
         occasionId: this.sceneId,
         catId: this.currentTreeItemKey,
         tagIdList: param,
+        projectId: this.projectId,
       })
       runInAction(() => {
         if (cb) cb()

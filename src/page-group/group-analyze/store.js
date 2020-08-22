@@ -86,6 +86,7 @@ class Store {
     try {
       const res = await io.getRoportion({
         ...params,
+        projectId: this.projectId,
       })
 
       runInAction(() => {

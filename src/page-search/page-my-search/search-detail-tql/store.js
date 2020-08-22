@@ -78,7 +78,9 @@ class Store {
   @action async getFunTree() {
     this.treeLoading = true
     try {
-      const res = await io.getFunTree()
+      const res = await io.getFunTree({
+        projectId: this.projectId
+      })
       runInAction(() => {
         this.treeFunData = res.map(d => ({
           id: d,
@@ -249,6 +251,7 @@ class Store {
     try {
       const res = await io.getDetail({
         id: this.searchId,
+        projectId: this.projectId
       })
 
       runInAction(() => {

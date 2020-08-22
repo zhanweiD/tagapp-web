@@ -502,29 +502,32 @@ class Visual extends Component {
                                   })
                                 }
 
-                                if (changedValues[key].leftFunction && allValues[key].rightParams) {
-                                  this.screenConfigRef.current.setFieldsValue({
-                                    [key]: {
-                                      ...changedValues[key],
-                                      rightParams: undefined,
-                                    },
-                                  })
-                                }
+                                // if (changedValues[key].leftFunction && allValues[key].rightParams) {
+                                //   this.screenConfigRef.current.setFieldsValue({
+                                //     [key]: {
+                                //       ...changedValues[key],
+                                //       rightParams: undefined,
+                                //     },
+                                //   })
+                                // }
 
                                 if (changedValues[key].leftFunction && allValues[key].rightFunction) {
                                   this.screenConfigRef.current.setFieldsValue({
                                     [key]: {
                                       ...changedValues[key],
                                       rightFunction: '固定值',
+                                      rightParams1: undefined,
+                                      rightParams: null,
                                     },
                                   })
                                 }
-
-                                if (changedValues[key].rightFunction && allValues[key].rightParams) {
+    
+                                if (changedValues[key].rightFunction) {
                                   this.screenConfigRef.current.setFieldsValue({
                                     [key]: {
                                       ...changedValues[key],
-                                      rightParams: undefined,
+                                      rightParams1: undefined,
+                                      rightParams: null,
                                     },
                                   })
                                 }

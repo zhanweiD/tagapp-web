@@ -7,6 +7,7 @@ import apiStore from './store-api-list'
 import io from './io'
 
 class Store extends ListContentStore(io.getHistoryList) {
+  projectId
   @observable id = 0 // 群体ID
   @observable objId = 0 // 实体ID
   @observable visible = false // 新建API弹窗
@@ -23,6 +24,7 @@ class Store extends ListContentStore(io.getHistoryList) {
     try {
       const res = await io.getDetail({
         id: this.id,
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.groupDetial = res
@@ -39,6 +41,7 @@ class Store extends ListContentStore(io.getHistoryList) {
       const res = await io.getHistoryBar({
         id: this.id,
         ...params,
+        projectId: this.projectId,
       })
       // this.barDataX = []
       // this.barDataY = []
@@ -57,7 +60,9 @@ class Store extends ListContentStore(io.getHistoryList) {
   // 导出个体列表
   @action async outputUnitList() {
     try {
-      const res = await io.outputUnitList()
+      const res = await io.outputUnitList({
+        projectId: this.projectId,
+      })
       runInAction(() => {
         if (res) {
           successTip('导出成功')
@@ -71,7 +76,10 @@ class Store extends ListContentStore(io.getHistoryList) {
   // 重命名校验
   @action async groupCheckName(params, callbak) {
     try {
-      const res = await io.groupCheckName(params)
+      const res = await io.groupCheckName({
+        ...params,
+        projectId: this.projectId,
+      })
       if (res.isExit) {
         callbak('项目名称已存在')
       } else {

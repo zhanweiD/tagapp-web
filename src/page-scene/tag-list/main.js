@@ -19,6 +19,7 @@ class TagList extends Component {
     } = props
 
     store.sceneId = params.sceneId
+    store.projectId = props.projectId
   }
 
   searchForm = null

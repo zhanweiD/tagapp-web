@@ -291,6 +291,7 @@ class Store {
     try {
       const res = await io.getDetail({
         id: this.searchId,
+        projectId: this.projectId
       })
 
       runInAction(() => {

@@ -28,7 +28,10 @@ class Store {
   // 场景详情
   @action async getDetail(params) {
     try {
-      const res = await io.getDetail(params)
+      const res = await io.getDetail({
+        ...params,
+        projectId: this.projectId,
+      })
 
       runInAction(() => {
         this.info = res
@@ -77,7 +80,9 @@ class Store {
     this.storageTypeLoading = true
 
     try {
-      const res = await io.getStorageType()
+      const res = await io.getStorageType({
+        projectId: this.projectId,
+      })
       runInAction(() => {
         this.storageType = changeToOptions(res)('name', 'type')
       })
@@ -97,6 +102,7 @@ class Store {
       const res = await io.getStorageList({
         id: this.projectId,
         ...params,
+        projectId: this.projectId,
       }) || []
       runInAction(() => {
         this.storageSelectList = changeToOptions(res)('dataDbName', 'dataStorageId')
@@ -155,6 +161,7 @@ class Store {
     try {
       await io.delScene({
         occasionId: id,
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -194,7 +201,10 @@ class Store {
   // 名称校验
   @action async checkName(params, cb) {
     try {
-      const res = await io.checkName(params)
+      const res = await io.checkName({
+        ...params,
+        projectId: this.projectId,
+      })
       runInAction(() => {
         if (typeof res === 'boolean' && res) {
           cb()

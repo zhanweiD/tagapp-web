@@ -53,6 +53,7 @@ const ScreenItem = ({
     }
 
     changeComparisonMap(comparison)
+    changeRightFunction('固定值')
   }
 
   const onSelectRightFun = e => {

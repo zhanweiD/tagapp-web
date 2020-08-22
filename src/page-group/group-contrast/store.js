@@ -72,6 +72,7 @@ class Store {
     try {
       const res = await io.groupOverlapCount({
         ids,
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.overlapCount = res
@@ -105,6 +106,7 @@ class Store {
     try {
       const res = await io.getGroupCount({
         id,
+        projectId: this.projectId,
       })
       
       runInAction(() => {
