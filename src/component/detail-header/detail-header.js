@@ -44,7 +44,7 @@ export default class Main extends Component {
             </div>
             
             {
-              descr ? <div className="detail-descr">{`描述：${descr}`}</div> : null
+              descr ? <div className="detail-descr">{`描述：${descr}`}</div> : '-'
             }
            
           </div>

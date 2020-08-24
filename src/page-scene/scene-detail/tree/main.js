@@ -9,7 +9,7 @@ import {DtTree} from '@dtwave/uikit'
 
 import treeUnfold from '../../../icon/tree-unfold.svg'
 import treeFold from '../../../icon/tree-fold.svg'
-import tag from '../../../icon/tag.svg'
+import tag from '../../../icon/new-tag.svg'
 
 import Action from './action'
 import ModalCategoryEdit from './modal-category-edit'
