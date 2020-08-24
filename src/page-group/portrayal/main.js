@@ -25,16 +25,10 @@ class PortrayalLabel extends Component {
     const {match: {params}} = props
 
     store.mainLabel = ''
+    store.objId = undefined
     store.getEntityList(params)
-
-    // if (params && params.objId) {
-    //   store.mainLabel = params.mainLabel
-    //   store.objId = params.objId.toString()
-    //   store.getAnalysis()
-    //   store.getLabel()
-    //   store.getAllTags()
-    // }
   }
+
 
   render() {
     const {markedFeature, basicLabel, mainLabel} = store
