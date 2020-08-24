@@ -107,6 +107,7 @@ export default PageComponent => {
             selectDataType={type => getStorageList(type)}
             onCancel={() => changeVisible(false)}
             onCreate={params => initSearch(params)}
+            projectId={projectId}
           />
         </div>
        

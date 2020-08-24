@@ -114,6 +114,7 @@ export default PageComponent => {
             selectDataType={selectDataType}
             onCancel={() => changeVisible(false)}
             onCreate={params => groupInit(params)}
+            projectId={projectId}
           />
         </Fragment>
        
