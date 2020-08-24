@@ -31,13 +31,25 @@ class Store {
   @observable labelRes = []
 
   // 获取实体列表
-  @action async getEntityList() {
+  @action async getEntityList(params) {
     try {
       const res = await io.getEntityList({
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.entityList = res
+        this.entityList = res || []
+
+        if (this.entityList.indexOf(params.objId) >= 0) {
+          if (params && params.objId) {
+            this.mainLabel = params.mainLabel
+            this.objId = params.objId.toString()
+            this.getAnalysis()
+            this.getLabel()
+            this.getAllTags()
+          }
+        } else {
+          this.objId = undefined
+        }
         if (res.length === 0 || this.objId) return
         this.objId = res[0] && res[0].objId.toString()
       })

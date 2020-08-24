@@ -22,17 +22,18 @@ class PortrayalLabel extends Component {
     super(props)
     store.projectId = props.projectId
 
-    store.mainLabel = ''
-    store.getEntityList()
     const {match: {params}} = props
 
-    if (params && params.objId) {
-      store.mainLabel = params.mainLabel
-      store.objId = params.objId.toString()
-      store.getAnalysis()
-      store.getLabel()
-      store.getAllTags()
-    }
+    store.mainLabel = ''
+    store.getEntityList(params)
+
+    // if (params && params.objId) {
+    //   store.mainLabel = params.mainLabel
+    //   store.objId = params.objId.toString()
+    //   store.getAnalysis()
+    //   store.getLabel()
+    //   store.getAllTags()
+    // }
   }
 
   render() {

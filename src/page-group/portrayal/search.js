@@ -37,7 +37,7 @@ class Search extends React.Component {
         objId,
       })
     }
-
+    console.log(objId)
     return (
       <div>
         <Form
