@@ -38,8 +38,8 @@ class Store {
       })
       runInAction(() => {
         this.entityList = res
-        if (res.length === 0 || this.objId) return
-        this.objId = res[0] && res[0].objId.toString()
+        // if (res.length === 0 || this.objId) return
+        // this.objId = res[0] && res[0].objId.toString()
       })
     } catch (e) {
       errorTip(e.message)
