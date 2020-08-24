@@ -39,7 +39,7 @@ class Store {
       runInAction(() => {
         this.entityList = res || []
 
-        if (this.entityList.indexOf(params.objId) >= 0) {
+        if (this.entityList.find(item => item.objId === parseInt(params.objId))) {
           if (params && params.objId) {
             this.mainLabel = params.mainLabel
             this.objId = params.objId.toString()
@@ -50,8 +50,8 @@ class Store {
         } else {
           this.objId = undefined
         }
-        if (res.length === 0 || this.objId) return
-        this.objId = res[0] && res[0].objId.toString()
+        // if (res.length === 0 || this.objId) return
+        // this.objId = res[0] && res[0].objId.toString()
       })
     } catch (e) {
       errorTip(e.message)

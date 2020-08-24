@@ -74,6 +74,16 @@ export default PageComponent => {
 
     useEffect(() => {
       judgeInit(projectId)
+
+      const {match} = props
+      if(match.path === '/group/portrayal/:objId?/:mainLabel?' && match.params.objId) {
+        ctx.useProject(false)
+      } 
+
+      if(match.path === '/group/analyze/:groupId?/:objId?/:time?' && match.params.groupId) {
+        ctx.useProject(false)
+      }
+
     }, [projectId])
     
 
