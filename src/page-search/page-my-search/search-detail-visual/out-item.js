@@ -131,10 +131,14 @@ const OutItem = ({
           rules={[{
             required: true, message: '请输入显示名称',
           }, {
-            pattern: /[^0-9]/, message: '显示名称禁止输入数字',
+            pattern: /[^0-9]/, message: '显示名称禁止设置数字',
           }, 
           {
             validator: (rule, value) => {
+              if(!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
+                return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
+              }
+              
               if (Object.values(obj).includes(value)) {
                 return Promise.reject('显示名称重复')
               }
