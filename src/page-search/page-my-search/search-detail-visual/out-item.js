@@ -21,6 +21,7 @@ const OutItem = ({
   index,
   info = {},
   outNameBlur,
+  outNameChange,
   outNameMap,
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
@@ -54,6 +55,10 @@ const OutItem = ({
 
   function onBlur(e) {
     outNameBlur(e.target.value, id)
+  }
+
+  function onChange(e) {
+    outNameChange(e.target.value, id)
   }
 
   const {alias, conditionUnit} = info
@@ -152,7 +157,7 @@ const OutItem = ({
           ]}
           initialValue={alias}
         >
-          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} />
+          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange}/>
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>

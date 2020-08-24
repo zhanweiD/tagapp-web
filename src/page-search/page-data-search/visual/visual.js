@@ -47,10 +47,10 @@ export default class Visual extends Component {
 
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
-  outNameMap = {}
 
   @observable menuCode = 'out'
   @observable resultKey = 0
+  @observable outNameMap = {}
 
   componentWillMount() {
     store.getObjList()
@@ -300,8 +300,12 @@ export default class Visual extends Component {
     console.log(this.outConfigRef.current.getFieldsValue())
   }
 
-  outNameBlur = (value, id) => {
+  @action.bound outNameChange = (value, id) => {
     this.outNameMap[id] = value
+  }
+
+  outNameBlur = (value, id) => {
+    this.outConfigRef.current.validateFields()
   }
 
   downloadResult = () => {
@@ -462,8 +466,9 @@ export default class Visual extends Component {
                                   expressionTag={toJS(expressionTag)}
                                   delOutConfig={this.delOutConfig}
                                   addOutConfig={this.addOutConfig}
-                                  outNameMap={this.outNameMap}
+                                  outNameMap={toJS(this.outNameMap)}
                                   outNameBlur={this.outNameBlur}
+                                  outNameChange={this.outNameChange}
                                 />
                               ))
                             }

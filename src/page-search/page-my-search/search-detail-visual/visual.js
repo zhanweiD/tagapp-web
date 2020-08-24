@@ -46,10 +46,10 @@ class Visual extends Component {
 
   outConfigRef = React.createRef()
   screenConfigRef = React.createRef()
-  outNameMap = {}
 
   @observable menuCode = 'out'
   @observable resultKey = 0
+  @observable outNameMap = {}
 
   componentWillMount() {
     store.getObjList()
@@ -285,10 +285,13 @@ class Visual extends Component {
     }
   }
 
-  outNameBlur = (value, id) => {
+  @action.bound outNameChange = (value, id) => {
     this.outNameMap[id] = value
   }
 
+  @action.bound outNameBlur = (value, id) => {
+    this.outConfigRef.current.validateFields()
+  }
   downloadResult = () => {
     downloadResult({
       projectId: store.projectId,
@@ -416,7 +419,7 @@ class Visual extends Component {
                                   this.clearResult()
                                 }
                                 const [key] = Object.keys(changedValues)
-
+                        
                                 if (changedValues[key].function && allValues[key].params1) {
                                   this.outConfigRef.current.setFieldsValue({
                                     [key]: {
@@ -446,8 +449,9 @@ class Visual extends Component {
                                     delOutConfig={this.delOutConfig}
                                     addOutConfig={this.addOutConfig}
                                     info={toJS(d)}
-                                    outNameMap={this.outNameMap}
+                                    outNameMap={toJS(this.outNameMap)}
                                     outNameBlur={this.outNameBlur}
+                                    outNameChange={this.outNameChange}
                                   />
                                 ))
                               }
