@@ -141,7 +141,7 @@ class Visual extends Component {
       id,
     })
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -161,7 +161,7 @@ class Visual extends Component {
       store.outConfig.splice(index + 1, 0, {id})
     })
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -170,7 +170,7 @@ class Visual extends Component {
     store.outConfig.splice(index, 1)
     delete this.outNameMap[id]
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -180,7 +180,7 @@ class Visual extends Component {
     store.screenConfig.push({
       id,
     })
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -198,7 +198,7 @@ class Visual extends Component {
       store.screenConfig.splice(index + 1, 0, {id})
     })
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -206,7 +206,7 @@ class Visual extends Component {
   @action.bound delScreenConfig(index) {
     store.screenConfig.splice(index, 1)
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -270,12 +270,11 @@ class Visual extends Component {
       this.screenConfigRef.current
         .validateFields()
         .then(values => {
-          if(type) {
+          if (type) {
             successCb(getScreenConfig(values))
           } else {
             successCb()
           }
-         
         })
         .catch(info => {
           if (errorCb) {
@@ -297,7 +296,7 @@ class Visual extends Component {
       projectId: store.projectId,
       objId: store.objId,
       runType: 1,
-      ...toJS(store.saveParams)
+      ...toJS(store.saveParams),
     })
   }
 
@@ -305,7 +304,7 @@ class Visual extends Component {
     store.resultInfo = {}
   }
 
-  render () {
+  render() {
     const {
       outConfig,
       screenConfig,
@@ -353,20 +352,20 @@ class Visual extends Component {
             <Tree store={store} />
             <div className="visual-content-warp">
               <div className="code-menu">
-              <Authority
+                <Authority
                   authCode="tag_app:run_visual_search[x]"
                 >
-                {
-                  resultLoading ? (
-                    <Tooltip placement="topRight" title="正在查询中，不可重复查询">
-                      <span className="mr16 disabled">
-                        {/* <img src={yunxing} alt="img" className="disabled" /> */}
-                        <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}}/>
-                        <span className="ml4">查询</span>
-                      </span>
-                    </Tooltip>
+                  {
+                    resultLoading ? (
+                      <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                        <span className="mr16 disabled">
+                          {/* <img src={yunxing} alt="img" className="disabled" /> */}
+                          <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}} />
+                          <span className="ml4">查询</span>
+                        </span>
+                      </Tooltip>
 
-                  ) : (
+                    ) : (
                       <span className="code-menu-item mr16" onClick={() => this.search()}>
                         {/* <img src={yunxing} alt="img" /> */}
                         <i className="iconfont dtwave icon-run" />
@@ -415,7 +414,7 @@ class Visual extends Component {
                               name="out"
                               ref={this.outConfigRef}
                               onValuesChange={(changedValues, allValues) => {
-                                if(resultInfo.sql) {
+                                if (resultInfo.sql) {
                                   this.clearResult()
                                 }
                                 const [key] = Object.keys(changedValues)
@@ -482,7 +481,7 @@ class Visual extends Component {
                               name="srceen"
                               ref={this.screenConfigRef}
                               onValuesChange={(changedValues, allValues) => {
-                                if(resultInfo.sql) {
+                                if (resultInfo.sql) {
                                   this.clearResult()
                                 }
 
@@ -540,7 +539,7 @@ class Visual extends Component {
                               <Form.Item name="whereType" initialValue={(detail.whereCondition && detail.whereCondition.whereType) || 'and'}>
                                 <Radio.Group>
                                   <Radio value="and">符合全部以下条件</Radio>
-                                  <Radio value="or">符合任何以下条件</Radio>
+                                  <Radio value="or">符合任意以下条件</Radio>
                                 </Radio.Group>
                               </Form.Item>
 

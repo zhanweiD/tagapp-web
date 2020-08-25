@@ -154,7 +154,7 @@ export default class Visual extends Component {
     store.outConfig.push({
       id,
     })
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -174,7 +174,7 @@ export default class Visual extends Component {
       store.outConfig.splice(index + 1, 0, {id})
     })
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -183,7 +183,7 @@ export default class Visual extends Component {
     store.outConfig.splice(index, 1)
     delete this.outNameMap[id]
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -193,7 +193,7 @@ export default class Visual extends Component {
     store.screenConfig.push({
       id,
     })
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -211,7 +211,7 @@ export default class Visual extends Component {
       store.screenConfig.splice(index + 1, 0, {id})
     })
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -219,7 +219,7 @@ export default class Visual extends Component {
   @action.bound delScreenConfig(index) {
     store.screenConfig.splice(index, 1)
 
-    if(store.resultInfo.sql) {
+    if (store.resultInfo.sql) {
       this.clearResult()
     }
   }
@@ -261,7 +261,7 @@ export default class Visual extends Component {
       this.outConfigRef.current
         .validateFields()
         .then(values => {
-          if(type) {
+          if (type) {
             successCb(getOutConfig(values, toJS(store.outConfig)))
           } else {
             successCb()
@@ -282,7 +282,7 @@ export default class Visual extends Component {
       this.screenConfigRef.current
         .validateFields()
         .then(values => {
-          if(type) {
+          if (type) {
             successCb(getScreenConfig(values))
           } else {
             successCb()
@@ -313,7 +313,7 @@ export default class Visual extends Component {
       projectId: store.projectId,
       objId: store.objId,
       runType: 1,
-      ...toJS(store.saveParams)
+      ...toJS(store.saveParams),
     })
   }
   
@@ -379,18 +379,18 @@ export default class Visual extends Component {
                     <Tooltip placement="topRight" title="正在查询中，不可重复查询">
                       <span className="mr16 disabled">
                         {/* <img src={yunxing} alt="img" className="disabled" /> */}
-                        <i className="iconfont dtwave icon-run" style={{ fontSize: '14px' }} />
+                        <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}} />
                         <span className="ml4">查询</span>
                       </span>
                     </Tooltip>
 
                   ) : (
-                      <span className="code-menu-item mr16" onClick={() => this.search()}>
-                        {/* <img src={yunxing} alt="img" /> */}
-                        <i className="iconfont dtwave icon-run" />
-                        <span className="ml4">查询</span>
-                      </span>
-                    )
+                    <span className="code-menu-item mr16" onClick={() => this.search()}>
+                      {/* <img src={yunxing} alt="img" /> */}
+                      <i className="iconfont dtwave icon-run" />
+                      <span className="ml4">查询</span>
+                    </span>
+                  )
                 }
               </Authority>
               <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a> 
@@ -433,7 +433,7 @@ export default class Visual extends Component {
                             name="out" 
                             ref={this.outConfigRef}
                             onValuesChange={(changedValues, allValues) => {
-                              if(resultInfo.sql) {
+                              if (resultInfo.sql) {
                                 this.clearResult()
                               }
                               const [key] = Object.keys(changedValues)
@@ -505,7 +505,7 @@ export default class Visual extends Component {
                             name="srceen" 
                             ref={this.screenConfigRef}
                             onValuesChange={(changedValues, allValues) => {
-                              if(resultInfo.sql) {
+                              if (resultInfo.sql) {
                                 this.clearResult()
                               }
 
@@ -563,7 +563,7 @@ export default class Visual extends Component {
                             <Form.Item name="whereType" initialValue="and">
                               <Radio.Group>
                                 <Radio value="and">符合全部以下条件</Radio>
-                                <Radio value="or">符合任何以下条件</Radio>
+                                <Radio value="or">符合任意以下条件</Radio>
                               </Radio.Group>
                             </Form.Item>
                         
