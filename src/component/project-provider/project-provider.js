@@ -19,7 +19,7 @@ export default PageComponent => {
   function ProjectProvider(props) {
     const ctx = OnerFrame.useFrame()
     const projectId = ctx.useProjectId()
-    const [hasInit, changeHasInit] = useState(true)
+    const [hasInit, changeHasInit] = useState(1)
     const [loading, changeLoading] = useState(true)
     const [visible, changeVisible] = useState(false)
     const [workspace, changeWorkspace] = useState([])
@@ -30,7 +30,7 @@ export default PageComponent => {
           无可用项目 去
         <a target="_blank" className="a-href-color" rel="noopener noreferrer" href="/project/index.html#/project">项目管理</a>
     添加
-      </span>,
+            </span>,
     }
 
 
@@ -84,7 +84,12 @@ export default PageComponent => {
       },
       text: '该项目下，标签中心的环境未初始化',
       code: 'tag_config:environment_config[u]',
-      noAuthText: '标签中心的环境未初始化',
+      noAuthText: '该项目下，标签中心的环境未初始化',
+    }
+
+    const noDataConfig1 = {
+      text: '标签中心适配Hadoop的CDH、FusionInsight',
+      noAuthText: '标签中心适配Hadoop的CDH、FusionInsight',
     }
 
     if (!projectId) {
@@ -101,7 +106,7 @@ export default PageComponent => {
       )
     }
 
-    if (!hasInit) {
+    if (hasInit === 1) {
       return (
         <div className="h-100">
           <div className="content-header">环境配置</div>
@@ -121,6 +126,19 @@ export default PageComponent => {
       )
     }
 
+    if (hasInit === 0) {
+      return (
+        <div className="h-100">
+          <div className="content-header">环境配置</div>
+          <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '15%'}}>
+            <NoData
+              {...noDataConfig1}
+            />
+          </div>
+        </div>
+       
+      )
+    }
     return (
       <div style={{height: '100%'}}>
         <PageComponent key={projectId} projectId={projectId} {...props} />
