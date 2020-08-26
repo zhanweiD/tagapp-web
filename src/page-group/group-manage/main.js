@@ -92,7 +92,7 @@ class GroupManage extends Component {
         } if (v === 2) {
           return (<Badge color="red" text="失败" />)
         }
-        return (<Badge color="yellow" text="计算中" />)
+        return (<Badge color="blue" text="计算中" />)
       },
     }, {
       key: 'lastTime',
