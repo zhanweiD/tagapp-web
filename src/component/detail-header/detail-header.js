@@ -50,12 +50,12 @@ export default class Main extends Component {
             </div>
           </div>
           {
-            descr ? (
+            (
               <div className="detail-descr">
 描述：
-                <span className="detail-descr-d">{descr}</span>
+                <span className="detail-descr-d">{descr || '-'}</span>
               </div>
-            ) : null
+            )
           }
         </div>
         

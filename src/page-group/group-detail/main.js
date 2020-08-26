@@ -71,10 +71,10 @@ class GroupDetail extends Component {
         title: '创建时间',
         value: <Time timestamp={ctime} />,
       },
-      {
-        title: '描述',
-        value: descr,
-      },
+      // {
+      //   title: '描述',
+      //   value: descr,
+      // },
     ]
 
     // 不同状态的相应map
@@ -87,7 +87,10 @@ class GroupDetail extends Component {
     const actions = [
       <Authority
         authCode="tag_app:group_rule[r]"
-      ><a className="mr8" onClick={this.viewRule}>查看规则</a></Authority> ,
+      >
+        <a className="mr8" onClick={this.viewRule}>查看规则</a>
+
+      </Authority>,
     ]
     return (
       <div className="group-detail">
@@ -98,7 +101,7 @@ class GroupDetail extends Component {
                 <span style={{marginRight: '16px'}}>{name}</span>
               </Fragment>
             )}
-            // descr={descr}
+            descr={descr}
             btnMinWidth={230}
             baseInfo={baseInfo}
             tag={tagMap[status]}
@@ -113,7 +116,7 @@ class GroupDetail extends Component {
         <Fragment>
           {
             modeType === 1 ? (
-              <Tabs className="header-page h-254" defaultActiveKey="1" animated={false}>
+              <Tabs className="header-page h-264" defaultActiveKey="1" animated={false}>
                 <TabPane tab="历史记录" key="1">
                   <TagHistory store={store} />
                 </TabPane>
@@ -122,7 +125,7 @@ class GroupDetail extends Component {
                 </TabPane>
               </Tabs>
             ) : (
-              <Tabs className="header-page" defaultActiveKey="1" animated={false}>
+              <Tabs className="header-page h-264" defaultActiveKey="1" animated={false}>
                 <TabPane tab="API列表" key="1">
                   <TabApi store={store} />
                 </TabPane>
