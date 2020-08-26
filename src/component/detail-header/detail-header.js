@@ -37,24 +37,28 @@ export default class Main extends Component {
     return (
       <div>
         <div className="detail-header">
-          <div>
+          <div className="detail-header-h">
             <div className="detail-name">
               {name || '--'}
               <span className="ml10">{ tag }</span>
             </div>
-            
-            {
-              descr ? <div className="detail-descr">{`描述：${descr}`}</div> : null
-            }
-           
+            <div />
+            <div style={btnStyle} className="far">
+              {
+                this.renderAction(actions)
+              }
+            </div>
           </div>
-          <div />
-          <div style={btnStyle} className="far">
-            {
-              this.renderAction(actions)
-            }
-          </div>
+          {
+            descr ? (
+              <div className="detail-descr">
+描述：
+                <span className="detail-descr-d">{descr}</span>
+              </div>
+            ) : null
+          }
         </div>
+        
         <div className="detail-base-info">
           {
             this.renderBaseInfo(baseInfo)

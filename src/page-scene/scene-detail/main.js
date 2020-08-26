@@ -92,14 +92,14 @@ class SceneDetail extends Component {
       // <Button type="primary">
       //   <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api">数据服务</a>
       // </Button>,
-      <Button className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>
+      <Button href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>
         <a href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</a>
       </Button>,
       <Authority
         authCode="tag_app:config_data_service[c]"
       >
-        <Button type="primary">
-          <a target="_blank" rel="noopener noreferrer" href={`/data/index.html#/api-development`}>数据服务</a>
+        <Button type="primary" className="ml8">
+          <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api-development">数据服务</a>
         </Button>
       </Authority>,
     ]
