@@ -19,6 +19,6 @@ const api = {
   apiPathCheck: get(`${baseApi}/groupApi/existApiPath`),
 } 
 
-ioContext.create('mySearchTql', api) 
+ioContext.create('dataSearchTql', api) 
 
 export default ioContext.api.mySearchTql
