@@ -8,7 +8,7 @@ import {observer} from 'mobx-react'
 import {Popconfirm, Badge, Dropdown, Menu, Button} from 'antd'
 import {DownOutlined} from '@ant-design/icons'
 
-import {Time, successTip} from '../../common/util'
+import {Time, successTip, codeInProduct} from '../../common/util'
 import {
   ListContent, NoData, OmitTooltip, AuthBox, projectProvider, groupProvider, Authority,
 } from '../../component'
@@ -64,10 +64,10 @@ class GroupManage extends Component {
       key: 'name',
       title: '群体名称',
       dataIndex: 'name',
-      render: (text, record) => (
-        <Link to={`/group/manage/${record.id}/${record.objId}`}>
-          <OmitTooltip maxWidth={100} text={text} />
-        </Link>
+      render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ?  <Link to={`/group/manage/${record.id}/${record.objId}`}>
+      <OmitTooltip maxWidth={100} text={text} />
+    </Link> : <span>{text}</span>
+       
       ),
     }, {
       key: 'objName',
@@ -154,12 +154,16 @@ class GroupManage extends Component {
             </Authority>
            
           </Fragment>
-          <Dropdown overlay={() => this.menu(record)}>
-            <a href>
-              更多
+          <Authority
+            authCode="tag_app:analyze_group[x]"
+          >
+            <Dropdown overlay={() => this.menu(record)}>
+              <a href>
+                更多
               <DownOutlined />
-            </a>
-          </Dropdown>
+              </a>
+            </Dropdown>
+          </Authority>
         </div>
       ),
     },
@@ -237,7 +241,9 @@ class GroupManage extends Component {
       columns: this.columns,
       searchParams: search(store),
       beforeSearch: this.beforeSearch,
-      buttons: [<Button type="primary" onClick={() => this.openModal()}>新建群体</Button>],
+      buttons: [ <Authority
+        authCode="tag_app:create_group[c]"
+      ><Button type="primary" onClick={() => this.openModal()}>新建群体</Button></Authority>],
       // initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
