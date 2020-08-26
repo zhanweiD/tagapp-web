@@ -73,7 +73,9 @@ export default PageComponent => {
 
     useEffect(() => {
       ctx.useProject(true)
-      judgeInit(projectId)
+      if (projectId) {
+        judgeInit(projectId)
+      }
     }, [projectId])
     
     const noDataConfig = {
