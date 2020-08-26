@@ -17,11 +17,13 @@ export default () => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
   useEffect(() => {
-    ctx.querySiderMenus({
-      productCode: 'tag_app',
-      projectId
-    })
-  }, [])
+    if(projectId) {
+      ctx.querySiderMenus({
+        productCode: 'tag_app',
+        projectId
+      })
+    }
+  }, [projectId])
   return (
     <Switch>
       {/* 我的查询 */}
