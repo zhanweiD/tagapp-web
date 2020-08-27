@@ -21,4 +21,4 @@ const api = {
 
 ioContext.create('dataSearchTql', api) 
 
-export default ioContext.api.mySearchTql
+export default ioContext.api.dataSearchTql
