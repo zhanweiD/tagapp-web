@@ -346,7 +346,7 @@ export default class Visual extends Component {
             <Button className="mr8" onClick={this.clearAll}>清空数据查询</Button>
           </Authority>
           <Authority
-            authCode="tag_app:clear_visual_search[d]"
+            authCode="tag_app:create_visual_search[c]"
           >
             <Button className="mr8" onClick={this.save}>保存数据查询</Button>
           </Authority>

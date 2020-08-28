@@ -135,10 +135,10 @@ class ModalAdd extends React.Component {
           }
 
           <Form.Item 
-            label="图标" 
+            label="图表" 
             name="chartType"
             initialValue={modalEditInfo.chartType || 'bar'}
-            rules={[{required: true, message: '请选择图标'}]}
+            rules={[{required: true, message: '请选择图表'}]}
           >
             <Radio.Group>
               <Radio value="bar">柱状图</Radio>

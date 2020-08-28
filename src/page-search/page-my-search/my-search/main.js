@@ -103,19 +103,24 @@ class MySearch extends Component {
           <Spin spinning={loading}>
             <div className="my-search-header">
               <span className="mr8">查询类型</span>
-              <Select
-                showSearch
-                style={{width: 200}}
-                placeholder="选择查询类型"
-                optionFilterProp="children"
-                onChange={this.selectType}
-                className="mr24"
-                defaultValue=""
+              <Authority
+                authCode="tag_app:tql_search[r]"
               >
-                <Option value="">全部</Option>
-                <Option value="1">可视化方式</Option>
-                <Option value="2">TQL方式</Option>
-              </Select>
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="选择查询类型"
+                  optionFilterProp="children"
+                  onChange={this.selectType}
+                  className="mr24"
+                  defaultValue=""
+                >
+                  <Option value="">全部</Option>
+                  <Option value="1">可视化方式</Option>
+                  <Option value="2">TQL方式</Option>
+                </Select>
+              </Authority>
+
               <span className="mr8">查询名称</span>
               <Input size="small" placeholder="请输入数据查询关键字" onChange={this.searchName} style={{width: 200}} />
             </div>
