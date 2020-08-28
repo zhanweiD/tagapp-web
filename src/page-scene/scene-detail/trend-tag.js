@@ -58,7 +58,7 @@ export default class TrendTag extends Component {
     const {tagId} = this.props
 
     return (
-      <div className="bgf p24 mb16 mt16">
+      <div className="bgf pt16 pb16 pl24 pr24 mb16 mt16">
         <h3 className="chart-title">标签调用次数趋势</h3>
         <div className="time-range-wrap">
           <TimeRange
