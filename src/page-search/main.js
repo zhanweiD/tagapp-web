@@ -28,8 +28,8 @@ export default () => {
     <Switch>
       {/* 我的查询 */}
       <Route exact path={`${prePath}/my-search`} component={MySearch} />
-      <Route exact path={`${prePath}/my-search/tql/:id`} component={Tql} />
-      <Route exact path={`${prePath}/my-search/visual/:id`} component={Visual} />
+      <Route exact path={`${prePath}/my-search/tql/:id/:projectId?`} component={Tql} />
+      <Route exact path={`${prePath}/my-search/visual/:id/:projectId?`} component={Visual} />
       {/* 数据查询 */}
       <Route exact path={`${prePath}/data-search`} component={DataSearch} />
       {/* 配置说明 */}

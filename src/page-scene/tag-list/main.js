@@ -19,7 +19,8 @@ class TagList extends Component {
     } = props
 
     store.sceneId = params.sceneId
-    store.projectId = props.projectId
+    // store.projectId = props.projectId
+    store.projectId = params.projectId
   }
 
   searchForm = null
@@ -133,13 +134,13 @@ class TagList extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <TagList {...props} projectId={projectId} />
+    <TagList {...props} />
   )
 }

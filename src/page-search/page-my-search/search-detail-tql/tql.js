@@ -22,10 +22,10 @@ const {confirm} = Modal
 class Tql extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
-
+    // store.projectId = props.projectId
     const {match: {params}} = props
     store.searchId = params.id
+    store.projectId = params.projectId
   }
 
   componentWillMount() {
@@ -113,13 +113,13 @@ class Tql extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <Tql {...props} projectId={projectId} />
+    <Tql {...props} />
   )
 }

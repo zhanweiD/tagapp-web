@@ -21,11 +21,12 @@ class GroupDetail extends Component {
 
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
-
+    // store.projectId = props.projectId
     const {match: {params}} = props
     store.id = parseInt(params.id) 
     store.objId = parseInt(params.objId) 
+
+    store.projectId = parseInt(params.projectId)
   }
 
   componentWillMount() {
@@ -33,7 +34,7 @@ class GroupDetail extends Component {
   }
 
   @action.bound viewRule() {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/manage/rule/${store.id}/${store.objId}`
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/manage/rule/${store.id}/${store.objId}/${store.projectId}`
   }
 
   render() {
@@ -140,13 +141,13 @@ class GroupDetail extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <GroupDetail {...props} projectId={projectId} />
+    <GroupDetail {...props} />
   )
 }

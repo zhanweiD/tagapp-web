@@ -20,12 +20,18 @@ const {Sider, Content} = Layout
 class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
+   
 
     const {match: {params}} = props
 
     store.mainLabel = ''
     store.objId = undefined
+
+    if(params.projectId) {
+      store.projectId = params.projectId
+    } else {
+      store.projectId = props.projectId
+    }
     store.getEntityList(params)
   }
 

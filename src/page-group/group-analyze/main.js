@@ -17,12 +17,16 @@ import store from './store'
 class GroupAnalyze extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
 
     const {match: {params}} = props
     store.groupId = params.groupId
     store.groupTime = params.time
     store.objId = params.objId
+    if(params.projectId) {
+      store.projectId = params.projectId
+    } else {
+      store.projectId = props.projectId
+    }
   }
 
   componentDidMount() {

@@ -12,12 +12,13 @@ import store from './store'
 class RuleDetail extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
+    // store.projectId = props.projectId
 
     const {match: {params}} = props
 
     store.groupId = params.groupId
     store.objId = params.objId
+    store.projectId = params.projectId
   }
 
   @observable visible = false
@@ -121,13 +122,13 @@ class RuleDetail extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <RuleDetail {...props} projectId={projectId} />
+    <RuleDetail {...props} />
   )
 }

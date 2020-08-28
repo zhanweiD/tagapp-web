@@ -21,10 +21,10 @@ class SceneDetail extends Component {
   constructor(props) {
     super(props)
 
-    store.projectId = props.projectId
-
+    // store.projectId = props.projectId
     const {match: {params}} = props
     store.sceneId = params.sceneId
+    store.projectId = params.projectId
   }
 
   componentWillMount() {
@@ -86,14 +86,8 @@ class SceneDetail extends Component {
     }
 
     const actions = [
-      // <Button className="mr8">
-      //   <a href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</a>
-      // </Button>,
-      // <Button type="primary">
-      //   <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api">数据服务</a>
-      // </Button>,
-      <Button href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>
-        <a href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</a>
+      <Button>
+        <a href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}>标签列表</a>
       </Button>,
       <Authority
         authCode="tag_app:config_data_service[c]"
@@ -159,13 +153,13 @@ class SceneDetail extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <SceneDetail {...props} projectId={projectId} />
+    <SceneDetail {...props} />
   )
 }

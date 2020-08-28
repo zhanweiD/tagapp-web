@@ -35,6 +35,7 @@ class Search extends React.Component {
     if (objId && this.formRef.current) {
       this.formRef.current.setFieldsValue({
         objId,
+        mainLabel,
       })
     }
     return (

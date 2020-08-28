@@ -141,7 +141,7 @@ class MySearch extends Component {
                         <Card
                           className="card"
                           title={name}
-                          link={`${window.__keeper.pathHrefPrefix}/search/my-search/${type === '可视化方式' ? 'visual' : 'tql'}/${id}`}
+                          link={`${window.__keeper.pathHrefPrefix}/search/my-search/${type === '可视化方式' ? 'visual' : 'tql'}/${id}/${store.projectId}`}
                           labelList={[{
                             label: '查询类型',
                             value: type,

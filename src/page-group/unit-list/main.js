@@ -17,12 +17,12 @@ import store from './store'
 class UnitList extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
-
+    // store.projectId = props.projectId
     const {match: {params}} = props
     store.id = params.id
     store.objId = params.objId
     store.queryDate = moment(parseInt(params.queryDate)).format('YYYY-MM-DD')
+    store.projectId = params.projectId
     store.getUnitList()
   }
 

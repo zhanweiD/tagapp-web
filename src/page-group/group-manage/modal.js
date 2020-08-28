@@ -28,7 +28,7 @@ export default class ModalGroup extends Component {
     if (this.store.mode === 2) {
       this.store.drawerVisible = true
     } else if (this.store.mode === 1) {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}/${this.store.projectId}`
     }
     this.store.isCreate = 0
     this.store.visible = false

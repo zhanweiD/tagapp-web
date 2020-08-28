@@ -34,25 +34,25 @@ export default () => {
       <Route exact path={`${prePath}/manage`} component={GroupManage} />
 
       {/* 群体详情 */}
-      <Route exact path={`${prePath}/manage/:id/:objId`} component={GroupDetail} /> 
+      <Route exact path={`${prePath}/manage/:id/:objId/:projectId`} component={GroupDetail} /> 
 
       {/* 查看规则详情 */}
-      <Route exact path={`${prePath}/manage/rule/:groupId/:objId`} component={RuleDetail} /> 
+      <Route exact path={`${prePath}/manage/rule/:groupId/:objId/:projectId`} component={RuleDetail} /> 
 
       {/* 个体列表 */}
-      <Route exact path={`${prePath}/unit/:id/:objId/:queryDate`} component={UnitList} />
+      <Route exact path={`${prePath}/unit/:id/:objId/:queryDate/:projectId?`} component={UnitList} />
       
       {/* 实时/离线 群体创建/编辑 */}
-      <Route exact path={`${prePath}/rule-create/:type?/:groupId?`} component={RuleCreate} />
+      <Route exact path={`${prePath}/rule-create/:type?/:projectId?/:groupId?`} component={RuleCreate} />
 
       {/* 群体分析 */}
-      <Route exact path={`${prePath}/analyze/:groupId?/:objId?/:time?`} component={GroupAnalyze} />
+      <Route exact path={`${prePath}/analyze/:groupId?/:objId?/:time?/:projectId?`} component={GroupAnalyze} />
 
       {/* 群体对比 */}
       <Route exact path={`${prePath}/contrast`} component={GroupContrast} />
 
       {/* 微观画像 */}
-      <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?`} component={PortrayalLabel} />
+      <Route exact path={`${prePath}/portrayal/:objId?/:mainLabel?/:projectId?`} component={PortrayalLabel} />
 
       {/* 配置说明 */}
       <Route exact path={`${prePath}/explain`} component={Explain} />

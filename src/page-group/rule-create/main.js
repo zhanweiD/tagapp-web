@@ -16,13 +16,14 @@ let headerTitle = ''
 class RuleCreate extends Component {
   constructor(props) {
     super(props)
-    store.projectId = props.projectId
+    // store.projectId = props.projectId
 
     const {match: {params}} = props
 
     store.type = params.type
     
     store.groupId = params.groupId
+    store.projectId = params.projectId
 
     if (params.groupId) {
       headerTitle = params.type === '1' ? '编辑规则离线群体' : '编辑规则实时群体'
@@ -119,13 +120,13 @@ class RuleCreate extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  const projectId = ctx.useProjectId()
+  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
     ctx.useProject(false)
   }, [])
 
   return (
-    <RuleCreate {...props} projectId={projectId} />
+    <RuleCreate {...props} />
   )
 }

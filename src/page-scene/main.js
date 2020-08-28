@@ -21,8 +21,8 @@ export default () => {
   return (
     <Switch>
       <Route exact path={`${prePath}`} component={SceneList} />
-      <Route exact path={`${prePath}/:sceneId`} component={SceneDetail} /> 
-      <Route exact strict path={`${prePath}/:sceneId/tags`} component={TagList} />
+      <Route exact path={`${prePath}/:sceneId/:projectId?`} component={SceneDetail} /> 
+      <Route exact strict path={`${prePath}/:sceneId/tags/:projectId?`} component={TagList} />
       <Redirect strict to={`${prePath}`} />
     </Switch>
   )

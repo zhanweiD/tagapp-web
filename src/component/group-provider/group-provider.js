@@ -76,11 +76,11 @@ export default PageComponent => {
       judgeInit(projectId)
 
       const {match} = props
-      if(match.path === '/group/portrayal/:objId?/:mainLabel?' && match.params.objId) {
+      if(match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
         ctx.useProject(false)
       } 
 
-      if(match.path === '/group/analyze/:groupId?/:objId?/:time?' && match.params.groupId) {
+      if(match.path === '/group/analyze/:groupId?/:objId?/:time?/:projectId?' && match.params.groupId) {
         ctx.useProject(false)
       }
 

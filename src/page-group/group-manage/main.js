@@ -47,12 +47,12 @@ class GroupManage extends Component {
     return (
       <Menu>
         <Menu.Item disabled={isClick}>
-          <Link disabled={isClick} to={`/group/analyze/${record.id}/${record.objId}`}>
+          <Link disabled={isClick} to={`/group/analyze/${record.id}/${record.objId}/${store.projectId}`}>
             <a href disabled={isClick}>群体分析</a>
           </Link>
         </Menu.Item>
         <Menu.Item disabled={isClick}>
-          <Link disabled={isClick} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}`}>
+          <Link disabled={isClick} to={`/group/unit/${record.id}/${record.objId}/${record.lastTime}/${store.projectId}`}>
             <a href disabled={isClick}>个体列表</a>
           </Link>
         </Menu.Item>
@@ -65,7 +65,7 @@ class GroupManage extends Component {
       title: '群体名称',
       dataIndex: 'name',
       render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ? (
-        <Link target="_blank" to={`/group/manage/${record.id}/${record.objId}`}>
+        <Link target="_blank" to={`/group/manage/${record.id}/${record.objId}/${store.projectId}`}>
           <OmitTooltip maxWidth={100} text={text} />
         </Link>
       ) : <span>{text}</span>
@@ -218,7 +218,7 @@ class GroupManage extends Component {
       store.getEditIdGroup(this.childForm.setOutputTags)
       store.drawerVisible = true
     } else {
-      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}/${id}`
+      window.location.href = `${window.__keeper.pathHrefPrefix}/group/rule-create/${type}/${store.projectId}/${id}`
     }
   }
 
