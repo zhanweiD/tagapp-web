@@ -64,9 +64,11 @@ class GroupManage extends Component {
       key: 'name',
       title: '群体名称',
       dataIndex: 'name',
-      render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ?  <Link to={`/group/manage/${record.id}/${record.objId}`}>
-      <OmitTooltip maxWidth={100} text={text} />
-    </Link> : <span>{text}</span>
+      render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ? (
+        <Link target="_blank" to={`/group/manage/${record.id}/${record.objId}`}>
+          <OmitTooltip maxWidth={100} text={text} />
+        </Link>
+      ) : <span>{text}</span>
        
       ),
     }, {
@@ -160,7 +162,7 @@ class GroupManage extends Component {
             <Dropdown overlay={() => this.menu(record)}>
               <a href>
                 更多
-              <DownOutlined />
+                <DownOutlined />
               </a>
             </Dropdown>
           </Authority>
@@ -241,9 +243,12 @@ class GroupManage extends Component {
       columns: this.columns,
       searchParams: search(store),
       beforeSearch: this.beforeSearch,
-      buttons: [ <Authority
+      buttons: [<Authority
         authCode="tag_app:create_group[c]"
-      ><Button type="primary" onClick={() => this.openModal()}>新建群体</Button></Authority>],
+      >
+        <Button type="primary" onClick={() => this.openModal()}>新建群体</Button>
+
+                </Authority>],
       // initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }

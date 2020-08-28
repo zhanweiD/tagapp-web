@@ -126,7 +126,7 @@ export default class Card extends Component {
         {/* Title */}
         {
           link 
-            ? <a title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</a>
+            ? <a target="_blank" title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</a>
             : <span title={title} className={`${preCls}-head-title card-omit hover-style `}>{title}</span>
           // link 
           //   ? <a title={title} className={`${preCls}-head-title card-omit hover-style `} href={link}>{title}</a>
