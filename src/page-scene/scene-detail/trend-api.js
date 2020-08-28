@@ -57,7 +57,7 @@ export default class TrendApi extends Component {
     const {tagId} = this.props
 
     return (
-      <div className="bgf p24">
+      <div className="bgf pt16 pb16 pl24 pr24">
         <h3 className="chart-title">API调用数趋势</h3>
         <div className="time-range-wrap">
           <TimeRange
