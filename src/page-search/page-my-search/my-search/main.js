@@ -102,10 +102,10 @@ class MySearch extends Component {
         <div className="my-search">
           <Spin spinning={loading}>
             <div className="my-search-header">
-              <span className="mr8">查询类型</span>
               <Authority
                 authCode="tag_app:tql_search[r]"
               >
+                <span className="mr8">查询类型</span>
                 <Select
                   showSearch
                   style={{ width: 200 }}
