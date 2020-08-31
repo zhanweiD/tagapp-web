@@ -47,7 +47,7 @@ export default () => {
       <Route exact path={`${prePath}/rule-create/:type?/:projectId?/:groupId?`} component={RuleCreate} />
 
       {/* 群体分析 */}
-      <Route exact path={`${prePath}/analyze/:groupId?/:objId?/:time?/:projectId?`} component={GroupAnalyze} />
+      <Route exact path={`${prePath}/analyze/:groupId?/:objId?/:projectId?/:time?`} component={GroupAnalyze} />
 
       {/* 群体对比 */}
       <Route exact path={`${prePath}/contrast`} component={GroupContrast} />

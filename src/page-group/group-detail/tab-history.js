@@ -68,7 +68,7 @@ export default class TagHistory extends Component {
             <Authority
               authCode="tag_app:detail_individuals_list[r]"
             >
-              <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}/${record.projectId}`}>
+              <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.projectId}/${record.computeTime}`}>
                 <a href>个体列表</a>
               </Link>
             </Authority>

@@ -80,7 +80,7 @@ export default PageComponent => {
         ctx.useProject(false)
       } 
 
-      if(match.path === '/group/analyze/:groupId?/:objId?/:time?/:projectId?' && match.params.groupId) {
+      if(match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
         ctx.useProject(false)
       }
 
