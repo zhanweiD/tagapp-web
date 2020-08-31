@@ -34,6 +34,7 @@ export default class SelectTag extends Component {
   @action.bound closeDrawer() {
     const {modalVisible} = this.store
     modalVisible.selectTag = false
+    this.removeListItem = undefined
     this.destroy()
   }
 
