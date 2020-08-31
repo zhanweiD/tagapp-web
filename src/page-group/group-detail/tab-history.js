@@ -58,7 +58,7 @@ export default class TagHistory extends Component {
             <Authority
               authCode="tag_app:detail_analyze_group[x]"
             >
-              <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.recordDate}/${record.projectId}`}>
+              <Link to={`/group/analyze/${this.store.id}/${+this.store.objId}/${record.projectId}/${record.recordDate}`}>
                 <a href className="mr16">群体分析</a>
               </Link>
             </Authority>
@@ -68,7 +68,7 @@ export default class TagHistory extends Component {
             <Authority
               authCode="tag_app:detail_individuals_list[r]"
             >
-              <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.projectId}/${record.computeTime}`}>
+              <Link to={`/group/unit/${this.store.id}/${this.store.objId}/${record.computeTime}/${record.projectId}`}>
                 <a href>个体列表</a>
               </Link>
             </Authority>
