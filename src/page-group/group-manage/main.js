@@ -65,7 +65,7 @@ class GroupManage extends Component {
       title: '群体名称',
       dataIndex: 'name',
       render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ? (
-        <Link target="_blank" to={`/group/manage/${record.id}/${record.objId}/${store.projectId}`}>
+        <Link to={`/group/manage/${record.id}/${record.objId}/${store.projectId}`}>
           <OmitTooltip maxWidth={100} text={text} />
         </Link>
       ) : <span>{text}</span>

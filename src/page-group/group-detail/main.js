@@ -89,8 +89,8 @@ class GroupDetail extends Component {
       <Authority
         authCode="tag_app:group_rule[r]"
       >
-        <a className="mr8" onClick={this.viewRule}>查看规则</a>
-
+        {/* <a className="mr8" target="_blank" onClick={this.viewRule}>查看规则</a> */}
+        <a className="mr8" target="_blank" href={`${window.__keeper.pathHrefPrefix}/group/manage/rule/${store.id}/${store.objId}/${store.projectId}`}>查看规则</a>
       </Authority>,
     ]
     return (

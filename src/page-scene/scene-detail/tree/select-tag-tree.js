@@ -27,9 +27,9 @@ export default class TagTree extends Component {
   @observable indeterminate = false
 
   componentWillReceiveProps(next) {
-    const {listRemoveItem} = this.props
-
-    if (!_.isEqual(listRemoveItem, next.listRemoveItem)) {
+    // const {listRemoveItem} = this.props
+    
+    if (next.listRemoveItem) {
       this.store.checkedKeys = this.store.checkedKeys.filter(d => +d !== +next.listRemoveItem.id)
       this.store.disabledKeys = this.store.disabledKeys.filter(d => +d !== +next.listRemoveItem.id)
 

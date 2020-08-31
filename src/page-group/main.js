@@ -20,6 +20,7 @@ export default () => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
   useEffect(() => {
+    ctx.useProject(true)
     if(projectId) {
       ctx.querySiderMenus({
         productCode: 'tag_app',
