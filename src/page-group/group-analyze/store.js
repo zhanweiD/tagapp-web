@@ -38,6 +38,8 @@ class Store {
 
   @observable info = []
 
+  @observable roportionLoading = false
+
   @action async getObj() {
     try {
       const res = await io.getObj({
@@ -83,6 +85,7 @@ class Store {
   }
 
   @action async getRoportion(params, cb) {
+    this.roportionLoading = true
     try {
       const res = await io.getRoportion({
         ...params,
@@ -97,6 +100,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.roportionLoading = false
+      })
     }
   }
 
