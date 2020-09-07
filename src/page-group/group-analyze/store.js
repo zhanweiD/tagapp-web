@@ -38,7 +38,7 @@ class Store {
 
   @observable info = []
 
-  @observable roportionLoading = false
+  @observable loading = false
 
   @action async getObj() {
     try {
@@ -85,7 +85,7 @@ class Store {
   }
 
   @action async getRoportion(params, cb) {
-    this.roportionLoading = true
+    this.loading = true
     try {
       const res = await io.getRoportion({
         ...params,
@@ -102,13 +102,14 @@ class Store {
       errorTip(e.message)
     } finally {
       runInAction(() => {
-        this.roportionLoading = false
+        this.loading = false
       })
     }
   }
 
   
   @action async getChart(params, index) {
+    this.loading = true
     try {
       const res = await io.getChart({
         runDate: this.groupTime,
@@ -142,6 +143,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      })
     }
   }
 

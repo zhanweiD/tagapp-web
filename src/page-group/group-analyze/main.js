@@ -92,12 +92,12 @@ class GroupAnalyze extends Component {
   }
 
   render() {
-    const {roportion, info, groupId, roportionLoading} = store
+    const {roportion, info, groupId, loading} = store
     const {match: {params}} = this.props
 
     return (
       <Provider store={store}>
-        <Spin spinning={roportionLoading} tip="查询中，请稍后...">
+        <Spin spinning={loading} tip="查询中，请稍后...">
           <div>
             <div className="analyze-search">
               <span>群体分析</span>
