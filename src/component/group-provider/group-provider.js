@@ -77,11 +77,11 @@ export default PageComponent => {
 
       const {match} = props
       if(match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
-        ctx.useProject(false)
+        ctx.useProject(true, null, {visible: false})
       } 
 
       if(match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
-        ctx.useProject(false)
+        ctx.useProject(true, null, {visible: false})
       }
 
     }, [projectId])

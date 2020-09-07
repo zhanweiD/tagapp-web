@@ -50,6 +50,7 @@ function Entry() {
       showHeaderNav 
       showProject
       quickEntrance={quickEntrance}
+      onUserChange={() => window.location.href = `/tag-model/index.html#/overview`}
     >
       <Router>
         <Switch>
