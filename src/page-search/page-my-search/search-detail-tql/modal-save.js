@@ -3,6 +3,7 @@ import {action} from 'mobx'
 import {observer} from 'mobx-react'
 import {Modal} from 'antd'
 import {ModalForm} from '../../../component'
+import {debounce} from '../../../common/util'
 
 @observer
 export default class ModalSave extends Component {
@@ -68,7 +69,8 @@ export default class ModalSave extends Component {
       name: value,
     }
 
-    this.store.checkName(params, callback)
+    debounce(() => this.store.checkName(params, callback), 500)
+    // this.store.checkName(params, callback)
   }
 
   render() {
