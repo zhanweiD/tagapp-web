@@ -8,10 +8,11 @@ import {
 } from 'react-router-dom'
 import * as dict from './common/dict'
 
-import Group from './page-group'
-import Search from './page-search'
-import Scene from './page-scene'
+// import Group from './page-group'
+// import Search from './page-search'
+// import Scene from './page-scene'
 import Config from './page-config'
+import App from './index-app'
 
 import Frame from './frame'
 
@@ -67,26 +68,13 @@ const frameComp = (Comp, cofig) => {
 
 function Entry () {
   return (
-
     <Router>
       <Switch>
-        {/* 数据查询 */}
-        <Route path="/search" component={frameComp(Search)} />
-
-        {/* 场景管理 */}
-        <Route path="/scene" component={frameComp(Scene)} />
-
-        {/* 群体洞察 */}
-        <Route path="/group" component={frameComp(Group)} />
-
         {/* 群体洞察 */}
         <Route path="/config" component={frameComp(Config, { productCode: "tag_config" })} />
-
-        <Redirect to="/group" />
-
+        <Route path="/" component={App} />
       </Switch>
     </Router>
-
   )
 }
 
