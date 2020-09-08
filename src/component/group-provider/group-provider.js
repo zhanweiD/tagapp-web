@@ -95,14 +95,18 @@ export default PageComponent => {
 该项目下，群体洞察的数据源未初始化，请到
         <a target="_blank" href="/tag-app/index.html#/config/group">后台配置-群体洞察配置</a>
 中初始化群体洞察的数据源
-            </span>,
-      // btnText: '初始化数据源',
-      // onClick: () => {
-      //   getDataTypeSource(projectId)
-      //   changeVisible(true)
-      // },
-      // code: 'tag_config:group_config[u]',
-      // noAuthText: '该项目下，群体洞察的数据源未初始化',
+      </span>,
+    }
+
+    const noDataConfigC = {
+      text: '该项目下，群体洞察的数据源未初始化',
+      btnText: '初始化数据源',
+      onClick: () => {
+        getDataTypeSource(projectId)
+        changeVisible(true)
+      },
+      code: 'tag_config:group_config[u]',
+      noAuthText: '该项目下，群体洞察的数据源未初始化',
     }
 
     if (loading) {
@@ -116,9 +120,17 @@ export default PageComponent => {
         <Fragment>
           <div className="content-header">群体洞察</div>
           <div className="header-page" style={{paddingTop: '15%'}}>
-            <NoData
-              {...noDataConfig}
-            />
+            {
+              props.match.path === '/config/group' ? (
+                <NoData
+                  {...noDataConfigC}
+                />
+              ) : (
+                <NoData
+                  {...noDataConfig}
+                />
+              )
+            }
           </div>
           <ConfigModal 
             visible={visible}

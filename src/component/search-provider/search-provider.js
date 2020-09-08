@@ -79,15 +79,18 @@ export default PageComponent => {
       该项目下，数据分析的数据源未初始化，请到
         <a target="_blank" href="/tag-app/index.html#/config/search">后台配置-数据查询配置</a>
       中初始化数据分析的数据源
-      </span>,
-      // text: '该项目下，数据分析的数据源未初始化',
-      // btnText: '初始化数据源',
-      // onClick: () => {
-      //   getStorageType(projectId)
-      //   changeVisible(true)
-      // },
-      // code: 'tag_config:group_config[u]',
-      // noAuthText: '该项目下，数据分析的数据源未初始化',
+            </span>,
+    }
+
+    const noDataConfigC = {
+      text: '该项目下，数据分析的数据源未初始化',
+      btnText: '初始化数据源',
+      onClick: () => {
+        getStorageType(projectId)
+        changeVisible(true)
+      },
+      code: 'tag_config:group_config[u]',
+      noAuthText: '该项目下，数据分析的数据源未初始化',
     }
 
     if (loading) {
@@ -101,9 +104,17 @@ export default PageComponent => {
         <div className="h-100">
           <div className="content-header">数据查询配置</div>
           <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '15%'}}>
-            <NoData
-              {...noDataConfig}
-            />
+            {
+              props.match.path === '/config/search' ? (
+                <NoData
+                  {...noDataConfigC}
+                />
+              ) : (
+                <NoData
+                  {...noDataConfig}
+                />
+              )
+            }
           </div>
           <ConfigModal 
             visible={visible}
