@@ -81,7 +81,7 @@ export default PageComponent => {
         getStorageType(projectId)
         changeVisible(true)
       },
-      code: 'tag_config:group_config[u]',
+      code: 'tag_config:search_config[u]',
       noAuthText: '该项目下，数据分析的数据源未初始化',
     }
 
