@@ -76,14 +76,13 @@ export default PageComponent => {
       judgeInit(projectId)
 
       const {match} = props
-      if(match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
+      if (match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
         ctx.useProject(false)
       } 
 
-      if(match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
+      if (match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
         ctx.useProject(false)
       }
-
     }, [projectId])
     
 
@@ -92,14 +91,18 @@ export default PageComponent => {
     }
 
     const noDataConfig = {
-      text: '该项目下，群体洞察的数据源未初始化',
-      btnText: '初始化数据源',
-      onClick: () => {
-        getDataTypeSource(projectId)
-        changeVisible(true)
-      },
-      code: 'tag_config:group_config[u]',
-      noAuthText: '该项目下，群体洞察的数据源未初始化',
+      text: <span>
+该项目下，群体洞察的数据源未初始化，请到
+        <a target="_blank" href="/tag-app/index.html#/config/group">后台配置-群体洞察配置</a>
+中初始化群体洞察的数据源
+      </span>,
+      // btnText: '初始化数据源',
+      // onClick: () => {
+      //   getDataTypeSource(projectId)
+      //   changeVisible(true)
+      // },
+      // code: 'tag_config:group_config[u]',
+      // noAuthText: '该项目下，群体洞察的数据源未初始化',
     }
 
     if (loading) {
