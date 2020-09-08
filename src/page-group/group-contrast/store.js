@@ -103,6 +103,7 @@ class Store {
   }
 
   @action async getGroupCount(id, type, cb) {
+    this.loading = true
     try {
       const res = await io.getGroupCount({
         id,
@@ -128,11 +129,16 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      })
     }
   }
 
 
   @action async getChart(params, index) {
+    this.loading = true
     try {
       const ids = [this.groupAInfo.groupId, this.groupBInfo.groupId].join(',')
       const res = await io.getChart({
@@ -171,6 +177,10 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      })
     }
   }
 

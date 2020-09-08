@@ -202,6 +202,7 @@ class GroupContrast extends Component {
     const {showInfo} = this.state
     return (
       <Provider store={store}>
+        <Spin spinning={loading}  tip="查询中，请稍后...">
         <div>
           <div className="contrast-header">群体对比</div>
           <Search
@@ -210,12 +211,11 @@ class GroupContrast extends Component {
             searchChart={this.search}
           />
 
-          {
-            showInfo
-              ? (
-                <Spin spinning={loading}>
+            {
+              showInfo
+                ? (
                   <div className="contrast-venn box-border">
-                    <div className="bullet"> 
+                    <div className="bullet">
                       <div className="bullet-name">
                         <div>{groupAInfo.groupName}</div>
                         <div className="mt16">
@@ -227,23 +227,12 @@ class GroupContrast extends Component {
 
                     <div id="venn" />
                     {
-                      groupAInfo.groupName && groupBInfo.groupName ? <span style={{marginTop: '80px', marginLeft: '-20px'}}>{`重叠个体：${overlapCount}`}</span> : null
+                      groupAInfo.groupName && groupBInfo.groupName ? <span style={{ marginTop: '80px', marginLeft: '-20px' }}>{`重叠个体：${overlapCount}`}</span> : null
                     }
-                   
+
                   </div>
-                  {/* <div className="contrast-action">
-                    <Button 
-                      type="primary"
-                      onClick={this.showModal}
-                      disabled={info.length === 10}
-                    >
-                添加分析纬度  
-                    </Button>
-                  </div> */}
-                </Spin>
-              
-              ) : null
-          } 
+                ) : null
+            } 
 
           <div className="group-contrast header-page" style={{minHeight: 'calc(100vh - 192px)'}}>
             {
@@ -301,6 +290,7 @@ class GroupContrast extends Component {
             <ModalAdd add={this.add} />
           </div>
         </div>
+        </Spin>
       </Provider>
     )
   }

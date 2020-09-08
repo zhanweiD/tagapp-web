@@ -134,10 +134,9 @@ class TagList extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
-    ctx.useProject(false)
+    ctx.useProject(true, null, {visible: false})
   }, [])
 
   return (

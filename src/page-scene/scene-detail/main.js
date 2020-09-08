@@ -87,7 +87,7 @@ class SceneDetail extends Component {
 
     const actions = [
       <Button>
-        <a href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}>标签列表</a>
+        <a target="_blank" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}>标签列表</a>
       </Button>,
       <Authority
         authCode="tag_app:config_data_service[c]"
@@ -153,10 +153,9 @@ class SceneDetail extends Component {
 
 export default props => {
   const ctx = OnerFrame.useFrame()
-  // const projectId = ctx.useProjectId()
 
   useEffect(() => {
-    ctx.useProject(false)
+    ctx.useProject(true, null, {visible: false})
   }, [])
 
   return (

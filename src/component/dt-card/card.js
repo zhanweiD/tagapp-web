@@ -180,12 +180,15 @@ export default class Card extends Component {
 
     return (
       <div className={classnames(preCls, className)} {...restProps}>
-        <div onClick={() => (link ? window.location.href = link : null)} className={`${preCls}-wrap`}>
-          {headDom}
-          {InfoDom}
-          {DescrDom}
-          {CountDom}
-        </div>
+        <a target="_blank" href={link ? link : null} style={{display: 'contents'}}>
+          {/* <div onClick={() => (link ? window.location.href = link : null)} className={`${preCls}-wrap`}> */}
+          <div className={`${preCls}-wrap`}>
+            {headDom}
+            {InfoDom}
+            {DescrDom}
+            {CountDom}
+          </div>
+        </a>
         {actionDom}
       </div>
     )

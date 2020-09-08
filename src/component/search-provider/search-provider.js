@@ -79,7 +79,7 @@ export default PageComponent => {
       该项目下，数据分析的数据源未初始化，请到
         <a target="_blank" href="/tag-app/index.html#/config/search">后台配置-数据查询配置</a>
       中初始化数据分析的数据源
-            </span>,
+      </span>,
       // text: '该项目下，数据分析的数据源未初始化',
       // btnText: '初始化数据源',
       // onClick: () => {

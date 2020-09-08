@@ -77,11 +77,11 @@ export default PageComponent => {
 
       const {match} = props
       if (match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
-        ctx.useProject(false)
+        ctx.useProject(true, null, {visible: false})
       } 
 
       if (match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
-        ctx.useProject(false)
+        ctx.useProject(true, null, {visible: false})
       }
     }, [projectId])
     
@@ -95,7 +95,7 @@ export default PageComponent => {
 该项目下，群体洞察的数据源未初始化，请到
         <a target="_blank" href="/tag-app/index.html#/config/group">后台配置-群体洞察配置</a>
 中初始化群体洞察的数据源
-      </span>,
+            </span>,
       // btnText: '初始化数据源',
       // onClick: () => {
       //   getDataTypeSource(projectId)

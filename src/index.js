@@ -39,38 +39,54 @@ const quickEntrance = [
     icon: 'project',
   },
 ]
-function Entry() {
+
+const commonConfig = {
+  productCode:"tag_app",
+  theme: "ocean" , 
+  logoText: "标签中心" , 
+  showAllProduct: true,
+  showSider: true,
+  showHeaderNav: true,
+  showProject: true,
+  quickEntrance:quickEntrance,
+  onUserChange:() => window.location.href = `/tag-model/index.html#/overview`
+}
+
+const frameComp = (Comp, cofig) => {
+  return function frameHocComp() {
+    return (
+      <Frame
+        {...commonConfig}
+        {...cofig}
+      >
+        <Comp />
+      </Frame>
+    )
+  }
+}
+
+function Entry () {
   return (
-    <Frame 
-      productCode="tag_app" 
-      theme="ocean" 
-      logoText="标签中心" 
-      showAllProduct 
-      showSider
-      showHeaderNav 
-      showProject
-      quickEntrance={quickEntrance}
-    >
-      <Router>
-        <Switch>
-          {/* 数据查询 */}
-          <Route path="/search" component={Search} />
 
-          {/* 场景管理 */}
-          <Route path="/scene" component={Scene} />
+    <Router>
+      <Switch>
+        {/* 数据查询 */}
+        <Route path="/search" component={frameComp(Search)} />
 
-          {/* 群体洞察 */}
-          <Route path="/group" component={Group} />
+        {/* 场景管理 */}
+        <Route path="/scene" component={frameComp(Scene)} />
 
-          {/* 群体洞察 */}
-          <Route path="/config" component={Config} />
+        {/* 群体洞察 */}
+        <Route path="/group" component={frameComp(Group)} />
 
-          <Redirect to="/group" />
+        {/* 群体洞察 */}
+        <Route path="/config" component={frameComp(Config, { productCode: "tag_config" })} />
 
-        </Switch>
-      </Router>
+        <Redirect to="/group" />
 
-    </Frame>
+      </Switch>
+    </Router>
+
   )
 }
 
