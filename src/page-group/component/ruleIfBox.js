@@ -25,7 +25,7 @@ export default class RuleIfBox extends Component {
       refreshLineH(data, ruleIfBoxKey)
     }
   }
-
+  // 绘制连线
   renderLine = () => {
     const {data} = this.state
 
@@ -52,6 +52,7 @@ export default class RuleIfBox extends Component {
     })
   }
 
+  // 且/或条件
   renderRuleCondition = () => {
     const {data} = this.state
     const {page} = this.props
@@ -73,6 +74,7 @@ export default class RuleIfBox extends Component {
     })
   }
 
+  // 绘制可视化配置条件
   renderRuleItem = () => {
     const {data} = this.state
 
