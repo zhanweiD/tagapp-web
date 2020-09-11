@@ -1,7 +1,6 @@
 import {useState} from 'react'
-import {Select, Input, Form, message, Tooltip} from 'antd'
+import {Select, Input, Form, Tooltip} from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {IconDel, IconTreeAdd} from '../../icon-comp'
 import {functionList, condition, entityFunctionList, textCondition} from './util'
 import io from '../rule-create/io'
@@ -51,6 +50,7 @@ const RuleItem = ({
 
   const key = `${ruleIfBoxKey}-${flag}`
 
+  // 选择函数
   const onSelectFun = e => {
     const [obj] = functionRList.filter(d => d.value === e)
 
@@ -73,6 +73,7 @@ const RuleItem = ({
     })
   }
 
+  // 根据对象获取标签数据
   async function getRelTagList(id) {
     const res = await io.getConfigTagList({
       projectId,
@@ -86,6 +87,7 @@ const RuleItem = ({
     openDrawer(key, relId)
   }
 
+  // 选择关系对象
   const onSelectRel = id => {
     if(+relId !== +id) {
       if(relId && ruleType === 'config') {
@@ -96,6 +98,7 @@ const RuleItem = ({
     }
   }
 
+  // 选择标签
   const onSelectTag = e => {
     let obj = {}
     if (+ruleIfBoxKey.slice(-1) === 1) {
@@ -136,7 +139,7 @@ const RuleItem = ({
                 label={null}
                 size="small"
                 name={[key, 'relId']}
-                initialValue={rest.relId}
+                initialValue={rest.relId || (otherEntity[0] && otherEntity[0].objId)}
                 rules={[{required: true, message: '请选择'}]}
               >
                 <Select 
