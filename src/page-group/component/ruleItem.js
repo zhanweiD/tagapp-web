@@ -124,6 +124,12 @@ const RuleItem = ({
     })
   }
 
+  if (!rest.relId && otherEntity[0] && otherEntity[0].objId && typeof relId === 'undefined') {
+    changeRelId(otherEntity[0].objId)
+    getRelTagList(otherEntity[0].objId)
+  }
+
+
   if (rest.relId && typeof relId === 'undefined') {
     changeRelId(rest.relId)
     getRelTagList(rest.relId)

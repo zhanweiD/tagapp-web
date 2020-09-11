@@ -49,7 +49,6 @@ class RuleDetail extends Component {
   }
 
   @action openDrawer = (flag, relId) => {
-    console.log(flag)
     store.getOtherEntity({
       relationId: relId,
     })
