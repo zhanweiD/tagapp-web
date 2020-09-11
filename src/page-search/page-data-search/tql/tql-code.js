@@ -89,10 +89,12 @@ export default class TqlCode extends Component {
     }
   }
 
+  // 停止
   @action stopOperation() {
     console.log(this.editor.getValue())
   }
   
+  // 初始化code
   @action codeFormat() {
     const code = this.store.editor.getValue()
     if (!code) {
@@ -102,12 +104,13 @@ export default class TqlCode extends Component {
     }
   }
 
+  // 下载查询
   downloadResult = () => {
     const code = this.store.editor.getValue()
     downloadResult({
       projectId: this.store.projectId,
       runType: 2,
-      tql: code
+      tql: code,
     })
   }
 
@@ -120,7 +123,7 @@ export default class TqlCode extends Component {
       log,
       handleExpend,
       onDraggableLogMouseDown,
-      isRuned
+      isRuned,
     } = this.store
 
     return (
@@ -136,7 +139,7 @@ export default class TqlCode extends Component {
                   <Tooltip placement="topRight" title="正在查询中，不可重复查询">
                     <span className="mr16 disabled">
                       {/* <img src={yunxing} alt="img" className="disabled"/> */}
-                      <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}}/>
+                      <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}} />
                       <span className="ml4">查询</span>
                     </span>
                   </Tooltip>
