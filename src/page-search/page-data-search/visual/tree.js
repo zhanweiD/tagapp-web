@@ -1,5 +1,5 @@
 /**
- * @description 我的查询-TQL
+ * @description 数据查询-可视化
  */
 
 import {Component} from 'react'

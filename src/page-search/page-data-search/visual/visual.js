@@ -145,6 +145,7 @@ export default class Visual extends Component {
     })
   }
 
+  // 输出筛选切换
   @action.bound menuClick(e) {
     this.menuCode = e.key
   }
@@ -256,6 +257,7 @@ export default class Visual extends Component {
     }, 'search') 
   }
 
+  // 输出查询
   @action.bound checkOutConfig(successCb, errorCb, type) {
     if (this.outConfigRef.current) {
       this.outConfigRef.current
@@ -277,6 +279,7 @@ export default class Visual extends Component {
     }
   }
 
+  // 筛选查询
   @action.bound checkScreenConfig(successCb, errorCb, type) {
     if (this.screenConfigRef.current) {
       this.screenConfigRef.current
