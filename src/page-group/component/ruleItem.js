@@ -24,6 +24,7 @@ const RuleItem = ({
   ...rest,
   formRef,
   changeRelWithRuleConfig,
+  stepOneObjId,
 }) => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
@@ -75,9 +76,11 @@ const RuleItem = ({
 
   // 根据对象获取标签数据
   async function getRelTagList(id) {
+
     const res = await io.getConfigTagList({
       projectId,
-      objId: id,
+      relationId: id,
+      objId: stepOneObjId,
     })
     changeRelTagList(res)
     changeRelRenderTag(res)
@@ -128,7 +131,6 @@ const RuleItem = ({
     changeRelId(otherEntity[0].objId)
     getRelTagList(otherEntity[0].objId)
   }
-
 
   if (rest.relId && typeof relId === 'undefined') {
     changeRelId(rest.relId)

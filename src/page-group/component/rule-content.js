@@ -152,6 +152,7 @@ export default class RuleContent extends Component {
       page,
       changeRuleConfig,
       changeRelWithRuleConfig,
+      stepOneObjId
     } = this.props
 
     return (
@@ -194,6 +195,7 @@ export default class RuleContent extends Component {
                   page={page}
                   delGroupItem={this.delGroupItem}
                   formRef={formRef}
+                  stepOneObjId={stepOneObjId}
                   changeRuleConfig={changeRuleConfig}
                   changeRelWithRuleConfig={changeRelWithRuleConfig}
                 />
