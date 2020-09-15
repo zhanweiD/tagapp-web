@@ -97,7 +97,7 @@ export default PageComponent => {
       noAuthText: '该项目下，标签中心的环境未初始化',
     }
 
-    const noDataConfig1 = {
+    const noDataConfig0 = {
       text: '标签中心适配Hadoop的CDH、FusionInsight',
       noAuthText: '标签中心适配Hadoop的CDH、FusionInsight',
     }
@@ -116,6 +116,7 @@ export default PageComponent => {
       )
     }
 
+    // 可配置未配置
     if (hasInit === 1) {
       return (
         <div className="h-100">
@@ -144,13 +145,14 @@ export default PageComponent => {
       )
     }
 
+    // 不可配置
     if (hasInit === 0) {
       return (
         <div className="h-100">
           <div className="content-header">环境配置</div>
           <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '15%'}}>
             <NoData
-              {...noDataConfig1}
+              {...noDataConfig0}
             />
           </div>
         </div>
