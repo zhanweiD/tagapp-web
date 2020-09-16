@@ -18,6 +18,7 @@ class Store extends ListContentStore(io.getHistoryList) {
   @observable barDataX = [] // 群体详情柱状图横坐标
   @observable barDataY = [] // 群体详情柱图纵坐标
   @observable modeType = -1 // 1 规则离线 2 规则实时 0 ID集合离线
+  @observable confirmLoading = false // 
 
   // 获取群体详情
   @action async getDetail() {
@@ -106,6 +107,7 @@ class Store extends ListContentStore(io.getHistoryList) {
 
   // 创建api
   @action async createApi(params) {
+    this.confirmLoading = true
     try {
       const res = await io.createApi({
         projectId: this.projectId,
@@ -113,6 +115,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         ...params,
       })
       runInAction(() => {
+        this.confirmLoading = false
         if (res) {
           apiStore.getList()
           successTip('创建成功')
@@ -120,6 +123,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         }
       })
     } catch (e) {
+      this.confirmLoading = false
       errorTip(e.message)
     }
   }

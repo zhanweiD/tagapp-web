@@ -41,7 +41,7 @@ export default class RuleIfBox extends Component {
         return (
           <polyline 
             key={`path${d.flag}`}
-            points={points}
+            points={points} // 折线路径
             stroke="#d9d9d9"
             fill="none"
             strokeWidth="1"
@@ -87,7 +87,7 @@ export default class RuleIfBox extends Component {
       openDrawer,
       type,
       page,
-      changeRelWithRuleConfig
+      changeRelWithRuleConfig,
     } = this.props
 
     return (
@@ -181,10 +181,9 @@ export default class RuleIfBox extends Component {
       }]
       this.props.formRef.current.resetFields([itemKey])
 
-      if( this.props.type === 'config') {
+      if (this.props.type === 'config') {
         this.props.changeRuleConfig(itemKey, `${this.props.ruleIfBoxKey}-0-0`)
       }
-      
     } else {
       const itemArr = data.filter(item => item.type === 2)  
 
@@ -210,7 +209,6 @@ export default class RuleIfBox extends Component {
   }
 
   addCombineItem = (itemData, i) => {
-
     const data = _.cloneDeep(this.state.data)
 
     data[i].isEnd = false
@@ -229,7 +227,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
-          isEnd: d.isEnd 
+          isEnd: d.isEnd, 
         }
       }
 
@@ -242,7 +240,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
-          isEnd: d.isEnd 
+          isEnd: d.isEnd, 
         }
       }
 
@@ -255,7 +253,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
-          isEnd: d.isEnd 
+          isEnd: d.isEnd, 
         }
       }
 
@@ -272,7 +270,7 @@ export default class RuleIfBox extends Component {
       flag: newItemLevel.join('-'),
       level: newItemLevel,
       source: [itemData.source[0], itemData.target[1]],
-      target: [itemData.target[0], itemData.target[1] + 64 ],
+      target: [itemData.target[0], itemData.target[1] + 64],
       x: itemData.x,
       y: itemData.y + 64,
       isEnd: true,
@@ -300,7 +298,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
-          isEnd: d.isEnd 
+          isEnd: d.isEnd, 
         }
       }
 
@@ -313,7 +311,7 @@ export default class RuleIfBox extends Component {
           type: d.type,
           x: d.x,
           y: d.y + 64,
-          isEnd: d.isEnd 
+          isEnd: d.isEnd, 
         }
       }
 
@@ -378,11 +376,11 @@ export default class RuleIfBox extends Component {
 
     let newData = []
     let bortherNode = []
-    if(current.level.length === 2) {
+    if (current.level.length === 2) {
       bortherNode = data.filter(d => d.level.length === 2 && d.level[0] === current.level[0])
     } 
 
-    if(current.level.length === 3) {
+    if (current.level.length === 3) {
       bortherNode = data.filter(d => d.level.length === 3 && d.level[0] === current.level[0] && d.level[1] === current.level[1])
     }
     if (bortherNode.length > 1) {
@@ -398,18 +396,17 @@ export default class RuleIfBox extends Component {
         ) {
           return {
             ...d,
-            isEnd: true
+            isEnd: true,
           }
         }
 
         // 同级(二层 level.length === 2)
-        if(
+        if (
           d.y > current.y 
           && d.level.length === 2
           && current.level.length === 2
           && d.level[0] === current.level[0]
         ) {
-          
           if (d.level[1] === current.level[1] + 1) {
             const {level} = d
 
@@ -417,7 +414,7 @@ export default class RuleIfBox extends Component {
 
             return {
               flag: level.join('-'),
-              level: level,
+              level,
               source: current.source,
               target: [d.target[0], d.target[1] - 64],
               type: d.type,
@@ -446,9 +443,8 @@ export default class RuleIfBox extends Component {
           && current.level.length === 3
           && d.level[0] === current.level[0]
           && d.level[1] === current.level[1]
-          ) {
-          
-          const { level } = d
+        ) {
+          const {level} = d
 
           level[2] = d.level[2] - 1
 
@@ -460,7 +456,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
-            isEnd: d.isEnd
+            isEnd: d.isEnd,
           }
         }
       
@@ -470,7 +466,6 @@ export default class RuleIfBox extends Component {
           && current.level.length === 2 
           && d.level.length === 3
         ) {
-          
           const {level} = d
           const index = level[1]
       
@@ -484,7 +479,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
-            isEnd: d.isEnd 
+            isEnd: d.isEnd, 
           }
         }
         // 删除三层 更新二层子节点flag
@@ -506,7 +501,6 @@ export default class RuleIfBox extends Component {
         }
       
         if (d.y > current.y && d.level.length > 1) {
-          
           return {
             flag: d.flag,
             level: d.level,
@@ -515,7 +509,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
-            isEnd: d.isEnd 
+            isEnd: d.isEnd, 
           }
         }
       
@@ -532,7 +526,7 @@ export default class RuleIfBox extends Component {
       const len = current.level.length
       
       const bortherIndex = _.findIndex(data, d => d.flag === `${current.flag.slice(0, -1)}0`)
-      const borderOriginFlag =  data[bortherIndex].flag
+      const borderOriginFlag = data[bortherIndex].flag
 
       this.props.formRef.current.resetFields([`${this.props.ruleIfBoxKey}-${borderOriginFlag}`]) 
 
@@ -565,7 +559,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
-            isEnd: d.isEnd 
+            isEnd: d.isEnd, 
           }
         }
 
@@ -578,7 +572,7 @@ export default class RuleIfBox extends Component {
             type: d.type,
             x: d.x,
             y: d.y - 64,
-            isEnd: d.isEnd 
+            isEnd: d.isEnd, 
           }
         }
 

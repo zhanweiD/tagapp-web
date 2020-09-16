@@ -78,6 +78,7 @@ export default class ApiModal extends Component {
   render() {
     const {
       visible,
+      confirmLoading,
     } = this.store
 
     const modalConfig = {
@@ -87,6 +88,7 @@ export default class ApiModal extends Component {
       closable: true,
       onCancel: this.handleCancel,
       onOk: this.submit,
+      confirmLoading,
       width: 525,
       destroyOnClose: true,
     }
@@ -96,7 +98,7 @@ export default class ApiModal extends Component {
     }
     
     return (
-      <Modal {...modalConfig} className="add-group">
+      <Modal {...modalConfig}>
         <ModalForm {...formConfig} />
       </Modal>
     )
