@@ -35,7 +35,6 @@ export default class StepTwo extends Component {
 
           this.store.whereMap = this.whereMap
           this.store.wherePosMap = this.wherePosMap
-          console.log(toJS(this.store.logicExper), toJS(this.store.posList), this.whereMap, this.wherePosMap)
           this.store.getOutputTags()
           this.store.current += 1
         } else {
@@ -90,7 +89,6 @@ export default class StepTwo extends Component {
   }
 
   @action changeRuleConfig = (before, now) => {
-    console.log(before, now)
     if(before && !now) {
       delete this.wherePosMap[before]
       delete this.whereMap[before]
@@ -106,11 +104,9 @@ export default class StepTwo extends Component {
       delete this.whereMap[before]
     }
 
-    console.log(this.wherePosMap, this.whereMap)
   }
 
   @action changeRelWithRuleConfig = key => {
-    console.log(key)
     if (this.wherePosMap[key] ) {
       delete this.wherePosMap[key]
     }
@@ -121,7 +117,7 @@ export default class StepTwo extends Component {
   }
 
   render() {
-    const {current, configTagList, drawerConfigTagList, relList, posList} = this.store
+    const {current, configTagList, drawerConfigTagList, relList, posList, objId} = this.store
     return (
       <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
         <RuleContent 
@@ -135,6 +131,7 @@ export default class StepTwo extends Component {
           reset={this.reset}
           changeRuleConfig={this.changeRuleConfig}
           changeRelWithRuleConfig={this.changeRelWithRuleConfig}
+          stepOneObjId={objId}
           type="config"
         />
         <SetRule 

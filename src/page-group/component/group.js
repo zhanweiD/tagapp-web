@@ -70,7 +70,7 @@ export default class Group extends Component {
 
   delGroupItem = type => {
     const {groupIndex, flag, level} = this.props
-    console.log(this.props)
+
     this.props.delGroupItem({
       type,
       groupIndex,
@@ -91,7 +91,8 @@ export default class Group extends Component {
       logic,
       pos,
       page,
-      changeRelWithRuleConfig
+      changeRelWithRuleConfig,
+      stepOneObjId,
     } = this.props
     
     const {conditionH} = this.state
@@ -120,6 +121,7 @@ export default class Group extends Component {
                   changeCondition={data => changeCondition(data, `${flag}-${d}`)}
                   pos={pos ? pos[`${+flag}-${d}`] : this.posData[`${+flag}-${d}`]}
                   changeRelWithRuleConfig={changeRelWithRuleConfig}
+                  stepOneObjId={stepOneObjId}
                 />
               </div>
             </div>

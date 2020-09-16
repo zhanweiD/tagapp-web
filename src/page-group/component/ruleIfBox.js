@@ -88,6 +88,7 @@ export default class RuleIfBox extends Component {
       type,
       page,
       changeRelWithRuleConfig,
+      stepOneObjId,
     } = this.props
 
     return (
@@ -111,6 +112,7 @@ export default class RuleIfBox extends Component {
               {...d}
               len={data.length}
               formRef={this.props.formRef}
+              stepOneObjId={stepOneObjId}
               changeRelWithRuleConfig={() => changeRelWithRuleConfig(`${ruleIfBoxKey}-${d.flag}`)}
             />
           ) 

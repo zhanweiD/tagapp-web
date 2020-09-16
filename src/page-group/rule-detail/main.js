@@ -74,8 +74,7 @@ class RuleDetail extends Component {
   }
 
   render() {
-    const {configTagList, drawerConfigTagList, relList, posList, detailLoading} = store
-  
+    const {configTagList, drawerConfigTagList, relList, posList, detailLoading, objId} = store
     return (
       <div>
         <div className="content-header">规则配置详情</div>
@@ -93,6 +92,7 @@ class RuleDetail extends Component {
                     posList={toJS(posList)}
                     type="config"
                     page="detail"
+                    stepOneObjId={objId}
                   />
                   <SetRule 
                     visible={this.visible} 

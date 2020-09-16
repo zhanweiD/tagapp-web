@@ -16,7 +16,6 @@ let headerTitle = ''
 class RuleCreate extends Component {
   constructor(props) {
     super(props)
-    // store.projectId = props.projectId
 
     const {match: {params}} = props
 
