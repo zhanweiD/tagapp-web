@@ -1,3 +1,6 @@
+/**
+ * @description 0-0-x item和关系box
+ */
 import {Component} from 'react'
 import {Button} from 'antd'
 import RuleItem from './ruleItem'

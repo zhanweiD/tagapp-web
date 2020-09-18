@@ -1,3 +1,6 @@
+/**
+ * @description 圈选规则
+ */
 import {Component} from 'react'
 import {Button, Form} from 'antd'
 import {PlusOutlined, QuestionCircleOutlined} from '@ant-design/icons'
@@ -152,7 +155,7 @@ export default class RuleContent extends Component {
       page,
       changeRuleConfig,
       changeRelWithRuleConfig,
-      stepOneObjId
+      stepOneObjId,
     } = this.props
 
     return (
@@ -162,7 +165,7 @@ export default class RuleContent extends Component {
             <div className="mb24">
               <Button type="primary" icon={<PlusOutlined />} onClick={this.addGroup} disabled={renderData.length === 10}>添加</Button>
               <Button className="ml8 mr8" onClick={this.reset}>重置条件</Button>
-              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/group/explain`}><QuestionCircleOutlined/></a> 
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/group/explain`}><QuestionCircleOutlined /></a> 
             </div>
           )
         }

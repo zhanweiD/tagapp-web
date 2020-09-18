@@ -27,9 +27,9 @@ class Store {
   @observable relList = [] // 对象对应的关系列表
   @observable otherEntity = [] // 另一个实体对象
   @observable logicExper = {}
-  @observable posList
+  @observable posList // 
   @observable wherePosMap = {}
-  @observable whereMap = {}
+  @observable whereMap = {} // 设置筛选条件
 
   // 第三步
   @observable outputTags = []
@@ -94,7 +94,7 @@ class Store {
         this.objId = res.objId
         this.detail = res
 
-        if(res.logicExper) {
+        if (res.logicExper) {
           this.logicExper = JSON.parse(res.logicExper)
           this.posList = JSON.parse(this.logicExper.posList)
   
@@ -259,6 +259,7 @@ class Store {
     }
   }
 
+  // 初始化数据
   @action.bound destroy() {
       if (this.groupId) {
         this.detail = {}

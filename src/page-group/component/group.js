@@ -1,3 +1,6 @@
+/**
+ * @description 0-x 第二层级
+ */
 import React, {Component} from 'react'
 import WrapRuleCondition from './wrap-rule-condition'
 import RuleIfBox from './ruleIfBox'
@@ -104,6 +107,7 @@ export default class Group extends Component {
     return (
       <div className="group-combine" style={style} id={id}>
         {
+          // 实体属性，实体关系
           [0, 1].map(d => (
             <div className="group-item" style={{marginLeft: `${ml}px`}} id={`${type}-group-combine-${flag}-${d}`}>
               <div className="line" />

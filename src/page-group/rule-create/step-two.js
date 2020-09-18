@@ -89,7 +89,7 @@ export default class StepTwo extends Component {
   }
 
   @action changeRuleConfig = (before, now) => {
-    if(before && !now) {
+    if (before && !now) {
       delete this.wherePosMap[before]
       delete this.whereMap[before]
     }
@@ -103,11 +103,10 @@ export default class StepTwo extends Component {
       this.whereMap[now] = this.whereMap[before]
       delete this.whereMap[before]
     }
-
   }
 
   @action changeRelWithRuleConfig = key => {
-    if (this.wherePosMap[key] ) {
+    if (this.wherePosMap[key]) {
       delete this.wherePosMap[key]
     }
 
@@ -120,6 +119,7 @@ export default class StepTwo extends Component {
     const {current, configTagList, drawerConfigTagList, relList, posList, objId} = this.store
     return (
       <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
+        {/* 圈选规则box */}
         <RuleContent 
           formRef={this.formRef} 
           onRef={ref => { this.ruleContentRef = ref }}
@@ -134,6 +134,7 @@ export default class StepTwo extends Component {
           stepOneObjId={objId}
           type="config"
         />
+        {/* 设置筛选条件弹窗 */}
         <SetRule 
           visible={this.visible} 
           onClose={this.onClose}

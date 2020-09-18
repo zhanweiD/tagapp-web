@@ -139,7 +139,7 @@ export default class AnalyzeTab extends Component {
                     statistics.map(d => (
                       <div>
                         <div>{d.x}</div>
-                        <Progress percent={parseFloat(d.y2)} status="active" showInfo />
+                        <Progress style={{width: 180}} percent={parseFloat(d.y2)} status="active" showInfo />
                       </div>
                     ))
                   }              

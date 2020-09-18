@@ -112,7 +112,7 @@ class Store {
         // 生成基本特征dom结构
         this.basicLabel = this.basicRes.map(item => {
           return (
-            <p>
+            <p className="basicBox">
               <span className="basicName">{`${item.tagName}：`}</span>
               <span>{`${item.value}`}</span>
             </p>
