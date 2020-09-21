@@ -85,6 +85,7 @@ class ModalTagMove extends Component {
                 ],
               })(
                 <Cascader
+                  size="small"
                   placeholder="请选择"
                   allowClear={false}
                   options={this.loop(toJS(moveTreeData))}

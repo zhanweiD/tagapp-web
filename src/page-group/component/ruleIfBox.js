@@ -213,6 +213,7 @@ export default class RuleIfBox extends Component {
     this.setState({data})
   }
 
+  // 添加item
   addCombineItem = (itemData, i) => {
     const data = _.cloneDeep(this.state.data)
 

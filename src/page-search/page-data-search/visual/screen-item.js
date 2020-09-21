@@ -67,6 +67,18 @@ const ScreenItem = ({
     }
   }
 
+  const validatorInput = (rule, value, callback) => {
+    let isRepeat = 0
+    $('.inputParams').each((i, item) => {
+      if (value === item.value) isRepeat++
+    })
+    if (isRepeat > 1) {
+      callback('参数名不能重复')
+    } else {
+      callback()
+    }
+  }
+
   return (
     <Form.Item>
       <Input.Group compact key={id}>
@@ -114,7 +126,6 @@ const ScreenItem = ({
 
         {
           showLeftInput ? (
-
             <Form.Item
               name={[id, 'leftParams1']}
               noStyle
@@ -146,7 +157,7 @@ const ScreenItem = ({
         >
           <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
             {
-             (aggregation.includes(leftFunction) ? aggregationLogic : screenValueLogic).map(({name, value}) => <Option value={value}>{name}</Option>)
+              (aggregation.includes(leftFunction) ? aggregationLogic : screenValueLogic).map(({name, value}) => <Option value={value}>{name}</Option>)
             }
           </Select>
 
@@ -175,9 +186,9 @@ const ScreenItem = ({
                   <Form.Item
                     name={[id, 'rightParams']}
                     noStyle
-                    rules={[{required: true, message: '请输入参数名'}]}
+                    rules={[{required: true, message: '请输入参数名'}, {validator: validatorInput}]}
                   >
-                    <Input size="small" style={{width: '20%'}} placeholder="请输入参数名" />
+                    <Input size="small" className="inputParams" style={{width: '20%'}} placeholder="请输入参数名" />
                   </Form.Item>
                   <Form.Item
                     name={[id, 'rightParams1']}
@@ -187,7 +198,6 @@ const ScreenItem = ({
                     <Input size="small" style={{width: '20%'}} placeholder="参数默认值" />
                   </Form.Item>
                 </Fragment>
-
               )
             }
 

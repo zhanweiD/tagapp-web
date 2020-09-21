@@ -87,6 +87,7 @@ class ModalObjectEdit extends Component {
                 ],
               })(
                 <Cascader
+                  size="small"
                   options={selectObj.slice()}
                   expandTrigger="hover"
                   placeholder="请选择对象"
