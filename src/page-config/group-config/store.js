@@ -82,6 +82,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         if (res) {
           successTip('修改成功')
           this.getPortrayal()
+          this.getList()
           this.initVisible = true
           this.visible = false
           this.isInit = true

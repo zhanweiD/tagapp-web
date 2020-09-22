@@ -47,7 +47,7 @@ export default class TagList extends Component {
       title: '是否枚举',
       dataIndex: 'isEnum',
       key: 'isEnum',
-      width: 50,
+      width: 80,
       render: text => (text ? '是' : '否'),
       // render: text => <OmitTooltip maxWidth={50} text={text ? '是' : '否'} />,
     },
