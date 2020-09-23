@@ -108,10 +108,10 @@ class GroupContrast extends Component {
       .attr('fill', 'rgb(255, 127, 14, .25)')
       .transition()
       .duration(duration)
-      .attr('width',  groupBCount === 0 && groupACount ? 0 : bgW * ((groupBCount / MaxgroupBCount) || 1))
+      .attr('width', groupBCount === 0 && groupACount ? 0 : bgW * ((groupBCount / MaxgroupBCount) || 1))
 
     // 绘制文字说明
-    const countBox = svg.append('g').attr('transform', 'translate(4,16)')
+    const countBox = svg.append('g').attr('transform', 'translate(12,16)')
 
     countBox.append('text')
       .attr('text-anchor', 'middle')
@@ -202,14 +202,14 @@ class GroupContrast extends Component {
     const {showInfo} = this.state
     return (
       <Provider store={store}>
-        <Spin spinning={loading}  tip="查询中，请稍后...">
-        <div>
-          <div className="contrast-header">群体对比</div>
-          <Search
-            projectId={projectId}
-            objList={toJS(objList)}
-            searchChart={this.search}
-          />
+        <Spin spinning={loading} tip="查询中，请稍后...">
+          <div>
+            <div className="contrast-header">群体对比</div>
+            <Search
+              projectId={projectId}
+              objList={toJS(objList)}
+              searchChart={this.search}
+            />
 
             {
               showInfo
@@ -227,69 +227,69 @@ class GroupContrast extends Component {
 
                     <div id="venn" />
                     {
-                      groupAInfo.groupName && groupBInfo.groupName ? <span style={{ marginTop: '80px', marginLeft: '-20px' }}>{`重叠个体：${overlapCount}`}</span> : null
+                      groupAInfo.groupName && groupBInfo.groupName ? <span style={{marginTop: '80px', marginLeft: '-20px'}}>{`重叠个体：${overlapCount}`}</span> : null
                     }
 
                   </div>
                 ) : null
             } 
 
-          <div className="group-contrast header-page" style={{minHeight: 'calc(100vh - 192px)'}}>
-            {
-              showInfo ? (
-                <div className="contrast-action"> 
-                  <Button 
-                    type="primary"
-                    onClick={this.showModal}
-                    disabled={info.length === 10}
-                  >
-          添加分析纬度  
-                  </Button>
-                </div>
-              ) : null
-            }
-            
-            <div className="chart-content">
+            <div className="group-contrast header-page" style={{minHeight: 'calc(100vh - 192px)'}}>
               {
-                info.length
-                  ? info.map(({
-                    Comp,
-                    tagName,
-                    tagId,
-                    ...rest
-                  }, index) => (
-                    <div className="chart-wrap">
-                      <div className="chart-box">
-                        <div className="chart-item-title">
-                          <span>{tagName}</span>
-                          <div className="FBH">
-                            <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 action" />
-                            <Popconfirm
-                              placement="bottomLeft"
-                              title="确定要删除吗？"
-                              onConfirm={() => this.del(rest, index)}
-                              okText="确认"
-                              cancelText="取消"
-                            >
-                              <IconDel size="14" className="mt8 action" />
-                            </Popconfirm>
-
-                          </div>
-                        </div>
-                        <Comp data={{tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
-                      </div>
-                    </div>
-                  ))
-                  : (
-                    <div>
-                      <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '15%'}} />
-                    </div>
-                  )
+                showInfo ? (
+                  <div className="contrast-action"> 
+                    <Button 
+                      type="primary"
+                      onClick={this.showModal}
+                      disabled={info.length === 10}
+                    >
+          添加分析纬度  
+                    </Button>
+                  </div>
+                ) : null
               }
+            
+              <div className="chart-content">
+                {
+                  info.length
+                    ? info.map(({
+                      Comp,
+                      tagName,
+                      tagId,
+                      ...rest
+                    }, index) => (
+                      <div className="chart-wrap">
+                        <div className="chart-box">
+                          <div className="chart-item-title">
+                            <span>{tagName}</span>
+                            <div className="FBH">
+                              <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 action" />
+                              <Popconfirm
+                                placement="bottomLeft"
+                                title="确定要删除吗？"
+                                onConfirm={() => this.del(rest, index)}
+                                okText="确认"
+                                cancelText="取消"
+                              >
+                                <IconDel size="14" className="mt8 action" />
+                              </Popconfirm>
+
+                            </div>
+                          </div>
+                          <Comp data={{tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
+                        </div>
+                      </div>
+                    ))
+                    : (
+                      <div>
+                        <NoData text={showInfo ? '请添加分析纬度' : '请选择目标群体，完成群体对比分析'} style={{marginTop: '15%'}} />
+                      </div>
+                    )
+                }
+              </div>
+              <ModalAdd add={this.add} />
             </div>
-            <ModalAdd add={this.add} />
           </div>
-        </div>
         </Spin>
       </Provider>
     )

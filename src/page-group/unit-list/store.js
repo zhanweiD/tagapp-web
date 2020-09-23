@@ -50,7 +50,7 @@ class Store {
         // }
         
         for (let i = 0; i < title.length; i++) {
-          if (title[i] === res.mainTag) {
+          if (title[i].toLowerCase() === res.mainTag.toLowerCase()) {
             this.titleList.unshift({
               key: title[i],
               title: title[i],
