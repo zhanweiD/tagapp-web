@@ -93,7 +93,7 @@ const StepThree = ({current, configTagList, prev, save, loading, detail, type}) 
                         name="rangePicker"
                         rules={[{type: 'array', required: true, message: '请选择更新有效时间'}]}
                         {...formItemLayout}
-                        initialValue={[moment(detail.startTime), detail.endTime ? moment(detail.endTime) : moment().add(7, 'd')]}
+                        initialValue={[detail.startTime ? moment(detail.startTime) : moment(), detail.endTime ? moment(detail.endTime) : moment().add(7, 'd')]}
                       >
                         <RangePicker />
                       </Form.Item>

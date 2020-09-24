@@ -67,7 +67,7 @@ export default class StepOne extends Component {
   } 
 
   @action close = () => {
-    window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group`
+    window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group/manage`
   }
 
   @action next = () => {
