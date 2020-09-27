@@ -21,6 +21,9 @@ export default class ModalSave extends Component {
       component: 'input',
       initialValue: detail.name,
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         '@max32',

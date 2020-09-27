@@ -2,6 +2,7 @@ import {Component} from 'react'
 import {Select, Input} from 'antd'
 import {Form} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
+import {getNamePattern} from '../../common/util'
 
 const {Option} = Select
 const FormItem = Form.Item
@@ -127,6 +128,7 @@ export default class FixedValue extends Component {
             initialValue: params,
             rules: [
               {required: true, message: '请输入'},
+              ...getNamePattern(),
             ],
           })(
             getFieldValue('thenFunction') === '固定值' 

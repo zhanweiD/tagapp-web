@@ -4,7 +4,7 @@ import {observer} from 'mobx-react'
 import {UploadOutlined} from '@ant-design/icons'
 import {Drawer, Form, Select, Input, Upload, Button, Modal, Alert} from 'antd'
 
-import {errorTip, baseApi, debounce, failureTip} from '../../common/util'
+import {errorTip, baseApi, debounce, failureTip, getNamePattern} from '../../common/util'
 
 const {Item} = Form
 const {TextArea} = Input
@@ -230,7 +230,8 @@ export default class IdCreate extends Component {
               }}
               rules={[
                 {required: true, message: '请输入名称'},
-                {max: 32, message: '名称不能超过32字'},
+                // {max: 32, message: '名称不能超过32字'},
+                ...getNamePattern(),
                 {validator: this.checkName},
               ]}
             >
@@ -241,6 +242,9 @@ export default class IdCreate extends Component {
               label="描述"
               name="descr"
               initialValue={recordObj.descr}
+              rules={[
+                {max: 128, message: '输入不超过128个字符'},
+              ]}
             >
               <TextArea style={{minHeight: '6em'}} placeholder="请输入" />
             </Item>

@@ -21,6 +21,9 @@ export default class ModalEdit extends Component {
       initialValue: detail.name,
       component: 'input',
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         '@max32',

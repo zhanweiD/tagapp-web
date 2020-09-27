@@ -10,6 +10,7 @@ import {
 
 import {outValueLogic} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
+import {getNamePattern} from '../../../common/util'
 
 const {Option} = Select
 
@@ -86,7 +87,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
@@ -121,7 +122,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>

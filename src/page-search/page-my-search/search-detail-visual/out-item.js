@@ -10,6 +10,7 @@ import {
 
 import {outValueLogic} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
+import {getNamePattern} from '../../../common/util'
 
 const {Option} = Select
 
@@ -89,7 +90,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
@@ -122,7 +123,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[1])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
@@ -140,7 +141,7 @@ const OutItem = ({
           }, 
           {
             validator: (rule, value) => {
-              if(!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
+              if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
                 return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
               }
               
@@ -157,7 +158,7 @@ const OutItem = ({
           ]}
           initialValue={alias}
         >
-          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange}/>
+          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>

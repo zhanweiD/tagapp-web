@@ -4,6 +4,7 @@ import {observer} from 'mobx-react'
 import {Drawer, Button, Form, Input, Tabs, Table, Select} from 'antd'
 import ApiResponseParams from './api-response-params'
 import ApiRequsetParams from './api-request-params'
+import {getNamePattern} from '../../../common/util'
 
 const FormItem = Form.Item
 const {TabPane} = Tabs
@@ -128,6 +129,7 @@ export default class DrewerApi extends Component {
               }, {
                 validateFirst: true,
               },
+              ...getNamePattern(),
             ]}
           >
             <Input size="small" placeholder="请输入API名称" />
@@ -173,6 +175,8 @@ export default class DrewerApi extends Component {
               {
                 required: true,
                 message: '请输入描述',
+              }, {
+                max: 128, message: '输入不超过128个字符',
               },
             ]}
           >

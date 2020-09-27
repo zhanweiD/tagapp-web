@@ -188,9 +188,6 @@ export function listToTree(data) {
   return newData.filter(item => item.parentId === 0)
 }
 
-// 标签、对象英文名校验正则
-export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
-
 /**
  * @description 根据数据类型code 返回 数据类型name; 常用数据类型 整数型/小数型/文本型/日期型
  * @param {*} code 
@@ -263,15 +260,29 @@ export function getNamePattern(max = 32) {
     transform: value => value && value.trim(),
   }, {
     max, 
-    message: `名称不能超过${max}个字符`,
+    message: `不能超过${max}个字符`,
   }, {
-    pattern: /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '名称格式不正确，允许输入中文/英文/数字/下划线',
+    pattern: /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '格式不正确，允许输入中文/英文/数字/下划线',
   }, {
-    pattern: /^(?!_)/, message: '名称不允许下划线开头',
+    pattern: /^(?!_)/, message: '不允许下划线开头',
   }, {
-    pattern: /^(?!数栖)/, message: '名称不允许数栖开头',
+    pattern: /^(?!数栖)/, message: '不允许数栖开头',
   }];
 }
+
+export function getEnNamePattern(max = 32) {
+  return [{
+    transform: value => value && value.trim(),
+  }, {
+    max, 
+    message: `不能超过${max}个字符`,
+  }, {
+    pattern: /^[a-zA-Z][a-zA-Z0-9_]/, message: '格式不正确，允许输入英文/数字/下划线，必须以英文开头',
+  }];
+}
+
+// 标签、对象英文名校验正则
+export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
 
 export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
   const map = {

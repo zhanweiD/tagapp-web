@@ -43,6 +43,9 @@ export default class StepOne extends Component {
       key: 'name',
       initialValue: detail.name,
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         '@max32',
@@ -55,7 +58,7 @@ export default class StepOne extends Component {
       key: 'descr',
       initialValue: detail.descr,
       rules: [
-        '@transformTrim',
+        '@max128',
       ],
       component: 'textArea',
     }]

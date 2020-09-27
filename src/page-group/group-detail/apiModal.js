@@ -21,6 +21,9 @@ export default class ApiModal extends Component {
       key: 'apiName',
       component: 'input',
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         {validator: this.checkName},

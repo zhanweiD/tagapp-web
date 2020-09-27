@@ -18,6 +18,9 @@ export default class GroupModal extends Component {
       key: 'name',
       component: 'input',
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         '@max32',
