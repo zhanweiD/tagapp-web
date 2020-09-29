@@ -64,7 +64,7 @@ export default PageComponent => {
 
       if (res) {
         changeVisible(false)
-        changeHasInit(true)
+        changeHasInit(2)
         message.success('环境初始化成功')
       } else {
         message.error('环境初始化失败')
