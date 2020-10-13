@@ -25,10 +25,10 @@ const RuleItem = ({
   relList = [],
   otherEntity = [],
   openDrawer,
-  ...rest,
   formRef,
   changeRelWithRuleConfig,
   stepOneObjId,
+  ...rest
 }) => {
   const ctx = OnerFrame.useFrame()
   const projectId = ctx.useProjectId()
@@ -45,6 +45,7 @@ const RuleItem = ({
   const [relId, changeRelId] = useState()
   // 比较符
   const [comparisonMap, changeComparisonMap] = useState(condition)
+  const [functionType, changeFunctionType] = useState('count')
 
   const posStyle = {
     left: pos[0],
@@ -58,8 +59,9 @@ const RuleItem = ({
   // 选择函数
   const onSelectFun = e => {
     const [obj] = functionRList.filter(d => d.value === e)
+    changeFunctionType(() => obj.value)
 
-    if(+ruleIfBoxKey.slice(-1) === 1) {
+    if (+ruleIfBoxKey.slice(-1) === 1) {
       const newTagList = relTagList.filter(d => obj.tagTypeList.includes(d.tagType))
       changeRelRenderTag(newTagList)
     } else {
@@ -74,13 +76,12 @@ const RuleItem = ({
       [key]: {
         ...keyData,
         leftTagId: undefined,
-      }
+      },
     })
   }
 
   // 根据对象获取标签数据
   async function getRelTagList(id) {
-
     const res = await io.getConfigTagList({
       projectId,
       relationId: id,
@@ -96,8 +97,8 @@ const RuleItem = ({
 
   // 选择关系对象
   const onSelectRel = id => {
-    if(+relId !== +id) {
-      if(relId && ruleType === 'config') {
+    if (+relId !== +id) {
+      if (relId && ruleType === 'config') {
         changeRelWithRuleConfig(id)
       } 
       changeRelId(id)
@@ -114,7 +115,7 @@ const RuleItem = ({
       [obj] = entityTagList.filter(d => d.objIdTagId === e)
     }
 
-    if (obj.tagType === 4) {
+    if (obj.tagType === 4 && functionType !== 'count') {
       changeComparisonMap(textCondition)
     } else {
       changeComparisonMap(condition)
@@ -127,7 +128,7 @@ const RuleItem = ({
       [key]: {
         ...keyData,
         comparision: '=',
-      }
+      },
     })
   }
 
@@ -175,12 +176,12 @@ const RuleItem = ({
                 <FormItem
                   label={null}
                   name={[key, 'relId']}
-                  rules={[{ required: true, message: '请选择关系' }]}
+                  rules={[{required: true, message: '请选择关系'}]}
                   initialValue={rest.relId}
                 >
                   <Select
                     showSearch
-                    style={{ width: 170 }}
+                    style={{width: 170}}
                     optionFilterProp="children"
                     placeholder="请选择关系"
                     onChange={onSelectRel}
@@ -200,12 +201,12 @@ const RuleItem = ({
               <FormItem
                 label={null}
                 name={[key, 'relId']}
-                rules={[{ required: true, message: '请选择关系' }]}
+                rules={[{required: true, message: '请选择关系'}]}
                 initialValue={rest.relId}
               >
                 <Select
                   showSearch
-                  style={{ width: 170 }}
+                  style={{width: 170}}
                   optionFilterProp="children"
                   placeholder="请选择关系"
                   onChange={onSelectRel}
@@ -337,7 +338,7 @@ const RuleItem = ({
                   }
 
                   {
-                    rest.level.length === 3 && rest.isEnd ?  <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> : null
+                    rest.level.length === 3 && rest.isEnd ? <IconTreeAdd size="14" onClick={() => addCombineItem()} className="ml8" /> : null
                   }
 
                   {
