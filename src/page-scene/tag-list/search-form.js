@@ -1,8 +1,9 @@
-import {
-  Input, Form, Row, Col, Button, InputNumber,
-} from 'antd'
+import {Form} from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import {Input, Row, Col, Button, Select} from 'antd'
 
 const FormItem = Form.Item
+const {Option} = Select
 
 const formItemLayout = {
   labelCol: {
@@ -33,7 +34,7 @@ exports.SearchForm = Form.create({
   },
 })(
   props => {
-    const {form: {getFieldDecorator}, onSearch, onReset} = props
+    const {form: {getFieldDecorator}, onSearch, onReset, objList} = props
 
     return (
       <Form className="dt-form-column bgf mb16 p16">
@@ -44,118 +45,32 @@ exports.SearchForm = Form.create({
               label="标签名称"
             >
               {getFieldDecorator('tagName')(
-                <Input placeholder="请输入" />
+                <Input size="small" placeholder="请输入" />
               )}
             </FormItem>
           </Col>
-          {/* <Col span={8}>
+          <Col span={8}>
             <FormItem
               {...formItemLayout}
-              label="使用状态"
+              label="对象"
             >
-              {getFieldDecorator('stat', {
-                initialValue: 0,
-              })(
+              {getFieldDecorator('objId')(
                 <Select
                   showSearch
                   optionFilterProp="children"
                   placeholder="请下拉选择"
                 >
-                  <Option value={0}>全部</Option>
+                  <Option value="">全部</Option>
                   {
-                    status.map(({label, key}) => (
-                      <Option key={key} value={key}>{label}</Option>
+                    objList.map(({objId, objName}) => (
+                      <Option key={objId} value={objId}>{objName}</Option>
                     ))
                   }
                 </Select>
               )}
             </FormItem>
-          </Col> */}
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="价值分"
-              style={{marginBottom: 0}}
-            >
-              <div>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)', marginBottom: 0}}>
-                  {getFieldDecorator('minWorth', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={0} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-                <span style={{display: 'inline-block', width: '24px', textAlign: 'center'}}>
-                  -
-                </span>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)'}}>
-                  {getFieldDecorator('maxWorth', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={1} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-              </div>
-            </FormItem>
           </Col>
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="质量分"
-              style={{marginBottom: 0}}
-            >
-              <div>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)', marginBottom: 0}}>
-                  {getFieldDecorator('minQuality', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={0} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-                <span style={{display: 'inline-block', width: '24px', textAlign: 'center'}}>
-                  -
-                </span>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)'}}>
-                  {getFieldDecorator('maxQuality', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={1} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-              </div>
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="热度"
-              style={{marginBottom: 0}}
-            >
-              <div>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)', marginBottom: 0}}>
-                  {getFieldDecorator('minHot', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={0} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-                <span style={{display: 'inline-block', width: '24px', textAlign: 'center'}}>
-                  -
-                </span>
-                <FormItem style={{display: 'inline-block', width: 'calc(50% - 12px)'}}>
-                  {getFieldDecorator('maxHot', {
-                    initialValue: '',
-                  })(
-                    <InputNumber min={1} max={100} precision={0} style={{width: '100%'}} placeholder="请输入" />
-                  )}
-                </FormItem>
-              </div>
-            </FormItem>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col span={24} style={{textAlign: 'right'}}>
+          <Col span={8} style={{textAlign: 'right'}}>
             <Button type="primary" onClick={() => onSearch()}>查询</Button>
             <Button style={{marginLeft: 8}} onClick={() => onReset()}>重置</Button>
           </Col>

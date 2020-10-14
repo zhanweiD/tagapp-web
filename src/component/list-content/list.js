@@ -4,7 +4,7 @@
  */
 import {Component} from 'react'
 import PropTypes from 'prop-types'
-import {action} from 'mobx'
+import {action, toJS} from 'mobx'
 import {observer} from 'mobx-react'
 import {Table, Pagination} from 'antd'
 import SearchContent from './search'
@@ -48,15 +48,20 @@ export default class ListContent extends Component {
 
   componentWillMount() {
     // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
-    const {initGetDataByParent} = this.props
-    if (initGetDataByParent) return 
+    const {initGetDataByParent, initParams} = this.props
 
     /*
      *initParams: 列表配置参数值
      */
-    const {initParams} = this.props
     this.store.initParams = initParams
+    if (initGetDataByParent) return 
     this.store.getList()
+  }
+
+  componentWillUnmount() {
+    this.store.list.clear()
+    // this.store.initParams = {}
+    this.store.searchParams = {}
   }
 
   handleSearch = (value = {}) => {
@@ -69,7 +74,7 @@ export default class ListContent extends Component {
 
   @action remoteSearch = (value = {}) => {
     const {
-      onSearch, beforeSearch, paginationConfig,
+      onSearch, beforeSearch, paginationConfig, 
     } = this.props
     let newVal = value
 
@@ -82,7 +87,6 @@ export default class ListContent extends Component {
       onSearch() 
     } else {
       this.store.searchParams = newVal
-
       this.store.getList({
         pageSize: paginationConfig.pageSize || 10, // 默认pageSize 10
         currentPage: 1, // 搜索重置列表
@@ -112,6 +116,7 @@ export default class ListContent extends Component {
 
   renderBtn() {
     const {buttons} = this.props
+
     if ((!buttons || buttons.length === 0)) {
       // 如果没有，则返回
       return null
@@ -127,7 +132,6 @@ export default class ListContent extends Component {
     const {
       tableLoading, list = [], pagination, handlePageChange, handleTableChange,
     } = this.store
-
     return (
       <div className="comp-list-content">  
         {
@@ -140,7 +144,8 @@ export default class ListContent extends Component {
           // @see {@link antd/table}
           pagination={false}
           loading={tableLoading}
-          dataSource={list.slice()}
+          dataSource={toJS(list)}
+          rowClassName={(rowData, index) => `ant-table-row-${index % 2}`}
           onChange={handleTableChange}
           {...rest}
           className="table"
@@ -152,6 +157,7 @@ export default class ListContent extends Component {
                 // @see {@link antd/Pagination}
                 // showQuickJumper, 
                 // showSizeChanger
+                showSizeChanger={false}
                 {...paginationConfig}
                 pageSize={pagination.pageSize}
                 current={pagination.currentPage}

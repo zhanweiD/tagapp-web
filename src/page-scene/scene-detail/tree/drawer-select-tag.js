@@ -34,6 +34,7 @@ export default class SelectTag extends Component {
   @action.bound closeDrawer() {
     const {modalVisible} = this.store
     modalVisible.selectTag = false
+    this.removeListItem = undefined
     this.destroy()
   }
 
@@ -75,6 +76,7 @@ export default class SelectTag extends Component {
       title: '选择标签',
       visible: selectTag,
       width: 1120,
+      closable: true,
       maskClosable: false,
       destroyOnClose: true,
       onClose: this.closeDrawer,
@@ -99,7 +101,7 @@ export default class SelectTag extends Component {
           <div className="mb8">
             <span className="ml4 fs12">
               （若需要的标签不可选择，请先去“标签同步”模块完成
-              <a target="_blank" rel="noopener noreferrer" href="/asset-tag/index.html#/tag-sync">标签数据的同步</a>
+              <a target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">标签数据的同步</a>
                ）
             </span>
           </div>

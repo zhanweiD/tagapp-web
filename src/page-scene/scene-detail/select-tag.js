@@ -77,9 +77,9 @@ export default class SelectTag extends Component {
       })
     })
 
-    if (this.store.projectId) {
-      this.store.getAuthCode()
-    }
+    // if (this.store.projectId) {
+    //   this.store.getAuthCode()
+    // }
   }
 
   @action tagChange = tagId => {
@@ -102,10 +102,10 @@ export default class SelectTag extends Component {
     }
   }
 
-  goToAddObj = () => {
-    // 跳转至标签模型添加标签
-    window.location.href = `${window.__keeper.pathHrefPrefix}/object-modal/4`
-  }
+  // goToTagDetail = id => {
+  // 跳转至标签模型添加标签
+  // window.location.href = `${window.__keeper.pathHrefPrefix}/tag-model/index.html#/manage/tag-maintain/${id}`
+  // }
 
   // 选择对象
   @action selectObj = () => {
@@ -128,28 +128,9 @@ export default class SelectTag extends Component {
  
   render() {
     const {
-      tagInfo, tagId, tagInfoLoading, tagExistFlag, tagExistFlagLoading, functionCodes,
+      tagInfo, tagId, tagInfoLoading, tagExistFlag, tagExistFlagLoading, functionCodes, projectId
     } = this.store
 
-    const noTagConfig = {
-      btnText: '去添加对象',
-      onClick: this.goToAddObj,
-      isLoading: tagExistFlagLoading,
-      code: 'asset_tag_project_occ_operator',
-      noAuthText: '暂无数据',
-      text: '没有任何对象，请在对象模型中添加！',
-      myFunctionCodes: functionCodes,
-    }
-
-    const noObjConfig = {
-      btnText: '选择对象',
-      onClick: this.selectObj,
-      isLoading: this.store.categoryStore.treeLoading,
-      code: 'asset_tag_project_occ_operator',
-      noAuthText: '您暂无选择对象的权限',
-      myFunctionCodes: functionCodes,
-    }
-    
     const {
       id,
       name,
@@ -157,7 +138,7 @@ export default class SelectTag extends Component {
       enName,
       valueTypeName,
       cuser,
-      cdate,
+      isEnum,
       descr,
       // objTypeCode,
       // treeId,
@@ -166,14 +147,14 @@ export default class SelectTag extends Component {
     // 详情信息
     const baseInfo = [
       {
-        title: '唯一标识',
+        title: '标签标识',
         value: enName,
       }, {
         title: '数据类型',
         value: valueTypeName,
       }, {
         title: '是否枚举',
-        value: cuser,
+        value: isEnum ? '是' : '否',
       },
     ]
 
@@ -188,42 +169,29 @@ export default class SelectTag extends Component {
           <TagCategory {...tagCategoryOpt} />
 
           <div className="FB1 m16" style={{overflowX: 'hidden'}}>
-            {
-              tagExistFlag
-                ? (
-                  <div>
-                    <Spin spinning={this.store.categoryStore.treeLoading}>
-                      {
-                        this.objExistFlag
-                          ? (
-                            <div>
-                              {
-                                tagId && !this.isTagDel ? (
-                                  <Fragment>
-                                    <Spin spinning={tagInfoLoading}>
-                                      <DetailHeader
-                                        name={name}
-                                        descr={descr}
-                                        baseInfo={baseInfo}
-                                        // 点击“标签详情”按钮，进入标签详情
-                                        actions={[<Button href={`${window.__keeper.pathHrefPrefix}/tag-model/${id}`} type="primary"><a href>标签详情</a></Button>]}
-                                      />
-                                    </Spin>
-                                    <TrendTag store={this.store} tagId={this.store.tagId} />
-                                    <TrendApi store={this.store} tagId={this.store.tagId} />
-                                  </Fragment>
-                                ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！<br/>（注：选择的标签必须放在对象的某个类目下）`} />
-                              }
-                            </div>
-                          )
-                          : <NoData {...noObjConfig} />
-                      }
-                    </Spin>
-                  </div>
-                ) 
-                : <NoData {...noTagConfig} />
-            }
-
+            <Spin spinning={this.store.categoryStore.treeLoading}>
+              <div>
+                {
+                  tagId && !this.isTagDel ? (
+                    <Fragment>
+                      <Spin spinning={tagInfoLoading}>
+                        <DetailHeader
+                          name={name}
+                          descr={descr}
+                          baseInfo={baseInfo}
+                          // 点击“标签详情”按钮，进入标签详情
+                          actions={[<Button type="primary">   
+                            <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}/${projectId}`}>标签详情</a>
+                                    </Button>]}
+                        />
+                      </Spin>
+                      <TrendTag store={this.store} tagId={this.store.tagId} />
+                      <TrendApi store={this.store} tagId={this.store.tagId} />
+                    </Fragment>
+                  ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！<br/>（注：选择的标签必须放在对象的某个类目下）`} />
+                }
+              </div>
+            </Spin>
           </div>
         </div>
       </Provider>

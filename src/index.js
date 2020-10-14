@@ -8,11 +8,14 @@ import {
 } from 'react-router-dom'
 import * as dict from './common/dict'
 
-import DataSearch from './page-data-search'
-import GroupConfig from './page-group-config'
-import GroupManage from './page-group-manage'
-import Scene from './page-scene'
-import Project from './page-project'
+// import Group from './page-group'
+// import Search from './page-search'
+// import Scene from './page-scene'
+import Config from './page-config'
+import App from './index-app'
+
+import Frame from './frame'
+
 
 const njkData = {
   dict,
@@ -20,22 +23,60 @@ const njkData = {
 
 window.njkData = njkData
 
+const quickEntrance = [
+  {
+    tip: '审批管理',
+    icon: 'approver',
+    url: '/tag-model/index.html#/common/approval',
+  },
+  {
+    tip: '后台配置',
+    icon: 'setting',
+    url: '/tag-model/index.html#/config/environment',
+  },
+  {
+    tip: '项目管理',
+    url: '/project/index.html#detail/base',
+    icon: 'project',
+  },
+]
 
-export default class Entry extends React.Component {
-  render() {
+const commonConfig = {
+  productCode:"tag_app",
+  theme: "ocean" , 
+  logoText: "标签中心" , 
+  showAllProduct: true,
+  showSider: true,
+  showHeaderNav: true,
+  showProject: true,
+  quickEntrance:quickEntrance,
+  onUserChange:() => window.location.href = `/tag-model/index.html#/overview`
+}
+
+const frameComp = (Comp, cofig) => {
+  return function frameHocComp() {
     return (
-      <Router>
-        <Switch>
-          <Route path="/data-search" component={DataSearch} />
-          <Route path="/group-config" component={GroupConfig} />
-          <Route path="/group" component={GroupManage} />
-          <Route path="/scene" component={Scene} />
-          <Route path="/project" component={Project} />
-          <Redirect to="/project" />
-        </Switch>
-      </Router>
+      <Frame
+        {...commonConfig}
+        {...cofig}
+      >
+        <Comp />
+      </Frame>
     )
   }
 }
+
+function Entry () {
+  return (
+    <Router>
+      <Switch>
+        {/* 群体洞察 */}
+        <Route path="/config" component={frameComp(Config, { productCode: "tag_config" })} />
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
+  )
+}
+
 
 ReactDOM.render(<Entry />, document.getElementById('root'))

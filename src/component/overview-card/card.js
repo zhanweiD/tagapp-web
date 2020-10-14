@@ -55,7 +55,7 @@ export default class OverviewCard extends React.Component {
           {
             values.map((value = '--', index) => (
               index === 0
-                ? (<span style={{color: active.color || '#0078FF', fontSize: active.size || 30}}>{value}</span>)
+                ? (<span style={{color: active.color || '#2466FF', fontSize: active.size || 30}}>{value}</span>)
                 : (<span style={{fontSize: 16}}>{`/${value}`}</span>)
             ))
           }
@@ -66,7 +66,7 @@ export default class OverviewCard extends React.Component {
               {
                 valueTexts.map((text, index) => (
                   index === 0
-                    ? (<span style={{color: active.color || '#0078FF'}}>{text}</span>)
+                    ? (<span style={{color: active.color || '#2466FF'}}>{text}</span>)
                     : (<span>{` / ${text}`}</span>)
                 ))
               }

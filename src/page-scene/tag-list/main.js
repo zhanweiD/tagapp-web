@@ -1,17 +1,14 @@
-import {Component} from 'react'
-import {action} from 'mobx'
-import {observer, inject} from 'mobx-react'
+import {Component, useEffect} from 'react'
+import {action, toJS} from 'mobx'
+import {observer} from 'mobx-react'
 import {Table, Badge} from 'antd'
-import * as navListMap from '../../common/navList'
-
+import OnerFrame from '@dtwave/oner-frame'
 import {SearchForm} from './search-form'
 
 import store from './store-scene-tags'
 
-
-@inject('frameChange')
 @observer
-export default class Scene extends Component {
+class TagList extends Component {
   constructor(props) {
     super(props)
     
@@ -22,6 +19,8 @@ export default class Scene extends Component {
     } = props
 
     store.sceneId = params.sceneId
+    // store.projectId = props.projectId
+    store.projectId = params.projectId
   }
 
   searchForm = null
@@ -34,17 +33,8 @@ export default class Scene extends Component {
     title: '数据类型',
     dataIndex: 'type',
   }, {
-    title: '价值分',
-    dataIndex: 'worthScore',
-    sorter: true,
-  }, {
-    title: '质量分',
-    dataIndex: 'qualityScore',
-    sorter: true,
-  }, {
-    title: '热度',
-    dataIndex: 'hotScore',
-    sorter: true,
+    title: '对象',
+    dataIndex: 'objName',
   }, {
     title: '创建人',
     dataIndex: 'cuser',
@@ -61,16 +51,8 @@ export default class Scene extends Component {
   }]
 
   componentWillMount() {
-    const {frameChange} = this.props
-    frameChange('nav', [
-      navListMap.tagCenter,
-      navListMap.application,
-      navListMap.scene,
-      {url: `/asset-tag/index.html#/scene/${store.sceneId}`, text: '场景详情'},
-      {text: '标签列表'},
-    ])
-    
     store.getList()
+    store.getObjList()
   }
 
   @action handleChange(e) {
@@ -121,17 +103,19 @@ export default class Scene extends Component {
         pagination,
         loading,
       },
+      objList,
     } = store
     return (
-      <div className="scene-tags p16">
+      <div className="scene-tags box-border">
         <SearchForm 
           ref={form => this.searchForm = form}
           onChange={() => this.handleChange(this.searchForm.getFieldsValue())}
           onSearch={() => this.handleSearch()}
           onReset={() => this.handleReset()}
+          objList={toJS(objList)}
         />
         <Table 
-          className="bgf p16"
+          className="bgf"
           loading={loading}
           columns={this.columns} 
           dataSource={data.slice()} 
@@ -146,4 +130,16 @@ export default class Scene extends Component {
       </div>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+
+  useEffect(() => {
+    ctx.useProject(true, null, {visible: false})
+  }, [])
+
+  return (
+    <TagList {...props} />
+  )
 }

@@ -1,0 +1,196 @@
+/**
+ * @description 我的查询-TQL
+ */
+
+import {Component} from 'react'
+import {observer} from 'mobx-react'
+import {action, toJS, observable} from 'mobx'
+import cls from 'classnames'
+import {message, Spin, Tooltip} from 'antd'
+
+import sqlFormatter from 'sql-formatter'
+import {QuestionCircleOutlined} from '@ant-design/icons'
+import {Authority} from '../../../component'
+import SearchResult from './search-result'
+import {downloadResult} from '../../../common/util'
+// import yunxing from '../../../icon/yunxing.svg'
+// import geshihua from '../../../icon/geshihua.svg'
+
+@observer
+export default class TqlCode extends Component {
+  constructor(props) {
+    super(props)
+    this.store = props.store
+  }
+
+  @observable resultKey = 0
+
+  componentDidMount() {
+    this.store.getHeight()
+
+    if (document.getElementById('codeArea')) {
+      this.store.editor = window.CodeMirror.fromTextArea(document.getElementById('codeArea'), {
+        mode: 'text/x-mysql',
+        autoCloseBrackets: true,
+        matchBrackets: true,
+        showCursorWhenSelecting: true,
+        indentWithTabs: false,
+        lineNumbers: true,
+        dragDrop: false,
+        indentUnit: 4,
+        tabSize: 4,
+        styleActiveLine: true,
+        readOnly: false,
+        // keyMap: 'sublime',
+        theme: 'default',
+      })
+    }
+
+    this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
+  }
+
+  @action checkIsCanHint = (instance, change) => {
+    this.store.log = ''
+    this.store.tql = ''
+    this.store.isRuned = false
+    this.store.resultInfo = {}
+    
+    const {text} = change
+    const {origin} = change
+    // let flag = false
+    if (origin === '+input' && /\w|\./g.test(text[0]) && change.text[0].length === 1) {
+      // flag = true
+
+      this.store.editor.showHint(instance, {hint: window.CodeMirror.hint.sql}, true)
+    }
+
+    // if (flag && this.store.runStatusMessage.status === 'success') {
+    //   this.store.runStatusMessage.status = 'error'
+    // }
+  }
+
+  // 运行
+  @action operationCode() {
+    const code = this.store.editor.getValue()
+    if (!code) {
+      message.error('请输入运行代码')
+    } else {
+      // this.store.showResult = true
+      this.resultKey = Math.floor(Math.random() * 1000)
+      this.store.runSearch({
+        tql: code,
+      })
+    }
+  }
+
+  // 停止
+  @action stopOperation() {
+    console.log(this.editor.getValue())
+  }
+
+  // 格式化code
+  @action codeFormat() {
+    const code = this.store.editor.getValue()
+    if (!code) {
+      message.error('请输入运行代码')
+    } else {
+      this.store.editor.setValue(sqlFormatter.format(code), {language: 'n1ql', indent: '    '})
+    }
+  }
+
+  // 查询结果下载
+  downloadResult = () => {
+    const code = this.store.editor.getValue()
+    downloadResult({
+      projectId: this.store.projectId,
+      runType: 2,
+      tql: code,
+    })
+  }
+
+  render() {
+    const {
+      detail,
+      resultLoading,
+      showResult, 
+      resultInfo,
+      log,
+      detailLoading,
+      handleExpend,
+      onDraggableLogMouseDown,
+      isRuned,
+    } = this.store
+
+    return (
+      <div className="code-content" id="code-content">
+        <Spin spinning={detailLoading}>
+          <div style={{height: 'calc(100vh - 90px)'}}>
+            <div className="code-menu">
+              <Authority
+                authCode="tag_app:run_tql_search[x]"
+              >
+                {
+                  resultLoading ? (
+                    <Tooltip placement="topRight" title="正在查询中，不可重复查询">
+                      <span className="mr16 disabled">
+                        {/* <img src={yunxing} alt="img" className="disabled"/> */}
+                        <i className="iconfont dtwave icon-run" style={{fontSize: '14px'}} />
+                        <span className="ml4">查询</span>
+                      </span>
+                    </Tooltip>
+                  ) : (
+                    <span className="code-menu-item mr16" onClick={() => this.operationCode()}>
+                      {/* <img src={yunxing} alt="img" /> */}
+                      <i className="iconfont dtwave icon-run" />
+                      <span className="ml4">查询</span>
+                    </span>
+                  )
+                }
+
+              </Authority>
+              <span className="code-menu-item mr16" onClick={() => this.codeFormat()}>
+                {/* <img src={geshihua} alt="img" /> */}
+                <i className="iconfont dtwave icon-geshihua1" />
+                <span className="ml4">格式化</span>
+              </span>
+              <a target="_blank" rel="noopener noreferrer" href={`${window.__keeper.pathHrefPrefix}/search/tql-explain`} style={{marginLeft: '-8px'}}><QuestionCircleOutlined /></a> 
+            </div>
+            <Spin spinning={resultLoading}>
+              <form
+                id="code_area"
+                className={cls({
+                  new_codearea: true,
+                  new_codearea_nolog: !this.store.isRuned,
+                  max_height: this.store.isRuned,
+                })}
+              >
+                <textarea
+                  id="codeArea"
+                  ref={t => this.codeArea = t}
+                  placeholder="code goes here..."
+                >
+                  {
+                    toJS(detail.source)
+                  }
+                </textarea>
+              </form>
+            </Spin>
+
+          </div>
+        </Spin>
+        
+        <SearchResult 
+          log={toJS(log)}
+          expend={showResult} 
+          loading={resultLoading} 
+          resultInfo={toJS(resultInfo)}
+          handleExpend={handleExpend}
+          onDraggableLogMouseDown={onDraggableLogMouseDown}
+          isRuned={isRuned}
+          downloadResult={this.downloadResult}
+          resultKey={this.resultKey}
+        />
+      </div>
+    )
+  }
+}

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {Component} from 'react'
-import {Icon, message} from 'antd'
+import { message } from 'antd';
 import {ErrorEater} from '@dtwave/uikit'
 
 //*--------------- 方法类 (返回方法) ---------------*//
@@ -11,9 +11,16 @@ const {pathPrefix} = window.__keeper
 
 // 接口前缀
 
+export const relGroupApi = `${pathPrefix}/relGroup` // 群体配置
+export const groupConfigApi = `${pathPrefix}/relGroup` // 群体配置
+
+export const groupApi = `${pathPrefix}/group` // 群体管理
+export const groupDetailsApi = `${pathPrefix}/groupDetails` // 群体详情
+export const groupAnalysis = `${pathPrefix}/groupAnalysis` // 群体分析
+
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览
-export const projectApi = `${pathPrefix}/project` // 项目列表
+export const projectApi = `/api/tagmodel/1_0_0/project` // 项目列表
 export const approvalApi = `${pathPrefix}/apply` // 审批管理
 
 export const tagClassApi = `${pathPrefix}/cate` // 标签类目
@@ -21,7 +28,7 @@ export const projectSpaceApi = `${pathPrefix}/project` // 项目空间
 export const marketApi = `${pathPrefix}/tagMarket` // 标签集市
 
 export const tagModalApi = `${pathPrefix}/tag` // 标签模型
-export const sceneApi = `${pathPrefix}/occasion` // 场景管理
+export const sceneApi = `/api/tagmodel/1_0_0/occasion` // 场景管理
 
 // 4.9.0
 export const objectApi = `${pathPrefix}/object` // 对象管理
@@ -30,6 +37,8 @@ export const tagWarehouseApi = `${pathPrefix}/map` // 标签仓库
 
 export const syncApi =  `${pathPrefix}/transfer` // 标签同步
 export const targetSourceApi =  `${pathPrefix}/targetSource` // 目的数据源
+
+export const dataSearch =  `${pathPrefix}/search` // 数据查询
 
 const createRequestFn = method => (url, config) => ({
   url,
@@ -133,6 +142,28 @@ export function trimFormValues(values) {
   return values
 }
 
+/**
+ * @author 凡书
+ * @description 限制select选择个数
+ * @number 不能超过number个
+ */
+export function limitSelect(rule, values, callback, number) {
+  // const {setFieldsValue} = this.form
+  // let newArr
+  if (values.length > number) {
+    // newArr = [].concat(values.slice(0, number-1), values.slice(-1))
+    // setFieldsValue({
+    //   outputTags: newArr,
+    // })
+    callback(`最多可选择${number}个标签`)
+  } 
+  // else {
+  //   newArr = value
+  //   callback()
+  // }
+  callback()
+}
+
 export function isJsonFormat(str) {
   try {
     JSON.parse(str)
@@ -157,9 +188,6 @@ export function listToTree(data) {
   return newData.filter(item => item.parentId === 0)
 }
 
-// 标签、对象英文名校验正则
-export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
-
 /**
  * @description 根据数据类型code 返回 数据类型name; 常用数据类型 整数型/小数型/文本型/日期型
  * @param {*} code 
@@ -173,11 +201,12 @@ export const getDataTypeName = (code) => {
 }
 
 
-export const codeInProduct = code => {
-  const functionCodes = window.productFunctionCode || []
+export const codeInProduct = (code, isCommon) => {
+  const {userProductFunctionCode = [], projectFunctionCode = []} = window.frameInfo || {}
+  const functionCodes = isCommon ? userProductFunctionCode : projectFunctionCode
+
   return functionCodes.indexOf(code) > -1
 }
-
 //*------------------------------ 组件类 (返回组件) ------------------------------*//
 /**
  * @description 异步加载组件
@@ -231,15 +260,29 @@ export function getNamePattern(max = 32) {
     transform: value => value && value.trim(),
   }, {
     max, 
-    message: `名称不能超过${max}个字符`,
+    message: `不能超过${max}个字符`,
   }, {
-    pattern: /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '名称格式不正确，允许输入中文/英文/数字/下划线',
+    pattern: /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '格式不正确，允许输入中文/英文/数字/下划线',
   }, {
-    pattern: /^(?!_)/, message: '名称不允许下划线开头',
+    pattern: /^(?!_)/, message: '不允许下划线开头',
   }, {
-    pattern: /^(?!数栖)/, message: '名称不允许数栖开头',
-  }]
+    pattern: /^(?!数栖)/, message: '不允许数栖开头',
+  }];
 }
+
+export function getEnNamePattern(max = 32) {
+  return [{
+    transform: value => value && value.trim(),
+  }, {
+    max, 
+    message: `不能超过${max}个字符`,
+  }, {
+    pattern: /^[a-zA-Z][a-zA-Z0-9_]/, message: '格式不正确，允许输入英文/数字/下划线，必须以英文开头',
+  }];
+}
+
+// 标签、对象英文名校验正则
+export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
 
 export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
   const map = {
@@ -250,4 +293,36 @@ export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
     tb: 
     2 ** 40,
   }
+}
+
+/**
+ * @description 重命名校验防抖
+ * @author 凡书
+ * @param fn 要防抖执行的函数 
+ * @param delay 间隔时间
+ */
+
+let timer = null
+export function debounce(fn, delay = 200) {
+  clearTimeout(timer)
+  timer = setTimeout(fn, delay)
+}
+
+export function downloadResult(params) {
+  const req = new XMLHttpRequest()
+  req.open('POST', '/api/tagapp/1_0_0/search/run_search_export' , true)
+  req.responseType = 'blob'
+  req.setRequestHeader('Content-Type', 'application/json')
+  req.onload = () => {
+
+    const data = req.response
+    const blob = new Blob([data])
+    const blobUrl = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.download = `查询结果.xls`
+    a.href = blobUrl
+    a.click()
+  }
+
+  req.send(JSON.stringify(params))
 }

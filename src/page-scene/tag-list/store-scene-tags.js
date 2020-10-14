@@ -1,13 +1,14 @@
 import {
   observable, action, runInAction,
 } from 'mobx'
-import {successTip, errorTip} from '../../common/util'
+import { successTip, errorTip } from '../../common/util'
 import io from './io'
 
 
 class SceneTagsStore {
   // 场景id
   @observable sceneId = undefined
+  @observable projectId = undefined
 
   @observable tagInfo = {
     data: [],
@@ -15,24 +16,42 @@ class SceneTagsStore {
     loading: false,
   }
 
+  @observable objList = []
+
   @observable params = {
     pageSize: 10,
     currentPage: 1,
   }
 
+  // 对象下拉
+  @action async getObjList () {
+    try {
+      const res = await io.getObjList({
+        occasionId: this.sceneId,
+        projectId: this.projectId
+      })
+      runInAction(() => {
+        this.objList.replace(res)
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
   // 标签列表
-  @action async getList() {
+  @action async getList () {
     this.tagInfo.loading = true
     try {
       const res = await io.getList({
         occasionId: this.sceneId,
         ...this.params,
+        projectId: this.projectId
       })
       runInAction(() => {
         this.tagInfo.data.replace(res.data)
 
         this.tagInfo.pagination = {
-          pageSize: res.pageSize,
+          pageSize: res.pages,
           total: res.totalCount,
           current: res.currentPage,
         }

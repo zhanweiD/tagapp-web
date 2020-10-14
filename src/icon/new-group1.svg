@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 6</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="群体洞察-群体管理备份-4" transform="translate(-504.000000, -296.000000)">
+            <g id="编组-5" transform="translate(464.000000, 200.000000)">
+                <g id="编组-6" transform="translate(40.000000, 96.000000)">
+                    <circle id="椭圆形" fill="#39CBCB" cx="12" cy="12" r="12"></circle>
+                    <g id="编组" transform="translate(7.000000, 6.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <path d="M10,3.34375 L0,3.34375 L0,1.34375 C0,0.607083328 0.596666672,0.0104166719 1.33333333,0.0104166719 L8.66666667,0.0104166719 C9.40333334,0.0104166719 10,0.607083344 10,1.34375 L10,3.34375 Z" id="路径" fill-opacity="0.7"></path>
+                        <path d="M8.52,12.6270833 L4.80666667,11.0470833 L1.49666667,12.5904167 C0.756666672,12.8370833 -5.68434189e-16,12.2470833 -5.68434189e-16,11.42375 L-5.68434189e-16,4.01041667 L10,4.01041667 L10,11.4504167 C10,12.2704167 9.26,12.8570833 8.52,12.6270833 Z" id="路径"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

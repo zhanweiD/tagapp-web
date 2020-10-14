@@ -30,10 +30,18 @@ class Store {
     try {
       const res = await io.getDetail({
         ...params,
+        projectId: this.projectId,
       })
 
       runInAction(() => {
         this.info = res
+
+        this.getStorageList({
+          storageType: res.dataStorageType,
+        })
+        this.getObjList({
+          storageId: res.dataStorageId,
+        })
       })
     } catch (e) {
       errorTip(e.message)
@@ -72,7 +80,9 @@ class Store {
     this.storageTypeLoading = true
 
     try {
-      const res = await io.getStorageType()
+      const res = await io.getStorageType({
+        projectId: this.projectId,
+      })
       runInAction(() => {
         this.storageType = changeToOptions(res)('name', 'type')
       })
@@ -92,7 +102,8 @@ class Store {
       const res = await io.getStorageList({
         id: this.projectId,
         ...params,
-      })
+        projectId: this.projectId,
+      }) || []
       runInAction(() => {
         this.storageSelectList = changeToOptions(res)('dataDbName', 'dataStorageId')
       })
@@ -121,7 +132,7 @@ class Store {
   }
 
   // 场景新增
-  @action async addScene(params) {
+  @action async addScene(params, cb) {
     this.confirmLoading = true
     try {
       await io.addScene({
@@ -134,6 +145,7 @@ class Store {
         this.modalVisible = false
         this.getList()
         successTip('添加成功')
+        if (cb)cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -149,6 +161,7 @@ class Store {
     try {
       await io.delScene({
         occasionId: id,
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -161,7 +174,7 @@ class Store {
   }
 
   // 场景编辑
-  @action async editScene(params) {
+  @action async editScene(params, cb) {
     this.confirmLoading = true
     try {
       await io.editScene({
@@ -172,6 +185,8 @@ class Store {
       runInAction(() => {
         this.getList()
         successTip('编辑成功')
+
+        if (cb)cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -186,7 +201,10 @@ class Store {
   // 名称校验
   @action async checkName(params, cb) {
     try {
-      const res = await io.checkName(params)
+      const res = await io.checkName({
+        ...params,
+        projectId: this.projectId,
+      })
       runInAction(() => {
         if (typeof res === 'boolean' && res) {
           cb()

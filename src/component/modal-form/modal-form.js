@@ -2,7 +2,8 @@
  * @description 封装modol中常用form
  */
 import {Component, Fragment} from 'react'
-import {Form} from 'antd'
+import {Form} from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
 import PropTypes from 'prop-types'
 import QuestionTooltip from '../question-tooltip'
 import ControlComponent, {mergeRules} from '../form-component-config'
@@ -28,7 +29,6 @@ export default class ModalForm extends Component {
   createItemContent = () => {
     const {selectContent, formItemLayout, form: {getFieldDecorator}} = this.props
     if (!selectContent && !selectContent.length) return null
-
     return selectContent.map(({
       label,
       labelTooltip,
@@ -40,6 +40,7 @@ export default class ModalForm extends Component {
       control,
       hide,
       extra,
+      mode,
       ...rest
     }) => (
       <Fragment>
@@ -61,12 +62,11 @@ export default class ModalForm extends Component {
                 valuePropName,
                 rules: mergeRules(rules, label),
                 validateFirst: true,
-              })(<ControlComponent type={type} label={label} {...control} {...rest} />)}
+              })(<ControlComponent mode={mode} type={type} label={label} {...control} {...rest} />)}
             </FormItem>
           )
         }
       </Fragment>
-     
     ))
   }
 

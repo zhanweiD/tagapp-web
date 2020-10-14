@@ -45,12 +45,12 @@ for $n in 0 12 14 16 18 20 22 24 26 28 30
     font-size u($n)
 
 // all padding
-for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30
+for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 40 48
   .p{$n}
     padding u($n)
 
 // special padding
-for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32
+for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 40 48
   .pt{$n}
     padding-top u($n)
   .pr{$n}
@@ -126,6 +126,9 @@ for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 48
 .d-block
   display block
 
+.d-none
+  display none
+
 .button-style
   color #0078FF
   cursor pointer
@@ -152,8 +155,8 @@ for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 48
 .button-style-hover.active
   color #0078FF
 
-.ant-modal-body
-  padding 24px!important
+// .ant-modal-body
+//   padding 24px!important
 
 // 备注：树组件复写的样式中的一个icon需要以前的iconfont文件，而最近版的antd 3.10.4中icon已经用svg实现，没有iconfont文件了
 @font-face {
@@ -163,6 +166,14 @@ for $n in 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 48
 }
 
 a
-  color #0078ff
+  color #2466ff
   &:hover
-    color #0078ff
+    color #2466ff
+
+// 修改按钮文字大小
+.dt-ant-12 
+  .ant-modal-footer 
+    .ant-btn
+      font-size 12px  
+.h-100 
+  height 100%

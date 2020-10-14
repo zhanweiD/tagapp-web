@@ -76,9 +76,7 @@ const ListContentStore = apiFunc => class _Store {
   @action async getList(params) {
     try {
       this.tableLoading = true
-
       const {pageSize = 10, currentPage = 1} = this.pagination
-     
       const res = await apiFunc(filterUndefinedValues({
         ...this.initParams,
         ...this.tableSorter,
@@ -90,16 +88,16 @@ const ListContentStore = apiFunc => class _Store {
       // const res = {
       //   data: [],
       // }
+
       runInAction(() => {
         const {
           data = [],
         } = res
         this.tableLoading = false
         this.list.replace(data)
-
         this.pagination = {
           pageSize: res.pageSize || 10,
-          totalCount: res.totalCount,
+          totalCount: res.totalCount || res.count,
           currentPage: res.currentPage,
         }
       })

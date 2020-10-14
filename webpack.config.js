@@ -23,8 +23,9 @@ module.exports = {
     compress: true,
     inline: true,
     hot: true,
-    port: '9998',
+    port: '9992',
     host: '0.0.0.0',
+    disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
@@ -32,7 +33,8 @@ module.exports = {
     proxy: [
       {
         context: ['/config', '/api'],
-        target: 'http://192.168.90.112',
+        // target: 'http://all-test.dtwave-local.com',
+        target: 'http://192.168.90.197',
         changeOrigin: true,
       },
     ],

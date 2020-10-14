@@ -1,32 +1,29 @@
-import {Component} from 'react'
-import {observer} from 'mobx-react'
-import {
-  HashRouter as Router, Route, Switch,
-} from 'react-router-dom'
+import {useEffect} from 'react'
+import OnerFrame from '@dtwave/oner-frame' 
+import {Route, Switch, Redirect} from 'react-router-dom'
 import SceneList from './scene'
 import SceneDetail from './scene-detail'
 import TagList from './tag-list'
 
-import Frame from '../frame'
+const prePath = '/scene'
 
-@observer
-export default class Scene extends Component {
-  render() {
-    return (
-      <Router>
-        <Frame page="space" pageUrl="/scene">
-          <Switch>
-            <Route exact path="/scene" component={SceneList} />
-            <Route exact path="/scene/:sceneId" component={SceneDetail} /> 
-            <Route exact strict path="/scene/:sceneId/tags" component={TagList} />
-            <Route
-              render={() => {
-                window.location.href = '/404'
-              }}
-            />
-          </Switch>
-        </Frame>
-      </Router>
-    )
-  }
+export default () => {
+  const ctx = OnerFrame.useFrame()
+  const projectId = ctx.useProjectId()
+  useEffect(() => {
+    if(projectId) {
+      ctx.querySiderMenus({
+        productCode: 'tag_app',
+        projectId
+      })
+    }
+  }, [projectId])
+  return (
+    <Switch>
+      <Route exact path={`${prePath}`} component={SceneList} />
+      <Route exact path={`${prePath}/:sceneId/:projectId?`} component={SceneDetail} /> 
+      <Route exact strict path={`${prePath}/:sceneId/tags/:projectId?`} component={TagList} />
+      <Redirect strict to={`${prePath}`} />
+    </Switch>
+  )
 }

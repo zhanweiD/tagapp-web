@@ -9,7 +9,7 @@ import {DtTree} from '@dtwave/uikit'
 
 import treeUnfold from '../../../icon/tree-unfold.svg'
 import treeFold from '../../../icon/tree-fold.svg'
-import tag from '../../../icon/tag.svg'
+import tag from '../../../icon/new-tag.svg'
 
 import Action from './action'
 import ModalCategoryEdit from './modal-category-edit'
@@ -210,7 +210,7 @@ render() {
           title: (() => {
             if (item.parentId !== 0) return <span>{item.name}</span>
             return (
-              <div className="FBH" style={{color: '#0078ff'}}>
+              <div className="FBH">
                 <div className="text-hidden">{item.name}</div>
                 <div className="pl4">{`(${item.tagCount || 0})`}</div>
               </div>
@@ -273,6 +273,7 @@ render() {
     // actionList,
     showIcon: true,
     defaultExpandedKeys: this.store.searchExpandedKeys.slice(),
+    showDetail: true,
   }
 
   return (

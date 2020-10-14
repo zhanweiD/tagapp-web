@@ -1,13 +1,13 @@
-import {Component, Fragment} from 'react'
+import {Component, Fragment, useEffect} from 'react'
 import {action, toJS} from 'mobx'
-import {observer, inject} from 'mobx-react'
+import {observer} from 'mobx-react'
+import OnerFrame from '@dtwave/oner-frame'
 import {
   Tabs, Button, Icon, Spin, Alert,
 } from 'antd'
 
-import * as navListMap from '../../common/navList'
 import {Time} from '../../common/util'
-import {AuthBox, Tag, DetailHeader} from '../../component'
+import {Authority, Tag, DetailHeader, TabRoute} from '../../component'
 import ModalEditScene from '../scene/modal'
 
 import SelectTag from './select-tag'
@@ -16,36 +16,21 @@ import store from './store-scene-detail'
 
 const {TabPane} = Tabs
 
-// 面包屑设置
-// eslint-disable-next-line no-underscore-dangle
-
-const navList = [
-  navListMap.tagCenter,
-  navListMap.application,
-  navListMap.scene,
-  {text: navListMap.sceneDetail.text},
-]
-
-@inject('frameChange')
 @observer
-export default class SceneDetail extends Component {
+class SceneDetail extends Component {
   constructor(props) {
     super(props)
-    const {spaceInfo} = window
-    store.projectId = spaceInfo && spaceInfo.projectId
 
+    // store.projectId = props.projectId
     const {match: {params}} = props
     store.sceneId = params.sceneId
+    store.projectId = params.projectId
   }
 
   componentWillMount() {
-    // 面包屑设置
-    const {frameChange} = this.props
-    frameChange('nav', navList)
-   
     if (store.projectId) {
       store.getDetail()
-      store.getAuthCode()
+      // store.getAuthCode()
     }
   }
 
@@ -54,9 +39,9 @@ export default class SceneDetail extends Component {
     store.modalVisible = true
   }
 
-  @action.bound onTabChange(e) {
-    store.currentKey = e
-  }
+  // @action.bound onTabChange(e) {
+  //   store.currentKey = e
+  // }
 
   componentWillUnmount() {
     store.info = {}
@@ -101,8 +86,22 @@ export default class SceneDetail extends Component {
     }
 
     const actions = [
-      <Button className="mr8" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags`}>标签列表</Button>,
+      <Button>
+        <a target="_blank" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}>标签列表</a>
+      </Button>,
+      <Authority
+        authCode="tag_app:config_data_service[c]"
+      >
+        <Button type="primary" className="ml8">
+          <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api-development">数据服务</a>
+        </Button>
+      </Authority>,
     ]
+
+    const tabConfig = {
+      tabs: [{name: '标签选择', value: 1}],
+      changeUrl: false,
+    }
 
     return (
       <div className="scene-detail">    
@@ -120,16 +119,17 @@ export default class SceneDetail extends Component {
 
         <Spin spinning={store.loading}>
           <DetailHeader
-            name={(
-              <Fragment>
-                <span>{name}</span>
-                <AuthBox code="asset_tag_project_occ_operator" myFunctionCodes={store.functionCodes} isButton={false}>
-                  {
-                    !used && <Icon className="ml8" type="edit" onClick={this.sceneDetailVisible} style={{color: 'rgba(0,0,0, .45)'}} />
-                  }
-                </AuthBox>
-              </Fragment>
-            )}
+            name={name}
+            // name={(
+            //   <Fragment>
+            //     <span>{name}</span>
+            //     {/* <AuthBox code="asset_tag_project_occ_operator" myFunctionCodes={store.functionCodes} isButton={false}> */}
+            //     {
+            //       !used && <Icon className="ml8" type="edit" onClick={this.sceneDetailVisible} style={{color: 'rgba(0,0,0, .45)'}} />
+            //     }
+            //     {/* </AuthBox> */}
+            //   </Fragment>
+            // )}
             descr={descr}
             btnMinWidth={230}
             baseInfo={baseInfo}
@@ -137,24 +137,28 @@ export default class SceneDetail extends Component {
             actions={actions}
           />
         </Spin>
-        {
-          store.projectId ? (
-            <Fragment>
-              <Tabs defaultActiveKey="1" animated={false} onChange={this.onTabChange}>
-                <TabPane tab="标签选择" key="1">
-                  <SelectTag 
-                    sceneId={store.sceneId} 
-                    projectId={store.projectId}
-                    sceneDetailStore={store}
-                  />
-                </TabPane>
-              </Tabs>
-              <ModalEditScene store={store} />
-            </Fragment>
-          ) : null
-        }
-       
+        <div>
+          <TabRoute {...tabConfig} />
+          <SelectTag
+            sceneId={store.sceneId}
+            projectId={store.projectId}
+            sceneDetailStore={store}
+          />
+          <ModalEditScene store={store} />
+        </div>     
       </div>
     )
   }
+}
+
+export default props => {
+  const ctx = OnerFrame.useFrame()
+
+  useEffect(() => {
+    ctx.useProject(true, null, {visible: false})
+  }, [])
+
+  return (
+    <SceneDetail {...props} />
+  )
 }

@@ -12,7 +12,8 @@ export default class ModalAdd extends Component {
   }
 
   @action.bound selectStorageType(type) {
-    this.form.resetFields(['storageId'])
+    console.log(this.form)
+    this.form.resetFields(['storageId', 'objId'])
     this.store.getStorageList({
       storageType: type,
     })
@@ -33,6 +34,9 @@ export default class ModalAdd extends Component {
       initialValue: info.name,
       component: 'input',
       rules: [
+        '@namePattern',
+        '@nameUnderline',
+        '@nameShuQi',
         '@transformTrim',
         '@required',
         '@max32',
@@ -54,7 +58,7 @@ export default class ModalAdd extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: info.storageId,
+      initialValue: info.dataStorageId,
       rules: [
         '@requiredSelect',
       ],
@@ -64,10 +68,10 @@ export default class ModalAdd extends Component {
         notFoundContent: storageSelectLoading ? <Spin size="small" /> : null,
       },
       component: 'select',
-      extra: <span>
-        若无可用的数据源，请先
-        <a target="_blank" rel="noopener noreferrer" href={`/asset-tag/index.html#/project/${this.store.projectId}`}>去项目配置中添加目的数据源</a>
-      </span>,
+      // extra: <span>
+      //   若无可用的数据源，请先
+      //   <a target="_blank" rel="noopener noreferrer" href={`/asset-tag/index.html#/project/${this.store.projectId}`}>去项目配置中添加目的数据源</a>
+      // </span>,
     }, {
       label: '对象',
       key: 'objId',
@@ -81,7 +85,7 @@ export default class ModalAdd extends Component {
       component: 'select',
       extra: <span>
         若无可用的对象，请先
-        <a className="ml4" target="_blank" rel="noopener noreferrer" href="/asset-tag/index.html#/tag-sync">去标签同步中添加同步计划</a>
+        <a className="ml4" target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">去标签同步中添加同步计划</a>
       </span>,
     }, {
       label: '描述',
@@ -95,13 +99,14 @@ export default class ModalAdd extends Component {
   }
 
   @action handleCancel = () => {
-    const {store} = this.props
-    store.modalVisible = false
+    this.store.modalVisible = false
     this.handleReset()
   }
 
   @action handleReset = () => {
     this.form.resetFields()
+    this.store.info = {}
+    this.store.isEdit = false
   }
 
   @action handleSubmit = e => {
