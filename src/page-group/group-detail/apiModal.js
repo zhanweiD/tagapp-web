@@ -66,7 +66,8 @@ export default class ApiModal extends Component {
 
   @action checkName = (rule, value, callback) => {
     const isName = rule.field === 'apiName'
-    debounce(() => this.store.checkName(isName, value, callback), 500)
+    // debounce(() => this.store.checkName(isName, value, callback), 500)
+    this.store.checkName(isName, value, callback)
   }
 
   submit = () => {
