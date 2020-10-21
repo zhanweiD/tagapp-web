@@ -282,7 +282,7 @@ export function getEnNamePattern(max = 32) {
 }
 
 // 标签、对象英文名校验正则
-export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
+export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,32}$/
 
 export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
   const map = {

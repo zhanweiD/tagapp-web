@@ -36,21 +36,21 @@ const quickEntrance = [
   },
   {
     tip: '项目管理',
-    url: '/project/index.html#detail/base',
+    url: '/project/index.html#/project',
     icon: 'project',
   },
 ]
 
 const commonConfig = {
-  productCode:"tag_app",
-  theme: "ocean" , 
-  logoText: "标签中心" , 
+  productCode: 'tag_app',
+  theme: 'ocean', 
+  logoText: '标签中心', 
   showAllProduct: true,
   showSider: true,
   showHeaderNav: true,
   showProject: true,
-  quickEntrance:quickEntrance,
-  onUserChange:() => window.location.href = `/tag-model/index.html#/overview`
+  quickEntrance,
+  onUserChange: () => window.location.href = '/tag-model/index.html#/overview',
 }
 
 const frameComp = (Comp, cofig) => {
@@ -66,12 +66,12 @@ const frameComp = (Comp, cofig) => {
   }
 }
 
-function Entry () {
+function Entry() {
   return (
     <Router>
       <Switch>
         {/* 群体洞察 */}
-        <Route path="/config" component={frameComp(Config, { productCode: "tag_config" })} />
+        <Route path="/config" component={frameComp(Config, {productCode: 'tag_config'})} />
         <Route path="/" component={App} />
       </Switch>
     </Router>
