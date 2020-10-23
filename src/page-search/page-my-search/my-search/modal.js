@@ -49,6 +49,7 @@ export default class ModalEdit extends Component {
     const {detail} = this.store
     const t = this
 
+    this.store.confirmLoading = true
     this.form.validateFields((err, values) => {
       if (!err) {
         const params = {
@@ -79,6 +80,7 @@ export default class ModalEdit extends Component {
   render() {
     const {
       visibleEdit,
+      confirmLoading,
     } = this.store
 
     const modalConfig = {
@@ -86,6 +88,7 @@ export default class ModalEdit extends Component {
       visible: visibleEdit,
       onCancel: this.handleCancel,
       onOk: this.submit,
+      confirmLoading,
       maskClosable: false,
       width: 525,
       destroyOnClose: true,
