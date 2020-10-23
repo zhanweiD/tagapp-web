@@ -53,7 +53,7 @@ export default class LabelTab extends Component {
                           percent={parseFloat(tooltipY, 10).toFixed(2)} 
                           // percent={parseFloat(tooltipY, 10)} 
                           color="#fff"
-                          style={{color: '#fff', width: '96px', marginRight: '18px'}}
+                          style={{color: '#fff', width: '96px', marginRight: '20px'}}
                         />
                       </div>
                     )}

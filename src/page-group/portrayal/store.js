@@ -76,11 +76,6 @@ class Store {
 
   // 获取单个标签分析信息
   @action.bound async tagAnalysis(obj) {
-    if (obj.value.trim() === '') {
-      this.tooltipX = `${obj.tagName}: -`
-      this.tooltipY = '0.00%'
-      return
-    }
     try {
       const res = await io.tagAnalysis({
         objId: this.objId,
@@ -94,7 +89,11 @@ class Store {
       })
 
       runInAction(() => {
-        this.tooltipX = res.x
+        if (obj.value === '' || obj.value === null) {
+          this.tooltipX = `${obj.tagName}：-`
+        } else {
+          this.tooltipX = res.x
+        }
         this.tooltipY = res.y2
       })
     } catch (e) {
