@@ -63,7 +63,8 @@ export default class LabelTab extends Component {
                       className="label-btn"
                       onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)}
                     >
-                      {item.value}
+                      {item.value === '' ? '-' : item.value}
+                      {/* {item.value} */}
                     </Button>
                   </Tooltip>
                 )
