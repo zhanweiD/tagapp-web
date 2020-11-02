@@ -24,7 +24,6 @@ export default PageComponent => {
     const [visible, changeVisible] = useState(false)
     const [workspace, changeWorkspace] = useState([])
 
-
     const noProjectDataConfig = {
       text: <span>
           无可用项目 去
@@ -99,8 +98,8 @@ export default PageComponent => {
     }
 
     const noDataConfig0 = {
-      text: '标签中心适配Hadoop的CDH、FusionInsight',
-      noAuthText: '标签中心适配Hadoop的CDH、FusionInsight',
+      text: '标签中心仅适配Hadoop集群',
+      noAuthText: '标签中心仅适配Hadoop集群',
     }
 
     if (!projectId) {
