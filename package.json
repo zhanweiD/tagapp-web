@@ -1,6 +1,6 @@
 {
   "name": "tag-app",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "标签应用",
   "main": "app.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "build": "cross-env CLIENT_ENV=production NODE_ENV=production webpack --config webpack.config.js"
   },
   "repository": {},
-  "author": "mahua",
+  "author": "fanshu",
   "license": "MIT",
   "theme": "./src/theme/index.js",
   "devDependencies": {
