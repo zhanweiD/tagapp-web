@@ -8,6 +8,7 @@ class Store {
   projectId
   @observable cardList = []
   @observable loading = false
+  @observable confirmLoading = false
 
   // 编辑数据查询
   @observable visibleEdit = false
@@ -36,7 +37,7 @@ class Store {
     try {
       const res = await io.edit({
         ...params,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
       runInAction(() => {
         if (res) {
@@ -50,6 +51,8 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      this.confirmLoading = false
     }
   }
 
@@ -58,7 +61,7 @@ class Store {
     try {
       const res = await io.del({
         ...params,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
       runInAction(() => {
         if (res) {
@@ -80,7 +83,7 @@ class Store {
     try {
       const res = await io.clone({
         id,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
       runInAction(() => {
         if (res) {

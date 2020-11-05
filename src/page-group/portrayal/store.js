@@ -89,7 +89,11 @@ class Store {
       })
 
       runInAction(() => {
-        this.tooltipX = res.x
+        if (obj.value === '' || obj.value === null) {
+          this.tooltipX = `${obj.tagName}：-`
+        } else {
+          this.tooltipX = res.x
+        }
         this.tooltipY = res.y2
       })
     } catch (e) {

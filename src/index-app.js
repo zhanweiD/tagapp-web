@@ -27,7 +27,7 @@ const quickEntrance = [
   },
   {
     tip: '项目管理',
-    url: '/project/index.html#detail/base',
+    url: '/project/index.html#/project',
     icon: 'project',
   },
 ]
@@ -44,7 +44,7 @@ export default () => {
       showHeaderNav
       showProject
       quickEntrance={quickEntrance}
-      onUserChange={() => window.location.href = `/tag-model/index.html#/overview`}
+      onUserChange={() => window.location.href = '/tag-model/index.html#/overview'}
     >
       <Switch>
         {/* 数据查询 */}

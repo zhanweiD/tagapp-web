@@ -262,7 +262,7 @@ export function getNamePattern(max = 32) {
     max, 
     message: `不能超过${max}个字符`,
   }, {
-    pattern: /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '格式不正确，允许输入中文/英文/数字/下划线',
+    pattern: /^[a-zA-Z0-9_()（）\u4e00-\u9fa5]+$/, message: '格式不正确，允许输入中文/英文/数字/下划线/()',
   }, {
     pattern: /^(?!_)/, message: '不允许下划线开头',
   }, {
@@ -277,12 +277,12 @@ export function getEnNamePattern(max = 32) {
     max, 
     message: `不能超过${max}个字符`,
   }, {
-    pattern: /^[a-zA-Z][a-zA-Z0-9_]/, message: '格式不正确，允许输入英文/数字/下划线，必须以英文开头',
+    pattern: /^[a-zA-Z][a-zA-Z0-9_]{0,}$/, message: '格式不正确，允许输入英文/数字/下划线，必须以英文开头',
   }];
 }
 
 // 标签、对象英文名校验正则
-export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,31}$/
+export const enNameReg = /^[a-zA-Z][a-zA-Z0-9_]{0,32}$/
 
 export function calcSize(size, defaultUnit = 'B', isToFixed = true) {
   const map = {

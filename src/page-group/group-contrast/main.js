@@ -19,7 +19,7 @@ const chartOption = {
   svgW: 400,
   svgH: 60,
   bgH: 16,
-  translateX: 4,
+  translateX: -4,
   // 动画延迟时间
   duration: 1000,
 }
@@ -87,7 +87,7 @@ class GroupContrast extends Component {
     // 背景条宽度
     const bgW = svgW - fieldLen * 8 - translateX - 8
 
-    const box = svg.append('g').attr('transform', `translate(${translateX},0)`)
+    const box = svg.append('g').attr('transform', `translate(${translateX * fieldLen},0)`)
 
 
     // 绘制进度条
@@ -111,7 +111,7 @@ class GroupContrast extends Component {
       .attr('width', groupBCount === 0 && groupACount ? 0 : bgW * ((groupBCount / MaxgroupBCount) || 1))
 
     // 绘制文字说明
-    const countBox = svg.append('g').attr('transform', 'translate(12,16)')
+    const countBox = svg.append('g').attr('transform', 'translate(0,16)')
 
     countBox.append('text')
       .attr('text-anchor', 'middle')

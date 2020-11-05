@@ -1,6 +1,6 @@
 {
   "name": "tag-app",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "标签应用",
   "main": "app.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "build": "cross-env CLIENT_ENV=production NODE_ENV=production webpack --config webpack.config.js"
   },
   "repository": {},
-  "author": "mahua",
+  "author": "fanshu",
   "license": "MIT",
   "theme": "./src/theme/index.js",
   "devDependencies": {
@@ -21,7 +21,7 @@
     "@dtwave/oner-flexbox": "2.0.1",
     "@dtwave/oner-mapping": "2.1.0-alpha6",
     "@dtwave/uikit": "3.0.0-alpha4",
-    "@dtwave/oner-frame": "0.0.3-alpha14",
+    "@dtwave/oner-frame": "0.0.4-alpha21",
     "antd": "4.4.2",
     "autoprefixer": "9.4.7",
     "babel-core": "6.26.3",
