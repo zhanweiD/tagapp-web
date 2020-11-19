@@ -1,6 +1,6 @@
 {
   "name": "tag-app",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "标签应用",
   "main": "app.js",
   "scripts": {
