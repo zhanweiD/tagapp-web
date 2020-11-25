@@ -234,6 +234,8 @@ class Store extends ListContentStore(io.getEntityPage) {
         this.imageUrl = res.picture
         res.basicFeatureTag = res.basicFeatureTag.map(String)
         res.markedFeatureTag = res.markedFeatureTag.map(String)
+        res.groupAnalyzeTag = res.groupAnalyzeTag.map(Number)
+        res.groupCompareTag = res.groupCompareTag.map(Number)
         res.objId = res.objId.toString()
         this.detail = res
       })
@@ -249,7 +251,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         ...data,
         projectId: this.projectId,
         dataStorageId: this.config.dataStorageId,
-        dataStorageType: this.config.dataStorageTypeId,
+        dataStorageType: this.config.dataStorageType,
       })
 
       runInAction(() => {
@@ -300,6 +302,36 @@ class Store extends ListContentStore(io.getEntityPage) {
           this.getList()
         }
       })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  @observable analyzeTags = []
+
+  @action async getAnalyzeTags(objId) {
+    try {
+      const res = await io.getAnalyzeTags({
+        objId,
+        projectId: this.projectId,
+      })
+
+      this.analyzeTags = res
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  @observable compareTags = []
+
+  @action async getCompareTags(objId) {
+    try {
+      const res = await io.getCompareTags({
+        objId,
+        projectId: this.projectId,
+      })
+
+      this.compareTags = res
     } catch (e) {
       errorTip(e.message)
     }

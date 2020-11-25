@@ -76,6 +76,8 @@ export default class BackConfig extends Component {
     if (type === 'edit') {
       this.store.getTagList(data.objId)
       this.store.getEntityInfo(data.objId)
+      this.store.getAnalyzeTags(data.objId)
+      this.store.getCompareTags(data.objId)
     }
     this.store.getEntityList()
     this.store.entityVisible = true
