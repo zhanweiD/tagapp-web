@@ -8,6 +8,7 @@ const api = {
   getGroupCount: get(`${groupAnalysis}/groupCount`), // 群体个数
   groupOverlapCount: post(`${baseApi}/groupAnalysisComparison/groupOverlapCount`), // 群体个数
   getChart: post(`${baseApi}/groupAnalysisComparison/chart`), // 图统计
+  getCompareTags: get(`${baseApi}/groupAnalysis/compareTags`), // 默认显示纬度
 } 
 
 ioContext.create('groupContrast', api) 

@@ -54,7 +54,7 @@ class ModalAdd extends React.Component {
   @action.bound onSelect(e) {
     const {tagList} = this.store
 
-    this.formRef.current .resetFields(['groupType', 'chartType'])
+    this.formRef.current.resetFields(['groupType', 'chartType'])
     this.store.modalEditInfo.type = 0
     this.store.modalEditInfo.chartType = 'bar'
     this.store.modalEditInfo.groupType = undefined
@@ -102,11 +102,11 @@ class ModalAdd extends React.Component {
           </Form.Item>
 
           {
-             (+modalEditInfo.type === 2 || +this.type === 2) ? (
+            (+modalEditInfo.type === 2 || +this.type === 2) ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType || '3'}
+                initialValue={modalEditInfo.groupType.toString() || '3'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -122,7 +122,7 @@ class ModalAdd extends React.Component {
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType || '0'}
+                initialValue={modalEditInfo.groupType.toString() || '0'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -154,7 +154,7 @@ class ModalAdd extends React.Component {
               }
               
               {
-                (+modalEditInfo.type === 3 || +this.type === 3)  ? <Radio value="line">折线图</Radio> : null
+                (+modalEditInfo.type === 3 || +this.type === 3) ? <Radio value="line">折线图</Radio> : null
               }
              
             </Radio.Group>

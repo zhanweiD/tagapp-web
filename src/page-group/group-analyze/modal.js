@@ -63,12 +63,10 @@ class ModalAdd extends React.Component {
 
     this.type = obj.type
     this.tagId = e
-
   }
 
   render() {
     const {modalVis, tagList, modalEditInfo, selectTagList} = this.store
-
     return (
       <Modal
         title={modalEditInfo.modalType === 'edit' ? '编辑分析维度' : '添加分析维度'}
@@ -103,11 +101,11 @@ class ModalAdd extends React.Component {
           </Form.Item>
 
           {
-           (+modalEditInfo.type === 2 || +this.type === 2) ? (
+            (+modalEditInfo.type === 2 || +this.type === 2) ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType || '3'}
+                initialValue={modalEditInfo.groupType.toString() || '3'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -119,11 +117,11 @@ class ModalAdd extends React.Component {
           }
 
           {
-           (+modalEditInfo.type === 3 || +this.type === 3) ? (
+            (+modalEditInfo.type === 3 || +this.type === 3) ? (
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType || '0'}
+                initialValue={modalEditInfo.groupType.toString() || '0'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>

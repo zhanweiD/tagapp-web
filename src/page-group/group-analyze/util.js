@@ -1,12 +1,6 @@
 const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
-const colors = [
-  'rgba(0,197,122, 0.6)', 
-  'rgba(10,192,220, 0.6)', 
-  'rgba(57,167,255, 0.6)', 
-  'rgba(90,106,254, 0.6)', 
-  'rgba(149,51,255, 0.6)',
-]
+const colors = ['#1cd389', '#668eff', '#ffc751', '#ff6e73', '#8683e6', '#9692ff']
 
 function randomColor() {
   const r = () => Math.floor(Math.random() * 256)
@@ -66,7 +60,8 @@ export const pieOpt = info => {
   }))
 
   return {
-    color: getColors(renderData.length),
+    // color: getColors(renderData.length),
+    color: colors,
     tooltip: {
       trigger: 'item',
       formatter: params => {

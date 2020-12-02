@@ -30,12 +30,7 @@ class GroupAnalyze extends Component {
   }
 
   componentDidMount() {
-    if (store.objId) {
-      store.getTags()
-      // store.getAnalyzeTag(this.add)
-    } else {
-      store.getObj()
-    }
+    store.getObj()
 
     if (store.groupId) {
       this.search({
@@ -63,6 +58,7 @@ class GroupAnalyze extends Component {
       this.roportion.setOption(roportionOpt(
         data
       ))
+      store.getTags()
       store.getAnalyzeTag(this.add)
     })
   }
@@ -74,7 +70,6 @@ class GroupAnalyze extends Component {
 
   @action.bound add(values, cb) {
     const {modalEditInfo} = store
-
     if (modalEditInfo.modalType === 'edit') {
       store.editChart(values, modalEditInfo.index)
     } else {
