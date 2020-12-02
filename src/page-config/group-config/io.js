@@ -15,8 +15,8 @@ const api = {
   addEntity: post(`${relGroupApi}/add_entity`), // 添加实体
   editEntity: post(`${relGroupApi}/edit_entity`), // 编辑实体
   delEntity: post(`${relGroupApi}/remove_entity`), // 移除实体
-  getAnalyzeTags: get(`${baseApi}/groupAnalysis/analyzeTags`), // 获取群体分析默认标签列表
-  getCompareTags: get(`${baseApi}/groupAnalysis/compareTags`), // 获取群体对比默认标签列表
+  // getAnalyzeTags: get(`${baseApi}/groupAnalysis/analyzeTags`), // 获取群体分析默认标签列表
+  // getCompareTags: get(`${baseApi}/groupAnalysis/compareTags`), // 获取群体对比默认标签列表
 } 
 
 ioContext.create('groupConfig', api) 

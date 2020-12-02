@@ -234,8 +234,8 @@ class Store extends ListContentStore(io.getEntityPage) {
         this.imageUrl = res.picture
         res.basicFeatureTag = res.basicFeatureTag.map(String)
         res.markedFeatureTag = res.markedFeatureTag.map(String)
-        res.groupAnalyzeTag = res.groupAnalyzeTag.map(Number)
-        res.groupCompareTag = res.groupCompareTag.map(Number)
+        res.groupAnalyzeTag = res.groupAnalyzeTag.map(String)
+        res.groupCompareTag = res.groupCompareTag.map(String)
         res.objId = res.objId.toString()
         this.detail = res
       })
@@ -307,35 +307,35 @@ class Store extends ListContentStore(io.getEntityPage) {
     }
   }
 
-  @observable analyzeTags = []
+  // @observable analyzeTags = []
 
-  @action async getAnalyzeTags(objId) {
-    try {
-      const res = await io.getAnalyzeTags({
-        objId,
-        projectId: this.projectId,
-      })
+  // @action async getAnalyzeTags(objId) {
+  //   try {
+  //     const res = await io.getAnalyzeTags({
+  //       objId,
+  //       projectId: this.projectId,
+  //     })
 
-      this.analyzeTags = res
-    } catch (e) {
-      errorTip(e.message)
-    }
-  }
+  //     this.analyzeTags = res
+  //   } catch (e) {
+  //     errorTip(e.message)
+  //   }
+  // }
 
-  @observable compareTags = []
+  // @observable compareTags = []
 
-  @action async getCompareTags(objId) {
-    try {
-      const res = await io.getCompareTags({
-        objId,
-        projectId: this.projectId,
-      })
+  // @action async getCompareTags(objId) {
+  //   try {
+  //     const res = await io.getCompareTags({
+  //       objId,
+  //       projectId: this.projectId,
+  //     })
 
-      this.compareTags = res
-    } catch (e) {
-      errorTip(e.message)
-    }
-  }
+  //     this.compareTags = res
+  //   } catch (e) {
+  //     errorTip(e.message)
+  //   }
+  // }
 }
 
 export default new Store()
