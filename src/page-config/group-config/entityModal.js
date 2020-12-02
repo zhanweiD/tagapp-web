@@ -9,6 +9,8 @@ import {
   limitSelect,
 } from '../../common/util'
 
+const {Option} = Select
+
 @observer
 class EModal extends Component {
   constructor(props) {
