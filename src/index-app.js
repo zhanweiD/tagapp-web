@@ -34,6 +34,14 @@ const quickEntrance = [
 
 
 export default () => {
+  const urlHea = window.location.hash.split('/')[1]
+  let title = '标签中心'
+  if (urlHea === 'config') {
+    title = '后台配置'
+  } else {
+    title = '标签应用'
+  }
+  document.title = title
   return (
     <Frame
       productCode="tag_app"
