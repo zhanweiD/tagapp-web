@@ -35,7 +35,7 @@ module.exports = {
       {
         context: ['/config', '/api'],
         // target: 'http://all-test.dtwave-local.com',
-        target: 'http://192.168.90.159',
+        target: 'http://192.168.90.145',
         changeOrigin: true,
       },
     ],
