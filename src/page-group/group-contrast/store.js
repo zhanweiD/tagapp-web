@@ -1,5 +1,5 @@
 import {
-  action, runInAction, observable, toJS
+  action, runInAction, observable, toJS,
 } from 'mobx'
 import {errorTip} from '../../common/util'
 import io from './io'
@@ -38,6 +38,25 @@ class Store {
 
   @observable info = []
 
+  @action async getCompareTags(cb) {
+    try {
+      const res = await io.getCompareTags({
+        projectId: this.projectId,
+        objId: this.objId,
+      })
+
+      runInAction(() => {
+        res.forEach(item => {
+          let groupType = null
+          if (item.type === 2) groupType = 3
+          if (item.type === 3) groupType = 0
+          cb({tagId: item.tagId, type: item.type, groupType})
+        })
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
   @action async getObj() {
     try {
       const res = await io.getObj({
@@ -156,7 +175,7 @@ class Store {
             ...res,
             groupAname: toJS(this.groupAInfo).groupName,
             groupBname: toJS(this.groupBInfo).groupName,
-            Comp: chartMap[params.chartType],
+            Comp: chartMap[params.chartType] ? chartMap[params.chartType] : chartMap.bar,
           }
    
           if (this.selectTagList.includes(params.tagId)) {

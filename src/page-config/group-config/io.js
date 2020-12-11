@@ -1,5 +1,5 @@
 import ioContext from '../../common/io-context'
-import {relGroupApi, get, post} from '../../common/util'
+import {relGroupApi, baseApi, get, post} from '../../common/util'
 
 const api = {
   getPortrayal: get(`${relGroupApi}/project_storage`), // 获取画像信息
@@ -15,6 +15,8 @@ const api = {
   addEntity: post(`${relGroupApi}/add_entity`), // 添加实体
   editEntity: post(`${relGroupApi}/edit_entity`), // 编辑实体
   delEntity: post(`${relGroupApi}/remove_entity`), // 移除实体
+  // getAnalyzeTags: get(`${baseApi}/groupAnalysis/analyzeTags`), // 获取群体分析默认标签列表
+  // getCompareTags: get(`${baseApi}/groupAnalysis/compareTags`), // 获取群体对比默认标签列表
 } 
 
 ioContext.create('groupConfig', api) 

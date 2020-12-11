@@ -7,6 +7,7 @@ const api = {
   getTags: get(`${groupAnalysis}/tags`), // 标签下拉
   getRoportion: get(`${groupAnalysis}/groupProportion`), // 群体占比
   getChart: get(`${groupAnalysis}/chart`), // 图统计
+  getAnalyzeTag: get(`${groupAnalysis}/analyzeTags`), // 默认标签显示
 } 
 
 ioContext.create('groupAnalyze', api) 

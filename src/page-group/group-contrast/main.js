@@ -163,6 +163,8 @@ class GroupContrast extends Component {
           this.draw(groupA, groupB)
         }
       })
+      store.getTags()
+      store.getCompareTags(this.add)
     })
   }
 
@@ -179,8 +181,7 @@ class GroupContrast extends Component {
     } else {
       store.getChart(values)
     }
-
-    cb()
+    if (cb) cb()
   }
 
   @action.bound del(data, index) {

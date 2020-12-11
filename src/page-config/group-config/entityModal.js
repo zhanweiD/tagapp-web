@@ -9,6 +9,8 @@ import {
   limitSelect,
 } from '../../common/util'
 
+const {Option} = Select
+
 @observer
 class EModal extends Component {
   constructor(props) {
@@ -44,6 +46,8 @@ class EModal extends Component {
       values.objId = parseInt(values.objId) 
       values.basicFeatureTag = values.basicFeatureTag.map(Number)
       values.markedFeatureTag = values.markedFeatureTag.map(Number)
+      values.groupAnalyzeTag = values.groupAnalyzeTag.map(Number)
+      values.groupCompareTag = values.groupCompareTag.map(Number)
 
       if (!err) {
         store.confirmLoading = true
@@ -62,7 +66,7 @@ class EModal extends Component {
   }
   @action selectEntity = value => {
     this.store.getTagList(value)
-    this.form.resetFields(['basicFeatureTag', 'markedFeatureTag'])
+    this.form.resetFields(['basicFeatureTag', 'markedFeatureTag', 'groupAnalyzeTag', 'groupCompareTag'])
   }
 
   render() {
@@ -77,6 +81,8 @@ class EModal extends Component {
       tagList,
       detail,
       modalCancel,
+      analyzeTags,
+      compareTags,
     } = this.store
     const modalConfig = {
       title: modalType === 'edit' ? '编辑实体' : '添加实体',
@@ -92,6 +98,7 @@ class EModal extends Component {
     const formItemLayout = {
       labelCol: {span: 4},
       wrapperCol: {span: 20},
+      colon: false,
     }
 
     const uploadButton = (
@@ -122,7 +129,7 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item 
             label="基本特征"
-            extra="在个体画像中显示，最多可选择20个"
+            extra="在个体画像中显示，最多可以选择20个"
           >
             {getFieldDecorator('basicFeatureTag', {
               initialValue: detail.basicFeatureTag,
@@ -143,10 +150,52 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item 
             label="显著特征" 
-            extra="常关注的特征，最多可选择20个"
+            extra="常关注的特征，最多可以选择20个"
           >
             {getFieldDecorator('markedFeatureTag', {
               initialValue: detail.markedFeatureTag || undefined,
+              rules: [
+                {required: true, message: '请选择标签！'},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+              ],
+            })(
+              <Select
+                mode="multiple"
+                size="small"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
+                placeholder="请选择实体下的标签"
+              >
+                {tagList}
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item
+            label="群体分析"
+            extra="群体分析默认展示的标签，最多可以选择20个"
+          >
+            {getFieldDecorator('groupAnalyzeTag', {
+              initialValue: detail.groupAnalyzeTag || undefined,
+              rules: [
+                {required: true, message: '请选择标签！'},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+              ],
+            })(
+              <Select
+                mode="multiple"
+                size="small"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
+                placeholder="请选择实体下的标签"
+              >
+                {tagList}
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item
+            label="群体对比"
+            extra="群体对比默认展示的标签，最多可以选择20个"
+          >
+            {getFieldDecorator('groupCompareTag', {
+              initialValue: detail.groupCompareTag || undefined,
               rules: [
                 {required: true, message: '请选择标签！'},
                 {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},

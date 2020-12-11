@@ -40,6 +40,26 @@ class Store {
 
   @observable loading = false
 
+  @action async getAnalyzeTag(cb) {
+    try {
+      const res = await io.getAnalyzeTag({
+        projectId: this.projectId,
+        objId: this.objId,
+      })
+
+      runInAction(() => {
+        res.forEach(item => {
+          let groupType = null
+          if (item.type === 2) groupType = 3
+          if (item.type === 3) groupType = 0
+          cb({tagId: item.tagId, type: item.type, groupType})
+        })
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
   @action async getObj() {
     try {
       const res = await io.getObj({
@@ -48,6 +68,13 @@ class Store {
 
       runInAction(() => {
         this.objList = res
+        // if (res.length) {
+        //   this.objId = res[0].objId
+        //   this.getGroup({objId: res[0].objId}, cb2)
+        //   if (cb1) {
+        //     this.getAnalyzeTag(cb1)
+        //   }
+        // }
       })
     } catch (e) {
       errorTip(e.message)
@@ -63,6 +90,8 @@ class Store {
  
       runInAction(() => {
         this.groupList = res
+        // this.groupId = res.length ? res[0].groupId : null
+        // if (cb) cb({id: this.groupId})
       })
     } catch (e) {
       errorTip(e.message)
@@ -106,7 +135,6 @@ class Store {
       })
     }
   }
-
   
   @action async getChart(params, index) {
     this.loading = true
@@ -123,7 +151,7 @@ class Store {
         const data = {
           ...params,
           ...res,
-          Comp: chartMap[params.chartType],
+          Comp: params.chartType ? chartMap[params.chartType] : chartMap.bar,
         }
 
         if (this.selectTagList.includes(params.tagId)) {

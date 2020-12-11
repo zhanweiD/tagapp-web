@@ -22,7 +22,7 @@ class GroupAnalyze extends Component {
     store.groupId = params.groupId
     store.groupTime = params.time
     store.objId = params.objId
-    if(params.projectId) {
+    if (params.projectId) {
       store.projectId = params.projectId
     } else {
       store.projectId = props.projectId
@@ -58,6 +58,8 @@ class GroupAnalyze extends Component {
       this.roportion.setOption(roportionOpt(
         data
       ))
+      store.getTags()
+      store.getAnalyzeTag(this.add)
     })
   }
 
@@ -68,14 +70,12 @@ class GroupAnalyze extends Component {
 
   @action.bound add(values, cb) {
     const {modalEditInfo} = store
-
     if (modalEditInfo.modalType === 'edit') {
       store.editChart(values, modalEditInfo.index)
     } else {
       store.getChart(values)
     }
-
-    cb()
+    if (cb) cb()
   }
 
   @action.bound del(data, index) {
@@ -94,7 +94,6 @@ class GroupAnalyze extends Component {
   render() {
     const {roportion, info, groupId, loading} = store
     const {match: {params}} = this.props
-
     return (
       <Provider store={store}>
         <Spin spinning={loading} tip="查询中，请稍后...">
@@ -106,11 +105,11 @@ class GroupAnalyze extends Component {
               }
             </div>
 
-            <div style={{ display: roportion.time ? 'block' : 'none' }} className="analyze-roportion box-border">
+            <div style={{display: roportion.time ? 'block' : 'none'}} className="analyze-roportion box-border">
               {
                 params.groupId ? <div className="analyze-roportion-name">{roportion.groupName}</div> : null
               }
-              <div ref={ref => this.roportionRef = ref} style={{ height: '150px', width: '150px' }} />
+              <div ref={ref => this.roportionRef = ref} style={{height: '150px', width: '150px'}} />
               <div className="analyze-roportion-text">
                 <div className="fs24">{roportion.groupCount}</div>
                 <div>{`在全部实体 ${roportion.totalCount} 个中占比${roportion.totalCount ? (roportion.groupCount / roportion.totalCount * 100).toFixed(2) : 0}%`}</div>
@@ -150,30 +149,30 @@ class GroupAnalyze extends Component {
                       tagId,
                       ...rest
                     }, index) => (
-                        <div className="chart-wrap">
-                          <div className="chart-box">
-                            <div className="chart-item-title">
-                              <span>{tagName}</span>
-                              <div className="FBH">
-                                <IconEdit size="14" onClick={() => this.edit({ tagId, ...rest }, index)} className="mr8 mt8 mb16 action" />
-                                <Popconfirm
-                                  placement="bottomLeft"
-                                  title="确定要删除吗？"
-                                  onConfirm={() => this.del(rest, index)}
-                                  okText="确认"
-                                  cancelText="取消"
-                                >
-                                  <IconDel size="14" className="mt8 action" />
-                                </Popconfirm>
+                      <div className="chart-wrap">
+                        <div className="chart-box">
+                          <div className="chart-item-title">
+                            <span>{tagName}</span>
+                            <div className="FBH">
+                              <IconEdit size="14" onClick={() => this.edit({tagId, ...rest}, index)} className="mr8 mt8 mb16 action" />
+                              <Popconfirm
+                                placement="bottomLeft"
+                                title="确定要删除吗？"
+                                onConfirm={() => this.del(rest, index)}
+                                okText="确认"
+                                cancelText="取消"
+                              >
+                                <IconDel size="14" className="mt8 action" />
+                              </Popconfirm>
 
-                              </div>
                             </div>
-                            <Comp data={{ tagName, ...rest }} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
                           </div>
+                          <Comp data={{tagName, ...rest}} key={`${tagId}${rest.chartType}${rest.groupType || 0}`} />
                         </div>
-                      ))
+                      </div>
+                    ))
                     // className="header-page" style={{margin: '0px 8px 16px'}}
-                    : <div><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{ marginTop: '15%' }} /></div>
+                    : <div><NoData text={roportion.time ? '请添加分析纬度' : '请选择目标群体，完成群体分析'} style={{marginTop: '15%'}} /></div>
                 }
               </div>
               <ModalAdd add={this.add} />
