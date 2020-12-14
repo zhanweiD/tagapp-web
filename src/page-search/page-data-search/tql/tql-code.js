@@ -28,7 +28,7 @@ export default class TqlCode extends Component {
 
   componentDidMount() {
     this.store.getHeight()
-
+    console.log(toJS(this.store.promptData))
     if (document.getElementById('codeArea')) {
       this.store.editor = window.CodeMirror.fromTextArea(document.getElementById('codeArea'), {
         mode: 'text/x-mysql',
@@ -44,15 +44,19 @@ export default class TqlCode extends Component {
         readOnly: false,
         // keyMap: 'sublime',
         theme: 'default',
+        hintOptions: { // 自定义提示选项
+          completeSingle: false, // 当匹配只有一项的时候是否自动补全
+          tables: this.store.promptData,
+        },
       })
 
       const {tqlDetail} = this.store
       if (tqlDetail.source) {
         this.store.editor.setValue(sqlFormatter.format(toJS(tqlDetail.source)), {language: 'n1ql', indent: '    '})
       }
-    }
 
-    this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
+      this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
+    }
   }
 
   @action checkIsCanHint = (instance, change) => {

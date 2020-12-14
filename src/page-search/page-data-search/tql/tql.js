@@ -6,7 +6,7 @@ import {observer} from 'mobx-react'
 import {action} from 'mobx'
 import {Button, Modal, message} from 'antd'
 import {ExclamationCircleOutlined} from '@ant-design/icons'
-import {Authority} from '../../../component'
+import {Authority, Loading} from '../../../component'
 import TqlTree from './tql-tree'
 import TqlCode from './tql-code'
 import ModalSave from './modal-save'
@@ -76,7 +76,8 @@ export default class Tql extends Component {
   render() {
     const {
       resultInfo,
-      isRuned
+      isRuned,
+      tqlTreeLoading,
     } = store
 
     return (
@@ -100,7 +101,11 @@ export default class Tql extends Component {
         </div>
         <div className="tql-content">
           <TqlTree store={store} />
-          <TqlCode store={store} />
+          {
+            !tqlTreeLoading ? (
+              <TqlCode store={store} />
+            ) : <div className="code-content border-d9"><Loading mode="block" height={100} /></div>
+          }
           <ModalSave store={store} />
           <DrewerApi store={store} />
         </div>
