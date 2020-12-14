@@ -143,7 +143,7 @@ export function formatData(formItemData, domRef, whereMap) {
     const currentFlagEntity = `${current.flag}-0`
     const currentFlagRel = `${current.flag}-1`
 
-    if(!pos[currentFlagEntity] && !pos[currentFlagRel]) {
+    if (!pos[currentFlagEntity] && !pos[currentFlagRel]) {
       break
     }
     const entityResult = getGroupItemData(pos[currentFlagEntity], currentFlagEntity, formItemData, logicMap)
@@ -229,6 +229,28 @@ export const functionList = [{
   name: '绝对值',
   value: 'abs',
   tagTypeList: [2, 3],
+}, 
+{
+  name: '年份',
+  value: 'year',
+  tagTypeList: [5],
+}, 
+{
+  name: '月份',
+  value: 'month',
+  tagTypeList: [5],
+}, {
+  name: '日',
+  value: 'day',
+  tagTypeList: [5],
+}, {
+  name: '距离今天',
+  value: 'datediff',
+  tagTypeList: [5],
+}, {
+  name: '时间转换',
+  value: 'date_format',
+  tagTypeList: [5],
 }]
 
 export const entityFunctionList = [
@@ -241,27 +263,27 @@ export const entityFunctionList = [
 //   value: 'abs',
 //   tagTypeList: [2, 3],
 // },
- {
-  name: '总记录数',
-  value: 'count',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '求和',
-  value: 'sum',
-  tagTypeList: [2, 3],
-}, {
-  name: '平均数',
-  value: 'avg',
-  tagTypeList: [2, 3],
-}, {
-  name: '最小值',
-  value: 'min',
-  tagTypeList: [2, 3],
-}, {
-  name: '最大值',
-  value: 'max',
-  tagTypeList: [2, 3],
-}]
+  {
+    name: '总记录数',
+    value: 'count',
+    tagTypeList: [1, 2, 3, 4, 5, 6],
+  }, {
+    name: '求和',
+    value: 'sum',
+    tagTypeList: [2, 3],
+  }, {
+    name: '平均数',
+    value: 'avg',
+    tagTypeList: [2, 3],
+  }, {
+    name: '最小值',
+    value: 'min',
+    tagTypeList: [2, 3],
+  }, {
+    name: '最大值',
+    value: 'max',
+    tagTypeList: [2, 3],
+  }]
 
 export const condition = [{
   value: '=',

@@ -43,10 +43,13 @@ export default class TqlCode extends Component {
         readOnly: false,
         // keyMap: 'sublime',
         theme: 'default',
+        hintOptions: { // 自定义提示选项
+          completeSingle: false, // 当匹配只有一项的时候是否自动补全
+          tables: this.store.promptData,
+        },
       })
+      this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
     }
-
-    this.store.editor.on('change', (instance, change) => this.checkIsCanHint(instance, change))
   }
 
   @action checkIsCanHint = (instance, change) => {

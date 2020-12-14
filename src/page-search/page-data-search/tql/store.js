@@ -7,6 +7,8 @@ class Store {
   projectId
   // ************************* 函数树 & 标签树 start ************************* //
   @observable treeLoading = false
+  @observable tqlTreeLoading = false
+  @observable promptData = {} // code自定义提示内容
 
   @observable searchKey = undefined
   @observable expandAll = false
@@ -28,26 +30,45 @@ class Store {
     })
   }
 
+  listToPrompt(data, objEnName) {
+    const newData = _.cloneDeep(data)
+    return newData.map(item => {
+      if (item.type === 0) {
+        return objEnName.push(item.enName)
+      }
+      if (item.children) {
+        this.listToPrompt(item.children, objEnName)
+      }
+    })
+  }
 
   // 获取 逻辑配置-标签树
   @action async getTagTree(cb) {
-    this.treeLoading = true
+    this.tqlTreeLoading = true
     try {
       const res = await io.getTagTree({
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.treeLoading = false
+        this.tqlTreeLoading = false
         this.searchExpandedKeys.clear()
         this.treeData = listToTree(res)
-
+        
+        const obj = {}
+        this.treeData.forEach(item => {
+          if (item.children) {
+            this.listToPrompt(item.children, obj[item.enName] = [])
+          }
+        })
+        this.promptData = obj
+        console.log(obj)
         if (cb) cb()
       })
     } catch (e) {
       errorTip(e.message)
     } finally {
       runInAction(() => {
-        this.treeLoading = false
+        this.tqlTreeLoading = false
       })
     }
   }
@@ -81,7 +102,7 @@ class Store {
     this.treeLoading = true
     try {
       const res = await io.getFunTree({
-        projectId: this.projectId
+        projectId: this.projectId,
       })
       runInAction(() => {
         this.treeFunData = res.map(d => ({
@@ -247,7 +268,7 @@ class Store {
     }
   }
 
-// ************************* api相关 *********************** //
+  // ************************* api相关 *********************** //
   @observable visibleApi = false
   @observable modalApiLoading = false
   @observable apiParamsInfo = {}
@@ -256,7 +277,7 @@ class Store {
 
 
   // 获取api请求返回参数
-  @action async getApiParams (params, cb) {
+  @action async getApiParams(params, cb) {
     try {
       const res = await io.getApiParams({
         projectId: this.projectId,
@@ -279,7 +300,7 @@ class Store {
     }
   }
   // 获取api分组列表
-  @action async getApiGroup () {
+  @action async getApiGroup() {
     try {
       const res = await io.getApiGroup({
         projectId: this.projectId,
@@ -294,19 +315,19 @@ class Store {
   }
 
   // 创建api
-  @action async createApi (params, cb) {
+  @action async createApi(params, cb) {
     this.modalApiLoading = true
     try {
       const res = await io.createApi({
         projectId: this.projectId,
         sql: this.resultInfo.sql,
-        tql:this.tql,
+        tql: this.tql,
         runType: 2,
-        ...params
+        ...params,
       })
 
       runInAction(() => {
-        if(res) {
+        if (res) {
           successTip('API创建成功')
         } else {
           failureTip('API创建失败')
@@ -324,7 +345,7 @@ class Store {
   }
 
   // 名称校验
-  apiNameCheck (apiName, cb) {
+  apiNameCheck(apiName, cb) {
     return io.apiNameCheck({
       projectId: this.projectId,
       apiName,
@@ -332,7 +353,7 @@ class Store {
   }
 
   // api路径校验
-  async apiPathCheck (apiPath, cb) {
+  async apiPathCheck(apiPath, cb) {
     return io.apiPathCheck({
       projectId: this.projectId,
       apiPath,
