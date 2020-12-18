@@ -20,7 +20,7 @@ export const groupAnalysis = `${pathPrefix}/groupAnalysis` // 群体分析
 
 export const baseApi = pathPrefix // 标签中心
 export const overviewApi = `${pathPrefix}/overview`// 总览
-export const projectApi = `/api/tagmodel/1_0_0/project` // 项目列表
+export const projectApi = `/api/tagmodel/current/project` // 项目列表
 export const approvalApi = `${pathPrefix}/apply` // 审批管理
 
 export const tagClassApi = `${pathPrefix}/cate` // 标签类目
@@ -28,7 +28,7 @@ export const projectSpaceApi = `${pathPrefix}/project` // 项目空间
 export const marketApi = `${pathPrefix}/tagMarket` // 标签集市
 
 export const tagModalApi = `${pathPrefix}/tag` // 标签模型
-export const sceneApi = `/api/tagmodel/1_0_0/occasion` // 场景管理
+export const sceneApi = `/api/tagmodel/current/occasion` // 场景管理
 
 // 4.9.0
 export const objectApi = `${pathPrefix}/object` // 对象管理
@@ -310,7 +310,7 @@ export function debounce(fn, delay = 200) {
 
 export function downloadResult(params) {
   const req = new XMLHttpRequest()
-  req.open('POST', '/api/tagapp/1_0_0/search/run_search_export' , true)
+  req.open('POST', '/api/tagapp/current/search/run_search_export' , true)
   req.responseType = 'blob'
   req.setRequestHeader('Content-Type', 'application/json')
   req.onload = () => {

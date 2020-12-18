@@ -1,7 +1,7 @@
 import ioContext from '../../common/io-context'
 import {get, post} from '../../common/util'
 
-const baseApi = '/api/tagmodel/1_0_0'
+const baseApi = '/api/tagmodel/current'
 
 const api = {
   judgeInit: get(`${baseApi}/oneProject/hasInit`), // 项目是否初始化
