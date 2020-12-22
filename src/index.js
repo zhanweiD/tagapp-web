@@ -53,6 +53,15 @@ const commonConfig = {
   onUserChange: () => window.location.href = '/tag-model/index.html#/overview',
 }
 
+const urlHea = window.location.hash.split('/')[1]
+let title = '标签中心'
+if (urlHea === 'config') {
+  title = '后台配置'
+} else {
+  title = '标签应用'
+}
+document.title = title
+
 const frameComp = (Comp, cofig) => {
   return function frameHocComp() {
     return (

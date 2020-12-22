@@ -47,7 +47,7 @@ const GroupConfig = ({projectId}) => {
   }
 
   // 获取数据源
-  async function getStorageList(type) {
+  async function getStorageList(type, cb) {
     try {
       const res = await io.getStorageList({
         projectId,
@@ -56,6 +56,7 @@ const GroupConfig = ({projectId}) => {
   
       const result = res || []
       changedataSource(() => result)
+      if (cb) cb(res[0] && res[0].storageId)
     } catch (error) {
       errorTip(error.message)
     }
@@ -120,8 +121,8 @@ const GroupConfig = ({projectId}) => {
     updateSearch(params)
   }
 
-  const selectDataType = type => {
-    getStorageList(type)
+  const selectDataType = (type, cb) => {
+    getStorageList(type, cb)
   }
 
   return (

@@ -200,7 +200,7 @@ class Store extends ListContentStore(io.getEntityPage) {
   }
 
   // 获取数据源列表
-  @action async getDataSource(type) {
+  @action async getDataSource(type, cb) {
     this.selectLoading = true
     try {
       const res = await io.getDataSource({
@@ -212,6 +212,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         if (res) {
           this.dataSource = changeToOptions(toJS(res || []))('storageName', 'storageId')
         }
+        if (cb) cb(res[0] && res[0].storageId)
       })
     } catch (e) {
       errorTip(e.message)

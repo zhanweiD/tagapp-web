@@ -25,7 +25,11 @@ const ConfigModal = ({
     <Modal
       visible={visible}
       title="初始化"
-      onCancel={onCancel}
+      onCancel={() => {
+        onCancel()
+        form.resetFields()
+      }}
+      destroyOnClose
       onOk={() => {
         form
           .validateFields()
@@ -37,7 +41,6 @@ const ConfigModal = ({
             console.log('Validate Failed:', info)
           })
       }}
-      destroyOnClose
       maskClosable={false}
     >
       <Form

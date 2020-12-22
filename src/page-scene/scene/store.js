@@ -96,7 +96,7 @@ class Store {
   }
 
   // 数据源下拉
-  @action async getStorageList(params) {
+  @action async getStorageList(params, cb) {
     this.storageSelectLoading = true
     try {
       const res = await io.getStorageList({
@@ -106,6 +106,7 @@ class Store {
       }) || []
       runInAction(() => {
         this.storageSelectList = changeToOptions(res)('dataDbName', 'dataStorageId')
+        if (cb) cb(res[0] && res[0].dataStorageId)
       })
     } catch (e) {
       errorTip(e.message)
