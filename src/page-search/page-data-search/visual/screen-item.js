@@ -90,7 +90,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue="标签值"
         >
-          <Select placeholder="请选择" style={{width: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+          <Select placeholder="请选择" style={{minWidth: '150px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
               screenLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -101,7 +101,7 @@ const ScreenItem = ({
             <Form.Item
               name={[id, 'leftParams']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
@@ -115,7 +115,7 @@ const ScreenItem = ({
               noStyle
               rules={[{required: true, message: '请选择标签'}]}
             >
-              <Select placeholder="请选择标签" style={{width: '200px'}} onSelect={onSelectTag} showSearch optionFilterProp="children">
+              <Select placeholder="请选择标签" style={{minWidth: '200px'}} onSelect={onSelectTag} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 }
@@ -130,7 +130,7 @@ const ScreenItem = ({
             <Form.Item
               name={[id, 'leftParams1']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
@@ -143,7 +143,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue="="
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearch optionFilterProp="children">
+          <Select placeholder="请选择" style={{minWidth: '100px'}} showSearch optionFilterProp="children">
             {
               comparisonMap.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -156,7 +156,7 @@ const ScreenItem = ({
           rules={[{required: true, message: '请选择'}]}
           initialValue="固定值"
         >
-          <Select placeholder="请选择" style={{width: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
+          <Select placeholder="请选择" style={{minWidth: '100px'}} showSearch onSelect={onSelectRightFun} optionFilterProp="children">
             {
               (aggregation.includes(leftFunction) ? aggregationLogic : screenValueLogic).map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -172,7 +172,7 @@ const ScreenItem = ({
                   noStyle
                   rules={[{required: true, message: '请输入'}]}
                 >
-                  <Select placeholder="请选择标签" style={{width: '200px'}} showSearch optionFilterProp="children">
+                  <Select placeholder="请选择标签" style={{minWidth: '200px'}} showSearch optionFilterProp="children">
                     {
                       tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                     }
@@ -194,7 +194,8 @@ const ScreenItem = ({
                   <Form.Item
                     name={[id, 'rightParams1']}
                     noStyle
-                    rules={[{required: true, message: '请输入参数默认值'}, ...getNamePattern()]}
+                    rules={[{required: true, message: '请输入参数默认值'}]}
+                    // rules={[{required: true, message: '请输入参数默认值'}, ...getNamePattern()]}
                   >
                     <Input size="small" style={{width: '20%'}} placeholder="参数默认值" />
                   </Form.Item>
@@ -206,7 +207,8 @@ const ScreenItem = ({
               <Form.Item
                 name={[id, 'rightParams']}
                 noStyle
-                rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+                rules={[{required: true, message: '请输入'}]}
+                // rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
               >
                 <Input size="small" style={{width: '20%'}} placeholder="请输入" />
               </Form.Item>

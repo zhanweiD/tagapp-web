@@ -128,7 +128,7 @@ export default class SelectTag extends Component {
  
   render() {
     const {
-      tagInfo, tagId, tagInfoLoading, tagExistFlag, tagExistFlagLoading, functionCodes, projectId
+      tagInfo, tagId, tagInfoLoading, tagExistFlag, tagExistFlagLoading, functionCodes, projectId,
     } = this.store
 
     const {
@@ -182,13 +182,13 @@ export default class SelectTag extends Component {
                           // 点击“标签详情”按钮，进入标签详情
                           actions={[<Button type="primary">   
                             <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}/${projectId}`}>标签详情</a>
-                                    </Button>]}
+                          </Button>]}
                         />
                       </Spin>
                       <TrendTag store={this.store} tagId={this.store.tagId} />
                       <TrendApi store={this.store} tagId={this.store.tagId} />
                     </Fragment>
-                  ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！<br/>（注：选择的标签必须放在对象的某个类目下）`} />
+                  ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！（注：选择的标签必须放在对象的某个类目下）`} />
                 }
               </div>
             </Spin>

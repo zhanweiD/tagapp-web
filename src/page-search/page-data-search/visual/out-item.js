@@ -76,7 +76,7 @@ const OutItem = ({
           rules={[{required: true, message: '请选择取值逻辑'}]}
           initialValue="标签值"
         >
-          <Select placeholder="请选择取值逻辑" style={{width: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+          <Select placeholder="请选择取值逻辑" style={{minWidth: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
             {
               outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
             }
@@ -87,7 +87,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
@@ -103,7 +103,7 @@ const OutItem = ({
             >
               <Select
                 placeholder="请选择标签"
-                style={{width: '200px'}}
+                style={{minWidth: '200px'}}
                 showSearch
                 optionFilterProp="children"
               >
@@ -122,7 +122,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
@@ -139,9 +139,9 @@ const OutItem = ({
           }, 
           {
             validator: (rule, value) => {
-              if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
-                return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
-              }
+              // if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
+              //   return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
+              // }
               if (Object.values(obj).includes(value)) {
                 return Promise.reject('显示名称重复')
               }

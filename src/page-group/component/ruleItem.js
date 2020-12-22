@@ -248,7 +248,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 170}}
+                  style={{minWidth: 170}}
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
@@ -272,7 +272,7 @@ const RuleItem = ({
               >
                 <Select 
                   showSearch
-                  style={{width: 170}}
+                  style={{minWidth: 170}}
                   optionFilterProp="children"
                   placeholder="选择标签"
                   disabled={rest.page === 'detail'}
@@ -320,7 +320,8 @@ const RuleItem = ({
           <FormItem
             label={null}
             name={[key, 'rightParams']}
-            rules={[{required: true, message: '不能为空'}, ...getNamePattern()]}
+            // rules={[{required: true, message: '不能为空'}, ...getNamePattern()]}
+            rules={[{required: true, message: '不能为空'}]}
             initialValue={rest.rightParams}
           >
             <Input size="small" placeholder="请输入" style={{width: 120}} disabled={rest.page === 'detail'} />
