@@ -66,6 +66,7 @@ class EModal extends Component {
   }
   @action selectEntity = value => {
     this.store.getTagList(value)
+    this.store.getAnalyzeTags(value)
     this.form.resetFields(['basicFeatureTag', 'markedFeatureTag', 'groupAnalyzeTag', 'groupCompareTag'])
   }
 
@@ -186,7 +187,12 @@ class EModal extends Component {
                 getPopupContainer={triggerNode => triggerNode.parentElement}
                 placeholder="请选择实体下的标签"
               >
-                {tagList}
+                {/* {tagList} */}
+                {
+                  analyzeTags.map(item => {
+                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
+                  })
+                }
               </Select>
             )}
           </Form.Item>
@@ -207,7 +213,12 @@ class EModal extends Component {
                 getPopupContainer={triggerNode => triggerNode.parentElement}
                 placeholder="请选择实体下的标签"
               >
-                {tagList}
+                {/* {tagList} */}
+                {
+                  analyzeTags.map(item => {
+                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
+                  })
+                }
               </Select>
             )}
           </Form.Item>

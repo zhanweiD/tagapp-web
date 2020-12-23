@@ -75,6 +75,7 @@ export default class BackConfig extends Component {
   @action openModal = (type, data = {}) => {
     if (type === 'edit') {
       this.store.getTagList(data.objId)
+      this.store.getAnalyzeTags(data.objId)
       this.store.getEntityInfo(data.objId)
     }
     this.store.getEntityList()

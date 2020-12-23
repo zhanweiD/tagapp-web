@@ -44,6 +44,8 @@ class Store extends ListContentStore(io.getEntityPage) {
     this.confirmLoading = false
     this.imageUrl = null
     this.detail = {}
+    this.tagList = []
+    this.analyzeTags = []
   }
 
   // 初始化云资源
@@ -308,20 +310,20 @@ class Store extends ListContentStore(io.getEntityPage) {
     }
   }
 
-  // @observable analyzeTags = []
+  @observable analyzeTags = []
 
-  // @action async getAnalyzeTags(objId) {
-  //   try {
-  //     const res = await io.getAnalyzeTags({
-  //       objId,
-  //       projectId: this.projectId,
-  //     })
+  @action async getAnalyzeTags(objId) {
+    try {
+      const res = await io.getAnalyzeTags({
+        objId,
+        projectId: this.projectId,
+      })
 
-  //     this.analyzeTags = res
-  //   } catch (e) {
-  //     errorTip(e.message)
-  //   }
-  // }
+      this.analyzeTags = res
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
 
   // @observable compareTags = []
 
