@@ -10,7 +10,7 @@ import {
 
 import {outValueLogic} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
-import {getNamePattern} from '../../../common/util'
+import {getNamePattern, getEnNamePattern} from '../../../common/util'
 
 const {Option} = Select
 
@@ -70,12 +70,12 @@ const OutItem = ({
   delete obj[id]
 
   function isHaveObj(v) {
-    const tagName = v.split('.')[1]
+    const tagName = v.tagEnName
     let count = 0
     $('.nameInput').each((i, item) => {
-      if (tagName === item.children[0].value || `${tagName}(${count})` === item.children[0].value) {
+      if (tagName === item.children[0].value || `${tagName}_${count}` === item.children[0].value) {
         count += 1
-        setAlias.setFields([{name: [id, 'alias'], value: `${tagName}(${count})`}])
+        setAlias.setFields([{name: [id, 'alias'], value: `${tagName}_${count}`}])
         setAlias.validateFields([[id, 'alias']])
       }
     })
@@ -106,7 +106,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
@@ -123,9 +123,9 @@ const OutItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
-              <Select onChange={(v, item) => isHaveObj(item.children)} placeholder="请选择标签" style={{minWidth: '200px'}} showSearch optionFilterProp="children">
+              <Select onChange={(v, item) => isHaveObj(item)} placeholder="请选择标签" style={{minWidth: '200px'}} showSearch optionFilterProp="children">
                 {
-                  tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
+                  tagList.map(d => <Option tagEnName={d.tagEnName} value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
               </Select>
 
@@ -139,7 +139,7 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[1])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
@@ -159,6 +159,9 @@ const OutItem = ({
               // if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
               //   return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
               // }
+              if (!(/^[a-zA-Z0-9_]+$/.test(value))) {
+                return Promise.reject('显示名称格式不正确，允许输入英文/数字/下划线')
+              }
               
               if (Object.values(obj).includes(value)) {
                 return Promise.reject('显示名称重复')
