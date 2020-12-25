@@ -23,12 +23,12 @@ const OutItem = ({
   outNameBlur,
   outNameChange,
   outNameMap,
+  setAlias,
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
   const [showSelect, changeShowSelect] = useState(true)
   const [showInput, changeShowInput] = useState(false)
   const [showLeftInput, changeShowLeftInput] = useState(false)
-
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
 
@@ -63,9 +63,22 @@ const OutItem = ({
   }
 
   const obj = {...outNameMap}
-  
   delete obj[id]
 
+  function isHaveObj(v) {
+    const tagName = v.split('.')[1]
+    let count = 0
+    $('.nameInput').each((i, item) => {
+      if (tagName === item.children[0].value || `${tagName}(${count})` === item.children[0].value) {
+        count += 1
+        setAlias.setFields([{name: [id, 'alias'], value: `${tagName}(${count})`}])
+        setAlias.validateFields([[id, 'alias']])
+      }
+    })
+    if (count) return
+    setAlias.setFields([{name: [id, 'alias'], value: tagName}])
+    setAlias.validateFields([[id, 'alias']])
+  }
   return (
     <Form.Item key={id}>
       <Input.Group compact>
@@ -106,6 +119,9 @@ const OutItem = ({
                 style={{minWidth: '200px'}}
                 showSearch
                 optionFilterProp="children"
+                onChange={(v, item) => {
+                  isHaveObj(item.children)
+                }}
               >
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
@@ -118,7 +134,6 @@ const OutItem = ({
 
         {
           showLeftInput ? (
-
             <Form.Item
               name={[id, 'params1']}
               noStyle
@@ -128,7 +143,6 @@ const OutItem = ({
             </Form.Item>
           ) : null
         }
-       
         <Form.Item
           name={[id, 'alias']}
           noStyle
@@ -145,7 +159,6 @@ const OutItem = ({
               if (Object.values(obj).includes(value)) {
                 return Promise.reject('显示名称重复')
               }
-
               return Promise.resolve()
             },
           }, 
@@ -154,8 +167,9 @@ const OutItem = ({
           },
           ]}
         >
-          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
+          <Input allowClear className="nameInput" size="small" style={{width: '256px', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
         </Form.Item>
+        
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
             <Popconfirm

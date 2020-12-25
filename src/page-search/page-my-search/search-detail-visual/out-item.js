@@ -24,6 +24,7 @@ const OutItem = ({
   outNameBlur,
   outNameChange,
   outNameMap,
+  setAlias,
 }) => {
   const [tagList, changeTagList] = useState(expressionTag)
   const [showSelect, changeShowSelect] = useState(!((info.conditionUnit && info.conditionUnit.function) === 'count' || (info.conditionUnit && info.conditionUnit.function) === '固定值'))
@@ -68,6 +69,21 @@ const OutItem = ({
 
   delete obj[id]
 
+  function isHaveObj(v) {
+    const tagName = v.split('.')[1]
+    let count = 0
+    $('.nameInput').each((i, item) => {
+      if (tagName === item.children[0].value || `${tagName}(${count})` === item.children[0].value) {
+        count += 1
+        setAlias.setFields([{name: [id, 'alias'], value: `${tagName}(${count})`}])
+        setAlias.validateFields([[id, 'alias']])
+      }
+    })
+    if (count) return
+    setAlias.setFields([{name: [id, 'alias'], value: tagName}])
+    setAlias.validateFields([[id, 'alias']])
+  }
+
   return (
     <Form.Item key={id}>
       <Input.Group compact>
@@ -107,7 +123,7 @@ const OutItem = ({
               rules={[{required: true, message: '请选择标签'}]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
-              <Select placeholder="请选择标签" style={{minWidth: '200px'}} showSearch optionFilterProp="children">
+              <Select onChange={(v, item) => isHaveObj(item.children)} placeholder="请选择标签" style={{minWidth: '200px'}} showSearch optionFilterProp="children">
                 {
                   tagList.map(d => <Option value={d.objIdTagId}>{d.objNameTagName}</Option>)
                 } 
@@ -130,7 +146,6 @@ const OutItem = ({
             </Form.Item>
           ) : null
         }
-       
         <Form.Item
           name={[id, 'alias']}
           noStyle
@@ -158,7 +173,7 @@ const OutItem = ({
           ]}
           initialValue={alias}
         >
-          <Input size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
+          <Input className="nameInput" allowClear size="small" style={{width: '30%', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
         </Form.Item>
         <Form.Item>
           <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>

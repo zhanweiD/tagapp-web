@@ -400,9 +400,10 @@ class Visual extends Component {
 
                     {/* 渲染输出设置 */}
                     <div style={{display: this.menuCode === 'out' ? 'block' : 'none'}}>
-                      {
-                        outConfig.length ? (
-                          <div>
+                      
+                      <div>
+                        {
+                          outConfig.length ? (
                             <Popconfirm
                               placement="bottomLeft"
                               title="确认清除输出设置？"
@@ -412,56 +413,61 @@ class Visual extends Component {
                             >
                               <Button type="primary" className="mb16">清除输出设置</Button>
                             </Popconfirm>
-                            <Form
-                              name="out"
-                              ref={this.outConfigRef}
-                              onValuesChange={(changedValues, allValues) => {
-                                if (resultInfo.sql) {
-                                  this.clearResult()
-                                }
-                                const [key] = Object.keys(changedValues)
+                          ) : null
+                        }
+                            
+                        <Form
+                          name="out"
+                          ref={this.outConfigRef}
+                          onValuesChange={(changedValues, allValues) => {
+                            if (resultInfo.sql) {
+                              this.clearResult()
+                            }
+                            const [key] = Object.keys(changedValues)
                         
-                                if (changedValues[key].function && allValues[key].params1) {
-                                  this.outConfigRef.current.setFieldsValue({
-                                    [key]: {
-                                      ...changedValues[key],
-                                      params1: undefined,
-                                    },
-                                  })
-                                }
+                            if (changedValues[key].function && allValues[key].params1) {
+                              this.outConfigRef.current.setFieldsValue({
+                                [key]: {
+                                  ...changedValues[key],
+                                  params1: undefined,
+                                },
+                              })
+                            }
 
-                                if (changedValues[key].function && allValues[key].params) {
-                                  this.outConfigRef.current.setFieldsValue({
-                                    [key]: {
-                                      ...changedValues[key],
-                                      params: undefined,
-                                    },
-                                  })
-                                }
-                              }}
-                            >
-                              {
-                                outConfig.map((d, i) => (
-                                  <OutItem
-                                    key={d.id}
-                                    id={d.id}
-                                    index={i}
-                                    expressionTag={toJS(expressionTag)}
-                                    delOutConfig={this.delOutConfig}
-                                    addOutConfig={this.addOutConfig}
-                                    info={toJS(d)}
-                                    outNameMap={toJS(this.outNameMap)}
-                                    outNameBlur={this.outNameBlur}
-                                    outNameChange={this.outNameChange}
-                                  />
-                                ))
-                              }
+                            if (changedValues[key].function && allValues[key].params) {
+                              this.outConfigRef.current.setFieldsValue({
+                                [key]: {
+                                  ...changedValues[key],
+                                  params: undefined,
+                                },
+                              })
+                            }
+                          }}
+                        >
+                          {
+                            outConfig.map((d, i) => (
+                              <OutItem
+                                key={d.id}
+                                id={d.id}
+                                index={i}
+                                setAlias={this.outConfigRef.current}
+                                expressionTag={toJS(expressionTag)}
+                                delOutConfig={this.delOutConfig}
+                                addOutConfig={this.addOutConfig}
+                                info={toJS(d)}
+                                outNameMap={toJS(this.outNameMap)}
+                                outNameBlur={this.outNameBlur}
+                                outNameChange={this.outNameChange}
+                              />
+                            ))
+                          }
 
-                            </Form>
-                          </div>
-                        )
-                          : <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
-                      }
+                        </Form>
+                      </div>
+                      {
+                        !outConfig.length ? (
+                          <Button type="primary" onClick={this.addFirstOutConfig}>新增</Button>
+                        ) : null}
                     </div>
                     {/* 渲染筛选设置 */}
                     <div style={{display: this.menuCode === 'screen' ? 'block' : 'none'}}>
