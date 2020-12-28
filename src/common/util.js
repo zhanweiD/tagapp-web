@@ -270,6 +270,21 @@ export function getNamePattern(max = 32) {
   }];
 }
 
+export function getNamePatternD(max = 32) {
+  return [{
+    transform: value => value && value.trim(),
+  }, {
+    max, 
+    message: `不能超过${max}个字符`,
+  }, {
+    pattern: /^[a-zA-Z0-9_.()（）\u4e00-\u9fa5-]+$/, message: '格式不正确，允许输入中文/英文/数字/下划线/()',
+  }, {
+    pattern: /^(?!_)/, message: '不允许下划线开头',
+  }, {
+    pattern: /^(?!数栖)/, message: '不允许数栖开头',
+  }];
+}
+
 export function getEnNamePattern(max = 32) {
   return [{
     transform: value => value && value.trim(),

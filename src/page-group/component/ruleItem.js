@@ -7,7 +7,7 @@ import OnerFrame from '@dtwave/oner-frame'
 import {IconDel, IconTreeAdd} from '../../icon-comp'
 import {functionList, condition, entityFunctionList, textCondition} from './util'
 import io from '../rule-create/io'
-import {getNamePattern} from '../../common/util'
+import {getNamePattern, getNamePatternD} from '../../common/util'
 
 const {Option} = Select
 const FormItem = Form.Item
@@ -320,7 +320,7 @@ const RuleItem = ({
           <FormItem
             label={null}
             name={[key, 'rightParams']}
-            rules={[{required: true, message: '不能为空'}, ...getNamePattern()]}
+            rules={[{required: true, message: '不能为空'}, ...getNamePatternD()]}
             // rules={[{required: true, message: '不能为空'}]}
             initialValue={rest.rightParams}
           >

@@ -9,7 +9,7 @@ import {
 
 import {screenLogic, screenValueLogic, comparison, tagComparison, aggregation, aggregationLogic} from './util'
 import {IconDel, IconTreeAdd} from '../../../icon-comp'
-import {getNamePattern, getEnNamePattern} from '../../../common/util'
+import {getNamePattern, getEnNamePattern, getNamePatternD} from '../../../common/util'
 
 const {Option} = Select
 
@@ -101,7 +101,7 @@ const ScreenItem = ({
             <Form.Item
               name={[id, 'leftParams']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
@@ -130,7 +130,7 @@ const ScreenItem = ({
             <Form.Item
               name={[id, 'leftParams1']}
               noStyle
-              rules={[{required: true, message: '请输入'}]}
+              rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
@@ -194,8 +194,8 @@ const ScreenItem = ({
                   <Form.Item
                     name={[id, 'rightParams1']}
                     noStyle
-                    rules={[{required: true, message: '请输入参数默认值'}]}
-                    // rules={[{required: true, message: '请输入参数默认值'}, ...getNamePattern()]}
+                    // rules={[{required: true, message: '请输入参数默认值'}]}
+                    rules={[{required: true, message: '请输入参数默认值'}, ...getNamePattern()]}
                   >
                     <Input size="small" style={{width: '20%'}} placeholder="参数默认值" />
                   </Form.Item>
@@ -207,8 +207,8 @@ const ScreenItem = ({
               <Form.Item
                 name={[id, 'rightParams']}
                 noStyle
-                rules={[{required: true, message: '请输入'}]}
-                // rules={[{required: true, message: '请输入'}, ...getNamePattern()]}
+                // rules={[{required: true, message: '请输入'}]}
+                rules={[{required: true, message: '请输入'}, ...getNamePatternD()]}
               >
                 <Input size="small" style={{width: '20%'}} placeholder="请输入" />
               </Form.Item>
