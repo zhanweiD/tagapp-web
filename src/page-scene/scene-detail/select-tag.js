@@ -169,29 +169,31 @@ export default class SelectTag extends Component {
           <TagCategory {...tagCategoryOpt} />
 
           <div className="FB1 m16" style={{overflowX: 'hidden'}}>
-            <Spin spinning={this.store.categoryStore.treeLoading}>
-              <div>
-                {
-                  tagId && !this.isTagDel ? (
-                    <Fragment>
-                      <Spin spinning={tagInfoLoading}>
-                        <DetailHeader
-                          name={name}
-                          descr={descr}
-                          baseInfo={baseInfo}
-                          // 点击“标签详情”按钮，进入标签详情
-                          actions={[<Button type="primary">   
-                            <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}/${projectId}`}>标签详情</a>
-                          </Button>]}
-                        />
-                      </Spin>
-                      <TrendTag store={this.store} tagId={this.store.tagId} />
-                      <TrendApi store={this.store} tagId={this.store.tagId} />
-                    </Fragment>
-                  ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！（注：选择的标签必须放在对象的某个类目下）`} />
-                }
-              </div>
-            </Spin>
+            {
+              this.store.categoryStore.treeLoading || !tagId ? <div style={{marginTop: '20%', marginLeft: '50%'}}><Spin spinning /></div> : (
+                <div>
+                  {
+                    tagId && !this.isTagDel ? (
+                      <Fragment>
+                        <Spin spinning={tagInfoLoading}>
+                          <DetailHeader
+                            name={name}
+                            descr={descr}
+                            baseInfo={baseInfo}
+                            // 点击“标签详情”按钮，进入标签详情
+                            actions={[<Button type="primary">   
+                              <a target="_blank" rel="noopener noreferrer" href={`/tag-model/index.html#/manage/tag-maintain/${id}/${projectId}`}>标签详情</a>
+                                      </Button>]}
+                          />
+                        </Spin>
+                        <TrendTag store={this.store} tagId={this.store.tagId} />
+                        <TrendApi store={this.store} tagId={this.store.tagId} />
+                      </Fragment>
+                    ) : <NoData text={`请在已选择的 ${this.store.categoryStore.objName.map(item => `“${item}”`).join(' ')} 对象中，选择需要使用的标签！（注：选择的标签必须放在对象的某个类目下）`} />
+                  }
+                </div>
+              )
+            }
           </div>
         </div>
       </Provider>

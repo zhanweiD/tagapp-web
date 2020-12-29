@@ -218,7 +218,7 @@ module.exports = {
             ],
             // 页面keeper
             __keeper: {
-              pathPrefix: '/api/tagapp/1_0_0',
+              pathPrefix: '/api/tagapp/current',
               pathHrefPrefix: '/tag-app/index.html#',
               isPrivate: true,
               encryptType: 'md5',
