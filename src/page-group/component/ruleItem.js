@@ -320,8 +320,8 @@ const RuleItem = ({
           <FormItem
             label={null}
             name={[key, 'rightParams']}
-            rules={[{required: true, message: '不能为空'}, ...getNamePatternD()]}
-            // rules={[{required: true, message: '不能为空'}]}
+            // rules={[{required: true, message: '不能为空'}, ...getNamePatternD()]}
+            rules={[{required: true, message: '不能为空'}]}
             initialValue={rest.rightParams}
           >
             <Input size="small" placeholder="请输入" style={{width: 120}} disabled={rest.page === 'detail'} />
