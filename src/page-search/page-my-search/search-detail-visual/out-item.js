@@ -106,7 +106,8 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
+              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[0])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
@@ -139,7 +140,8 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
+              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
               initialValue={(conditionUnit && conditionUnit.params && conditionUnit.params[1])}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />

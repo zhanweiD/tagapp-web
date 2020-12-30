@@ -100,7 +100,8 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
+              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
 
@@ -137,7 +138,8 @@ const OutItem = ({
             <Form.Item
               name={[id, 'params1']}
               noStyle
-              rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+              rules={[{required: true, message: '请输入'}]}
+              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
             >
               <Input size="small" style={{width: '200px'}} placeholder="请输入" />
             </Form.Item>
