@@ -6,8 +6,10 @@ const api = {
   groupInit: post(`${relGroupApi}/init`), // 初始化云资源
   hasInit: get(`${relGroupApi}/has_init`), // 是否初始化云资源
   updateInit: post(`${relGroupApi}/update_group_config`), // 初始化云资源
-  getDataTypeSource: get(`${relGroupApi}/storage_type`), // 数据源类型列表
-  getDataSource: get(`${relGroupApi}/storage_list`), // 数据源列表
+  // getDataTypeSource: get(`${relGroupApi}/storage_type`), // 数据源类型列表
+  // getDataSource: get(`${relGroupApi}/storage_list`), // 数据源列表
+  getDataTypeSource: get('/api/tagmodel/current/transfer/scheme/dataStorageType'), // 下拉数据源类型列表
+  getDataSource: get('/api/tagmodel/current/transfer/scheme/storageList'), // 下拉数据源列表
   getEntityList: get(`${relGroupApi}/obj_list`), // 实体列表
   getTagList: get(`${relGroupApi}/tag_list`), // 标签列表
   getEntityPage: get(`${relGroupApi}/entity_page`), // 实体分页列表
@@ -17,6 +19,8 @@ const api = {
   delEntity: post(`${relGroupApi}/remove_entity`), // 移除实体
   getAnalyzeTags: get(`${baseApi}/groupAnalysis/tags`), // 获取标签列表(无主标签)
   // getCompareTags: get(`${baseApi}/groupAnalysis/tags`), // 获取群体对比默认标签列表
+
+  getDefaultStorage: get('/api/tagmodel/current/projectStorage/getDefaultStorage'), // 是否单一数据源
 } 
 
 ioContext.create('groupConfig', api) 

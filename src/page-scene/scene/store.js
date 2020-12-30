@@ -76,7 +76,7 @@ class Store {
   @observable objList = [] // 对象下拉
 
   // 数据源类型下拉
-  @action async getStorageType() {
+  @action.bound async getStorageType() {
     this.storageTypeLoading = true
 
     try {
@@ -92,6 +92,32 @@ class Store {
       runInAction(() => {
         this.storageTypeLoading = false
       })
+    }
+  }
+
+  @observable defaultStorage = {}
+  @observable getDefaultLogin = true
+  @observable selectStorage
+  @observable selecStorageType
+  // 判断是否单一数据源
+  @action async getDefaultStorage() {
+    this.getDefaultLogin = true
+    try {
+      const res = await io.getDefaultStorage({
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.defaultStorage = res
+
+        if (res.storageType) {
+          this.selecStorageType(res.storageType)
+          this.selectStorage(res.storageId)
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      this.getDefaultLogin = false
     }
   }
 

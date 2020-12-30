@@ -12,6 +12,11 @@ export default class ConfigModal extends Component {
     this.store = props.store
   }
 
+  componentDidMount() {
+    this.store.selecStorageType = this.selectDataTypeSource
+    this.store.getDefaultStorage()
+  }
+
   @action.bound selectDataTypeSource(storageTypeId) {
     // this.form.setFieldsValue({storageId: undefined})
     this.store.getDataSource(storageTypeId, v => this.form.setFieldsValue({storageId: v}))
@@ -32,11 +37,13 @@ export default class ConfigModal extends Component {
       dataTypeSource = [],
       projectId,
       config,
+      defaultStorage,
     } = this.store
     return [{
       label: '数据源类型',
       key: 'type',
-      initialValue: config.dataStorageType || undefined,
+      initialValue: config.dataStorageType || defaultStorage.storageType,
+      disabled: defaultStorage.storageType,
       rules: [
         '@requiredSelect',
       ],
@@ -49,7 +56,8 @@ export default class ConfigModal extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: config.dataStorageId || undefined,
+      initialValue: config.dataStorageId || defaultStorage.storageId,
+      disabled: defaultStorage.storageId,
       rules: [
         '@requiredSelect',
       ],

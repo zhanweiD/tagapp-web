@@ -29,6 +29,7 @@ class GroupConfig extends Component {
   }
 
   render() {
+    const {getDefaultLogin, visible} = store
     const noDataConfig = {
       onClick: () => this.openModal(),
       text: '该项目下，群体洞察的数据源未初始化',
@@ -48,7 +49,10 @@ class GroupConfig extends Component {
                 <NoData
                   {...noDataConfig}
                 />
-                <ConfigModal store={store} />
+                {
+                  visible ? <ConfigModal store={store} /> : null
+                }
+                {/* <ConfigModal store={store} /> */}
               </div>
             )
           }

@@ -52,7 +52,7 @@ class Scene extends Component {
   } 
 
   render() {
-    const {loading, list = [], functionCodes} = store
+    const {loading, list = [], functionCodes, modalVisible} = store
     
     const noDataConfig = {
       btnText: '添加场景',
@@ -152,7 +152,9 @@ class Scene extends Component {
                 </div>
               )
             }
-            <ModalAdd store={store} />
+            {
+              modalVisible ? <ModalAdd store={store} /> : null
+            }
           </div>
         </Spin>
       </div>

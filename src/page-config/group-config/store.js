@@ -48,6 +48,30 @@ class Store extends ListContentStore(io.getEntityPage) {
     this.analyzeTags = []
   }
 
+  @observable defaultStorage = {}
+  @observable getDefaultLogin = true
+  @observable selecStorageType
+  // 判断是否单一数据源
+  @action async getDefaultStorage() {
+    this.getDefaultLogin = true
+    try {
+      const res = await io.getDefaultStorage({
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.defaultStorage = res
+
+        if (res.storageType) {
+          this.selecStorageType(res.storageType)
+        }
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      this.getDefaultLogin = false
+    }
+  }
+
   // 初始化云资源
   @action async groupInit(data) {
     try {
@@ -207,7 +231,7 @@ class Store extends ListContentStore(io.getEntityPage) {
     try {
       const res = await io.getDataSource({
         projectId: this.projectId,
-        dataStorageType: type,
+        storageType: type,
       })
 
       runInAction(() => {

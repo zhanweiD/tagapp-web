@@ -10,12 +10,13 @@ import ConfigModal from './modal'
 import io from './io'
 import {successTip, errorTip} from '../../common/util'
 
-const GroupConfig = ({projectId}) => {
+const SearchConfig = ({projectId}) => {
   const [config, changeConfig] = useState({})
   const [hasInit, changeHasInit] = useState(true)
   const [visible, changeVisible] = useState(false)
   const [dataType, changeDataType] = useState([])
   const [dataSource, changedataSource] = useState([])
+  const [detailSource, changeDetailSource] = useState({})
   const [isInit, changeIsInit] = useState(true)
 
   // 获取配置信息
@@ -46,12 +47,36 @@ const GroupConfig = ({projectId}) => {
     }
   }
 
+  // @observable defaultStorage = {}
+  // @observable getDefaultLogin = true
+  // @observable selecStorageType
+  // 判断是否单一数据源
+  async function getDefaultStorage() {
+    // this.getDefaultLogin = true
+    console.log(1111)
+    try {
+      const res = await io.getDefaultStorage({
+        projectId,
+      })
+      
+      changeDetailSource(res)
+
+      if (res.storageType) {
+        // this.selecStorageType(res.storageType)
+      }
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      // this.getDefaultLogin = false
+    }
+  }
+
   // 获取数据源
   async function getStorageList(type, cb) {
     try {
       const res = await io.getStorageList({
         projectId,
-        dataStorageType: type,
+        storageType: type,
       })
   
       const result = res || []
@@ -103,6 +128,7 @@ const GroupConfig = ({projectId}) => {
 
   useEffect(() => {
     searchConfig(projectId)
+    getDefaultStorage()
     getStorageType()
   }, [projectId])
   
@@ -160,4 +186,5 @@ const GroupConfig = ({projectId}) => {
   )
 }
 
-export default projectProvider(searchProvider(GroupConfig))
+// export default projectProvider(SearchConfig)
+export default projectProvider(searchProvider(SearchConfig))

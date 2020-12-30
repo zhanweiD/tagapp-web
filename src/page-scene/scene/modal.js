@@ -11,6 +11,12 @@ export default class ModalAdd extends Component {
     this.store = props.store
   }
 
+  componentDidMount() {
+    this.store.selecStorageType = this.selectStorageType
+    this.store.selectStorage = this.selectStorage
+    this.store.getDefaultStorage()
+  }
+
   @action.bound selectStorageType(type) {
     this.form.resetFields(['objId'])
     this.store.getStorageList({
@@ -26,7 +32,7 @@ export default class ModalAdd extends Component {
   }
 
   selectContent = () => {
-    const {info, storageType, storageSelectList, storageTypeLoading, storageSelectLoading, objList} = this.store
+    const {info, storageType, storageSelectList, storageTypeLoading, storageSelectLoading, objList, defaultStorage} = this.store
     return [{
       label: '场景名称',
       key: 'name',
@@ -44,7 +50,8 @@ export default class ModalAdd extends Component {
     }, {
       label: '数据源类型',
       key: 'dataStorageType',
-      initialValue: info.dataStorageType,
+      initialValue: info.dataStorageType || defaultStorage.storageType,
+      disabled: defaultStorage.storageType,
       rules: [
         '@requiredSelect',
       ],
@@ -57,7 +64,8 @@ export default class ModalAdd extends Component {
     }, {
       label: '数据源',
       key: 'storageId',
-      initialValue: info.dataStorageId,
+      initialValue: info.dataStorageId || defaultStorage.storageId,
+      disabled: defaultStorage.storageId,
       rules: [
         '@requiredSelect',
       ],
@@ -85,7 +93,7 @@ export default class ModalAdd extends Component {
       extra: <span>
         若无可用的对象，请先
         <a className="ml4" target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">去标签同步中添加同步计划</a>
-             </span>,
+      </span>,
     }, {
       label: '描述',
       key: 'descr',

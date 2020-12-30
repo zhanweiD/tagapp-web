@@ -13,6 +13,8 @@ const api = {
   getStorageList: get(`${projectApi}/projectDataStorageListByStorageType`), // 项目内已有的目的数据源列表--场景添加
   getObjList: get(`${sceneApi}/obj`), // 添加/编辑场景对象下拉列表
 
+  getDefaultStorage: get('/api/tagmodel/current/projectStorage/getDefaultStorage'), // 是否单一数据源
+
   // 权限code
   getAuthCode: get(`${baseApi}/project/getFunctionCodes`),
 }

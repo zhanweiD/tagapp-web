@@ -116,7 +116,7 @@ export default class BackConfig extends Component {
   }
   render() {
     const {store} = this
-    const {projectId} = store
+    const {projectId, visible} = store
     const formConfig = {
       labelAlign: 'left',
       selectContent: this.selectContent(),
@@ -162,7 +162,10 @@ export default class BackConfig extends Component {
             </div>
           </div>
           <EntityModal store={store} />
-          <ConfigModal store={store} />
+          {
+            visible ? <ConfigModal store={store} /> : null
+          }
+          {/* <ConfigModal store={store} /> */}
         </div>
       </Fragment>
     )
