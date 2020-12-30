@@ -21,6 +21,7 @@ export default PageComponent => {
     const [visible, changeVisible] = useState(false)
     const [dataType, changeDataType] = useState([])
     const [dataSource, changedataSource] = useState([])
+    const [detailSource, changeDetailSource] = useState({})
 
     // 判断项目是否初始化
     async function judgeInit(id) {
@@ -29,6 +30,40 @@ export default PageComponent => {
       })
       changeLoading(false)
       changeHasInit(res)
+    }
+
+    // 获取数据源
+    async function getStorageList(type) {
+      const res = await io.getStorageList({
+        projectId,
+        storageType: type,
+      })
+
+      const result = res || []
+
+      changedataSource(result)
+    }
+
+    // @observable defaultStorage = {}
+    // @observable getDefaultLogin = true
+    // @observable selecStorageType
+    // 判断是否单一数据源
+    async function getDefaultStorage() {
+    // this.getDefaultLogin = true
+      try {
+        const res = await io.getDefaultStorage({
+          projectId,
+        })
+      
+        changeDetailSource(res)
+
+        if (res.storageType) {
+        // this.selecStorageType(res.storageType)
+          getStorageList(res.storageType)
+        }
+      } catch (e) {
+        console.log(e)
+      } 
     }
 
     // 获取数据源类型
@@ -40,18 +75,6 @@ export default PageComponent => {
       const result = res || []
 
       changeDataType(result)
-    }
-
-    // 获取数据源
-    async function getStorageList(type) {
-      const res = await io.getStorageList({
-        projectId,
-        dataStorageType: type,
-      })
-
-      const result = res || []
-
-      changedataSource(result)
     }
 
     // 初始化项目
@@ -72,6 +95,7 @@ export default PageComponent => {
 
     useEffect(() => {
       judgeInit(projectId)
+      getDefaultStorage()
     }, [projectId])
     
     const noDataConfig = {
@@ -124,6 +148,7 @@ export default PageComponent => {
             onCancel={() => changeVisible(false)}
             onCreate={params => initSearch(params)}
             projectId={projectId}
+            detailSource={detailSource}
           />
         </div>
        

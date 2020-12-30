@@ -17,6 +17,7 @@ const ConfigModal = ({
   config,
   isInit,
   projectId,
+  detailSource,
   dataSource}) => {
   const [form] = Form.useForm()
 
@@ -35,15 +36,18 @@ const ConfigModal = ({
     maskClosable: false,
     footer: isInit ? (
       [
-        <Button onClick={() => {
-          onCancel()
-          form.resetFields()
-        }}
+        <Button
+          style={{marginRight: '8px'}}
+          onClick={() => {
+            onCancel()
+            form.resetFields()
+          }}
         >
           取消
         </Button>,
         <Button 
           type="primary"
+          disabled={detailSource.storageId}
           onClick={() => {
             form
               .validateFields()
@@ -60,15 +64,18 @@ const ConfigModal = ({
         </Button>,
       ]
     ) : ([
-      <Button onClick={() => {
-        onCancel()
-        form.resetFields()
-      }}
+      <Button
+        style={{marginRight: '8px'}}
+        onClick={() => {
+          onCancel()
+          form.resetFields()
+        }}
       >
         取消
       </Button>,
       <Popconfirm
         title="更改后原数据源中的“我的查询”将会失效，请谨慎操作。"
+        disabled={detailSource.storageId}
         onCancel={() => {}}
         onConfirm={() => {
           form
@@ -84,7 +91,7 @@ const ConfigModal = ({
         okText="确认"
         cancelText="取消"
       >
-        <Button type="primary">确定</Button>
+        <Button disabled={detailSource.storageId} type="primary">确定</Button>
       </Popconfirm>,
     ]),
   }
@@ -137,7 +144,7 @@ const ConfigModal = ({
         <Form.Item
           name="dataStorageType"
           label="数据源类型"
-          initialValue={config.storageTypeId}
+          initialValue={config.storageTypeId || detailSource.storageType}
           rules={[
             {
               required: true,
@@ -147,6 +154,7 @@ const ConfigModal = ({
         >
           <Select 
             placeholder="请选择数据源类型"
+            disabled={detailSource.storageType}
             onChange={onChange} 
             size="small"
             showSearch 
@@ -161,7 +169,7 @@ const ConfigModal = ({
         <Form.Item 
           name="dataStorageId" 
           label="数据源"
-          initialValue={config.storageId}
+          initialValue={config.storageId || detailSource.storageId}
           rules={[
             {
               required: true,
@@ -178,6 +186,7 @@ const ConfigModal = ({
         >
           <Select 
             placeholder="请选择数据源" 
+            disabled={detailSource.storageId}
             showSearch 
             size="small"
             optionFilterProp="children"

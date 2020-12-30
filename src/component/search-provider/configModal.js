@@ -14,6 +14,7 @@ const ConfigModal = ({
   selectDataType, 
   dataType, 
   projectId,
+  detailSource,
   dataSource}) => {
   const [form] = Form.useForm()
 
@@ -52,6 +53,7 @@ const ConfigModal = ({
         <Form.Item
           name="dataStorageType"
           label="数据源类型"
+          initialValue={detailSource.storageType}
           rules={[
             {
               required: true,
@@ -59,7 +61,7 @@ const ConfigModal = ({
             },
           ]}
         >
-          <Select placeholder="请选择数据源类型" onChange={onChange}>
+          <Select disabled={detailSource.storageType} placeholder="请选择数据源类型" onChange={onChange}>
             {
               dataType.map(d => <Option value={d.type}>{d.name}</Option>)
             }
@@ -68,6 +70,7 @@ const ConfigModal = ({
         <Form.Item 
           name="dataStorageId" 
           label="数据源"
+          initialValue={detailSource.storageId}
           rules={[
             {
               required: true,
@@ -82,7 +85,7 @@ const ConfigModal = ({
             </span>
           )}
         >
-          <Select placeholder="请选择数据源">
+          <Select disabled={detailSource.storageType} placeholder="请选择数据源">
             {
               dataSource.map(d => <Option value={d.storageId}>{d.storageName}</Option>)
             }

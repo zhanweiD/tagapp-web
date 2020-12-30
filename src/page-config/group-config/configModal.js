@@ -103,6 +103,7 @@ export default class ConfigModal extends Component {
       visible, 
       confirmLoading,
       isInit,
+      defaultStorage,
     } = this.store
 
     const modalConfig = {
@@ -118,12 +119,13 @@ export default class ConfigModal extends Component {
         <Button onClick={this.handleCancel}>取消</Button>,
         <Popconfirm
           title="更改后原数据源中的群体及群体下的API都将会失效，请谨慎操作。"
+          disabled={defaultStorage.storageId}
           onCancel={() => {}}
           onConfirm={this.submit}
           okText="确认"
           cancelText="取消"
         >
-          <Button type="primary">确定</Button>
+          <Button disabled={defaultStorage.storageId} type="primary">确定</Button>
         </Popconfirm>,
       ],
     }

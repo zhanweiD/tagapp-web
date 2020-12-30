@@ -47,30 +47,6 @@ const SearchConfig = ({projectId}) => {
     }
   }
 
-  // @observable defaultStorage = {}
-  // @observable getDefaultLogin = true
-  // @observable selecStorageType
-  // 判断是否单一数据源
-  async function getDefaultStorage() {
-    // this.getDefaultLogin = true
-    console.log(1111)
-    try {
-      const res = await io.getDefaultStorage({
-        projectId,
-      })
-      
-      changeDetailSource(res)
-
-      if (res.storageType) {
-        // this.selecStorageType(res.storageType)
-      }
-    } catch (e) {
-      errorTip(e.message)
-    } finally {
-      // this.getDefaultLogin = false
-    }
-  }
-
   // 获取数据源
   async function getStorageList(type, cb) {
     try {
@@ -85,6 +61,28 @@ const SearchConfig = ({projectId}) => {
     } catch (error) {
       errorTip(error.message)
     }
+  }
+
+  // @observable defaultStorage = {}
+  // @observable getDefaultLogin = true
+  // @observable selecStorageType
+  // 判断是否单一数据源
+  async function getDefaultStorage() {
+    // this.getDefaultLogin = true
+    try {
+      const res = await io.getDefaultStorage({
+        projectId,
+      })
+      
+      changeDetailSource(res)
+
+      if (res.storageType) {
+        // this.selecStorageType(res.storageType)
+        getStorageList(res.storageType)
+      }
+    } catch (e) {
+      console.log(e)
+    } 
   }
 
   // 初始化项目
@@ -181,6 +179,7 @@ const SearchConfig = ({projectId}) => {
         onUpdate={onUpdate}
         onCreate={params => initSearch(params)}
         config={config}
+        detailSource={detailSource}
       />
     </div>
   )
