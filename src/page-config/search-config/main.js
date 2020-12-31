@@ -74,9 +74,9 @@ const SearchConfig = ({projectId}) => {
         projectId,
       })
       
-      changeDetailSource(res)
+      changeDetailSource(res || {})
 
-      if (res.storageType) {
+      if (res) {
         // this.selecStorageType(res.storageType)
         getStorageList(res.storageType)
       }

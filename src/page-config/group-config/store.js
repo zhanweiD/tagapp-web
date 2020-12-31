@@ -59,10 +59,10 @@ class Store extends ListContentStore(io.getEntityPage) {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.defaultStorage = res
+        this.defaultStorage = res || {}
 
-        if (res.storageType) {
-          this.selecStorageType(res.storageType)
+        if (this.defaultStorage.storageType) {
+          this.selecStorageType(this.defaultStorage.storageType)
         }
       })
     } catch (e) {

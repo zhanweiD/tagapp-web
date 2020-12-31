@@ -107,9 +107,9 @@ class Store {
         projectId: this.projectId,
       })
       runInAction(() => {
-        this.defaultStorage = res
+        this.defaultStorage = res || {}
 
-        if (res.storageType) {
+        if (this.defaultStorage.storageType) {
           this.selecStorageType(res.storageType)
           this.selectStorage(res.storageId)
         }
