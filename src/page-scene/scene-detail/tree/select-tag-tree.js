@@ -11,6 +11,7 @@ import {RightOutlined} from '@ant-design/icons'
 
 import {NoBorderInput, Loading, OmitTooltip} from '../../../component'
 import {IconChakan} from '../../../icon-comp'
+import tagIcon from '../../../icon/new-tag.svg'
 
 const {TreeNode} = Tree
 
@@ -151,6 +152,7 @@ export default class TagTree extends Component {
           key={item.id}
           title={<OmitTooltip maxWidth={120} text={item.name} />}
           selectable={false}
+          icon={item.type ? null : <img src={tagIcon} alt="icon" style={{width: '14px'}} />} 
         />
       )
     }
@@ -159,6 +161,7 @@ export default class TagTree extends Component {
       <TreeNode
         key={item.id}
         title={<OmitTooltip maxWidth={120} text={item.name} />}
+        icon={item.type ? null : <img src={tagIcon} alt="icon" style={{width: '14px'}} />} 
         selectable={false}
         tagData={{
           parentId: item.parentId,
@@ -199,6 +202,7 @@ export default class TagTree extends Component {
                     checkable
                     checkStrictly={false}
                     defaultExpandAll
+                    showIcon
                     onCheck={this.onCheck}
                     checkedKeys={toJS(checkedKeys).map(String)}
                   >

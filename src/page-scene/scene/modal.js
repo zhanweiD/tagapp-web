@@ -14,7 +14,7 @@ export default class ModalAdd extends Component {
   componentDidMount() {
     this.store.selecStorageType = this.selectStorageType
     this.store.selectStorage = this.selectStorage
-    this.store.getDefaultStorage()
+    this.store.getDefaultStorage && this.store.getDefaultStorage()
   }
 
   @action.bound selectStorageType(type) {
@@ -93,7 +93,7 @@ export default class ModalAdd extends Component {
       extra: <span>
         若无可用的对象，请先
         <a className="ml4" target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">去标签同步中添加同步计划</a>
-      </span>,
+             </span>,
     }, {
       label: '描述',
       key: 'descr',
