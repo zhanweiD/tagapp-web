@@ -130,7 +130,7 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item 
             label="基本特征"
-            extra="在个体画像中显示，最多可以选择20个"
+            extra="在微观画像的基本信息中显示，最多可选择20个"
           >
             {getFieldDecorator('basicFeatureTag', {
               initialValue: detail.basicFeatureTag,
@@ -151,7 +151,7 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item 
             label="显著特征" 
-            extra="常关注的特征，最多可以选择20个"
+            extra="在微观画像的标签分析中显示，最多可以选择20个"
           >
             {getFieldDecorator('markedFeatureTag', {
               initialValue: detail.markedFeatureTag || undefined,
@@ -172,13 +172,13 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item
             label="群体分析"
-            extra="群体分析默认展示的标签，最多可以选择20个"
+            extra="群体分析默认展示的标签，最多可以选择10个"
           >
             {getFieldDecorator('groupAnalyzeTag', {
               initialValue: detail.groupAnalyzeTag || undefined,
               rules: [
                 {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 10)},
               ],
             })(
               <Select
@@ -198,13 +198,13 @@ class EModal extends Component {
           </Form.Item>
           <Form.Item
             label="群体对比"
-            extra="群体对比默认展示的标签，最多可以选择20个"
+            extra="群体对比默认展示的标签，最多可以选择10个"
           >
             {getFieldDecorator('groupCompareTag', {
               initialValue: detail.groupCompareTag || undefined,
               rules: [
                 {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 10)},
               ],
             })(
               <Select

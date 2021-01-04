@@ -28,7 +28,7 @@ export default class LabelTab extends Component {
   render() {
     const {labelRes, tooltipX, tooltipY} = this.store
     return (
-      <div className="pl24 pt-0 h-100">
+      <div className="pl24 pt16 h-100">
         {
           labelRes.length ? (
             labelRes.map(now => {

@@ -20,14 +20,13 @@ const {Sider, Content} = Layout
 class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
-   
 
     const {match: {params}} = props
 
     store.mainLabel = ''
     store.objId = undefined
 
-    if(params.projectId) {
+    if (params.projectId) {
       store.projectId = params.projectId
     } else {
       store.projectId = props.projectId
@@ -37,7 +36,7 @@ class PortrayalLabel extends Component {
 
 
   render() {
-    const {markedFeature, basicLabel, mainLabel} = store
+    const {mainLabel} = store
     const noDataConfig = {
       text: '请输入主标签查询',
     }
@@ -52,7 +51,6 @@ class PortrayalLabel extends Component {
             </div>
           </div>
           {
-            // markedFeature.length !== 0 || basicLabel.length !== 0 ? (
             mainLabel ? (
               <Layout className="label-main">
                 <Sider className="label-sider box-border"><DetailSidebar /></Sider>

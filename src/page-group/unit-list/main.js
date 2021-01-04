@@ -50,6 +50,7 @@ class UnitList extends Component {
       tableLoading,
       hasPaging: false,
       initGetDataByParent: true,
+      scroll: {x: 1500},
       buttons: [
         <Authority
           authCode="tag_app:export_group[x]"
