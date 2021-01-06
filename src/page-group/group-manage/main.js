@@ -64,9 +64,10 @@ class GroupManage extends Component {
       key: 'name',
       title: '群体名称',
       dataIndex: 'name',
+      fixed: 'left',
       render: (text, record) => (codeInProduct('tag_app:group_detail[r]') ? (
         <Link target="_blank" to={`/group/manage/${record.id}/${record.objId}/${store.projectId}`}>
-          <OmitTooltip maxWidth={100} text={text} />
+          <OmitTooltip maxWidth={200} text={text} />
         </Link>
       ) : <span>{text}</span>
        
@@ -75,6 +76,7 @@ class GroupManage extends Component {
       key: 'objName',
       title: '实体',
       dataIndex: 'objName',
+      render: v => <OmitTooltip maxWidth={200} text={v} />,
     }, {
       key: 'type',
       title: '群体类型',
@@ -118,6 +120,7 @@ class GroupManage extends Component {
       title: '操作',
       width: 200,
       dataIndex: 'action',
+      fixed: 'right',
       render: (text, record) => (
         <div className="FBH FBAC">
           <Fragment>
@@ -242,13 +245,13 @@ class GroupManage extends Component {
       initParams: {projectId},
       columns: this.columns,
       searchParams: search(store),
+      scroll: {x: 1300},
       beforeSearch: this.beforeSearch,
       buttons: [<Authority
         authCode="tag_app:create_group[c]"
       >
         <Button type="primary" onClick={() => this.openModal()}>新建群体</Button>
-
-                </Authority>],
+      </Authority>],
       // initGetDataByParent: true, // 初始请求 在父层组件处理。列表组件componentWillMount内不再进行请求
       store, // 必填属性
     }
