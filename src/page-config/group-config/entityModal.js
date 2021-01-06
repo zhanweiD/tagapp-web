@@ -43,11 +43,12 @@ class EModal extends Component {
     const {store} = this
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
-      values.objId = parseInt(values.objId) 
+      values.objId = +values.objId 
       values.basicFeatureTag = values.basicFeatureTag.map(Number)
       values.markedFeatureTag = values.markedFeatureTag.map(Number)
       values.groupAnalyzeTag = values.groupAnalyzeTag.map(Number)
       values.groupCompareTag = values.groupCompareTag.map(Number)
+      values.searchTag = values.searchTag.map(Number)
 
       if (!err) {
         store.confirmLoading = true
@@ -125,6 +126,32 @@ class EModal extends Component {
                 onChange={value => this.selectEntity(value)}
               >
                 {entityList}
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item 
+            label="搜索条件"
+            extra="在微观画像中使用，最多可选择2个。默认选中主标签"
+          >
+            {getFieldDecorator('searchTag', {
+              initialValue: detail.searchTag,
+              rules: [
+                {required: true, message: '请选择标签！'},
+                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 2)},
+              ],
+            })(
+              <Select
+                mode="multiple"
+                size="small"
+                getPopupContainer={triggerNode => triggerNode.parentElement}
+                placeholder="请选择实体下的标签"
+              >
+                {/* {tagList} */}
+                {
+                  analyzeTags.map(item => {
+                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
+                  })
+                }
               </Select>
             )}
           </Form.Item>

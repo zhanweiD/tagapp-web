@@ -21,7 +21,7 @@ export default class ShowLabel extends Component {
       <Fragment>
         <Tabs defaultActiveKey="1" className="label-tab">
           <TabPane tab="标签分析" key="1" className="fz14">
-            <AnalyzeTab key={`${mainLabel}${objId}`} />
+            <AnalyzeTab idKey={this.props.idKey} key={`${mainLabel}${objId}`} />
           </TabPane>
           <TabPane tab="全部标签" key="2" className="fz14 h-100">
             <LabelTab className="h-100" />

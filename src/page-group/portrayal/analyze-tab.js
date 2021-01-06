@@ -22,6 +22,7 @@ export default class AnalyzeTab extends Component {
   }
   
   componentDidMount() {
+    this.store.getAnalysis()
     this.store.getLabel(data => {
       if (data && data.links.length) {
         this.draw(data)
@@ -31,7 +32,8 @@ export default class AnalyzeTab extends Component {
 
   draw = data => {
     const {nodes, links} = data
-    this.pic = d3.select('#pic')
+    const {idKey} = this.props
+    this.pic = d3.select(`#pic${idKey}`)
 
     const simulation = d3.forceSimulation()
       .force('link', d3.forceLink()
@@ -49,7 +51,7 @@ export default class AnalyzeTab extends Component {
 
     for (let i = nodes.length * nodes.length; i > 0; --i) simulation.tick()
 
-    this.svg = d3.select('#box')
+    this.svg = d3.select(`#box${idKey}`)
       .attr('width', width)
       .attr('height', height)
 
@@ -87,7 +89,6 @@ export default class AnalyzeTab extends Component {
           return 0
         }
 
-
         return -120
       })
       .attr('y', d => {
@@ -119,22 +120,22 @@ export default class AnalyzeTab extends Component {
   }
   render() {
     const {statistics, markedLoading, picUrl} = this.store
-
+    const {idKey} = this.props
     return (
       <div className="bgf">
         <Spin spinning={markedLoading}>
           <div className="analyze-content">
           
-            <div className="person" id="person">
+            <div className="person" id={`person${idKey}`}>
               <div className="svg-box"> 
-                <svg id="box" />
-                <img src={toJS(picUrl) || personIcon} alt="人" id="pic" />
+                <svg id={`box${idKey}`} />
+                <img src={toJS(picUrl) || personIcon} alt="人" id={`pic${idKey}`} />
               </div>      
             </div>
 
             {
               toJS(statistics).length ? (
-                <div className="analyze-ratio">
+                <div className="analyze-ratio mb16 mt16 mh223">
                   {
                     statistics.map(d => (
                       <div>

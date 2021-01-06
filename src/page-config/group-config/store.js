@@ -263,6 +263,7 @@ class Store extends ListContentStore(io.getEntityPage) {
         res.markedFeatureTag = res.markedFeatureTag.map(String)
         res.groupAnalyzeTag = res.groupAnalyzeTag.map(String)
         res.groupCompareTag = res.groupCompareTag.map(String)
+        res.searchTag = res.searchTag.map(String)
         res.objId = res.objId.toString()
         this.detail = res
       })

@@ -1,5 +1,13 @@
 .show-label
   height 100% 
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active
+    border-bottom-color: #f0f0f0
+  // .ant-tabs-nav-more
+  //   display none
+  .ant-tabs-nav
+    padding 16px
+    .ant-tabs-nav-more
+      display none
   .label-header
     display flex
     justify-content space-between
@@ -33,6 +41,8 @@
       margin-left 16px
       .label-tab
         height 100%
+        .ant-tabs-nav
+          padding 0px
         .ant-tabs-nav-list
           padding-left 24px
           .ant-tabs-tab

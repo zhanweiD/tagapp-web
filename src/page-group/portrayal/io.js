@@ -7,6 +7,8 @@ const api = {
   tagAnalysis: get(`${baseApi}/personalityAnalysis/tag`), // 获取单个标签分析
   getAnalysis: get(`${baseApi}/personalityAnalysis/statistics`), // 获取特征分析
   getEntityList: get(`${groupApi}/obj_list`), // 实体列表
+  getSearchList: get(`${baseApi}/personalityAnalysis/searchList`), // 搜索条件
+  getPageList: get(`${baseApi}/personalityAnalysis/pageList`), // 个体列表
 } 
 
 ioContext.create('unitPortrait', api) 

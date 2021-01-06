@@ -17,6 +17,19 @@ class Store {
   @observable markedLoading = false
   @observable picUrl
 
+  @observable isJump = false // 是否跳转
+  @observable changeLoading = false // tab切换
+  @observable tabLoading = false // tab切换
+  @observable allTagLoading = false // tab切换
+  @observable isFirst = true // tab切换
+  @observable isLast = false // tab切换
+  @observable mainKey // 主标签key
+  @observable labelKey = '0' // 主标签key
+  @observable unitList = [] // 个体列表
+  @observable searchList = [] // 搜索条件列表
+  @observable firstEntry // 默认选中第一个实体
+  @observable searchForm // 搜索表单
+
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
   @observable tooltipTitle = [] // 单个标签分析提示
@@ -39,7 +52,7 @@ class Store {
       runInAction(() => {
         this.entityList = res || []
 
-        if (this.entityList.find(item => item.objId === parseInt(params.objId))) {
+        if (this.entityList.find(item => item.objId === +params.objId)) {
           if (params && params.objId) {
             this.mainLabel = params.mainLabel
             this.objId = params.objId.toString()
@@ -48,18 +61,59 @@ class Store {
             this.getAllTags()
           }
         } else {
-          this.objId = undefined
+          this.objId = res[0] ? res[0].objId.toString() : undefined
         }
-        // if (res.length === 0 || this.objId) return
-        // this.objId = res[0] && res[0].objId.toString()
+        this.getSearchList()
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
 
+  // 获取搜索条件
+  @action async getSearchList() {
+    try {
+      const res = await io.getSearchList({
+        id: this.objId,
+        projectId: this.projectId,
+      })
+      runInAction(() => {
+        this.searchList = res || []
+        this.searchForm && this.searchForm.setFieldsValue({tagId: res[0] ? res[0].tagId.toString() : undefined})
+      })
+    } catch (e) {
+      errorTip(e.message)
+    }
+  }
+
+  // 获取个体列表
+  @action async getPageList(value) {
+    this.tabLoading = true
+    try {
+      const res = await io.getPageList({
+        projectId: this.projectId,
+        // objId: this.objId,
+        // tagId: +value.tagId,
+        // keyword: value.keyword,
+        currentPage: 1,
+        pageSize: 10,
+        ...value,
+      })
+      runInAction(() => {
+        this.mainKey = res.mainTag
+        this.unitList = res.data || []
+        this.mainLabel = res.data ? res.data[0][res.mainTag].toString() : null
+      })
+    } catch (e) {
+      errorTip(e.message)
+    } finally {
+      this.tabLoading = false
+    }
+  }
+
   // 获取全部标签 
   @action async getAllTags() {
+    this.allTagLoading = true
     try {
       const res = await io.getAllTags({
         objId: this.objId,
@@ -71,6 +125,8 @@ class Store {
       })
     } catch (e) {
       errorTip(e.message)
+    } finally {
+      this.allTagLoading = false
     }
   }
 
@@ -138,32 +194,6 @@ class Store {
       })
     }
   }
-
-
-  // 显著特征
-  // @action async getMarkedFeature(cb) {
-  //   this.markedLoading = true
-  //   try {
-  //     const res = await io.getLabel({
-  //       objId: this.objId,
-  //       projectId: this.projectId,
-  //       personalityUniqueKey: this.mainLabel,
-  //     })
-
-  //     runInAction(() => {
-  //       // 显著特征
-  //       const markedFeature = this.getMarkedFeatureData(res.marked_feature || [])
-  //       this.markedFeature = res.marked_feature
-  //       cb(markedFeature)
-  //     })
-  //   } catch (e) {
-  //     errorTip(e.message)
-  //   } finally {
-  //     runInAction(() => {
-  //       this.markedLoading = false
-  //     })
-  //   }
-  // }
 
   // 特征分析
   @action async getAnalysis() {
