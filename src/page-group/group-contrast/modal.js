@@ -106,7 +106,7 @@ class ModalAdd extends React.Component {
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType.toString() || '3'}
+                initialValue={modalEditInfo.groupType ? modalEditInfo.groupType.toString() : '3'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
@@ -122,7 +122,7 @@ class ModalAdd extends React.Component {
               <Form.Item 
                 label="分组方式" 
                 name="groupType"
-                initialValue={modalEditInfo.groupType.toString() || '0'}
+                initialValue={modalEditInfo.groupType ? modalEditInfo.groupType.toString() : '0'}
                 rules={[{required: true, message: '请选择分组方式'}]}
               >
                 <Radio.Group>
