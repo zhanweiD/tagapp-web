@@ -43,6 +43,10 @@ class Store {
 
   @observable labelRes = []
 
+  @action resetValue() {
+    this.searchList = []
+  }
+
   // 获取实体列表
   @action async getEntityList(params) {
     try {
@@ -72,6 +76,7 @@ class Store {
 
   // 获取搜索条件
   @action async getSearchList() {
+    if (!this.objId) return
     try {
       const res = await io.getSearchList({
         id: this.objId,

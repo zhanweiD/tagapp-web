@@ -27,6 +27,8 @@ class PortrayalLabel extends Component {
 
     const {match: {params}} = props
 
+    store.resetValue()
+
     store.mainLabel = ''
     store.objId = undefined
 
@@ -102,7 +104,6 @@ class PortrayalLabel extends Component {
       right: <RightOutlined style={{fontSize: '32px', marginRight: '16px', color: '#fff'}} onClick={this.nextPage} />,
     })
   }
-
 
   render() {
     const {mainLabel, isJump, changeLoading, unitList, labelKey, tabLoading, mainKey} = store
