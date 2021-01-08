@@ -49,9 +49,42 @@ class GroupDetail extends Component {
       descr,
       lastCount,
       status,
+      periodTime,
+      scheduleType,
     } = groupDetial
     // 详情信息
     const baseInfo = [
+      {
+        title: '实体',
+        value: objName,
+      },
+      {
+        title: '群体类型',
+        value: type === 1 ? '离线群体' : '实时群体',
+      },
+      {
+        title: '创建方式',
+        value: mode === 1 ? '规则创建' : 'ID集合创建',
+      },
+      {
+        title: '创建人',
+        value: cuserName,
+      },
+      {
+        title: '创建时间',
+        value: <Time timestamp={ctime} />,
+      },
+      // // {
+      // //   title: '描述',
+      // //   value: descr,
+      // // },
+      // {
+      //   title: '调度类型',
+      //   value: '立即执行',
+      // },
+    ]
+
+    const baseInfo1 = [
       {
         title: '实体',
         value: objName,
@@ -76,6 +109,18 @@ class GroupDetail extends Component {
       //   title: '描述',
       //   value: descr,
       // },
+      {
+        title: '调度类型',
+        value: '周期调度',
+      },
+      {
+        title: '调度周期',
+        value: '天',
+      },
+      {
+        title: '调度时间',
+        value: periodTime,
+      },
     ]
 
     // 不同状态的相应map
@@ -86,6 +131,7 @@ class GroupDetail extends Component {
     }
 
     const actions = [
+      // <a onClick={} className="mr8" href>查看配置参数</a>,
       <Authority
         authCode="tag_app:group_rule[r]"
       >
@@ -104,7 +150,7 @@ class GroupDetail extends Component {
             )}
             descr={descr}
             btnMinWidth={230}
-            baseInfo={baseInfo}
+            baseInfo={scheduleType === 1 ? baseInfo1 : baseInfo}
             tag={tagMap[status]}
             actions={modeType === 0 ? [] : actions}
           />

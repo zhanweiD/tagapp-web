@@ -45,6 +45,7 @@ class Store {
 
   @action resetValue() {
     this.searchList = []
+    this.unitList = []
   }
 
   // 获取实体列表

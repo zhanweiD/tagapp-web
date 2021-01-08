@@ -1,6 +1,7 @@
 import {
   action, runInAction, observable, toJS,
 } from 'mobx'
+import {CycleSelect} from '@dtwave/uikit'
 import {errorTip, successTip, changeToOptions} from '../../common/util'
 import {ListContentStore} from '../../component/list-content'
 import apiStore from './store-api-list'
@@ -28,6 +29,12 @@ class Store extends ListContentStore(io.getHistoryList) {
         projectId: this.projectId,
       })
       runInAction(() => {
+        if (res.scheduleType === 1) {
+          const expression = CycleSelect.cronSrialize(res.scheduleExpression)
+
+          // res.period = cycleSelectMap[expression.cycle]
+          res.periodTime = expression.time
+        }
         this.groupDetial = res
         this.modeType = res.mode === 2 ? 0 : res.type
       })
