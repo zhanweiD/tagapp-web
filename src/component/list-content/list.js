@@ -130,11 +130,10 @@ export default class ListContent extends Component {
       searchParams, paginationConfig, hasPaging, ...rest
     } = this.props
 
-    const paginationTotalCount = pagination.totalCount
-
     const {
       tableLoading, list = [], pagination, handlePageChange, handleTableChange,
     } = this.store
+    const paginationTotalCount = pagination.totalCount
     return (
       <div className="comp-list-content">  
         {
