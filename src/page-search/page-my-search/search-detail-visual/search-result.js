@@ -8,7 +8,8 @@ import xiazai from '../../../icon/xiazai.svg'
 
 const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, downloadResult, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
- 
+  const resultInfoSize = resultInfo.totalSize
+
   const getColumns = col => {
     if (col && col.length) {
       return col.map(d => ({
@@ -52,22 +53,28 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
           }
         </div>
       </div>
-      <div className="p16 pb48" style={{display: isExpend ? 'block' : 'none', 'overflowY': 'auto', 'height': '100%', 'paddingBottom': '48px'}}>
+      <div className="p16 pb48" style={{display: isExpend ? 'block' : 'none', overflowY: 'auto', height: '100%', paddingBottom: '48px'}}>
         <Spin spinning={loading}>
-          {resultInfo.data && resultInfo.data.length ? <div className="mb8">
-            <span>共查出{resultInfo.totalSize}条记录</span>
-            <img src={xiazai} style={{ width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult} />
-          </div> : null}
+          {resultInfo.data && resultInfo.data.length ? (
+            <div className="mb8">
+              <span>
+共查出
+                {resultInfoSize}
+条记录
+              </span>
+              <img src={xiazai} style={{width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult} />
+            </div>
+          ) : null}
           <Table 
             key={resultKey}
             columns={getColumns(resultInfo.title)}
             size="small" 
             dataSource={resultInfo.data && resultInfo.data.slice()} 
             pagination={{
-              total: resultInfo.totalSize,
+              total: resultInfoSize,
               defaultCurrent: 1,
               // pageSize: 5,
-              showTotal: () => `合计${resultInfo.totalSize}条记录`,
+              showTotal: () => `合计${resultInfoSize}条记录`,
             }}
           />
         </Spin>

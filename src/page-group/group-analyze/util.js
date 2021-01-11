@@ -119,7 +119,11 @@ export const barOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        const value3 = params[0].axisValue
+        const value4 = params[0].data
+        const name1 = data.tagName
+        const index1 = params[0].dataIndex
+        return `${name1}:${value3}<br />实体数: ${value4}<br />占比: ${tooltip[index1]}`
       },
     },
     xAxis: {
@@ -180,7 +184,8 @@ export const acrossBarOpt = data => {
         const paramsAxisValue = params[0].axisValue
         const paramsData = params[0].data
         const paramsDataIndex = params[0].dataIndex
-        return `${dataTagName}:${paramsAxisValue}<br />实体数: ${paramsData}<br />占比: ${tooltip[paramsDataIndex]}`
+        const index1 = tooltip[paramsDataIndex]
+        return `${dataTagName}:${paramsAxisValue}<br />实体数: ${paramsData}<br />占比: ${index1}`
       },
     },
     grid: {
@@ -243,7 +248,12 @@ export const lineOpt = data => {
     tooltip: {
       trigger: 'axis',
       formatter: params => {
-        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        const value3 = params[0].axisValue
+        const value4 = params[0].data
+        const name1 = data.tagName
+        const index1 = params[0].dataIndex
+        return `${name1}:${value3}<br />实体数: ${value4}<br />占比: ${tooltip[index1]}`
+        // return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },   
     },
     xAxis: {

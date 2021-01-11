@@ -51,7 +51,15 @@ export const barOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
+        const name1 = data.tagName
+        const value1 = params[0].axisValue
+        const name2 = data.groupAname
+        const value2 = params[0].data
+        const index1 = tooltip0[params[0].dataIndex]
+        const name3 = data.groupBname
+        const value3 = params[1].data
+        const index2 = tooltip1[params[1].dataIndex]
+        return `${name1}：${value1}<br /> ${name2}：${value2} (${index1}) <br /> ${name3}：${value3} (${index2})`
       },
     },
     xAxis: {
@@ -127,7 +135,16 @@ export const acrossBarOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
+        const name1 = data.tagName
+        const value1 = params[0].axisValue
+        const name2 = data.groupAname
+        const value2 = params[0].data
+        const index1 = tooltip0[params[0].dataIndex]
+        const name3 = data.groupBname
+        const value3 = params[1].data
+        const index2 = tooltip1[params[1].dataIndex]
+        return `${name1}：${value1}<br /> ${name2}：${value2} (${index1}) <br /> ${name3}：${value3} (${index2})`
+        // return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
       },
     },
     grid: {
@@ -206,7 +223,16 @@ export const lineOpt = data => {
     tooltip: {
       trigger: 'axis',
       formatter: params => {
-        return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
+        const name1 = data.tagName
+        const value1 = params[0].axisValue
+        const name2 = data.groupAname
+        const value2 = params[0].data
+        const index1 = tooltip0[params[0].dataIndex]
+        const name3 = data.groupBname
+        const value3 = params[1].data
+        const index2 = tooltip1[params[1].dataIndex]
+        return `${name1}：${value1}<br /> ${name2}：${value2} (${index1}) <br /> ${name3}：${value3} (${index2})`
+        // return `${data.tagName}：${params[0].axisValue}<br /> ${data.groupAname}：${params[0].data} (${tooltip0[params[0].dataIndex]}) <br /> ${data.groupBname}：${params[1].data} (${tooltip1[params[1].dataIndex]})`
       },   
     },
     xAxis: {

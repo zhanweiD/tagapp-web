@@ -11,6 +11,7 @@ const {TabPane} = Tabs
 const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, downloadResult, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
+  const resultInfoSize = resultInfo.totalSize
  
   const getColumns = col => {
     if (col && col.length) {
@@ -67,42 +68,48 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                 {(() => {
                   if (isRuned) {
                     if (log) {
-                      return <div>
-                        <Alert message="查询失败" type="error" showIcon />
-                        <div>{log}</div>
-                      </div>
-                    } else {
-                      return <Alert message="查询成功，请查看查询结果" type="success" showIcon />
-                    }
-                  } else {
-                    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  }
+                      return (
+                        <div>
+                          <Alert message="查询失败" type="error" showIcon />
+                          <div>{log}</div>
+                        </div>
+                      )
+                    } 
+                    return <Alert message="查询成功，请查看查询结果" type="success" showIcon />
+                  } 
+                  return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 })()}
               </div>
             ) : (
-                <div className="result-table">
-                  {
-                    getColumns(resultInfo.title).length ? (
-                      <div>
-                        {resultInfo.data && resultInfo.data.length ? <div className="mb8">
-                          <span>共查出{resultInfo.totalSize}条记录</span>
-                          <img src={xiazai} style={{ width: '14px', cursor: 'pointer' }} className="ml8" onClick={downloadResult} />
-                        </div> : null}
-                        <Table
-                          key={resultKey}
-                          columns={getColumns(resultInfo.title)}
-                          size="small"
-                          dataSource={resultInfo.data && resultInfo.data.slice()}
-                          pagination={{
-                            total: resultInfo.totalSize,
-                            // pageSize: 5,
-                            showTotal: () => `合计${resultInfo.totalSize}条记录`,
-                          }}
-                        />
-                      </div>
-                    ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  }
-                </div>
+              <div className="result-table">
+                {
+                  getColumns(resultInfo.title).length ? (
+                    <div>
+                      {resultInfo.data && resultInfo.data.length ? (
+                        <div className="mb8">
+                          <span>
+共查出
+                            {resultInfoSize}
+条记录
+                          </span>
+                          <img src={xiazai} style={{width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult} />
+                        </div>
+                      ) : null}
+                      <Table
+                        key={resultKey}
+                        columns={getColumns(resultInfo.title)}
+                        size="small"
+                        dataSource={resultInfo.data && resultInfo.data.slice()}
+                        pagination={{
+                          total: resultInfoSize,
+                          // pageSize: 5,
+                          showTotal: () => `合计${resultInfoSize}条记录`,
+                        }}
+                      />
+                    </div>
+                  ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                }
+              </div>
              
             )
           }
