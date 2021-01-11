@@ -1,4 +1,5 @@
-import {Component} from 'react'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import NemoBaseInfo from '@dtwave/nemo-base-info'
 
@@ -23,16 +24,18 @@ export default class Main extends Component {
     return actions.filter(item => item)
   }
 
-  renderBaseInfo = baseInfo => <NemoBaseInfo dataSource={baseInfo} key={Math.random()} />
+  renderBaseInfo = baseInfo => (
+    <NemoBaseInfo dataSource={baseInfo} key={Math.random()} />
+  )
 
   render() {
-    const {
-      name, descr, actions, baseInfo, tag, btnMinWidth,
-    } = this.props
+    const { name, descr, actions, baseInfo, tag, btnMinWidth } = this.props
 
-    const btnStyle = btnMinWidth ? {
-      minWidth: `${btnMinWidth}px`,
-    } : null
+    const btnStyle = btnMinWidth
+      ? {
+          minWidth: `${btnMinWidth}px`,
+        }
+      : null
 
     return (
       <div>
@@ -40,26 +43,30 @@ export default class Main extends Component {
           <div className="detail-header-h">
             <div className="detail-name">
               {name || '--'}
-              <span className="ml10">{ tag }</span>
+              <span className="ml10">{tag}</span>
             </div>
             <div />
             <div style={btnStyle} className="far">
-              {
-                this.renderAction(actions)
-              }
+              {this.renderAction(actions)}
             </div>
           </div>
           <div className="detail-descr mt8">
-            <span style={{color: 'rgba(0,0,0, .45)'}}>描述：</span>
-            <span style={{color: descr ? 'rgba(0,0,0,.65)' : 'rgba(0,0,0,.25)'}}>{descr || '-'}</span>
+            <span style={{ color: 'rgba(0,0,0, .45)' }}>
+              {intl
+                .get(
+                  'ide.src.component.detail-header.detail-header.v8xm20uu0hh'
+                )
+                .d('描述：')}
+            </span>
+            <span
+              style={{ color: descr ? 'rgba(0,0,0,.65)' : 'rgba(0,0,0,.25)' }}
+            >
+              {descr || '-'}
+            </span>
           </div>
         </div>
-        
-        <div className="detail-base-info">
-          {
-            this.renderBaseInfo(baseInfo)
-          }
-        </div>
+
+        <div className="detail-base-info">{this.renderBaseInfo(baseInfo)}</div>
       </div>
     )
   }

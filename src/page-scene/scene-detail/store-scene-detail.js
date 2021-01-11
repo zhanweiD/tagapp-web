@@ -1,9 +1,7 @@
-import {
-  observable, action, runInAction,
-} from 'mobx'
-import {successTip, errorTip, failureTip} from '../../common/util'
+import intl from 'react-intl-universal'
+import { observable, action, runInAction } from 'mobx'
+import { successTip, errorTip, failureTip } from '../../common/util'
 import io from './io'
-
 
 class SceneDetailStore {
   currentKey = '1'
@@ -28,7 +26,7 @@ class SceneDetailStore {
     try {
       const res = await io.getDetail({
         occasionId: this.sceneId,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -47,13 +45,17 @@ class SceneDetailStore {
     try {
       await io.editScene({
         ...params,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
 
       runInAction(() => {
         this.modalVisible = false
         this.confirmLoading = false
-        successTip('编辑成功')
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.hn8i6himken')
+            .d('编辑成功')
+        )
         this.getDetail()
       })
     } catch (e) {
@@ -66,7 +68,7 @@ class SceneDetailStore {
     try {
       const res = await io.checkName({
         ...params,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
 
       runInAction(() => {
@@ -87,6 +89,7 @@ class SceneDetailStore {
       const res = await io.getAuthCode({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.functionCodes = res
       })

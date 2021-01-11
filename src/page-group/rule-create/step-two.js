@@ -1,14 +1,15 @@
-import React, {Component} from 'react'
-import {action, toJS, observable} from 'mobx'
-import {inject, observer} from 'mobx-react'
-import {Button, message} from 'antd'
-import {RuleContent} from '../component'
+import intl from 'react-intl-universal'
+import React, { Component } from 'react'
+import { action, toJS, observable } from 'mobx'
+import { inject, observer } from 'mobx-react'
+import { Button, message } from 'antd'
+import { RuleContent } from '../component'
 import SetRule from './drawer'
-import {formatData, getRenderData} from '../component/util'
+import { formatData, getRenderData } from '../component/util'
 
 @inject('store')
 @observer
-export default class StepTwo extends Component {
+class StepTwo extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -30,15 +31,28 @@ export default class StepTwo extends Component {
       .validateFields()
       .then(values => {
         if (JSON.stringify(values) !== '{}') {
-          this.store.logicExper = formatData(values, this.ruleContentRef, this.whereMap)
-          this.store.posList = getRenderData(values, this.ruleContentRef, this.wherePosMap, this.whereMap)
+          this.store.logicExper = formatData(
+            values,
+            this.ruleContentRef,
+            this.whereMap
+          )
+          this.store.posList = getRenderData(
+            values,
+            this.ruleContentRef,
+            this.wherePosMap,
+            this.whereMap
+          )
 
           this.store.whereMap = this.whereMap
           this.store.wherePosMap = this.wherePosMap
           this.store.getOutputTags()
           this.store.current += 1
         } else {
-          message.error('请添加规则配置')
+          message.error(
+            intl
+              .get('ide.src.page-group.rule-create.step-two.jlsx0e6nkn')
+              .d('请添加规则配置')
+          )
         }
       })
       .catch(info => {
@@ -51,12 +65,15 @@ export default class StepTwo extends Component {
       relationId: relId,
     })
 
-    this.store.getDrawerConfigTagList({
-      objId: relId,
-    }, () => {
-      this.drawerFlag = flag
-      this.visible = true
-    })
+    this.store.getDrawerConfigTagList(
+      {
+        objId: relId,
+      },
+      () => {
+        this.drawerFlag = flag
+        this.visible = true
+      }
+    )
   }
 
   @action submitRule = (posData, data) => {
@@ -69,7 +86,7 @@ export default class StepTwo extends Component {
         delete this.whereMap[this.drawerFlag]
       }
       this.onClose()
-      return 
+      return
     }
 
     this.wherePosMap[this.drawerFlag] = posData
@@ -116,13 +133,25 @@ export default class StepTwo extends Component {
   }
 
   render() {
-    const {current, configTagList, drawerConfigTagList, relList, posList, objId} = this.store
+    const {
+      current,
+      configTagList,
+      drawerConfigTagList,
+      relList,
+      posList,
+      objId,
+    } = this.store
     return (
-      <div className="step-two" style={{display: current === 1 ? 'block' : 'none'}}>
+      <div
+        className="step-two"
+        style={{ display: current === 1 ? 'block' : 'none' }}
+      >
         {/* 圈选规则box */}
-        <RuleContent 
-          formRef={this.formRef} 
-          onRef={ref => { this.ruleContentRef = ref }}
+        <RuleContent
+          formRef={this.formRef}
+          onRef={ref => {
+            this.ruleContentRef = ref
+          }}
           configTagList={toJS(configTagList)}
           drawerConfigTagList={toJS(drawerConfigTagList)}
           relList={toJS(relList)}
@@ -134,23 +163,29 @@ export default class StepTwo extends Component {
           stepOneObjId={objId}
           type="config"
         />
+
         {/* 设置筛选条件弹窗 */}
-        <SetRule 
-          visible={this.visible} 
+        <SetRule
+          visible={this.visible}
           onClose={this.onClose}
-          submit={this.submitRule} 
+          submit={this.submitRule}
           posList={this.wherePosMap[this.drawerFlag]}
         />
+
         <div className="steps-action">
-          <Button style={{marginRight: 16}} onClick={this.pre}>上一步</Button>
-          <Button
-            type="primary"
-            onClick={this.next}
-          >
-            下一步
+          <Button style={{ marginRight: 16 }} onClick={this.pre}>
+            {intl
+              .get('ide.src.page-group.rule-create.step-three.mje6316ys4')
+              .d('上一步')}
+          </Button>
+          <Button type="primary" onClick={this.next}>
+            {intl
+              .get('ide.src.page-group.rule-create.step-one.ekvr4opnmvg')
+              .d('下一步')}
           </Button>
         </div>
       </div>
     )
   }
 }
+export default StepTwo

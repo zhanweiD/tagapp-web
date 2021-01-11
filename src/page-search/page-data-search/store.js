@@ -1,7 +1,6 @@
-import {
-  action, runInAction, observable,
-} from 'mobx'
-import {successTip, errorTip, changeToOptions} from '../../common/util'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable } from 'mobx'
+import { successTip, errorTip, changeToOptions } from '../../common/util'
 import io from './io'
 
 class Store {
@@ -22,6 +21,7 @@ class Store {
       const res = await io.getStorageType({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.storageType = changeToOptions(res)('name', 'type')
       })
@@ -37,6 +37,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
         this.storageList = changeToOptions(res)('storageName', 'storageId')
       })
@@ -53,8 +54,13 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
-        successTip('初始化成功')
+        successTip(
+          intl
+            .get('ide.src.component.project-provider.store.9in28eyw43')
+            .d('初始化成功')
+        )
         this.isInit = true
         this.visibleInit = false
       })

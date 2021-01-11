@@ -1,12 +1,12 @@
-
+import intl from 'react-intl-universal'
 
 /**
  * @description 数查询初始化
  */
 
-import {useEffect, useState, Fragment} from 'react'
+import { useEffect, useState, Fragment } from 'react'
 import OnerFrame from '@dtwave/oner-frame'
-import {message} from 'antd'
+import { message } from 'antd'
 import NoData from '../no-data'
 import io from './io'
 import ConfigModal from './configModal'
@@ -28,6 +28,7 @@ export default PageComponent => {
       const res = await io.judgeInit({
         projectId: id,
       })
+
       changeLoading(false)
       changeHasInit(res)
     }
@@ -49,21 +50,21 @@ export default PageComponent => {
     // @observable selecStorageType
     // 判断是否单一数据源
     async function getDefaultStorage() {
-    // this.getDefaultLogin = true
+      // this.getDefaultLogin = true
       try {
         const res = await io.getDefaultStorage({
           projectId,
         })
-      
+
         changeDetailSource(res || {})
 
         if (res) {
-        // this.selecStorageType(res.storageType)
+          // this.selecStorageType(res.storageType)
           getStorageList(res.storageType)
         }
       } catch (e) {
         console.log(e)
-      } 
+      }
     }
 
     // 获取数据源类型
@@ -87,9 +88,17 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
-        message.success('初始化成功')
+        message.success(
+          intl
+            .get('ide.src.component.project-provider.store.9in28eyw43')
+            .d('初始化成功')
+        )
       } else {
-        message.error('初始化失败')
+        message.error(
+          intl
+            .get('ide.src.component.group-provider.group-provider.6b89kuho4ha')
+            .d('初始化失败')
+        )
       }
     }
 
@@ -97,50 +106,74 @@ export default PageComponent => {
       judgeInit(projectId)
       getDefaultStorage()
     }, [projectId])
-    
+
     const noDataConfig = {
-      text: <span>
-      该项目下，数据分析的数据源未初始化，请到
-        <a target="_blank" href="/tag-app/index.html#/config/search">后台配置-数据查询配置</a>
-      中初始化数据分析的数据源
-            </span>,
+      text: (
+        <span>
+          {intl
+            .get(
+              'ide.src.component.search-provider.search-provider.iggppiyz8cf'
+            )
+            .d('该项目下，数据分析的数据源未初始化，请到')}
+
+          <a target="_blank" href="/tag-app/index.html#/config/search">
+            {intl
+              .get(
+                'ide.src.component.search-provider.search-provider.xisxt8a77fg'
+              )
+              .d('后台配置-数据查询配置')}
+          </a>
+          {intl
+            .get(
+              'ide.src.component.search-provider.search-provider.y1ie36kxf5g'
+            )
+            .d('中初始化数据分析的数据源')}
+        </span>
+      ),
     }
 
     const noDataConfigC = {
-      text: '该项目下，数据分析的数据源未初始化',
-      btnText: '初始化数据源',
+      text: intl
+        .get('ide.src.component.search-provider.search-provider.q7ek4pl3exr')
+        .d('该项目下，数据分析的数据源未初始化'),
+      btnText: intl
+        .get('ide.src.component.group-provider.group-provider.5hj4kgoscd9')
+        .d('初始化数据源'),
       onClick: () => {
         getStorageType(projectId)
         changeVisible(true)
       },
       code: 'tag_config:group_config[u]',
-      noAuthText: '该项目下，数据分析的数据源未初始化',
+      noAuthText: intl
+        .get('ide.src.component.search-provider.search-provider.q7ek4pl3exr')
+        .d('该项目下，数据分析的数据源未初始化'),
     }
 
     if (loading) {
-      return (
-        <Loading mode="block" height={300} /> 
-      )
+      return <Loading mode="block" height={300} />
     }
 
     if (!hasInit) {
       return (
         <div className="h-100">
-          <div className="content-header">数据查询配置</div>
-          <div className="header-page" style={{minHeight: 'calc(100vh - 137px)', paddingTop: '15%'}}>
-            {
-              props.match.path === '/config/search' ? (
-                <NoData
-                  {...noDataConfigC}
-                />
-              ) : (
-                <NoData
-                  {...noDataConfig}
-                />
+          <div className="content-header">
+            {intl
+              .get(
+                'ide.src.component.search-provider.search-provider.25z04aqqa0r'
               )
-            }
+              .d('数据查询配置')}
           </div>
-          <ConfigModal 
+          <div
+            className="header-page"
+            style={{ minHeight: 'calc(100vh - 137px)', paddingTop: '15%' }}
+          >
+            {props.match.path === '/config/search' ? (
+              <NoData {...noDataConfigC} />
+            ) : (
+              <NoData {...noDataConfig} />
+            )}
+          </div>
+          <ConfigModal
             visible={visible}
             dataType={dataType}
             dataSource={dataSource}
@@ -151,12 +184,11 @@ export default PageComponent => {
             detailSource={detailSource}
           />
         </div>
-       
       )
     }
 
     return (
-      <div style={{height: '100%'}}>
+      <div style={{ height: '100%' }}>
         <PageComponent key={projectId} projectId={projectId} {...props} />
       </div>
     )

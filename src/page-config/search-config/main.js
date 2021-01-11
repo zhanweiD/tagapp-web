@@ -1,16 +1,17 @@
+import intl from 'react-intl-universal'
 /**
  * @description 群体洞察配置
  */
 
-import {useEffect, useState} from 'react'
-import {FormOutlined} from '@ant-design/icons'
-import {message, Button, Popconfirm} from 'antd'
-import {projectProvider, searchProvider, Authority} from '../../component'
+import { useEffect, useState } from 'react'
+import { FormOutlined } from '@ant-design/icons'
+import { message, Button, Popconfirm } from 'antd'
+import { projectProvider, searchProvider, Authority } from '../../component'
 import ConfigModal from './modal'
 import io from './io'
-import {successTip, errorTip} from '../../common/util'
+import { successTip, errorTip } from '../../common/util'
 
-const SearchConfig = ({projectId}) => {
+const SearchConfig = ({ projectId }) => {
   const [config, changeConfig] = useState({})
   const [hasInit, changeHasInit] = useState(true)
   const [visible, changeVisible] = useState(false)
@@ -25,7 +26,7 @@ const SearchConfig = ({projectId}) => {
       const res = await io.searchConfig({
         projectId,
       })
-    
+
       changeConfig(res)
     } catch (error) {
       errorTip(error.message)
@@ -38,9 +39,9 @@ const SearchConfig = ({projectId}) => {
       const res = await io.getStorageType({
         projectId,
       })
-  
+
       const result = res || []
-  
+
       changeDataType(result)
     } catch (error) {
       errorTip(error.message)
@@ -54,7 +55,7 @@ const SearchConfig = ({projectId}) => {
         projectId,
         storageType: type,
       })
-  
+
       const result = res || []
       changedataSource(() => result)
       if (cb) cb(res[0] && res[0].storageId)
@@ -73,7 +74,7 @@ const SearchConfig = ({projectId}) => {
       const res = await io.getDefaultStorage({
         projectId,
       })
-      
+
       changeDetailSource(res || {})
 
       if (res) {
@@ -82,7 +83,7 @@ const SearchConfig = ({projectId}) => {
       }
     } catch (e) {
       console.log(e)
-    } 
+    }
   }
 
   // 初始化项目
@@ -92,9 +93,13 @@ const SearchConfig = ({projectId}) => {
         ...params,
         projectId,
       })
-  
+
       if (res) {
-        successTip('初始化成功')
+        successTip(
+          intl
+            .get('ide.src.component.project-provider.store.9in28eyw43')
+            .d('初始化成功')
+        )
         changeVisible(false)
         changeHasInit(true)
       }
@@ -111,9 +116,13 @@ const SearchConfig = ({projectId}) => {
         projectId,
         id: config.id,
       })
-  
+
       if (res) {
-        successTip('修改成功')
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.087mgwwi2r64')
+            .d('修改成功')
+        )
         changeVisible(false)
         changeIsInit(true)
         searchConfig()
@@ -129,7 +138,7 @@ const SearchConfig = ({projectId}) => {
     getDefaultStorage()
     getStorageType()
   }, [projectId])
-  
+
   const editClick = () => {
     getStorageList(config.storageTypeId)
     changeVisible(true)
@@ -151,24 +160,44 @@ const SearchConfig = ({projectId}) => {
 
   return (
     <div>
-      <div className="content-header">数据查询配置</div> 
+      <div className="content-header">
+        {intl
+          .get('ide.src.component.search-provider.search-provider.25z04aqqa0r')
+          .d('数据查询配置')}
+      </div>
       <div className="header-page p24">
         <div className="config-data">
-          <span>数据源配置</span>
+          <span>
+            {intl
+              .get('ide.src.page-config.group-config.back-config.o8x5qevsg0e')
+              .d('数据源配置')}
+          </span>
           <Authority authCode="tag_config:search_config[u]">
-            <Button type="primary" onClick={editClick}>编辑</Button>
+            <Button type="primary" onClick={editClick}>
+              {intl
+                .get('ide.src.component.label-item.label-item.hemrpkpmmb8')
+                .d('编辑')}
+            </Button>
           </Authority>
         </div>
         <div className="search-config-item">
-          <div className="search-config-label">数据源类型：</div>
+          <div className="search-config-label">
+            {intl
+              .get('ide.src.page-config.search-config.main.xc7371o87s')
+              .d('数据源类型：')}
+          </div>
           <div className="search-config-value">{config.storageType}</div>
         </div>
         <div className="search-config-item">
-          <div className="search-config-label">数据源：</div>
+          <div className="search-config-label">
+            {intl
+              .get('ide.src.page-config.search-config.main.ocjxq7j8hm')
+              .d('数据源：')}
+          </div>
           <div className="search-config-value">{config.storageName}</div>
         </div>
       </div>
-      <ConfigModal 
+      <ConfigModal
         visible={visible}
         isInit={isInit}
         dataType={dataType}

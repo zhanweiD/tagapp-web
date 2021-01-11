@@ -1,33 +1,39 @@
-import {Component} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
-import {Form, Icon as LegacyIcon} from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css' 
-import {Modal, Select, Button, Upload, message} from 'antd'
-import {
-  errorTip,
-  limitSelect,
-} from '../../common/util'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Modal, Select, Button, Upload, message } from 'antd'
+import { errorTip, limitSelect } from '../../common/util'
 
-const {Option} = Select
+const { Option } = Select
 
 @observer
 class EModal extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
-    this.form = props.form 
+    this.form = props.form
   }
 
   beforeUpload = file => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
-      message.error('请上传JPG/PNG格式图片!')
+      message.error(
+        intl
+          .get('ide.src.page-config.group-config.entityModal.fy1c6b67tvl')
+          .d('请上传JPG/PNG格式图片!')
+      )
       return
     }
     const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      message.error('图片大小不能超过2MB!')
+      message.error(
+        intl
+          .get('ide.src.page-config.group-config.entityModal.24m2f4en7ug')
+          .d('图片大小不能超过2MB!')
+      )
       return
     }
 
@@ -40,10 +46,10 @@ class EModal extends Component {
   }
 
   submit = () => {
-    const {store} = this
+    const { store } = this
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
-      values.objId = +values.objId 
+      values.objId = +values.objId
       values.basicFeatureTag = values.basicFeatureTag.map(Number)
       values.markedFeatureTag = values.markedFeatureTag.map(Number)
       values.groupAnalyzeTag = values.groupAnalyzeTag.map(Number)
@@ -52,7 +58,7 @@ class EModal extends Component {
 
       if (!err) {
         store.confirmLoading = true
-        // 编辑 
+        // 编辑
         if (store.modalType === 'edit') {
           store.editEntity(values)
         } else {
@@ -68,16 +74,21 @@ class EModal extends Component {
   @action selectEntity = value => {
     this.store.getTagList(value)
     this.store.getAnalyzeTags(value)
-    this.form.resetFields(['basicFeatureTag', 'markedFeatureTag', 'groupAnalyzeTag', 'groupCompareTag'])
+    this.form.resetFields([
+      'basicFeatureTag',
+      'markedFeatureTag',
+      'groupAnalyzeTag',
+      'groupCompareTag',
+    ])
   }
 
   render() {
-    const {getFieldDecorator} = this.form
+    const { getFieldDecorator } = this.form
     const {
-      entityVisible, 
-      modalType, 
-      confirmLoading, 
-      imageUrl, 
+      entityVisible,
+      modalType,
+      confirmLoading,
+      imageUrl,
       uploadLoading,
       entityList,
       tagList,
@@ -87,7 +98,14 @@ class EModal extends Component {
       compareTags,
     } = this.store
     const modalConfig = {
-      title: modalType === 'edit' ? '编辑实体' : '添加实体',
+      title:
+        modalType === 'edit'
+          ? intl
+              .get('ide.src.page-config.group-config.entityModal.4dyf5xzjpvc')
+              .d('编辑实体')
+          : intl
+              .get('ide.src.page-config.group-config.back-config.igp34mpq7dm')
+              .d('添加实体'),
       visible: entityVisible,
       onCancel: modalCancel,
       onOk: this.submit,
@@ -98,8 +116,8 @@ class EModal extends Component {
     }
 
     const formItemLayout = {
-      labelCol: {span: 4},
-      wrapperCol: {span: 20},
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 },
       colon: false,
     }
 
@@ -109,18 +127,35 @@ class EModal extends Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     )
-   
+
     return (
       <Modal {...modalConfig}>
         <Form {...formItemLayout}>
-          <Form.Item label="实体名称">
+          <Form.Item
+            label={intl
+              .get('ide.src.page-config.group-config.back-config.6j9sxet7f2h')
+              .d('实体名称')}
+          >
             {getFieldDecorator('objId', {
               initialValue: detail.objId,
-              rules: [{required: true, message: '请选择实体名称！'}],
+              rules: [
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.h9r16mq3gr'
+                    )
+                    .d('请选择实体名称！'),
+                },
+              ],
             })(
               <Select
                 size="small"
-                placeholder="请选择实体名称"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.lfhhwzqa4i9'
+                  )
+                  .d('请选择实体名称')}
                 getPopupContainer={triggerNode => triggerNode.parentElement}
                 disabled={modalType !== 'add'}
                 onChange={value => this.selectEntity(value)}
@@ -129,142 +164,258 @@ class EModal extends Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item 
-            label="搜索条件"
-            extra="在微观画像中使用，最多可选择2个。默认选中主标签"
+          <Form.Item
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.2olv0319cqn')
+              .d('搜索条件')}
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.71fhshjv3xv')
+              .d('在微观画像中使用，最多可选择2个。默认选中主标签')}
           >
             {getFieldDecorator('searchTag', {
               initialValue: detail.searchTag,
               rules: [
-                {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 2)},
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.4ozd08h6sae'
+                    )
+                    .d('请选择标签！'),
+                },
+                {
+                  validator: (rule, values, callback) =>
+                    limitSelect(rule, values, callback, 2),
+                },
               ],
             })(
               <Select
                 mode="multiple"
                 size="small"
                 getPopupContainer={triggerNode => triggerNode.parentElement}
-                placeholder="请选择实体下的标签"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.384eqs4ob2a'
+                  )
+                  .d('请选择实体下的标签')}
               >
                 {/* {tagList} */}
-                {
-                  analyzeTags.map(item => {
-                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
-                  })
-                }
+                {analyzeTags.map(item => {
+                  return (
+                    <Option value={item.tagId.toString()}>
+                      {item.tagName}
+                    </Option>
+                  )
+                })}
               </Select>
             )}
           </Form.Item>
-          <Form.Item 
-            label="基本特征"
-            extra="在微观画像的基本信息中显示，最多可选择20个"
+          <Form.Item
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.90cpt5e1ovd')
+              .d('基本特征')}
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.7fmovnx486u')
+              .d('在微观画像的基本信息中显示，最多可选择20个')}
           >
             {getFieldDecorator('basicFeatureTag', {
               initialValue: detail.basicFeatureTag,
               rules: [
-                {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.4ozd08h6sae'
+                    )
+                    .d('请选择标签！'),
+                },
+                {
+                  validator: (rule, values, callback) =>
+                    limitSelect(rule, values, callback, 20),
+                },
               ],
             })(
               <Select
                 mode="multiple"
                 size="small"
                 getPopupContainer={triggerNode => triggerNode.parentElement}
-                placeholder="请选择实体下的标签"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.384eqs4ob2a'
+                  )
+                  .d('请选择实体下的标签')}
               >
                 {tagList}
               </Select>
             )}
           </Form.Item>
-          <Form.Item 
-            label="显著特征" 
-            extra="在微观画像的标签分析中显示，最多可以选择20个"
+          <Form.Item
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.5xr4yfob0fo')
+              .d('显著特征')}
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.6g8x8kg408g')
+              .d('在微观画像的标签分析中显示，最多可以选择20个')}
           >
             {getFieldDecorator('markedFeatureTag', {
               initialValue: detail.markedFeatureTag || undefined,
               rules: [
-                {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 20)},
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.4ozd08h6sae'
+                    )
+                    .d('请选择标签！'),
+                },
+                {
+                  validator: (rule, values, callback) =>
+                    limitSelect(rule, values, callback, 20),
+                },
               ],
             })(
               <Select
                 mode="multiple"
                 size="small"
                 getPopupContainer={triggerNode => triggerNode.parentElement}
-                placeholder="请选择实体下的标签"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.384eqs4ob2a'
+                  )
+                  .d('请选择实体下的标签')}
               >
                 {tagList}
               </Select>
             )}
           </Form.Item>
           <Form.Item
-            label="群体分析"
-            extra="群体分析默认展示的标签，最多可以选择10个"
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.iicgr2gpu2')
+              .d('群体分析')}
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.mqipn2uhz3r')
+              .d('群体分析默认展示的标签，最多可以选择10个')}
           >
             {getFieldDecorator('groupAnalyzeTag', {
               initialValue: detail.groupAnalyzeTag || undefined,
               rules: [
-                {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 10)},
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.4ozd08h6sae'
+                    )
+                    .d('请选择标签！'),
+                },
+                {
+                  validator: (rule, values, callback) =>
+                    limitSelect(rule, values, callback, 10),
+                },
               ],
             })(
               <Select
                 mode="multiple"
                 size="small"
                 getPopupContainer={triggerNode => triggerNode.parentElement}
-                placeholder="请选择实体下的标签"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.384eqs4ob2a'
+                  )
+                  .d('请选择实体下的标签')}
               >
                 {/* {tagList} */}
-                {
-                  analyzeTags.map(item => {
-                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
-                  })
-                }
+                {analyzeTags.map(item => {
+                  return (
+                    <Option value={item.tagId.toString()}>
+                      {item.tagName}
+                    </Option>
+                  )
+                })}
               </Select>
             )}
           </Form.Item>
           <Form.Item
-            label="群体对比"
-            extra="群体对比默认展示的标签，最多可以选择10个"
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.zytkh3suvjo')
+              .d('群体对比')}
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.k1ahcwrk2x')
+              .d('群体对比默认展示的标签，最多可以选择10个')}
           >
             {getFieldDecorator('groupCompareTag', {
               initialValue: detail.groupCompareTag || undefined,
               rules: [
-                {required: true, message: '请选择标签！'},
-                {validator: (rule, values, callback) => limitSelect(rule, values, callback, 10)},
+                {
+                  required: true,
+                  message: intl
+                    .get(
+                      'ide.src.page-config.group-config.entityModal.4ozd08h6sae'
+                    )
+                    .d('请选择标签！'),
+                },
+                {
+                  validator: (rule, values, callback) =>
+                    limitSelect(rule, values, callback, 10),
+                },
               ],
             })(
               <Select
                 mode="multiple"
                 size="small"
                 getPopupContainer={triggerNode => triggerNode.parentElement}
-                placeholder="请选择实体下的标签"
+                placeholder={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.384eqs4ob2a'
+                  )
+                  .d('请选择实体下的标签')}
               >
                 {/* {tagList} */}
-                {
-                  analyzeTags.map(item => {
-                    return <Option value={item.tagId.toString()}>{item.tagName}</Option>
-                  })
-                }
+                {analyzeTags.map(item => {
+                  return (
+                    <Option value={item.tagId.toString()}>
+                      {item.tagName}
+                    </Option>
+                  )
+                })}
               </Select>
             )}
           </Form.Item>
-          <Form.Item 
-            label="图片"
+          <Form.Item
+            label={intl
+              .get('ide.src.page-config.group-config.entityModal.4r9ly6zxdbi')
+              .d('图片')}
             className="img-tooltip"
-            extra="图片在个体画像中显示，支持Jpg/Png格式，大小不超过2MB"
+            extra={intl
+              .get('ide.src.page-config.group-config.entityModal.noglp2mmol')
+              .d('图片在个体画像中显示，支持Jpg/Png格式，大小不超过2MB')}
           >
             {getFieldDecorator('picture', {
               initialValue: detail.picture,
             })(
               <Upload
-                name="上传画像"
+                name={intl
+                  .get(
+                    'ide.src.page-config.group-config.entityModal.jftvrignd4o'
+                  )
+                  .d('上传画像')}
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
                 beforeUpload={this.beforeUpload}
               >
-                {imageUrl ? <img src={imageUrl} alt="上传画像" style={{width: '100%'}} /> : uploadButton}
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt={intl
+                      .get(
+                        'ide.src.page-config.group-config.entityModal.jftvrignd4o'
+                      )
+                      .d('上传画像')}
+                    style={{ width: '100%' }}
+                  />
+                ) : (
+                  uploadButton
+                )}
               </Upload>
             )}
           </Form.Item>
@@ -273,5 +424,6 @@ class EModal extends Component {
     )
   }
 }
+
 const EntityModal = Form.create()(EModal)
 export default EntityModal

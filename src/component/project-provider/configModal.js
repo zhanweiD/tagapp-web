@@ -1,25 +1,30 @@
-import {Component} from 'react'
-import {Modal} from 'antd'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { Modal } from 'antd'
 import ModalForm from '../modal-form'
 // import {errorTip} from '../../common/util'
 
 export default class ConfigModal extends Component {
-  selectContent= () => {
-    const {
-      workspace = [],
-    } = this.props
-    return [{
-      label: '环境',
-      key: 'workspaceId',
-      placeholder: '请选择',
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: workspace,
+  selectContent = () => {
+    const { workspace = [] } = this.props
+    return [
+      {
+        label: intl
+          .get('ide.src.component.project-provider.back-config.vn924v29v1k')
+          .d('环境'),
+        key: 'workspaceId',
+        placeholder: intl
+          .get('ide.src.component.project-provider.configModal.weidrlhbqho')
+          .d('请选择'),
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: workspace,
+        },
+
+        component: 'select',
       },
-      component: 'select',
-    }]
+    ]
   }
 
   submit = () => {
@@ -32,12 +37,14 @@ export default class ConfigModal extends Component {
 
   render() {
     const {
-      visible, 
+      visible,
       handleCancel,
       // confirmLoading,
     } = this.props
     const modalConfig = {
-      title: '初始化',
+      title: intl
+        .get('ide.src.component.group-provider.configModal.bfrmtpmvxw')
+        .d('初始化'),
       visible,
       onCancel: () => handleCancel(),
       onOk: this.submit,
@@ -46,11 +53,14 @@ export default class ConfigModal extends Component {
       destroyOnClose: true,
       // confirmLoading,
     }
-    
+
     const formConfig = {
       selectContent: visible && this.selectContent(),
-      wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      wrappedComponentRef: form => {
+        this.form = form ? form.props.form : form
+      },
     }
+
     return (
       <Modal {...modalConfig}>
         <ModalForm {...formConfig} />

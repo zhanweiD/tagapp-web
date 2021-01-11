@@ -1,50 +1,80 @@
-import {Component} from 'react'
-import {Select, Input} from 'antd'
-import {Form} from '@ant-design/compatible'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { Select, Input } from 'antd'
+import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import {getNamePattern} from '../../common/util'
+import { getNamePattern } from '../../common/util'
 
-const {Option} = Select
+const { Option } = Select
 const FormItem = Form.Item
 
 const formItemLayout = null
 
-const functionList = [{
-  name: '标签值',
-  value: '标签值',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '固定值',
-  value: '固定值',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '绝对值',
-  value: 'abs',
-  tagTypeList: [2, 3],
-}, {
-  name: '总记录数',
-  value: 'count',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '求和',
-  value: 'sum',
-  tagTypeList: [2, 3],
-}, {
-  name: '平均数',
-  value: 'avg',
-  tagTypeList: [2, 3],
-}, {
-  name: '最小值',
-  value: 'min',
-  tagTypeList: [2, 3],
-}, {
-  name: '最大值',
-  value: 'max',
-  tagTypeList: [2, 3],
-}]
+const functionList = [
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.bgzr9cfl6hg')
+      .d('标签值'),
+    value: intl
+      .get('ide.src.page-group.component.fixedValue.bgzr9cfl6hg')
+      .d('标签值'),
+    tagTypeList: [1, 2, 3, 4, 5, 6],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.gzi5ubzdaov')
+      .d('固定值'),
+    value: intl
+      .get('ide.src.page-group.component.fixedValue.gzi5ubzdaov')
+      .d('固定值'),
+    tagTypeList: [1, 2, 3, 4, 5, 6],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.7665zxf2f68')
+      .d('绝对值'),
+    value: 'abs',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.xf0gsfep3m')
+      .d('总记录数'),
+    value: 'count',
+    tagTypeList: [1, 2, 3, 4, 5, 6],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.tnkpwzg3lsq')
+      .d('求和'),
+    value: 'sum',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.803qqhhz52f')
+      .d('平均数'),
+    value: 'avg',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.mq3iampws3')
+      .d('最小值'),
+    value: 'min',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.ieuuxsnlv1')
+      .d('最大值'),
+    value: 'max',
+    tagTypeList: [2, 3],
+  },
+]
 
 @Form.create()
-export default class FixedValue extends Component {
+class FixedValue extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -55,22 +85,29 @@ export default class FixedValue extends Component {
   }
 
   componentWillReceiveProps(next) {
-    const {clearActionKey} = this.props
-    const {form: {resetFields}} = this.props
+    const { clearActionKey } = this.props
+    const {
+      form: { resetFields },
+    } = this.props
 
-    if (next.clearActionKey && !_.isEqual(clearActionKey, next.clearActionKey)) {
+    if (
+      next.clearActionKey &&
+      !_.isEqual(clearActionKey, next.clearActionKey)
+    ) {
       resetFields()
     }
   }
 
   onSelect = e => {
     const [fun] = functionList.filter(d => d.value === e)
-    
+
     if (fun) {
       if (e === 'count') {
         const tag = this.props.tagList.filter(d => d.objMainTag === 1)
 
-        this.props.form.setFieldsValue({leftTagId: tag[0] && tag[0].objIdTagId})
+        this.props.form.setFieldsValue({
+          leftTagId: tag[0] && tag[0].objIdTagId,
+        })
       } else {
         this.props.form.resetFields(['thenParams'])
       }
@@ -85,76 +122,93 @@ export default class FixedValue extends Component {
 
   render() {
     const {
-      form: {
-        getFieldDecorator,
-        getFieldValue,
-      },
+      form: { getFieldDecorator, getFieldValue },
+
       detail = {},
       tagList = [],
     } = this.props
 
-    const {thenFunction, typeList, params} = this.state
+    const { thenFunction, typeList, params } = this.state
 
-    const tags = thenFunction === 'count' ? tagList.filter(d => d.objMainTag === 1) : tagList.filter(d => typeList.includes(d.tagType))
-   
+    const tags =
+      thenFunction === 'count'
+        ? tagList.filter(d => d.objMainTag === 1)
+        : tagList.filter(d => typeList.includes(d.tagType))
+
     return (
       <div className="FBH">
-        <FormItem
-          {...formItemLayout}
-          label={null}
-        >
+        <FormItem {...formItemLayout} label={null}>
           {getFieldDecorator('thenFunction', {
-            initialValue: (detail && detail.function) || '固定值',
+            initialValue:
+              (detail && detail.function) ||
+              intl
+                .get('ide.src.page-group.component.fixedValue.gzi5ubzdaov')
+                .d('固定值'),
           })(
-            <Select 
+            <Select
               showSearch
-              className="mr8" 
-              style={{width: 100}}
+              className="mr8"
+              style={{ width: 100 }}
               optionFilterProp="children"
               onSelect={e => this.onSelect(e)}
             >
-              {
-                functionList.map(d => <Option value={d.value}>{d.name}</Option>)
-              }
+              {functionList.map(d => (
+                <Option value={d.value}>{d.name}</Option>
+              ))}
             </Select>
           )}
         </FormItem>
 
-        <FormItem
-          {...formItemLayout}
-          label={null}
-        >
+        <FormItem {...formItemLayout} label={null}>
           {getFieldDecorator('thenParams', {
             initialValue: params,
             rules: [
-              {required: true, message: '请输入'},
+              {
+                required: true,
+                message: intl
+                  .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                  .d('请输入'),
+              },
               ...getNamePattern(),
             ],
           })(
-            getFieldValue('thenFunction') === '固定值' 
-              ? <Input size="small" placeholder="请输入" style={{width: 180}} value={params} /> 
-              : (
-                <Select 
-                  showSearch
-                  className="mr8" 
-                  style={{width: 180}}
-                  optionFilterProp="children"
-                  placeholder="选择标签"
-                  value={params}
-                  onSelect={this.selectTag}
-                >
-                  
-                  {tags.map(d => (
-                    <Option value={d.objIdTagId}>
-                      <div title={d.objNameTagName} className="omit">{d.objNameTagName}</div>
-                    </Option>
-                  ))}
-         
-                </Select>
-              )
+            getFieldValue('thenFunction') ===
+              intl
+                .get('ide.src.page-group.component.fixedValue.gzi5ubzdaov')
+                .d('固定值') ? (
+              <Input
+                size="small"
+                placeholder={intl
+                  .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                  .d('请输入')}
+                style={{ width: 180 }}
+                value={params}
+              />
+            ) : (
+              <Select
+                showSearch
+                className="mr8"
+                style={{ width: 180 }}
+                optionFilterProp="children"
+                placeholder={intl
+                  .get('ide.src.page-group.component.fixedValue.4mptstd0fum')
+                  .d('选择标签')}
+                value={params}
+                onSelect={this.selectTag}
+              >
+                {tags.map(d => (
+                  <Option value={d.objIdTagId}>
+                    <div title={d.objNameTagName} className="omit">
+                      {d.objNameTagName}
+                    </div>
+                  </Option>
+                ))}
+              </Select>
+            )
           )}
         </FormItem>
       </div>
     )
   }
 }
+export default FixedValue

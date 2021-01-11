@@ -1,13 +1,14 @@
+import intl from 'react-intl-universal'
 
 const colors = [
-  'rgba(0,197,122, 0.6)', 
-  'rgba(10,192,220, 0.6)', 
-  'rgba(57,167,255, 0.6)', 
-  'rgba(90,106,254, 0.6)', 
+  'rgba(0,197,122, 0.6)',
+  'rgba(10,192,220, 0.6)',
+  'rgba(57,167,255, 0.6)',
+  'rgba(90,106,254, 0.6)',
   'rgba(149,51,255, 0.6)',
 ]
-const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
+const nameTextStyleColor = 'rgba(0, 0, 0, .45)'
 
 function randomColor() {
   const r = () => Math.floor(Math.random() * 256)
@@ -26,22 +27,26 @@ function getColors(len) {
 export function getTagTrendOpt(data, legend = []) {
   const colorList = getColors(legend.length)
 
-  const series = legend.length ? legend.map(name => ({
-    name,
-    type: 'line',
-    symbol: 'none',
-    // smooth: 0.3,
-    data: _.map(data, d => {
-      const obj = d.data.filter(i => i.name === name)[0] || {}
-      return obj.invokeCount || 0
-    }),
-  })) : [{
-    name: 'noData',
-    type: 'line',
-    symbol: 'none',
-    // smooth: 0.3,
-    data: _.map(data, () => 0),
-  }]
+  const series = legend.length
+    ? legend.map(name => ({
+        name,
+        type: 'line',
+        symbol: 'none',
+        // smooth: 0.3,
+        data: _.map(data, d => {
+          const obj = d.data.filter(i => i.name === name)[0] || {}
+          return obj.invokeCount || 0
+        }),
+      }))
+    : [
+        {
+          name: 'noData',
+          type: 'line',
+          symbol: 'none',
+          // smooth: 0.3,
+          data: _.map(data, () => 0),
+        },
+      ]
 
   return {
     grid: {
@@ -51,22 +56,30 @@ export function getTagTrendOpt(data, legend = []) {
       x2: 10,
       y2: legend.length ? 30 : 0,
     },
+
     tooltip: {
       trigger: 'axis',
       formatter: params => {
         const paramsAxisValue = +params[0].axisValue
         const dataTotalCount = data[+params[0].dataIndex].totalCount
-        const domArr = [`日期: ${moment(paramsAxisValue).format('YYYY-MM-DD')} <br/>总调用次数: ${dataTotalCount}<br/>`]
+        const domArr = [
+          intl
+            .get('ide.src.page-scene.scene-detail.charts-options.5jywpt4fxi9', {
+              dataTotalCount: dataTotalCount,
+            })
+            .d('日期:  <br/>总调用次数: {dataTotalCount}<br/>'),
+        ]
         if (legend.length) {
-          params.map((
-            item, idx
-          ) => domArr.push(
-            `${params[idx].marker} ${params[idx].seriesName}: ${params[idx].data} <br/>`
-          ))
+          params.map((item, idx) =>
+            domArr.push(
+              `${params[idx].marker} ${params[idx].seriesName}: ${params[idx].data} <br/>`
+            )
+          )
         }
         return domArr.join(' ')
       },
     },
+
     legend: {
       // y: 0,
       bottom: 0,
@@ -75,6 +88,7 @@ export function getTagTrendOpt(data, legend = []) {
         color: nameTextStyleColor,
       },
     },
+
     xAxis: {
       type: 'category',
       data: _.map(data, 'date'),
@@ -84,21 +98,26 @@ export function getTagTrendOpt(data, legend = []) {
           color: nameTextStyleColor,
         },
       },
+
       axisLine: {
         lineStyle: {
           color: '#E9E9E9',
         },
       },
     },
+
     yAxis: [
       {
         type: 'value',
         min: 0,
-        name: '标签调用次数',
+        name: intl
+          .get('ide.src.page-scene.scene-detail.charts-options.hhtbl5wgzsd')
+          .d('标签调用次数'),
         nameTextStyle: {
           padding: [0, 0, 0, 30],
           color: nameTextStyleColor,
         },
+
         minInterval: 1,
         // max: 250,
         // interval: 50,
@@ -108,6 +127,7 @@ export function getTagTrendOpt(data, legend = []) {
             color: nameTextStyleColor,
           },
         },
+
         axisLine: {
           lineStyle: {
             color: '#E9E9E9',
@@ -115,6 +135,7 @@ export function getTagTrendOpt(data, legend = []) {
         },
       },
     ],
+
     color: colorList,
     series,
   }
@@ -130,14 +151,18 @@ export function getApiTrendOpt(data) {
       x2: 10,
       y2: 0,
     },
-    
+
     tooltip: {
       trigger: 'axis',
       formatter: params => {
         const paramsAxisValue = +params[0].axisValue
         const paramsValue = params[0].value
-        return `日期: ${moment(paramsAxisValue).format('YYYY-MM-DD')} <br/>API调用数: ${paramsValue}`
-      },   
+        return intl
+          .get('ide.src.page-scene.scene-detail.charts-options.4vts3tyyeqb', {
+            paramsValue: paramsValue,
+          })
+          .d('日期:  <br/>API调用数: {paramsValue}')
+      },
     },
 
     xAxis: {
@@ -149,21 +174,26 @@ export function getApiTrendOpt(data) {
           color: nameTextStyleColor,
         },
       },
+
       axisLine: {
         lineStyle: {
           color: '#E9E9E9',
         },
       },
     },
+
     yAxis: [
       {
         type: 'value',
         min: 0,
-        name: 'API调用数',
+        name: intl
+          .get('ide.src.page-scene.scene-detail.charts-options.erchiz42ww6')
+          .d('API调用数'),
         nameTextStyle: {
           padding: [0, 0, 0, 30],
           color: nameTextStyleColor,
         },
+
         minInterval: 1,
         // max: 250,
         // interval: 50,
@@ -173,6 +203,7 @@ export function getApiTrendOpt(data) {
             color: nameTextStyleColor,
           },
         },
+
         axisLine: {
           lineStyle: {
             color: '#E9E9E9',
@@ -180,6 +211,7 @@ export function getApiTrendOpt(data) {
         },
       },
     ],
+
     color: colors,
     series: [
       {

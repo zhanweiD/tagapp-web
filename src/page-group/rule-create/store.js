@@ -1,7 +1,6 @@
-import {
-  action, runInAction, observable, toJS,
-} from 'mobx'
-import {errorTip, changeToOptions} from '../../common/util'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable, toJS } from 'mobx'
+import { errorTip, changeToOptions } from '../../common/util'
 import io from './io'
 
 class Store {
@@ -27,7 +26,7 @@ class Store {
   @observable relList = [] // 对象对应的关系列表
   @observable otherEntity = [] // 另一个实体对象
   @observable logicExper = {}
-  @observable posList // 
+  @observable posList //
   @observable wherePosMap = {}
   @observable whereMap = {} // 设置筛选条件
 
@@ -61,6 +60,7 @@ class Store {
         ...toJS(this.logicExper),
         posList: JSON.stringify(toJS(this.posList)),
       }
+
       const res = await io.addGroup({
         mode: 1,
         type: +this.type,
@@ -87,7 +87,7 @@ class Store {
     try {
       const res = await io.getDetail({
         projectId: this.projectId,
-        id, 
+        id,
       })
 
       runInAction(() => {
@@ -97,10 +97,10 @@ class Store {
         if (res.logicExper) {
           this.logicExper = JSON.parse(res.logicExper)
           this.posList = JSON.parse(this.logicExper.posList)
-  
+
           this.wherePosMap = this.posList.wherePosMap // 回显
           this.whereMap = this.posList.whereMap // 添加
-  
+
           this.getConfigTagList()
           this.getRelList()
         }
@@ -148,8 +148,13 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       if (res.isExist) {
-        callbak('群体名称已存在')
+        callbak(
+          intl
+            .get('ide.src.page-group.rule-create.store.qba8xohu07')
+            .d('群体名称已存在')
+        )
       } else {
         callbak()
       }
@@ -165,8 +170,13 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       if (res.isExit) {
-        callbak('群体标识已存在')
+        callbak(
+          intl
+            .get('ide.src.page-group.rule-create.store.35ras7rebzb')
+            .d('群体标识已存在')
+        )
       } else {
         callbak()
       }
@@ -229,11 +239,12 @@ class Store {
   // 获取另一个实体对象
   @action async getOtherEntity(params) {
     try {
-      const res = await io.getOtherEntity({
-        projectId: this.projectId,
-        objId: this.objId,
-        ...params,
-      }) || {}
+      const res =
+        (await io.getOtherEntity({
+          projectId: this.projectId,
+          objId: this.objId,
+          ...params,
+        })) || {}
 
       runInAction(() => {
         this.otherEntity = res.objId ? [res] : []
@@ -243,8 +254,8 @@ class Store {
     }
   }
 
-    // 获取输出标签
-    @action async getOutputTags() {
+  // 获取输出标签
+  @action async getOutputTags() {
     try {
       const res = await io.getOutputTags({
         objId: this.objId, // 实体ID
@@ -261,24 +272,24 @@ class Store {
 
   // 初始化数据
   @action.bound destroy() {
-      if (this.groupId) {
-        this.detail = {}
-      }
-
-      this.current = 0
-      this.oneForm = {}
-      this.threeForm = {}
-      this.submitLoading = false
-
-      this.entityList.clear()
-      this.configTagList.clear()
-      this.otherEntity.clear()
-
-      this.logicExper = {}
-      this.posList = {}
-      this.whereMap = {}
-      this.wherePosMap = {}
+    if (this.groupId) {
+      this.detail = {}
     }
+
+    this.current = 0
+    this.oneForm = {}
+    this.threeForm = {}
+    this.submitLoading = false
+
+    this.entityList.clear()
+    this.configTagList.clear()
+    this.otherEntity.clear()
+
+    this.logicExper = {}
+    this.posList = {}
+    this.whereMap = {}
+    this.wherePosMap = {}
+  }
 }
 
 export default new Store()

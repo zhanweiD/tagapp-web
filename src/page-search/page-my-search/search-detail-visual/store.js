@@ -1,7 +1,11 @@
+import intl from 'react-intl-universal'
+import { action, runInAction, observable } from 'mobx'
 import {
-  action, runInAction, observable,
-} from 'mobx'
-import {successTip, errorTip, listToTree, failureTip} from '../../../common/util'
+  successTip,
+  errorTip,
+  listToTree,
+  failureTip,
+} from '../../../common/util'
 import io from './io'
 
 class Store {
@@ -46,10 +50,9 @@ class Store {
   @observable detail = {}
   @observable detailLoading = false
 
-
   // 获取高度
   @action getHeight = () => {
-    this.contentBoxH = $('#visual-content').height() - 66// 内容总高度（除去操作栏）
+    this.contentBoxH = $('#visual-content').height() - 66 // 内容总高度（除去操作栏）
     this.configDom = $('#visual-config') // 配置内容
 
     this.resultDom = $('#search-result') // 运行结果内容
@@ -117,6 +120,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
         this.treeData = listToTree(res)
       })
@@ -136,6 +140,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
         this.treeData = listToTree(res)
       })
@@ -145,7 +150,6 @@ class Store {
       this.treeLoading = false
     }
   }
-
 
   // 获取对象下拉
   @action async getObjList() {
@@ -173,7 +177,7 @@ class Store {
       runInAction(() => {
         this.expressionTag = res
 
-        const {objId, outputCondition, whereCondition} = this.detail
+        const { objId, outputCondition, whereCondition } = this.detail
         this.objId = objId
 
         this.outConfig = outputCondition || []
@@ -220,7 +224,7 @@ class Store {
     }
   }
 
-  // 保存数据查询 
+  // 保存数据查询
   @action async saveSearch(params, cb) {
     try {
       const res = await io.saveSearch({
@@ -229,12 +233,21 @@ class Store {
         runType: 1,
         ...params,
       })
+
       runInAction(() => {
         if (res && cb) {
           cb()
-          successTip('保存成功')
+          successTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.78gkysjruog')
+              .d('保存成功')
+          )
         } else {
-          failureTip('保存失败')
+          failureTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.mipa6x6oj1s')
+              .d('保存失败')
+          )
         }
       })
     } catch (e) {
@@ -249,8 +262,11 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       if (res.isExist) {
-        cb('名称已存在')
+        cb(
+          intl.get('ide.src.page-scene.scene.store.o9dgle1dglj').d('名称已存在')
+        )
       } else {
         cb()
       }
@@ -283,22 +299,21 @@ class Store {
     }
   }
 
-
-  // 获取详情 
+  // 获取详情
   @action async getDetail(cb) {
     this.detailLoading = true
 
     try {
       const res = await io.getDetail({
         id: this.searchId,
-        projectId: this.projectId
+        projectId: this.projectId,
       })
 
       runInAction(() => {
         this.detail = res
         this.objId = res.objId
-        this.getTagTree({id: res.objId})
-        this.getExpressionTag({id: res.objId})
+        this.getTagTree({ id: res.objId })
+        this.getExpressionTag({ id: res.objId })
         cb(res)
       })
     } catch (e) {
@@ -312,7 +327,7 @@ class Store {
 
   @observable apiGroup = []
   // 获取api分组列表
-  @action async getApiGroup () {
+  @action async getApiGroup() {
     try {
       const res = await io.getApiGroup({
         projectId: this.projectId,
@@ -327,21 +342,29 @@ class Store {
   }
 
   // 创建api
-  @action async createApi (params, cb) {
+  @action async createApi(params, cb) {
     this.modalApiLoading = true
     try {
       const res = await io.createApi({
         projectId: this.projectId,
         sql: this.resultInfo.sql,
         runType: 1,
-        ...params
+        ...params,
       })
 
       runInAction(() => {
-        if(res) {
-          successTip('API创建成功')
+        if (res) {
+          successTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.ss0uj2ea838')
+              .d('API创建成功')
+          )
         } else {
-          failureTip('API创建失败')
+          failureTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.bjvgr4jtuxn')
+              .d('API创建失败')
+          )
         }
         cb()
         this.apiParamsInfo = {}
@@ -356,7 +379,7 @@ class Store {
   }
 
   // 名称校验
-  apiNameCheck (apiName, cb) {
+  apiNameCheck(apiName, cb) {
     return io.apiNameCheck({
       projectId: this.projectId,
       apiName,
@@ -364,7 +387,7 @@ class Store {
   }
 
   // api路径校验
-  async apiPathCheck (apiPath, cb) {
+  async apiPathCheck(apiPath, cb) {
     return io.apiPathCheck({
       projectId: this.projectId,
       apiPath,

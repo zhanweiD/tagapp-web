@@ -1,22 +1,21 @@
+import intl from 'react-intl-universal'
 /**
  * @description 场景 - 选择标签 - 标签树
  */
-import {Component, Fragment} from 'react'
-import {observer} from 'mobx-react'
-import {
-  observable, action, computed, toJS,
-} from 'mobx'
-import {Tree, Checkbox, Button} from 'antd'
-import {RightOutlined} from '@ant-design/icons'
+import { Component, Fragment } from 'react'
+import { observer } from 'mobx-react'
+import { observable, action, computed, toJS } from 'mobx'
+import { Tree, Checkbox, Button } from 'antd'
+import { RightOutlined } from '@ant-design/icons'
 
-import {NoBorderInput, Loading, OmitTooltip} from '../../../component'
-import {IconChakan} from '../../../icon-comp'
+import { NoBorderInput, Loading, OmitTooltip } from '../../../component'
+import { IconChakan } from '../../../icon-comp'
 import tagIcon from '../../../icon/new-tag.svg'
 
-const {TreeNode} = Tree
+const { TreeNode } = Tree
 
 @observer
-export default class TagTree extends Component {
+class TagTree extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -29,12 +28,18 @@ export default class TagTree extends Component {
 
   componentWillReceiveProps(next) {
     // const {listRemoveItem} = this.props
-    
-    if (next.listRemoveItem) {
-      this.store.checkedKeys = this.store.checkedKeys.filter(d => +d !== +next.listRemoveItem.id)
-      this.store.disabledKeys = this.store.disabledKeys.filter(d => +d !== +next.listRemoveItem.id)
 
-      this.store.checkedTagData = this.store.checkedTagData.filter(d => +d.id !== +next.listRemoveItem.id)
+    if (next.listRemoveItem) {
+      this.store.checkedKeys = this.store.checkedKeys.filter(
+        d => +d !== +next.listRemoveItem.id
+      )
+      this.store.disabledKeys = this.store.disabledKeys.filter(
+        d => +d !== +next.listRemoveItem.id
+      )
+
+      this.store.checkedTagData = this.store.checkedTagData.filter(
+        d => +d.id !== +next.listRemoveItem.id
+      )
 
       this.allChecked = false
       if (this.store.checkedKeys.length) {
@@ -65,7 +70,10 @@ export default class TagTree extends Component {
       this.allChecked = true
       this.store.checkedKeys.replace(this.getTagList.allKeys)
       this.store.checkedTagData.replace(this.getTagList.allTags)
-    } else if (this.store.disabledKeys.length || this.store.disabledTagKeys.length) {
+    } else if (
+      this.store.disabledKeys.length ||
+      this.store.disabledTagKeys.length
+    ) {
       this.indeterminate = true
       this.allChecked = false
       this.store.checkedKeys.replace(this.store.disabledKeys)
@@ -75,7 +83,7 @@ export default class TagTree extends Component {
   }
 
   @action.bound onCheck(checkedKeys, e) {
-    const {checkedNodes} = e
+    const { checkedNodes } = e
 
     // 全选操作
     if (checkedKeys.length === this.getTagList.allKeys.length) {
@@ -89,12 +97,14 @@ export default class TagTree extends Component {
     }
 
     // 选择的标签数据
-    this.store.checkedTagData = checkedNodes.filter(d => d.tagData).map(d => d.tagData)
+    this.store.checkedTagData = checkedNodes
+      .filter(d => d.tagData)
+      .map(d => d.tagData)
     this.store.checkedKeys.replace(checkedKeys)
   }
 
   @action.bound rightToTable() {
-    const {rightToTable} = this.props
+    const { rightToTable } = this.props
     const disabledKeys = this.store.checkedTagData.map(d => d.id)
 
     this.store.disabledKeys.replace(disabledKeys)
@@ -118,12 +128,17 @@ export default class TagTree extends Component {
 
   // 获取所有标签列表数据和rowKeys
   @computed get getTagList() {
-    const {selectTagData, disabledTagKeys} = this.store
+    const { selectTagData, disabledTagKeys } = this.store
     // all keys
-    const allKeys = selectTagData.filter(d => !disabledTagKeys.includes(d.id)).map(d => d.id) || []
+    const allKeys =
+      selectTagData
+        .filter(d => !disabledTagKeys.includes(d.id))
+        .map(d => d.id) || []
 
     // all tags
-    const allTags = selectTagData.filter(d => !d.type && !disabledTagKeys.includes(d.id)).map(d => d && d.tag)
+    const allTags = selectTagData
+      .filter(d => !d.type && !disabledTagKeys.includes(d.id))
+      .map(d => d && d.tag)
 
     return {
       allTags,
@@ -131,101 +146,125 @@ export default class TagTree extends Component {
     }
   }
 
-  renderTreeNodes = data => data.map(item => {
-    // 0 标签 1 类目
-    if (item.children) {
-      return (
-        <TreeNode
-          title={<OmitTooltip maxWidth={120} text={item.name} />}
-          key={item.id}
-          dataRef={item}
-          selectable={false}
-        >
-          {this.renderTreeNodes(item.children)}
-        </TreeNode>
-      )
-    }
+  renderTreeNodes = data =>
+    data.map(item => {
+      // 0 标签 1 类目
+      if (item.children) {
+        return (
+          <TreeNode
+            title={<OmitTooltip maxWidth={120} text={item.name} />}
+            key={item.id}
+            dataRef={item}
+            selectable={false}
+          >
+            {this.renderTreeNodes(item.children)}
+          </TreeNode>
+        )
+      }
 
-    if (item.type) {
+      if (item.type) {
+        return (
+          <TreeNode
+            key={item.id}
+            title={<OmitTooltip maxWidth={120} text={item.name} />}
+            selectable={false}
+            icon={
+              item.type ? null : (
+                <img src={tagIcon} alt="icon" style={{ width: '14px' }} />
+              )
+            }
+          />
+        )
+      }
+
       return (
         <TreeNode
           key={item.id}
           title={<OmitTooltip maxWidth={120} text={item.name} />}
+          icon={
+            item.type ? null : (
+              <img src={tagIcon} alt="icon" style={{ width: '14px' }} />
+            )
+          }
           selectable={false}
-          icon={item.type ? null : <img src={tagIcon} alt="icon" style={{width: '14px'}} />} 
+          tagData={{
+            parentId: item.parentId,
+            ...item.tag,
+          }}
+          disableCheckbox={
+            this.store.disabledKeys.includes(item.id) ||
+            this.store.disabledTagKeys.includes(item.id)
+          }
         />
       )
-    }
-
-    return (
-      <TreeNode
-        key={item.id}
-        title={<OmitTooltip maxWidth={120} text={item.name} />}
-        icon={item.type ? null : <img src={tagIcon} alt="icon" style={{width: '14px'}} />} 
-        selectable={false}
-        tagData={{
-          parentId: item.parentId,
-          ...item.tag,
-        }}
-        disableCheckbox={this.store.disabledKeys.includes(item.id) || this.store.disabledTagKeys.includes(item.id)}
-      />
-    )
-  })
+    })
 
   render() {
-    const {selectTagLoading, selectTagTreeData, checkedKeys, checkedTagData} = this.store
+    const {
+      selectTagLoading,
+      selectTagTreeData,
+      checkedKeys,
+      checkedTagData,
+    } = this.store
 
     return (
       <div className="FBH">
         <div className="select-tree">
           <div className="select-tree-header">
             <NoBorderInput
-              placeholder="请输入标签名称"
+              placeholder={intl
+                .get(
+                  'ide.src.page-scene.scene-detail.tree.select-tag-tree.wswy75dsdj7'
+                )
+                .d('请输入标签名称')}
               value={this.searchKey}
               onChange={this.searchTree}
             />
+
             <IconChakan size="14" className="mr8" onClick={this.onSearch} />
           </div>
-          {
-            selectTagLoading ? <Loading mode="block" height={100} />
-              : (
-                <Fragment>
-                  <Checkbox
-                    checked={this.allChecked}
-                    indeterminate={this.indeterminate}
-                    onChange={this.handleAllSelect}
-                    className="all"
-                  >
-                    全选
-                  </Checkbox>
-                  <Tree
-                    checkable
-                    checkStrictly={false}
-                    defaultExpandAll
-                    showIcon
-                    onCheck={this.onCheck}
-                    checkedKeys={toJS(checkedKeys).map(String)}
-                  >
-                    {this.renderTreeNodes(selectTagTreeData)}
-                  </Tree>
-                </Fragment>
-
-              )
-          }
+          {selectTagLoading ? (
+            <Loading mode="block" height={100} />
+          ) : (
+            <Fragment>
+              <Checkbox
+                checked={this.allChecked}
+                indeterminate={this.indeterminate}
+                onChange={this.handleAllSelect}
+                className="all"
+              >
+                {intl
+                  .get(
+                    'ide.src.page-scene.scene-detail.tree.select-tag-tree.gf8llfkyhau'
+                  )
+                  .d('全选')}
+              </Checkbox>
+              <Tree
+                checkable
+                checkStrictly={false}
+                defaultExpandAll
+                showIcon
+                onCheck={this.onCheck}
+                checkedKeys={toJS(checkedKeys).map(String)}
+              >
+                {this.renderTreeNodes(selectTagTreeData)}
+              </Tree>
+            </Fragment>
+          )}
         </div>
         <div className="select-tag-btn">
           <Button
             type="primary"
             icon={<RightOutlined />}
             size="small"
-            style={{display: 'block'}}
+            style={{ display: 'block' }}
             className="mb4"
             disabled={!checkedTagData.length}
             onClick={this.rightToTable}
           />
         </div>
       </div>
-
     )
   }
 }
+export default TagTree

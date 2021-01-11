@@ -1,9 +1,10 @@
-import {Component} from 'react'
-import {Form} from '@ant-design/compatible'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import {Modal, Spin, Cascader} from 'antd'
-import {action, toJS} from 'mobx'
-import {observer, inject} from 'mobx-react'
+import { Modal, Spin, Cascader } from 'antd'
+import { action, toJS } from 'mobx'
+import { observer, inject } from 'mobx-react'
 
 const FormItem = Form.Item
 
@@ -17,7 +18,7 @@ class ModalTagMove extends Component {
   }
 
   @action.bound handleOnCancel() {
-    const {form} = this.props
+    const { form } = this.props
     this.store.tagDetail = false
     this.store.modalVisible.moveTag = false
     form.resetFields()
@@ -25,9 +26,9 @@ class ModalTagMove extends Component {
 
   @action.bound handleOnOk() {
     const {
-      form: {validateFields},
+      form: { validateFields },
     } = this.props
-    const {currentTreeItemKey} = this.store
+    const { currentTreeItemKey } = this.store
 
     validateFields((err, values) => {
       if (!err) {
@@ -51,13 +52,15 @@ class ModalTagMove extends Component {
   }
 
   render() {
-    const {form: {getFieldDecorator}} = this.props
     const {
-      tagDetail, modalVisible, confirmLoading, moveTreeData,
-    } = this.store
+      form: { getFieldDecorator },
+    } = this.props
+    const { tagDetail, modalVisible, confirmLoading, moveTreeData } = this.store
 
     const modalProps = {
-      title: '移动至',
+      title: intl
+        .get('ide.src.page-scene.scene-detail.tree.modal-tag-move.jc56geq89p')
+        .d('移动至'),
       visible: modalVisible.moveTag,
       onCancel: this.handleOnCancel,
       onOk: this.handleOnOk,
@@ -68,8 +71,8 @@ class ModalTagMove extends Component {
     }
 
     const formItemLayout = {
-      labelCol: {span: 4},
-      wrapperCol: {span: 20},
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 },
       colon: false,
     }
 
@@ -77,16 +80,34 @@ class ModalTagMove extends Component {
       <Modal {...modalProps}>
         <Form>
           <Spin spinning={this.store.detailLoading}>
-            <FormItem {...formItemLayout} label="类目名称">
+            <FormItem
+              {...formItemLayout}
+              label={intl
+                .get(
+                  'ide.src.page-scene.scene-detail.tree.modal-category-detail.x19u2ktz0u8'
+                )
+                .d('类目名称')}
+            >
               {getFieldDecorator('objIds', {
                 initialValue: tagDetail.objIds,
                 rules: [
-                  {required: true, message: '类目名称不可为空'},
+                  {
+                    required: true,
+                    message: intl
+                      .get(
+                        'ide.src.page-scene.scene-detail.tree.modal-tag-move.bnc2doru4v'
+                      )
+                      .d('类目名称不可为空'),
+                  },
                 ],
               })(
                 <Cascader
                   size="small"
-                  placeholder="请选择"
+                  placeholder={intl
+                    .get(
+                      'ide.src.component.project-provider.configModal.weidrlhbqho'
+                    )
+                    .d('请选择')}
                   allowClear={false}
                   options={this.loop(toJS(moveTreeData))}
                 />

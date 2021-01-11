@@ -1,21 +1,17 @@
+import intl from 'react-intl-universal'
 
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-import {
-  Form,
-  Input,
-  Select,
-  Popconfirm,
-} from 'antd'
+import { Form, Input, Select, Popconfirm } from 'antd'
 
-import {outValueLogic} from './util'
-import {IconDel, IconTreeAdd} from '../../../icon-comp'
-import {getNamePattern, getEnNamePattern} from '../../../common/util'
+import { outValueLogic } from './util'
+import { IconDel, IconTreeAdd } from '../../../icon-comp'
+import { getNamePattern, getEnNamePattern } from '../../../common/util'
 
-const {Option} = Select
+const { Option } = Select
 
 const OutItem = ({
-  id, 
+  id,
   expressionTag,
   delOutConfig,
   addOutConfig,
@@ -32,9 +28,16 @@ const OutItem = ({
   const onSelect = e => {
     const [obj] = outValueLogic.filter(d => d.value === e)
 
-    const newTagList = expressionTag.filter(d => obj.tagTypeList.includes(d.tagType))
+    const newTagList = expressionTag.filter(d =>
+      obj.tagTypeList.includes(d.tagType)
+    )
 
-    if (obj.value === '固定值') {
+    if (
+      obj.value ===
+      intl
+        .get('ide.src.page-group.component.fixedValue.gzi5ubzdaov')
+        .d('固定值')
+    ) {
       changeShowInput(true)
       changeShowSelect(false)
     } else if (obj.value === 'count') {
@@ -62,21 +65,26 @@ const OutItem = ({
     outNameChange(e.target.value, id)
   }
 
-  const obj = {...outNameMap}
+  const obj = { ...outNameMap }
   delete obj[id]
 
   function isHaveObj(v) {
     const tagName = v.tagEnName
     let count = 0
     $('.nameInput').each((i, item) => {
-      if (tagName === item.children[0].value || `${tagName}_${count}` === item.children[0].value) {
+      if (
+        tagName === item.children[0].value ||
+        `${tagName}_${count}` === item.children[0].value
+      ) {
         count += 1
-        setAlias.setFields([{name: [id, 'alias'], value: `${tagName}_${count}`}])
+        setAlias.setFields([
+          { name: [id, 'alias'], value: `${tagName}_${count}` },
+        ])
         setAlias.validateFields([[id, 'alias']])
       }
     })
     if (count) return
-    setAlias.setFields([{name: [id, 'alias'], value: tagName}])
+    setAlias.setFields([{ name: [id, 'alias'], value: tagName }])
     setAlias.validateFields([[id, 'alias']])
   }
   return (
@@ -86,107 +94,207 @@ const OutItem = ({
           size="small"
           name={[id, 'function']}
           noStyle
-          rules={[{required: true, message: '请选择取值逻辑'}]}
-          initialValue="标签值"
-        >
-          <Select placeholder="请选择取值逻辑" style={{minWidth: '200px'}} showSearch onSelect={onSelect} optionFilterProp="children">
+          rules={[
             {
-              outValueLogic.map(({name, value}) => <Option value={value}>{name}</Option>)
-            }
+              required: true,
+              message: intl
+                .get(
+                  'ide.src.page-search.page-data-search.visual.out-item.gwrptwfidl'
+                )
+                .d('请选择取值逻辑'),
+            },
+          ]}
+          initialValue={intl
+            .get('ide.src.page-group.component.fixedValue.bgzr9cfl6hg')
+            .d('标签值')}
+        >
+          <Select
+            placeholder={intl
+              .get(
+                'ide.src.page-search.page-data-search.visual.out-item.gwrptwfidl'
+              )
+              .d('请选择取值逻辑')}
+            style={{ minWidth: '200px' }}
+            showSearch
+            onSelect={onSelect}
+            optionFilterProp="children"
+          >
+            {outValueLogic.map(({ name, value }) => (
+              <Option value={value}>{name}</Option>
+            ))}
           </Select>
         </Form.Item>
-        {
-          showInput ? (
-            <Form.Item
-              name={[id, 'params']}
-              noStyle
-              rules={[{required: true, message: '请输入'}]}
-              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
-            >
-              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
+        {showInput ? (
+          <Form.Item
+            name={[id, 'params']}
+            noStyle
+            rules={[
+              {
+                required: true,
+                message: intl
+                  .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                  .d('请输入'),
+              },
+            ]}
+            // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+          >
+            <Input
+              size="small"
+              style={{ width: '200px' }}
+              placeholder={intl
+                .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                .d('请输入')}
+            />
+          </Form.Item>
+        ) : null}
 
-            </Form.Item>
-          ) : null
-        }
-        {
-          showSelect ? (
-            <Form.Item
-              name={[id, 'params']}
-              noStyle
-              rules={[{required: true, message: '请选择标签'}]}
+        {showSelect ? (
+          <Form.Item
+            name={[id, 'params']}
+            noStyle
+            rules={[
+              {
+                required: true,
+                message: intl
+                  .get('ide.src.page-group.component.ruleItem.7lfmm8bv64')
+                  .d('请选择标签'),
+              },
+            ]}
+          >
+            <Select
+              placeholder={intl
+                .get('ide.src.page-group.component.ruleItem.7lfmm8bv64')
+                .d('请选择标签')}
+              style={{ minWidth: '200px' }}
+              showSearch
+              optionFilterProp="children"
+              onChange={(v, item) => {
+                isHaveObj(item)
+              }}
             >
-              <Select
-                placeholder="请选择标签"
-                style={{minWidth: '200px'}}
-                showSearch
-                optionFilterProp="children"
-                onChange={(v, item) => {
-                  isHaveObj(item)
-                }}
-              >
-                {
-                  tagList.map(d => <Option tagEnName={d.tagEnName} value={d.objIdTagId}>{d.objNameTagName}</Option>)
-                } 
-              </Select>
+              {tagList.map(d => (
+                <Option tagEnName={d.tagEnName} value={d.objIdTagId}>
+                  {d.objNameTagName}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        ) : null}
 
-            </Form.Item>
-          ) : null
-        }
+        {showLeftInput ? (
+          <Form.Item
+            name={[id, 'params1']}
+            noStyle
+            rules={[
+              {
+                required: true,
+                message: intl
+                  .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                  .d('请输入'),
+              },
+            ]}
+            // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
+          >
+            <Input
+              size="small"
+              style={{ width: '200px' }}
+              placeholder={intl
+                .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
+                .d('请输入')}
+            />
+          </Form.Item>
+        ) : null}
 
-        {
-          showLeftInput ? (
-            <Form.Item
-              name={[id, 'params1']}
-              noStyle
-              rules={[{required: true, message: '请输入'}]}
-              // rules={[{required: true, message: '请输入'}, ...getEnNamePattern()]}
-            >
-              <Input size="small" style={{width: '200px'}} placeholder="请输入" />
-            </Form.Item>
-          ) : null
-        }
         <Form.Item
           name={[id, 'alias']}
           noStyle
-          rules={[{
-            required: true, message: '请输入显示名称',
-          }, {
-            pattern: /[^0-9]/, message: '显示名称禁止设置数字',
-          }, 
-          {
-            validator: (rule, value) => {
-              // if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
-              //   return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
-              // }
-              if (!(/^[a-zA-Z0-9_]+$/.test(value))) {
-                return Promise.reject('显示名称格式不正确，允许输入英文/数字/下划线')
-              }
-              if (Object.values(obj).includes(value)) {
-                return Promise.reject('显示名称重复')
-              }
-              return Promise.resolve()
+          rules={[
+            {
+              required: true,
+              message: intl
+                .get(
+                  'ide.src.page-search.page-data-search.visual.out-item.mcx7sozf74c'
+                )
+                .d('请输入显示名称'),
             },
-          }, 
-          {
-            validateFirst: true,
-          },
+            {
+              pattern: /[^0-9]/,
+              message: intl
+                .get(
+                  'ide.src.page-search.page-data-search.visual.out-item.fd96syvntfn'
+                )
+                .d('显示名称禁止设置数字'),
+            },
+
+            {
+              validator: (rule, value) => {
+                // if (!(/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value))) {
+                //   return Promise.reject('显示名称格式不正确，允许输入中文/英文/数字')
+                // }
+                if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+                  return Promise.reject(
+                    intl
+                      .get(
+                        'ide.src.page-search.page-data-search.visual.out-item.go2814mx5ps'
+                      )
+                      .d('显示名称格式不正确，允许输入英文/数字/下划线')
+                  )
+                }
+                if (Object.values(obj).includes(value)) {
+                  return Promise.reject(
+                    intl
+                      .get(
+                        'ide.src.page-search.page-data-search.visual.out-item.hyf7rtnblv8'
+                      )
+                      .d('显示名称重复')
+                  )
+                }
+                return Promise.resolve()
+              },
+            },
+
+            {
+              validateFirst: true,
+            },
           ]}
         >
-          <Input allowClear className="nameInput" size="small" style={{width: '256px', marginLeft: '16px'}} placeholder="请输入显示名称" onBlur={onBlur} onChange={onChange} />
+          <Input
+            allowClear
+            className="nameInput"
+            size="small"
+            style={{ width: '256px', marginLeft: '16px' }}
+            placeholder={intl
+              .get(
+                'ide.src.page-search.page-data-search.visual.out-item.mcx7sozf74c'
+              )
+              .d('请输入显示名称')}
+            onBlur={onBlur}
+            onChange={onChange}
+          />
         </Form.Item>
-        
+
         <Form.Item>
-          <div style={{color: 'rgba(0,0,0, 45%)', display: 'flex'}}>
+          <div style={{ color: 'rgba(0,0,0, 45%)', display: 'flex' }}>
             <Popconfirm
               placement="bottomLeft"
-              title="确认删除"
+              title={intl
+                .get(
+                  'ide.src.page-search.page-data-search.visual.out-item.ns183mcibt'
+                )
+                .d('确认删除')}
               onConfirm={() => delOutConfig(index, id)}
-              okText="确实"
-              cancelText="取消"
+              okText={intl
+                .get(
+                  'ide.src.page-search.page-data-search.visual.out-item.w2kizfzidk'
+                )
+                .d('确实')}
+              cancelText={intl
+                .get('ide.src.page-config.group-config.configModal.y7eepkatpi')
+                .d('取消')}
             >
               <IconDel size="14" className="ml8 mr4" />
             </Popconfirm>
-            
+
             <IconTreeAdd size="14" onClick={() => addOutConfig(index)} />
           </div>
         </Form.Item>

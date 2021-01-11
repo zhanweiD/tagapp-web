@@ -1,14 +1,11 @@
-import {useEffect, useState, Fragment} from 'react'
-import {Select, Button} from 'antd'
+import intl from 'react-intl-universal'
+import { useEffect, useState, Fragment } from 'react'
+import { Select, Button } from 'antd'
 import io from './io'
 
-const {Option} = Select
+const { Option } = Select
 
-const Search = ({
-  projectId,
-  objList,
-  searchChart,
-}) => {
+const Search = ({ projectId, objList, searchChart }) => {
   const [objId, changeObjId] = useState()
   const [groupA, changeGroupA] = useState()
   const [groupB, changeGroupB] = useState()
@@ -20,10 +17,11 @@ const Search = ({
       projectId,
       objId: id,
     })
+
     changeGroupList(res)
     changeGroupA(undefined)
     changeGroupB(undefined)
-  } 
+  }
 
   function selectObj(id) {
     getGroup(id)
@@ -44,53 +42,77 @@ const Search = ({
 
   return (
     <div className="contrast-search">
-      <span className="mr8">实体：</span>
+      <span className="mr8">
+        {intl
+          .get('ide.src.page-group.group-contrast.search.aod6ua84gk')
+          .d('实体：')}
+      </span>
       <Select
         showSearch
-        placeholder="请选择"
-        style={{width: 200}}
+        placeholder={intl
+          .get('ide.src.component.project-provider.configModal.weidrlhbqho')
+          .d('请选择')}
+        style={{ width: 200 }}
         onSelect={selectObj}
         optionFilterProp="children"
         className="mr16"
       >
-        {
-          objList.map(d => <Option value={d.objId}>{d.objName}</Option>)
-        }
+        {objList.map(d => (
+          <Option value={d.objId}>{d.objName}</Option>
+        ))}
       </Select>
-      <span className="mr8">分析群体A：</span>
+      <span className="mr8">
+        {intl
+          .get('ide.src.page-group.group-contrast.search.tv4828xe7oj')
+          .d('分析群体A：')}
+      </span>
       <Select
         showSearch
         value={groupA}
-        placeholder="请选择"
-        style={{width: 200}}
+        placeholder={intl
+          .get('ide.src.component.project-provider.configModal.weidrlhbqho')
+          .d('请选择')}
+        style={{ width: 200 }}
         onSelect={selectGroupA}
         optionFilterProp="children"
         className="mr16"
       >
-        {
-          groupList.map(d => <Option value={d.groupId} disabled={d.groupId === groupB}>{d.groupName}</Option>)
-        }
+        {groupList.map(d => (
+          <Option value={d.groupId} disabled={d.groupId === groupB}>
+            {d.groupName}
+          </Option>
+        ))}
       </Select>
-      <span className="mr8">分析群体B：</span> 
+      <span className="mr8">
+        {intl
+          .get('ide.src.page-group.group-contrast.search.ezpxgdnz7m')
+          .d('分析群体B：')}
+      </span>
       <Select
         showSearch
         value={groupB}
-        placeholder="请选择"
-        style={{width: 200}}
+        placeholder={intl
+          .get('ide.src.component.project-provider.configModal.weidrlhbqho')
+          .d('请选择')}
+        style={{ width: 200 }}
         onSelect={selectGroupB}
         optionFilterProp="children"
       >
-        {
-          groupList.map(d => <Option value={d.groupId} disabled={d.groupId === groupA}>{d.groupName}</Option>)
-        }
+        {groupList.map(d => (
+          <Option value={d.groupId} disabled={d.groupId === groupA}>
+            {d.groupName}
+          </Option>
+        ))}
       </Select>
-      <Button 
+      <Button
         className="ml16"
-        type="primary" 
+        type="primary"
         onClick={search}
         disabled={!groupA || !groupB}
       >
-        查询
+        {intl
+          .get('ide.src.component.list-content.search.rk9cxers0fj')
+          .d('查询')}
       </Button>
     </div>
   )

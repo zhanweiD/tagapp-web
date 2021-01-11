@@ -1,6 +1,12 @@
-import {action, runInAction, observable, toJS} from 'mobx'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable, toJS } from 'mobx'
 import sqlFormatter from 'sql-formatter'
-import {errorTip, listToTree, successTip, failureTip} from '../../../common/util'
+import {
+  errorTip,
+  listToTree,
+  successTip,
+  failureTip,
+} from '../../../common/util'
 import io from './io'
 
 class Store {
@@ -50,6 +56,7 @@ class Store {
       const res = await io.getTagTree({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.searchExpandedKeys.clear()
         this.treeData = listToTree(res)
@@ -57,7 +64,7 @@ class Store {
         const obj = {}
         this.treeData.forEach(item => {
           if (item.children) {
-            this.listToPrompt(item.children, obj[item.enName] = [])
+            this.listToPrompt(item.children, (obj[item.enName] = []))
           }
         })
         this.promptData = obj
@@ -81,6 +88,7 @@ class Store {
         projectId: this.projectId,
         searchKey: this.searchKey,
       })
+
       runInAction(() => {
         this.searchExpandedKeys.clear()
         this.treeData = listToTree(res)
@@ -103,6 +111,7 @@ class Store {
       const res = await io.getFunTree({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.treeFunData = res.map(d => ({
           id: d,
@@ -134,7 +143,7 @@ class Store {
 
   // 获取高度
   @action getHeight = () => {
-    this.contentBoxH = $('#code-content').height() - 38// 内容总高度（除去操作栏）
+    this.contentBoxH = $('#code-content').height() - 38 // 内容总高度（除去操作栏）
     this.configDom = $('#code_area') // 配置内容
 
     this.resultDom = $('#search-result-tql') // 运行结果内容
@@ -221,7 +230,7 @@ class Store {
     }
   }
 
-  // 保存数据查询 
+  // 保存数据查询
   @action async saveSearch(params, cb) {
     try {
       const res = await io.saveSearch({
@@ -231,12 +240,21 @@ class Store {
         tql: toJS(this.tql),
         ...params,
       })
+
       runInAction(() => {
         if (res && cb) {
           cb()
-          successTip('保存成功')
+          successTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.78gkysjruog')
+              .d('保存成功')
+          )
         } else {
-          failureTip('保存失败')
+          failureTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.mipa6x6oj1s')
+              .d('保存失败')
+          )
         }
       })
     } catch (e) {
@@ -251,8 +269,11 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       if (res.isExist) {
-        cb('名称已存在')
+        cb(
+          intl.get('ide.src.page-scene.scene.store.o9dgle1dglj').d('名称已存在')
+        )
       } else {
         cb()
       }
@@ -266,8 +287,8 @@ class Store {
   @observable detail = {}
   @observable detailLoading = false
 
-   // 获取详情 
-   @action async getDetail() {
+  // 获取详情
+  @action async getDetail() {
     this.detailLoading = true
 
     try {
@@ -279,7 +300,10 @@ class Store {
       runInAction(() => {
         this.detail = res
         if (res.source) {
-          this.editor.setValue(sqlFormatter.format(res.source), {language: 'n1ql', indent: '    '})
+          this.editor.setValue(sqlFormatter.format(res.source), {
+            language: 'n1ql',
+            indent: '    ',
+          })
         }
       })
     } catch (e) {
@@ -307,7 +331,7 @@ class Store {
         sql: this.resultInfo.sql,
         ...params,
       })
-      
+
       runInAction(() => {
         this.apiParamsInfo = {
           filedList: res.filedList,
@@ -349,9 +373,17 @@ class Store {
 
       runInAction(() => {
         if (res) {
-          successTip('API创建成功')
+          successTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.ss0uj2ea838')
+              .d('API创建成功')
+          )
         } else {
-          failureTip('API创建失败')
+          failureTip(
+            intl
+              .get('ide.src.page-search.page-data-search.tql.store.bjvgr4jtuxn')
+              .d('API创建失败')
+          )
         }
         cb()
         this.apiParamsInfo = {}

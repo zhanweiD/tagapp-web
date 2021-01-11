@@ -1,9 +1,10 @@
-import React, {Component, useEffect, Fragment} from 'react'
-import {action, toJS, observable} from 'mobx'
-import {observer} from 'mobx-react'
-import {Button, Spin} from 'antd'
+import intl from 'react-intl-universal'
+import React, { Component, useEffect, Fragment } from 'react'
+import { action, toJS, observable } from 'mobx'
+import { observer } from 'mobx-react'
+import { Button, Spin } from 'antd'
 import OnerFrame from '@dtwave/oner-frame'
-import {RuleContent} from '../component'
+import { RuleContent } from '../component'
 import SetRule from './drawer'
 
 import store from './store'
@@ -14,7 +15,9 @@ class RuleDetail extends Component {
     super(props)
     // store.projectId = props.projectId
 
-    const {match: {params}} = props
+    const {
+      match: { params },
+    } = props
 
     store.groupId = params.groupId
     store.objId = params.objId
@@ -53,12 +56,15 @@ class RuleDetail extends Component {
       relationId: relId,
     })
 
-    store.getDrawerConfigTagList({
-      objId: relId,
-    }, () => {
-      this.drawerFlag = flag
-      this.visible = true
-    })
+    store.getDrawerConfigTagList(
+      {
+        objId: relId,
+      },
+      () => {
+        this.drawerFlag = flag
+        this.visible = true
+      }
+    )
   }
 
   @action submitRule = (posData, data) => {
@@ -74,42 +80,50 @@ class RuleDetail extends Component {
   }
 
   render() {
-    const {configTagList, drawerConfigTagList, relList, posList, detailLoading, objId} = store
+    const {
+      configTagList,
+      drawerConfigTagList,
+      relList,
+      posList,
+      detailLoading,
+      objId,
+    } = store
     return (
       <div>
-        <div className="content-header">规则配置详情</div>
+        <div className="content-header">
+          {intl
+            .get('ide.src.page-group.rule-detail.main.5bs2g0jr88d')
+            .d('规则配置详情')}
+        </div>
         <Spin spinning={detailLoading}>
           <div className="rule-detail header-page">
-      
-            {
-              posList && !detailLoading ? (
-                <Fragment>
-                  <RuleContent 
-                    configTagList={toJS(configTagList)}
-                    drawerConfigTagList={toJS(drawerConfigTagList)}
-                    relList={toJS(relList)}
-                    openDrawer={this.openDrawer}
-                    posList={toJS(posList)}
-                    type="config"
-                    page="detail"
-                    stepOneObjId={objId}
-                  />
-                  <SetRule 
-                    visible={this.visible} 
-                    onClose={this.onClose}
-                    posList={this.wherePosMap[this.drawerFlag]}
-                    store={store}
-                  />
-                </Fragment>
-              ) : null
-            }
-         
+            {posList && !detailLoading ? (
+              <Fragment>
+                <RuleContent
+                  configTagList={toJS(configTagList)}
+                  drawerConfigTagList={toJS(drawerConfigTagList)}
+                  relList={toJS(relList)}
+                  openDrawer={this.openDrawer}
+                  posList={toJS(posList)}
+                  type="config"
+                  page="detail"
+                  stepOneObjId={objId}
+                />
+
+                <SetRule
+                  visible={this.visible}
+                  onClose={this.onClose}
+                  posList={this.wherePosMap[this.drawerFlag]}
+                  store={store}
+                />
+              </Fragment>
+            ) : null}
+
             <div className="steps-action">
-              <Button
-                type="primary"
-                onClick={this.goBack}
-              >
-          返回
+              <Button type="primary" onClick={this.goBack}>
+                {intl
+                  .get('ide.src.page-group.rule-create.step-one.j4qhvy1h30p')
+                  .d('返回')}
               </Button>
             </div>
           </div>
@@ -123,10 +137,8 @@ export default props => {
   const ctx = OnerFrame.useFrame()
 
   useEffect(() => {
-    ctx.useProject(true, null, {visible: false})
+    ctx.useProject(true, null, { visible: false })
   }, [])
 
-  return (
-    <RuleDetail {...props} />
-  )
+  return <RuleDetail {...props} />
 }

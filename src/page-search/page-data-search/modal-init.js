@@ -1,11 +1,12 @@
-import {Component} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
-import {Modal} from 'antd'
-import {ModalForm} from '../../component'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
+import { Modal } from 'antd'
+import { ModalForm } from '../../component'
 
 @observer
-export default class ModalInit extends Component {
+class ModalInit extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -18,32 +19,37 @@ export default class ModalInit extends Component {
     })
   }
 
+  selectContent = () => {
+    const { storageType, storageList } = this.store
 
-  selectContent= () => {
-    const {storageType, storageList} = this.store
-    
-    return [{
-      label: '数据源类型',
-      key: 'dataStorageType',
-      component: 'select',
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: toJS(storageType),
-        onSelect: v => this.selectStorageType(v),
+    return [
+      {
+        label: intl
+          .get('ide.src.component.group-provider.configModal.lr6a4qimbzk')
+          .d('数据源类型'),
+        key: 'dataStorageType',
+        component: 'select',
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: toJS(storageType),
+          onSelect: v => this.selectStorageType(v),
+        },
       },
-    }, {
-      label: '数据源',
-      key: 'dataStorageId',
-      component: 'select',
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: toJS(storageList),
+
+      {
+        label: intl
+          .get('ide.src.component.group-provider.configModal.emv6widuog')
+          .d('数据源'),
+        key: 'dataStorageId',
+        component: 'select',
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: toJS(storageList),
+        },
       },
-    }]
+    ]
   }
 
   @action handleCancel = () => {
@@ -61,11 +67,11 @@ export default class ModalInit extends Component {
   }
 
   render() {
-    const {
-      visibleInit,
-    } = this.store
+    const { visibleInit } = this.store
     const modalConfig = {
-      title: '初始化',
+      title: intl
+        .get('ide.src.component.group-provider.configModal.bfrmtpmvxw')
+        .d('初始化'),
       visible: visibleInit,
       onCancel: this.handleCancel,
       onOk: this.submit,
@@ -74,10 +80,12 @@ export default class ModalInit extends Component {
       destroyOnClose: true,
       // confirmLoading,
     }
-    
+
     const formConfig = {
       selectContent: visibleInit && this.selectContent(),
-      wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      wrappedComponentRef: form => {
+        this.form = form ? form.props.form : form
+      },
     }
 
     return (
@@ -87,3 +95,4 @@ export default class ModalInit extends Component {
     )
   }
 }
+export default ModalInit

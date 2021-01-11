@@ -1,5 +1,12 @@
+import intl from 'react-intl-universal'
 
-export const getGroupItemData = (data, parentFlag, formItemData, logicMap, whereMap) => {
+export const getGroupItemData = (
+  data,
+  parentFlag,
+  formItemData,
+  logicMap,
+  whereMap
+) => {
   if (!data) return false
 
   const newData = _.cloneDeep(data)
@@ -11,15 +18,12 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
       comparision: formData.comparision,
       left: {
         function: formData.leftFunction,
-        params: [
-          formData.leftTagId,
-        ],
+        params: [formData.leftTagId],
       },
+
       right: {
         function: formData.rightFunction,
-        params: [
-          formData.rightParams,
-        ],
+        params: [formData.rightParams],
       },
     }
 
@@ -27,13 +31,12 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
       sOnedata.where = whereMap[`${parentFlag}-${data[0].flag}`]
     }
 
-    return sOnedata 
+    return sOnedata
   }
 
   newData.forEach(d => {
     const comparisionList = newData.filter(
-      sd => sd.type === 2 
-      && sd.flag.slice(0, -2) === d.flag
+      sd => sd.type === 2 && sd.flag.slice(0, -2) === d.flag
     )
 
     const comparisionListResult = comparisionList.map(sd => {
@@ -42,15 +45,12 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
         comparision: sdata.comparision,
         left: {
           function: sdata.leftFunction,
-          params: [
-            sdata.leftTagId,
-          ],
+          params: [sdata.leftTagId],
         },
+
         right: {
           function: sdata.rightFunction,
-          params: [
-            sdata.rightParams,
-          ],
+          params: [sdata.rightParams],
         },
       }
 
@@ -66,10 +66,10 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
 
     if (typeof d.logic === 'undefined') d.logic = logicMap[parentFlag] || 1
 
-    const childList = newData.filter(sd => sd.type === 1 
-      && sd.source
-      && sd.flag.slice(0, -2) === d.flag)
-    
+    const childList = newData.filter(
+      sd => sd.type === 1 && sd.source && sd.flag.slice(0, -2) === d.flag
+    )
+
     if (childList.length && !d.childList) {
       d.childList = childList
     }
@@ -93,7 +93,7 @@ export const getGroupItemData = (data, parentFlag, formItemData, logicMap, where
 }
 
 export function formatData(formItemData, domRef, whereMap) {
-  const {renderData, pos, selfCon, logicMap} = domRef
+  const { renderData, pos, selfCon, logicMap } = domRef
 
   if (renderData.length === 1) {
     const [current] = renderData
@@ -104,7 +104,13 @@ export function formatData(formItemData, domRef, whereMap) {
 
     const entity = getGroupItemData(pos['0-0'], '0-0', formItemData, logicMap)
 
-    const rel = getGroupItemData(pos['0-1'], '0-1', formItemData, logicMap, whereMap)
+    const rel = getGroupItemData(
+      pos['0-1'],
+      '0-1',
+      formItemData,
+      logicMap,
+      whereMap
+    )
 
     const comparisionList = []
     const childList = []
@@ -116,7 +122,7 @@ export function formatData(formItemData, domRef, whereMap) {
         childList.push(...entity)
       }
     }
-  
+
     if (pos['0-1'] && rel) {
       if (pos['0-1'].length === 1) {
         comparisionList.push(rel)
@@ -124,19 +130,19 @@ export function formatData(formItemData, domRef, whereMap) {
         childList.push(...rel)
       }
     }
-  
+
     resultOne.comparisionList = comparisionList
     resultOne.childList = childList
 
     return resultOne
-  } 
+  }
 
   const result = {
     logic: selfCon,
     comparisionList: [],
     childList: [],
   }
-  
+
   for (let i = 0; i < renderData.length; i++) {
     const current = renderData[i]
 
@@ -146,15 +152,26 @@ export function formatData(formItemData, domRef, whereMap) {
     if (!pos[currentFlagEntity] && !pos[currentFlagRel]) {
       break
     }
-    const entityResult = getGroupItemData(pos[currentFlagEntity], currentFlagEntity, formItemData, logicMap)
-    const relResult = getGroupItemData(pos[currentFlagRel], currentFlagRel, formItemData, logicMap, whereMap)
+    const entityResult = getGroupItemData(
+      pos[currentFlagEntity],
+      currentFlagEntity,
+      formItemData,
+      logicMap
+    )
+    const relResult = getGroupItemData(
+      pos[currentFlagRel],
+      currentFlagRel,
+      formItemData,
+      logicMap,
+      whereMap
+    )
 
     const groupResult = {
       logic: current.logic,
       comparisionList: [],
       childList: [],
     }
-  
+
     if (pos[currentFlagEntity] && entityResult) {
       if (pos[currentFlagEntity].length === 1) {
         groupResult.comparisionList.push(entityResult)
@@ -162,7 +179,7 @@ export function formatData(formItemData, domRef, whereMap) {
         groupResult.childList.push(...entityResult)
       }
     }
-   
+
     if (pos[currentFlagRel] && relResult) {
       if (pos[currentFlagRel].length === 1) {
         groupResult.comparisionList.push(relResult)
@@ -170,7 +187,7 @@ export function formatData(formItemData, domRef, whereMap) {
         groupResult.childList.push(...relResult)
       }
     }
- 
+
     result.childList.push(groupResult)
   }
   console.log(result)
@@ -178,21 +195,25 @@ export function formatData(formItemData, domRef, whereMap) {
 }
 
 export const getRenderData = (formItemData, domRef, wherePosMap, whereMap) => {
-  const {renderData, pos, selfCon, logicMap} = domRef
+  const { renderData, pos, selfCon, logicMap } = domRef
 
   const rule = []
   for (let i = 0; i < renderData.length; i++) {
     const renderItem = renderData[i]
-    const entityPos = pos[`${renderItem.flag}-0`] && pos[`${renderItem.flag}-0`].map(d => ({
-      ...d,
-      ...formItemData[`${renderItem.flag}-0-${d.flag}`],
-      logic: logicMap[`${renderItem.flag}-0-${d.flag}`] || 1,
-    }))
+    const entityPos =
+      pos[`${renderItem.flag}-0`] &&
+      pos[`${renderItem.flag}-0`].map(d => ({
+        ...d,
+        ...formItemData[`${renderItem.flag}-0-${d.flag}`],
+        logic: logicMap[`${renderItem.flag}-0-${d.flag}`] || 1,
+      }))
 
-    const relPos = pos[`${renderItem.flag}-1`] && pos[`${renderItem.flag}-1`].map(d => ({
-      ...d,
-      ...formItemData[`${renderItem.flag}-1-${d.flag}`],
-    }))
+    const relPos =
+      pos[`${renderItem.flag}-1`] &&
+      pos[`${renderItem.flag}-1`].map(d => ({
+        ...d,
+        ...formItemData[`${renderItem.flag}-1-${d.flag}`],
+      }))
 
     const posInfo = {}
 
@@ -208,6 +229,7 @@ export const getRenderData = (formItemData, domRef, wherePosMap, whereMap) => {
       ...renderData[i],
       pos: posInfo,
     }
+
     rule.push(result)
   }
 
@@ -221,105 +243,152 @@ export const getRenderData = (formItemData, domRef, wherePosMap, whereMap) => {
   return resule
 }
 
-export const functionList = [{
-  name: '标签值',
-  value: '标签值',
-  tagTypeList: [1, 2, 3, 4, 5, 6],
-}, {
-  name: '绝对值',
-  value: 'abs',
-  tagTypeList: [2, 3],
-}, 
-{
-  name: '年份',
-  value: 'year',
-  tagTypeList: [5],
-}, 
-{
-  name: '月份',
-  value: 'month',
-  tagTypeList: [5],
-}, {
-  name: '日',
-  value: 'day',
-  tagTypeList: [5],
-}, {
-  name: '距离今天',
-  value: 'datediff',
-  tagTypeList: [5],
-}, {
-  name: '时间转换',
-  value: 'date_format',
-  tagTypeList: [5],
-}]
-
-export const entityFunctionList = [
-// {
-//   name: '标签值',
-//   value: '标签值',
-//   tagTypeList: [1, 2, 3, 4, 5, 6],
-// }, {
-//   name: '绝对值',
-//   value: 'abs',
-//   tagTypeList: [2, 3],
-// },
+export const functionList = [
   {
-    name: '总记录数',
-    value: 'count',
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.bgzr9cfl6hg')
+      .d('标签值'),
+    value: intl
+      .get('ide.src.page-group.component.fixedValue.bgzr9cfl6hg')
+      .d('标签值'),
     tagTypeList: [1, 2, 3, 4, 5, 6],
-  }, {
-    name: '求和',
-    value: 'sum',
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.7665zxf2f68')
+      .d('绝对值'),
+    value: 'abs',
     tagTypeList: [2, 3],
-  }, {
-    name: '平均数',
-    value: 'avg',
-    tagTypeList: [2, 3],
-  }, {
-    name: '最小值',
-    value: 'min',
-    tagTypeList: [2, 3],
-  }, {
-    name: '最大值',
-    value: 'max',
-    tagTypeList: [2, 3],
-  }]
+  },
 
-export const condition = [{
-  value: '=',
-  name: '等于',
-}, {
-  value: '>',
-  name: '大于',
-}, {
-  value: '>=',
-  name: '大于等于',
-}, {
-  value: '<',
-  name: '小于',
-}, {
-  value: '<=',
-  name: '小于等于',
-}, {
-  value: '!=',
-  name: '不等于',
-}, 
-// {
-//   value: 'in',
-//   name: '在集合',
-// }, {
-//   value: 'not in',
-//   name: '不在集合',
-// }, {
-//   value: 'is null',
-//   name: '为空',
-// }
+  {
+    name: intl.get('ide.src.page-group.component.util.hri3swiwnqe').d('年份'),
+    value: 'year',
+    tagTypeList: [5],
+  },
+
+  {
+    name: intl.get('ide.src.page-group.component.util.dem16wzhwpk').d('月份'),
+    value: 'month',
+    tagTypeList: [5],
+  },
+  {
+    name: intl.get('ide.src.page-group.component.util.js5vxb7p77p').d('日'),
+    value: 'day',
+    tagTypeList: [5],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.util.qwuovtsktoh')
+      .d('距离今天'),
+    value: 'datediff',
+    tagTypeList: [5],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.util.v5iw5fg1bk')
+      .d('时间转换'),
+    value: 'date_format',
+    tagTypeList: [5],
+  },
 ]
 
-export const textCondition = [{
-  value: '=',
-  name: '等于',
-}, {
-  value: '!=',
-  name: '不等于',
-}]
+export const entityFunctionList = [
+  // {
+  //   name: '标签值',
+  //   value: '标签值',
+  //   tagTypeList: [1, 2, 3, 4, 5, 6],
+  // }, {
+  //   name: '绝对值',
+  //   value: 'abs',
+  //   tagTypeList: [2, 3],
+  // },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.xf0gsfep3m')
+      .d('总记录数'),
+    value: 'count',
+    tagTypeList: [1, 2, 3, 4, 5, 6],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.tnkpwzg3lsq')
+      .d('求和'),
+    value: 'sum',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.803qqhhz52f')
+      .d('平均数'),
+    value: 'avg',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.mq3iampws3')
+      .d('最小值'),
+    value: 'min',
+    tagTypeList: [2, 3],
+  },
+  {
+    name: intl
+      .get('ide.src.page-group.component.fixedValue.ieuuxsnlv1')
+      .d('最大值'),
+    value: 'max',
+    tagTypeList: [2, 3],
+  },
+]
+
+export const condition = [
+  {
+    value: '=',
+    name: intl.get('ide.src.page-group.component.util.r9q9unmjuss').d('等于'),
+  },
+  {
+    value: '>',
+    name: intl.get('ide.src.page-group.component.util.me4pul68n1').d('大于'),
+  },
+  {
+    value: '>=',
+    name: intl
+      .get('ide.src.page-group.component.util.zix85xqi6e')
+      .d('大于等于'),
+  },
+  {
+    value: '<',
+    name: intl.get('ide.src.page-group.component.util.3rf6n7at7r5').d('小于'),
+  },
+  {
+    value: '<=',
+    name: intl
+      .get('ide.src.page-group.component.util.o1tendir57k')
+      .d('小于等于'),
+  },
+  {
+    value: '!=',
+    name: intl.get('ide.src.page-group.component.util.52rj9p9vsup').d('不等于'),
+  },
+
+  // {
+  //   value: 'in',
+  //   name: '在集合',
+  // }, {
+  //   value: 'not in',
+  //   name: '不在集合',
+  // }, {
+  //   value: 'is null',
+  //   name: '为空',
+  // }
+]
+
+export const textCondition = [
+  {
+    value: '=',
+    name: intl.get('ide.src.page-group.component.util.r9q9unmjuss').d('等于'),
+  },
+  {
+    value: '!=',
+    name: intl.get('ide.src.page-group.component.util.52rj9p9vsup').d('不等于'),
+  },
+]

@@ -1,7 +1,6 @@
-import {
-  action, runInAction, observable,
-} from 'mobx'
-import {errorTip, successTip, failureTip} from '../../../common/util'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable } from 'mobx'
+import { errorTip, successTip, failureTip } from '../../../common/util'
 import io from './io'
 
 class Store {
@@ -22,6 +21,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
         this.cardList = res
       })
@@ -39,14 +39,25 @@ class Store {
         ...params,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('编辑成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.hn8i6himken')
+              .d('编辑成功')
+          )
           if (cb) {
             cb()
           }
         } else {
-          failureTip('编辑失败')
+          failureTip(
+            intl
+              .get(
+                'ide.src.page-search.page-my-search.my-search.store.22lgsug52b5'
+              )
+              .d('编辑失败')
+          )
         }
       })
     } catch (e) {
@@ -63,20 +74,30 @@ class Store {
         ...params,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('删除成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.w7vs6nlcpyc')
+              .d('删除成功')
+          )
 
           if (cb) cb()
         } else {
-          failureTip('删除失败')
+          failureTip(
+            intl
+              .get(
+                'ide.src.page-search.page-my-search.my-search.store.2pwrzdkqafl'
+              )
+              .d('删除失败')
+          )
         }
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
-
 
   // 克隆
   @action async clone(id, cb) {
@@ -85,19 +106,31 @@ class Store {
         id,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('克隆成功')
+          successTip(
+            intl
+              .get(
+                'ide.src.page-search.page-my-search.my-search.store.7wa7tofvuvf'
+              )
+              .d('克隆成功')
+          )
           if (cb) cb()
         } else {
-          failureTip('克隆失败')
+          failureTip(
+            intl
+              .get(
+                'ide.src.page-search.page-my-search.my-search.store.d8hml8wh2fh'
+              )
+              .d('克隆失败')
+          )
         }
       })
     } catch (e) {
       errorTip(e.message)
     }
   }
-  
 
   // 名称校验
   @action async checkName(params, cb) {
@@ -106,8 +139,11 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
-      if (res.isExist) { 
-        cb('名称已存在')
+
+      if (res.isExist) {
+        cb(
+          intl.get('ide.src.page-scene.scene.store.o9dgle1dglj').d('名称已存在')
+        )
       } else {
         cb()
       }

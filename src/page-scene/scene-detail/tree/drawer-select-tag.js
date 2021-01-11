@@ -1,12 +1,11 @@
+import intl from 'react-intl-universal'
 /**
  * @description 选择标签
  */
-import {Component} from 'react'
-import {observer, inject} from 'mobx-react'
-import {observable, action} from 'mobx'
-import {
-  Drawer, Button, message,
-} from 'antd'
+import { Component } from 'react'
+import { observer, inject } from 'mobx-react'
+import { observable, action } from 'mobx'
+import { Drawer, Button, message } from 'antd'
 
 import Tree from './select-tag-tree'
 import List from './select-tag-list'
@@ -14,7 +13,7 @@ import List from './select-tag-list'
 @inject('bigStore')
 @inject('sceneDetail')
 @observer
-export default class SelectTag extends Component {
+class SelectTag extends Component {
   constructor(props) {
     super(props)
     this.bigStore = props.bigStore
@@ -32,7 +31,7 @@ export default class SelectTag extends Component {
   }
 
   @action.bound closeDrawer() {
-    const {modalVisible} = this.store
+    const { modalVisible } = this.store
     modalVisible.selectTag = false
     this.removeListItem = undefined
     this.destroy()
@@ -43,16 +42,22 @@ export default class SelectTag extends Component {
   }
 
   @action.bound removeList(item) {
-    this.store.selectTagTableData = this.store.selectTagTableData.filter(d => +d.id !== +item.id)
+    this.store.selectTagTableData = this.store.selectTagTableData.filter(
+      d => +d.id !== +item.id
+    )
     this.listRemoveItem = item
   }
 
   @action.bound handleSubmit() {
-    const {selectTagTableData} = this.store
+    const { selectTagTableData } = this.store
     if (!selectTagTableData.length) {
-      message.warning('请选择标签')
+      message.warning(
+        intl
+          .get('ide.src.page-group.component.ruleItem.7lfmm8bv64')
+          .d('请选择标签')
+      )
       return
-    } 
+    }
 
     const keys = selectTagTableData.map(d => d.id)
 
@@ -63,17 +68,17 @@ export default class SelectTag extends Component {
     })
   }
 
-
   render() {
     const {
-      modalVisible: {
-        selectTag,
-      },
+      modalVisible: { selectTag },
+
       confirmLoading,
     } = this.store
 
     const drawerConfig = {
-      title: '选择标签',
+      title: intl
+        .get('ide.src.page-group.component.fixedValue.4mptstd0fum')
+        .d('选择标签'),
       visible: selectTag,
       width: 1120,
       closable: true,
@@ -85,24 +90,36 @@ export default class SelectTag extends Component {
     const treeConfig = {
       listRemoveItem: this.listRemoveItem,
       rightToTable: this.rightToTable,
-      store: this.store, 
+      store: this.store,
     }
 
     const listConfig = {
       remove: this.removeList,
-      store: this.store, 
+      store: this.store,
     }
 
     return (
-      <Drawer
-        {...drawerConfig}
-      >
+      <Drawer {...drawerConfig}>
         <div className="select-tag-box">
           <div className="mb8">
             <span className="ml4 fs12">
-              （若需要的标签不可选择，请先去“标签同步”模块完成
-              <a target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">标签数据的同步</a>
-               ）
+              {intl
+                .get(
+                  'ide.src.page-scene.scene-detail.tree.drawer-select-tag.kcf6pg5cxgk'
+                )
+                .d('（若需要的标签不可选择，请先去“标签同步”模块完成')}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="/tag-model/index.html#/manage/tag-sync"
+              >
+                {intl
+                  .get(
+                    'ide.src.page-scene.scene-detail.tree.drawer-select-tag.cidtaucj1tb'
+                  )
+                  .d('标签数据的同步')}
+              </a>
+              ）
             </span>
           </div>
           <div className="select-tag-modal">
@@ -118,14 +135,24 @@ export default class SelectTag extends Component {
                 textAlign: 'right',
                 padding: '10px 16px',
               }}
-            > 
-              <Button onClick={this.closeDrawer} className="mr8">取消</Button>
-              <Button 
-                onClick={this.handleSubmit} 
-                type="primary" 
+            >
+              <Button onClick={this.closeDrawer} className="mr8">
+                {intl
+                  .get(
+                    'ide.src.page-config.group-config.configModal.y7eepkatpi'
+                  )
+                  .d('取消')}
+              </Button>
+              <Button
+                onClick={this.handleSubmit}
+                type="primary"
                 loading={confirmLoading}
               >
-                确定
+                {intl
+                  .get(
+                    'ide.src.page-config.group-config.configModal.pub6abalqca'
+                  )
+                  .d('确定')}
               </Button>
             </div>
           </div>
@@ -134,3 +161,4 @@ export default class SelectTag extends Component {
     )
   }
 }
+export default SelectTag

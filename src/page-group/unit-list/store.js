@@ -1,7 +1,6 @@
-import {
-  action, runInAction, observable, toJS,
-} from 'mobx'
-import {errorTip, successTip} from '../../common/util'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable, toJS } from 'mobx'
+import { errorTip, successTip } from '../../common/util'
 import io from './io'
 
 class Store {
@@ -24,9 +23,11 @@ class Store {
 
   // 跳转到微观画像
   goPortrayal = value => {
-    window.location.href = `${window.__keeper.pathHrefPrefix}/group/portrayal/${this.objId}/${value}/${+this.projectId}`
+    window.location.href = `${window.__keeper.pathHrefPrefix}/group/portrayal/${
+      this.objId
+    }/${value}/${+this.projectId}`
   }
-  
+
   // 获取个体列表
   @action async getUnitList() {
     this.tableLoading = true
@@ -36,26 +37,28 @@ class Store {
         projectId: this.projectId,
         queryDate: this.queryDate,
       })
-      
+
       runInAction(() => {
         this.list = res.data || []
         if (!res.data) return
         this.titleList = []
-        const {title} = res
+        const { title } = res
         this.totalCount = res.totalSize
         // this.pagination = {
         //   totalCount: res.totalSize,
         //   currentPage: 1,
         //   pageSize: 10,
         // }
-        
+
         for (let i = 0; i < title.length; i++) {
           if (title[i].toLowerCase() === res.mainTag.toLowerCase()) {
             this.titleList.unshift({
               key: title[i],
               title: title[i],
               dataIndex: title[i],
-              render: (text, record) => (<a onClick={() => this.goPortrayal(record[title[i]])}>{text}</a>),
+              render: (text, record) => (
+                <a onClick={() => this.goPortrayal(record[title[i]])}>{text}</a>
+              ),
             })
           } else {
             this.titleList.push({
@@ -81,8 +84,13 @@ class Store {
         groupId: this.id,
         queryDate: this.queryDate,
       })
+
       if (res) {
-        successTip('导出成功')
+        successTip(
+          intl
+            .get('ide.src.page-group.group-detail.store.65wta5fdwxg')
+            .d('导出成功')
+        )
       }
     } catch (e) {
       errorTip(e.message)
@@ -99,10 +107,15 @@ class Store {
         queryDate: this.queryDate,
         ...obj,
       })
+
       runInAction(() => {
         if (res) {
           this.visible = false
-          successTip('已保存')
+          successTip(
+            intl
+              .get('ide.src.page-group.unit-list.store.pmrq3lnbibo')
+              .d('已保存')
+          )
         }
       })
     } catch (e) {
@@ -123,7 +136,11 @@ class Store {
       })
       runInAction(() => {
         if (res.isExist) {
-          callbak('群体名称重复')
+          callbak(
+            intl
+              .get('ide.src.page-group.group-manage.store.zceek02s75')
+              .d('群体名称重复')
+          )
         } else {
           callbak()
         }

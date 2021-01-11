@@ -1,43 +1,49 @@
-import {Component} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
-import {Modal} from 'antd'
-import {ModalForm} from '../../../component'
-import {debounce} from '../../../common/util'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
+import { Modal } from 'antd'
+import { ModalForm } from '../../../component'
+import { debounce } from '../../../common/util'
 
 @observer
-export default class ModalSave extends Component {
+class ModalSave extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
   }
 
-  selectContent= () => {
-    const {detail} = this.store
+  selectContent = () => {
+    const { detail } = this.store
 
-    return [{
-      label: '数据查询名称',
-      key: 'name',
-      component: 'input',
-      initialValue: detail.name,
-      rules: [
-        '@namePattern',
-        '@nameUnderline',
-        '@nameShuQi',
-        '@transformTrim',
-        '@required',
-        '@max32',
-        {validator: this.checkName}, // here warning
-      ],
-    }, {
-      label: '描述',
-      key: 'descr',
-      component: 'textArea',
-      initialValue: detail.descr,
-      rules: [
-        '@max128',
-      ],
-    }]
+    return [
+      {
+        label: intl
+          .get('ide.src.page-search.page-data-search.tql.modal-save.z1eu3p4uvm')
+          .d('数据查询名称'),
+        key: 'name',
+        component: 'input',
+        initialValue: detail.name,
+        rules: [
+          '@namePattern',
+          '@nameUnderline',
+          '@nameShuQi',
+          '@transformTrim',
+          '@required',
+          '@max32',
+          { validator: this.checkName }, // here warning
+        ],
+      },
+      {
+        label: intl
+          .get('ide.src.component.modal-stroage-detail.main.m75jykdqa6')
+          .d('描述'),
+        key: 'descr',
+        component: 'textArea',
+        initialValue: detail.descr,
+        rules: ['@max128'],
+      },
+    ]
   }
 
   @action handleCancel = () => {
@@ -47,7 +53,7 @@ export default class ModalSave extends Component {
 
   @action submit = () => {
     const t = this
-    const {store} = t
+    const { store } = t
 
     this.form.validateFields((err, values) => {
       if (!err) {
@@ -64,7 +70,6 @@ export default class ModalSave extends Component {
     })
   }
 
-
   @action checkName = (rule, value, callback) => {
     const params = {
       id: +this.store.searchId,
@@ -76,11 +81,11 @@ export default class ModalSave extends Component {
   }
 
   render() {
-    const {
-      visibleSave, modalSaveLoading,
-    } = this.store
+    const { visibleSave, modalSaveLoading } = this.store
     const modalConfig = {
-      title: '保存数据查询',
+      title: intl
+        .get('ide.src.page-search.page-data-search.tql.modal-save.6nv9c6pianp')
+        .d('保存数据查询'),
       visible: visibleSave,
       onCancel: this.handleCancel,
       onOk: this.submit,
@@ -89,13 +94,15 @@ export default class ModalSave extends Component {
       destroyOnClose: true,
       confirmLoading: modalSaveLoading,
     }
-    
+
     const formConfig = {
       selectContent: visibleSave && this.selectContent(),
-      wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      wrappedComponentRef: form => {
+        this.form = form ? form.props.form : form
+      },
       formItemLayout: {
-        labelCol: {span: 5},
-        wrapperCol: {span: 19},
+        labelCol: { span: 5 },
+        wrapperCol: { span: 19 },
         colon: false,
       },
     }
@@ -107,3 +114,4 @@ export default class ModalSave extends Component {
     )
   }
 }
+export default ModalSave

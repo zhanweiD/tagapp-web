@@ -1,11 +1,12 @@
+import intl from 'react-intl-universal'
 import React from 'react'
-import {Form, Button, Select, Input} from 'antd'
-import {action} from 'mobx'
-import {inject, observer} from 'mobx-react'
+import { Form, Button, Select, Input } from 'antd'
+import { action } from 'mobx'
+import { inject, observer } from 'mobx-react'
 
-import {OmitTooltip} from '../../component'
+import { OmitTooltip } from '../../component'
 
-const {Option} = Select
+const { Option } = Select
 
 @inject('store')
 @observer
@@ -19,7 +20,7 @@ class Search extends React.Component {
   componentDidMount() {
     this.store.searchForm = this.formRef.current
   }
-  
+
   @action.bound onFinish = values => {
     // if (values.mainLabel === this.store.mainLabel && values.objId === this.store.objId) return
     // this.store.mainLabel = values.mainLabel
@@ -36,17 +37,18 @@ class Search extends React.Component {
       tagId: undefined,
       keyword: undefined,
     })
+
     this.store.unitList = []
     this.store.mainLabel = null
     this.store.getSearchList()
   }
 
   render() {
-    const {entityList, objId, mainLabel, searchList} = this.store
+    const { entityList, objId, mainLabel, searchList } = this.store
     if (objId && this.formRef.current) {
       this.formRef.current.resetFields(['objId'])
     }
-    
+
     return (
       <div>
         <Form
@@ -54,54 +56,89 @@ class Search extends React.Component {
           hideRequiredMark
           ref={this.formRef}
           onFinish={this.onFinish}
-          style={{width: '523px', marginTop: '16px', display: 'flex'}}
+          style={{ width: '523px', marginTop: '16px', display: 'flex' }}
         >
-          <Form.Item 
-            label="实体" 
+          <Form.Item
+            label={intl.get('ide.src.common.dict.eppgpvyn3fp').d('实体')}
             name="objId"
             initialValue={objId}
-            rules={[{required: true, message: '请选择'}]}
+            rules={[
+              {
+                required: true,
+                message: intl
+                  .get(
+                    'ide.src.component.project-provider.configModal.weidrlhbqho'
+                  )
+                  .d('请选择'),
+              },
+            ]}
           >
-            <Select 
-              style={{width: '156px'}} 
-              placeholder="请选择实体"
+            <Select
+              style={{ width: '156px' }}
+              placeholder={intl
+                .get('ide.src.page-group.group-manage.id-create.p21zfuks4dn')
+                .d('请选择实体')}
               onChange={this.selectObj}
               showSearch
               optionFilterProp="children"
             >
-              {
-                entityList.map(d => <Option key={d.objId}>{d.objName}</Option>)
-              }
+              {entityList.map(d => (
+                <Option key={d.objId}>{d.objName}</Option>
+              ))}
             </Select>
           </Form.Item>
-          <Input.Group style={{width: '239px'}} compact>
-            <Form.Item 
-              name="tagId" 
+          <Input.Group style={{ width: '239px' }} compact>
+            <Form.Item
+              name="tagId"
               // initialValue={searchList[0] ? searchList[0].tagId.toString() : undefined}
-              rules={[{required: true, message: '请选择条件'}]}
+              rules={[
+                {
+                  required: true,
+                  message: intl
+                    .get('ide.src.page-group.portrayal.search.gicqkpjlgwo')
+                    .d('请选择条件'),
+                },
+              ]}
             >
               <Select
-                placeholder="请选择条件"
-                style={{width: '96px'}} 
+                placeholder={intl
+                  .get('ide.src.page-group.portrayal.search.gicqkpjlgwo')
+                  .d('请选择条件')}
+                style={{ width: '96px' }}
               >
-                {
-                  searchList.map(item => <Option key={item.tagId}><OmitTooltip maxWidth={128} text={item.tagName} /></Option>)
-                }
+                {searchList.map(item => (
+                  <Option key={item.tagId}>
+                    <OmitTooltip maxWidth={128} text={item.tagName} />
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
-            <Form.Item 
-              name="keyword" 
-              rules={[{required: true, message: '请输入搜索内容'}]}
+            <Form.Item
+              name="keyword"
+              rules={[
+                {
+                  required: true,
+                  message: intl
+                    .get('ide.src.page-group.portrayal.search.rwifvgib37j')
+                    .d('请输入搜索内容'),
+                },
+              ]}
             >
-              <Input 
+              <Input
                 size="small"
-                style={{width: '128px'}} 
-                placeholder="请输入搜索内容" 
+                style={{ width: '128px' }}
+                placeholder={intl
+                  .get('ide.src.page-group.portrayal.search.rwifvgib37j')
+                  .d('请输入搜索内容')}
               />
             </Form.Item>
           </Input.Group>
           <Form.Item>
-            <Button type="primary" htmlType="submit">查询</Button>
+            <Button type="primary" htmlType="submit">
+              {intl
+                .get('ide.src.component.list-content.search.rk9cxers0fj')
+                .d('查询')}
+            </Button>
           </Form.Item>
         </Form>
       </div>

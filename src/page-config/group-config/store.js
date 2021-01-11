@@ -1,21 +1,23 @@
+import intl from 'react-intl-universal'
+import { observable, action, runInAction, toJS, observe } from 'mobx'
+import { Select } from 'antd'
 import {
-  observable, action, runInAction, toJS, observe,
-} from 'mobx'
-import {Select} from 'antd'
-import {
-  successTip, errorTip, changeToOptions, trimFormValues,
+  successTip,
+  errorTip,
+  changeToOptions,
+  trimFormValues,
 } from '../../common/util'
 import io from './io'
-import {ListContentStore} from '../../component/list-content'
+import { ListContentStore } from '../../component/list-content'
 
-const {Option} = Select
+const { Option } = Select
 class Store extends ListContentStore(io.getEntityPage) {
   @observable config = {} // 配置页面数据源类型id
   @observable projectId = 0 // 项目ID
   @observable objId = 0 // 实体ID
   @observable configId = 0 // 修改初始化配置需要的ID
 
-  @observable dataSource = [] // 数据源 
+  @observable dataSource = [] // 数据源
   @observable dataTypeSource = [] // 数据源类型
   @observable entityList = [] // 实体列表
   @observable list = [] // 实体表格数组
@@ -58,6 +60,7 @@ class Store extends ListContentStore(io.getEntityPage) {
       const res = await io.getDefaultStorage({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.defaultStorage = res || {}
 
@@ -82,7 +85,11 @@ class Store extends ListContentStore(io.getEntityPage) {
       })
 
       runInAction(() => {
-        successTip('初始化成功')
+        successTip(
+          intl
+            .get('ide.src.component.project-provider.store.9in28eyw43')
+            .d('初始化成功')
+        )
         this.getPortrayal()
         this.confirmLoading = false
         this.initVisible = true
@@ -106,7 +113,11 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         if (res) {
-          successTip('修改成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.087mgwwi2r64')
+              .d('修改成功')
+          )
           this.getPortrayal()
           this.getList()
           this.initVisible = true
@@ -144,6 +155,7 @@ class Store extends ListContentStore(io.getEntityPage) {
       const res = await io.hasInit({
         projectId: this.projectId,
       })
+
       this.initVisible = res
       if (res) this.getPortrayal()
     } catch (e) {
@@ -179,7 +191,11 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         this.entityList = res.map(item => {
-          return (<Option key={item.objId} disabled={item.isUsed}>{item.objName}</Option>)
+          return (
+            <Option key={item.objId} disabled={item.isUsed}>
+              {item.objName}
+            </Option>
+          )
         })
       })
     } catch (e) {
@@ -197,7 +213,7 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         this.tagList = res.map(item => {
-          return (<Option key={item.tagId.toString()}>{item.tagName}</Option>)
+          return <Option key={item.tagId.toString()}>{item.tagName}</Option>
         })
       })
     } catch (e) {
@@ -236,7 +252,10 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         if (res) {
-          this.dataSource = changeToOptions(toJS(res || []))('storageName', 'storageId')
+          this.dataSource = changeToOptions(toJS(res || []))(
+            'storageName',
+            'storageId'
+          )
         }
         if (cb) cb(res[0] && res[0].storageId)
       })
@@ -284,7 +303,11 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         if (res) {
-          successTip('添加成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.bouj30dq2')
+              .d('添加成功')
+          )
           this.modalCancel()
           this.getList()
         }
@@ -305,7 +328,11 @@ class Store extends ListContentStore(io.getEntityPage) {
 
       runInAction(() => {
         if (res) {
-          successTip('编辑成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.hn8i6himken')
+              .d('编辑成功')
+          )
           this.modalCancel()
           this.getList()
         }
@@ -323,10 +350,14 @@ class Store extends ListContentStore(io.getEntityPage) {
         objId,
         projectId: this.projectId,
       })
-      
+
       runInAction(() => {
         if (res) {
-          successTip('删除成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.w7vs6nlcpyc')
+              .d('删除成功')
+          )
           this.getList()
         }
       })

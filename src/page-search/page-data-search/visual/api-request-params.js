@@ -1,9 +1,10 @@
-import React, {useContext} from 'react'
-import {Table, Input, Form, Checkbox} from 'antd'
+import intl from 'react-intl-universal'
+import React, { useContext } from 'react'
+import { Table, Input, Form, Checkbox } from 'antd'
 
 const EditableContext = React.createContext()
 
-const EditableRow = ({index, ...props}) => {
+const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm()
 
   return (
@@ -30,7 +31,7 @@ const EditableCell = ({
   const save = async e => {
     try {
       const values = await form.validateFields()
-      handleSave({...record, ...values})
+      handleSave({ ...record, ...values })
     } catch (errInfo) {
       console.log(errInfo)
     }
@@ -44,7 +45,7 @@ const EditableCell = ({
     save()
   }
 
-  let childNode = children 
+  let childNode = children
 
   if (editable && compType === 'input') {
     childNode = (
@@ -70,30 +71,51 @@ class ApiRequsetParams extends React.Component {
     super(props)
     this.columns = [
       {
-        title: '参数名称',
+        title: intl
+          .get(
+            'ide.src.page-search.page-data-search.visual.api-request-params.wfaoupxlsca'
+          )
+          .d('参数名称'),
         dataIndex: 'paramName',
-      }, {
-        title: '数据类型',
+      },
+      {
+        title: intl
+          .get('ide.src.page-scene.scene-detail.select-tag.dcoug0r6pnj')
+          .d('数据类型'),
         dataIndex: 'paramType',
-      }, {
-        title: '是否必填',
+      },
+      {
+        title: intl
+          .get(
+            'ide.src.page-search.page-data-search.visual.api-request-params.rp5wr611qa'
+          )
+          .d('是否必填'),
         dataIndex: 'required',
         editable: true,
         compType: 'check',
-      }, {
-        title: '默认值',
+      },
+      {
+        title: intl
+          .get(
+            'ide.src.page-search.page-data-search.visual.api-request-params.mtobzpamu4'
+          )
+          .d('默认值'),
         dataIndex: 'fieldValue',
         width: '20%',
         editable: true,
         compType: 'input',
-      }, {
-        title: '描述',
+      },
+      {
+        title: intl
+          .get('ide.src.component.modal-stroage-detail.main.m75jykdqa6')
+          .d('描述'),
         dataIndex: 'descr',
         width: '30%',
         editable: true,
         compType: 'input',
       },
     ]
+
     this.state = {
       dataSource: props.data,
     }
@@ -112,20 +134,25 @@ class ApiRequsetParams extends React.Component {
     const index = newData.findIndex(item => row.fieldName === item.fieldName)
 
     const item = newData[index]
-    newData.splice(index, 1, {...item, ...row, required: row.required ? 1 : 0})
+    newData.splice(index, 1, {
+      ...item,
+      ...row,
+      required: row.required ? 1 : 0,
+    })
     this.setState({
       dataSource: newData,
     })
-  };
+  }
 
   render() {
-    const {dataSource} = this.state
+    const { dataSource } = this.state
     const components = {
       body: {
         row: EditableRow,
         cell: EditableCell,
       },
     }
+
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col
@@ -144,9 +171,8 @@ class ApiRequsetParams extends React.Component {
       }
     })
     return (
-
       <Table
-        ref={this.props.ref} 
+        ref={this.props.ref}
         components={components}
         rowClassName={() => 'editable-row'}
         dataSource={dataSource}

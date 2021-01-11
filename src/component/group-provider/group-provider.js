@@ -1,12 +1,12 @@
-
+import intl from 'react-intl-universal'
 
 /**
  * @description 群体初始化
  */
 
-import {useEffect, useState, Fragment} from 'react'
+import { useEffect, useState, Fragment } from 'react'
 import OnerFrame from '@dtwave/oner-frame'
-import {message} from 'antd'
+import { message } from 'antd'
 import NoData from '../no-data'
 import io from './io'
 import ConfigModal from './configModal'
@@ -27,6 +27,7 @@ export default PageComponent => {
       const res = await io.judgeInit({
         projectId: id,
       })
+
       changeLoading(false)
       changeHasInit(res)
     }
@@ -64,75 +65,103 @@ export default PageComponent => {
       if (res) {
         changeVisible(false)
         changeHasInit(true)
-        message.success('初始化成功, 正在前往群体洞察配置')
+        message.success(
+          intl
+            .get('ide.src.component.group-provider.group-provider.vk9hnb78rci')
+            .d('初始化成功, 正在前往群体洞察配置')
+        )
         // 跳转至群体配置页面
         window.location.href = `${window.__keeper.pathHrefPrefix}/config/group`
       } else {
-        message.error('初始化失败')
+        message.error(
+          intl
+            .get('ide.src.component.group-provider.group-provider.6b89kuho4ha')
+            .d('初始化失败')
+        )
       }
-    } 
+    }
 
     useEffect(() => {
       judgeInit(projectId)
 
-      const {match} = props
-      if (match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' && match.params.objId) {
-        ctx.useProject(true, null, {visible: false})
-      } 
+      const { match } = props
+      if (
+        match.path === '/group/portrayal/:objId?/:mainLabel?/:projectId?' &&
+        match.params.objId
+      ) {
+        ctx.useProject(true, null, { visible: false })
+      }
 
-      if (match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' && match.params.groupId) {
-        ctx.useProject(true, null, {visible: false})
+      if (
+        match.path === '/group/analyze/:groupId?/:objId?/:projectId?/:time?' &&
+        match.params.groupId
+      ) {
+        ctx.useProject(true, null, { visible: false })
       }
     }, [projectId])
-    
 
     const selectDataType = type => {
       getDataSource(type)
     }
 
     const noDataConfig = {
-      text: <span>
-该项目下，群体洞察的数据源未初始化，请到
-        <a target="_blank" href="/tag-app/index.html#/config/group">后台配置-群体洞察配置</a>
-中初始化群体洞察的数据源
-      </span>,
+      text: (
+        <span>
+          {intl
+            .get('ide.src.component.group-provider.group-provider.gv6t3b6f1q')
+            .d('该项目下，群体洞察的数据源未初始化，请到')}
+
+          <a target="_blank" href="/tag-app/index.html#/config/group">
+            {intl
+              .get(
+                'ide.src.component.group-provider.group-provider.egdlarfvojn'
+              )
+              .d('后台配置-群体洞察配置')}
+          </a>
+          {intl
+            .get('ide.src.component.group-provider.group-provider.xm2gl8ic9jh')
+            .d('中初始化群体洞察的数据源')}
+        </span>
+      ),
     }
 
     const noDataConfigC = {
-      text: '该项目下，群体洞察的数据源未初始化',
-      btnText: '初始化数据源',
+      text: intl
+        .get('ide.src.component.group-provider.group-provider.viefgvajavb')
+        .d('该项目下，群体洞察的数据源未初始化'),
+      btnText: intl
+        .get('ide.src.component.group-provider.group-provider.5hj4kgoscd9')
+        .d('初始化数据源'),
       onClick: () => {
         getDataTypeSource(projectId)
         changeVisible(true)
       },
       code: 'tag_config:group_config[u]',
-      noAuthText: '该项目下，群体洞察的数据源未初始化',
+      noAuthText: intl
+        .get('ide.src.component.group-provider.group-provider.viefgvajavb')
+        .d('该项目下，群体洞察的数据源未初始化'),
     }
 
     if (loading) {
-      return (
-        <Loading mode="block" height={300} /> 
-      )
+      return <Loading mode="block" height={300} />
     }
 
     if (!hasInit) {
       return (
         <Fragment>
-          <div className="content-header">群体洞察</div>
-          <div className="header-page" style={{paddingTop: '15%'}}>
-            {
-              props.match.path === '/config/group' ? (
-                <NoData
-                  {...noDataConfigC}
-                />
-              ) : (
-                <NoData
-                  {...noDataConfig}
-                />
-              )
-            }
+          <div className="content-header">
+            {intl
+              .get('ide.src.component.group-provider.group-provider.gaskclrlo5')
+              .d('群体洞察')}
           </div>
-          <ConfigModal 
+          <div className="header-page" style={{ paddingTop: '15%' }}>
+            {props.match.path === '/config/group' ? (
+              <NoData {...noDataConfigC} />
+            ) : (
+              <NoData {...noDataConfig} />
+            )}
+          </div>
+          <ConfigModal
             visible={visible}
             dataType={dataType}
             dataSource={dataSource}
@@ -142,12 +171,11 @@ export default PageComponent => {
             projectId={projectId}
           />
         </Fragment>
-       
       )
     }
 
     return (
-      <div style={{height: '100%'}}>
+      <div style={{ height: '100%' }}>
         <PageComponent key={projectId} projectId={projectId} {...props} />
       </div>
     )

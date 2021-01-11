@@ -1,7 +1,6 @@
-import {
-  observable, action, runInAction,
-} from 'mobx'
-import {successTip, errorTip, listToTree} from '../../../common/util'
+import intl from 'react-intl-universal'
+import { observable, action, runInAction } from 'mobx'
+import { successTip, errorTip, listToTree } from '../../../common/util'
 import io from './io'
 
 class TagCategoryStore {
@@ -65,7 +64,6 @@ class TagCategoryStore {
   // 可移动的标签类目树
   @observable moveTreeData = []
 
-
   // 当前选中的类目 用于添加类目展开
   currSelectCategory = undefined
 
@@ -105,7 +103,6 @@ class TagCategoryStore {
         })
       }
 
-
       runInAction(() => {
         this.treeLoading = false
         this.searchExpandedKeys.clear()
@@ -132,7 +129,9 @@ class TagCategoryStore {
           })
 
           // 获取对象名字
-          this.objName = res.filter(item => item.type === 2).map(item => item.name)
+          this.objName = res
+            .filter(item => item.type === 2)
+            .map(item => item.name)
         }
 
         this.cateList.replace(data)
@@ -148,7 +147,7 @@ class TagCategoryStore {
     }
   }
 
-  // 选择对象 - 下拉框内容 
+  // 选择对象 - 下拉框内容
   @action async getSelectObj() {
     try {
       const res = await io.getSelectObj({
@@ -176,10 +175,16 @@ class TagCategoryStore {
       })
 
       runInAction(() => {
-        successTip('操作成功')
+        successTip(
+          intl
+            .get(
+              'ide.src.page-scene.scene-detail.tree.store-tag-category.51bxlti8rux'
+            )
+            .d('操作成功')
+        )
         this.modalVisible.editObject = false
         this.confirmLoading = false
-        // 刷新类目树 ？ 
+        // 刷新类目树 ？
         this.getCategoryList()
       })
     } catch (e) {
@@ -196,6 +201,7 @@ class TagCategoryStore {
         catId: this.currentTreeItemKey,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.cateDetail = res
         this.detailLoading = false
@@ -215,6 +221,7 @@ class TagCategoryStore {
       ...param,
       projectId: this.projectId,
     }
+
     this.confirmLoading = true
 
     try {
@@ -230,7 +237,13 @@ class TagCategoryStore {
       }
 
       runInAction(() => {
-        successTip('操作成功')
+        successTip(
+          intl
+            .get(
+              'ide.src.page-scene.scene-detail.tree.store-tag-category.51bxlti8rux'
+            )
+            .d('操作成功')
+        )
         this.confirmLoading = false
         this.modalVisible.editCategory = false
         // this.objectDetail = false
@@ -267,7 +280,11 @@ class TagCategoryStore {
         })
       }
       runInAction(() => {
-        successTip('删除成功')
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.w7vs6nlcpyc')
+            .d('删除成功')
+        )
         // 删除对象
         if (type === 2) this.destory()
 
@@ -312,8 +329,7 @@ class TagCategoryStore {
 
   @observable selectObjLoading = false
 
-
-  // 选择标签 - 树结构 
+  // 选择标签 - 树结构
   // 所有标签
   @observable selectTagData = []
   // 树结构数据
@@ -336,16 +352,23 @@ class TagCategoryStore {
         catId: this.currentTreeItemKey,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.selectTagData.replace(res)
         this.selectTagTreeData.replace(listToTree(res))
-        const usedList = res.filter(d => d.type === 0 && d.used).map(d => d && d.tag)
+        const usedList = res
+          .filter(d => d.type === 0 && d.used)
+          .map(d => d && d.tag)
         const usedKeys = usedList.map(d => d.id)
         this.checkedTagData.replace(usedList)
         this.selectTagTableData.replace(usedList)
         this.checkedKeys.replace(usedKeys)
-        this.disabledTagKeys = res.filter(d => (d.type === 0) && !d.status).map(d => d.id)
-        this.disabledKeys = res.filter(d => (d.type === 0) && (!d.status || d.used)).map(d => d.id)
+        this.disabledTagKeys = res
+          .filter(d => d.type === 0 && !d.status)
+          .map(d => d.id)
+        this.disabledKeys = res
+          .filter(d => d.type === 0 && (!d.status || d.used))
+          .map(d => d.id)
       })
     } catch (e) {
       errorTip(e.message)
@@ -366,9 +389,16 @@ class TagCategoryStore {
         tagIdList: param,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (cb) cb()
-        successTip('操作成功')
+        successTip(
+          intl
+            .get(
+              'ide.src.page-scene.scene-detail.tree.store-tag-category.51bxlti8rux'
+            )
+            .d('操作成功')
+        )
         this.modalVisible.selectTag = false
         this.getCategoryList()
       })

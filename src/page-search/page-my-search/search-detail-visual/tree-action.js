@@ -1,16 +1,15 @@
+import intl from 'react-intl-universal'
 /**
  * @description 树组件 - 搜索框
  */
-import {Component} from 'react'
-import {action} from 'mobx'
-import {observer} from 'mobx-react'
-import {NoBorderInput} from '../../../component'
-import {
-  IconRefresh, IconUnExtend, IconExtend,
-} from '../../../icon-comp'
+import { Component } from 'react'
+import { action } from 'mobx'
+import { observer } from 'mobx-react'
+import { NoBorderInput } from '../../../component'
+import { IconRefresh, IconUnExtend, IconExtend } from '../../../icon-comp'
 
 @observer
-export default class Action extends Component {
+class Action extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -20,15 +19,15 @@ export default class Action extends Component {
   @action.bound searchTree(data) {
     // this.store.searchKey = data
     this.store.searchTree({
-      id: this.store.objId, 
-      searchKey: data
+      id: this.store.objId,
+      searchKey: data,
     })
   }
 
   // 刷新树节点
   @action.bound refreshTree() {
     this.store.searchTree({
-      id: this.store.objId
+      id: this.store.objId,
     })
   }
 
@@ -44,16 +43,24 @@ export default class Action extends Component {
   render() {
     return (
       <div className="visual-tree-action">
-        <NoBorderInput 
-          placeholder="请输入关键字" 
+        <NoBorderInput
+          placeholder={intl
+            .get(
+              'ide.src.page-search.page-data-search.tql.tree-action.a021o4a3byp'
+            )
+            .d('请输入关键字')}
           onChange={this.searchTree}
           onPressEnter={this.searchTree}
         />
 
-        <div className="FBH pr6 pl6" style={{maxWidth: 70}}>
+        <div className="FBH pr6 pl6" style={{ maxWidth: 70 }}>
           <IconRefresh size="14" className="mr8" onClick={this.refreshTree} />
-          { this.store.expandAll ? (
-            <IconUnExtend size="14" className="hand" onClick={this.expandTree} /> 
+          {this.store.expandAll ? (
+            <IconUnExtend
+              size="14"
+              className="hand"
+              onClick={this.expandTree}
+            />
           ) : (
             <IconExtend size="14" className="hand" onClick={this.expandTree} />
           )}
@@ -62,3 +69,4 @@ export default class Action extends Component {
     )
   }
 }
+export default Action

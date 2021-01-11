@@ -1,20 +1,19 @@
-import {Component, Fragment, useEffect} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
+import intl from 'react-intl-universal'
+import { Component, Fragment, useEffect } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
 import OnerFrame from '@dtwave/oner-frame'
-import {
-  Tabs, Button, Icon, Spin, Alert,
-} from 'antd'
+import { Tabs, Button, Icon, Spin, Alert } from 'antd'
 
-import {Time} from '../../common/util'
-import {Authority, Tag, DetailHeader, TabRoute} from '../../component'
+import { Time } from '../../common/util'
+import { Authority, Tag, DetailHeader, TabRoute } from '../../component'
 import ModalEditScene from '../scene/modal'
 
 import SelectTag from './select-tag'
 
 import store from './store-scene-detail'
 
-const {TabPane} = Tabs
+const { TabPane } = Tabs
 
 @observer
 class SceneDetail extends Component {
@@ -22,7 +21,9 @@ class SceneDetail extends Component {
     super(props)
 
     // store.projectId = props.projectId
-    const {match: {params}} = props
+    const {
+      match: { params },
+    } = props
     store.sceneId = params.sceneId
     store.projectId = params.projectId
   }
@@ -60,62 +61,105 @@ class SceneDetail extends Component {
     } = info
 
     // 详情信息
-    const baseInfo = [{
-      title: '创建者',
-      value: cuser,
-    }, 
-    {
-      title: '数据源类型',
-      value: storageType,
-    },
-    {
-      title: '数据源',
-      value: dataStorageName,
-    },
-    {
-      title: '创建时间',
-      value: <Time timestamp={cdate} />,
-    },
-    ]
+    const baseInfo = [
+      {
+        title: intl
+          .get('ide.src.page-scene.scene-detail.main.13xru7vjhjuj')
+          .d('创建者'),
+        value: cuser,
+      },
 
+      {
+        title: intl
+          .get('ide.src.component.group-provider.configModal.lr6a4qimbzk')
+          .d('数据源类型'),
+        value: storageType,
+      },
+
+      {
+        title: intl
+          .get('ide.src.component.group-provider.configModal.emv6widuog')
+          .d('数据源'),
+        value: dataStorageName,
+      },
+
+      {
+        title: intl
+          .get('ide.src.page-group.group-detail.main.z2pk6fwpxdm')
+          .d('创建时间'),
+        value: <Time timestamp={cdate} />,
+      },
+    ]
 
     // 不同状态的相应map
     const tagMap = {
-      0: <Tag status="wait" text="未使用" />,
-      1: <Tag status="success" text="使用中" />,
+      0: (
+        <Tag
+          status="wait"
+          text={intl.get('ide.src.component.tag.tag.sz5nencfou8').d('未使用')}
+        />
+      ),
+      1: (
+        <Tag
+          status="success"
+          text={intl
+            .get('ide.src.page-config.group-config.back-config.ec2lmau5zn')
+            .d('使用中')}
+        />
+      ),
     }
 
     const actions = [
       <Button>
-        <a target="_blank" href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}>标签列表</a>
+        <a
+          target="_blank"
+          href={`${window.__keeper.pathHrefPrefix}/scene/${store.sceneId}/tags/${store.projectId}`}
+        >
+          {intl.get('ide.src.common.navList.vgo3kjy265').d('标签列表')}
+        </a>
       </Button>,
-      <Authority
-        authCode="tag_app:config_data_service[c]"
-      >
+      <Authority authCode="tag_app:config_data_service[c]">
         <Button type="primary" className="ml8">
-          <a target="_blank" rel="noopener noreferrer" href="/data/index.html#/api-development">数据服务</a>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="/data/index.html#/api-development"
+          >
+            {intl
+              .get('ide.src.page-scene.scene-detail.main.rqlxgc5nt6')
+              .d('数据服务')}
+          </a>
         </Button>
       </Authority>,
     ]
 
     const tabConfig = {
-      tabs: [{name: '标签选择', value: 1}],
+      tabs: [
+        {
+          name: intl
+            .get('ide.src.page-scene.scene-detail.main.6714pynqvkc')
+            .d('标签选择'),
+          value: 1,
+        },
+      ],
       changeUrl: false,
     }
 
     return (
-      <div className="scene-detail">    
-        {
-          used ? (
-            <Alert
-              showIcon
-              closable
-              type="warning"
-              className="fs12"
-              message="场景使用中，无法在场景中继续选择或移除对象，添加、编辑或删除类目，选择或移除标签，只能查看类目与标签详情。"
-            />
-          ) : null
-        }
+      <div className="scene-detail">
+        {used ? (
+          <Alert
+            showIcon
+            closable
+            type="warning"
+            className="fs12"
+            message={intl
+              .get('ide.src.page-scene.scene-detail.main.77t2xss8z3')
+              .d(
+                '场景使用中，无法在场景中继续选择或移除对象，添加、编辑或删除类目，选择或移除标签，只能查看类目与标签详情。'
+              )}
+          />
+        ) : null}
 
         <Spin spinning={store.loading}>
           <DetailHeader
@@ -144,8 +188,9 @@ class SceneDetail extends Component {
             projectId={store.projectId}
             sceneDetailStore={store}
           />
+
           <ModalEditScene store={store} />
-        </div>     
+        </div>
       </div>
     )
   }
@@ -155,10 +200,8 @@ export default props => {
   const ctx = OnerFrame.useFrame()
 
   useEffect(() => {
-    ctx.useProject(true, null, {visible: false})
+    ctx.useProject(true, null, { visible: false })
   }, [])
 
-  return (
-    <SceneDetail {...props} />
-  )
+  return <SceneDetail {...props} />
 }

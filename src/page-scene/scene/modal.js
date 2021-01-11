@@ -1,11 +1,12 @@
-import {Component} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
-import {Modal, Spin} from 'antd'
-import {ModalForm} from '../../component'
+import intl from 'react-intl-universal'
+import { Component } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
+import { Modal, Spin } from 'antd'
+import { ModalForm } from '../../component'
 
 @observer
-export default class ModalAdd extends Component {
+class ModalAdd extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
@@ -19,9 +20,12 @@ export default class ModalAdd extends Component {
 
   @action.bound selectStorageType(type) {
     this.form.resetFields(['objId'])
-    this.store.getStorageList({
-      storageType: type,
-    }, v => this.form.setFieldsValue({storageId: v}))
+    this.store.getStorageList(
+      {
+        storageType: type,
+      },
+      v => this.form.setFieldsValue({ storageId: v })
+    )
   }
 
   @action.bound selectStorage(id) {
@@ -32,77 +36,112 @@ export default class ModalAdd extends Component {
   }
 
   selectContent = () => {
-    const {info, storageType, storageSelectList, storageTypeLoading, storageSelectLoading, objList, defaultStorage} = this.store
-    return [{
-      label: '场景名称',
-      key: 'name',
-      initialValue: info.name,
-      component: 'input',
-      rules: [
-        '@namePattern',
-        '@nameUnderline',
-        '@nameShuQi',
-        '@transformTrim',
-        '@required',
-        '@max32',
-        {validator: this.handleNameValidator},
-      ],
-    }, {
-      label: '数据源类型',
-      key: 'dataStorageType',
-      initialValue: info.dataStorageType || defaultStorage.storageType,
-      disabled: defaultStorage.storageType,
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: toJS(storageType),
-        onSelect: v => this.selectStorageType(v),
-        notFoundContent: storageTypeLoading ? <Spin size="small" /> : null,
+    const {
+      info,
+      storageType,
+      storageSelectList,
+      storageTypeLoading,
+      storageSelectLoading,
+      objList,
+      defaultStorage,
+    } = this.store
+    return [
+      {
+        label: intl
+          .get('ide.src.page-scene.scene.modal.u64o3kawqi')
+          .d('场景名称'),
+        key: 'name',
+        initialValue: info.name,
+        component: 'input',
+        rules: [
+          '@namePattern',
+          '@nameUnderline',
+          '@nameShuQi',
+          '@transformTrim',
+          '@required',
+          '@max32',
+          { validator: this.handleNameValidator },
+        ],
       },
-      component: 'select',
-    }, {
-      label: '数据源',
-      key: 'storageId',
-      initialValue: info.dataStorageId || defaultStorage.storageId,
-      disabled: defaultStorage.storageId,
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: toJS(storageSelectList),
-        onSelect: v => this.selectStorage(v),
-        notFoundContent: storageSelectLoading ? <Spin size="small" /> : null,
+
+      {
+        label: intl
+          .get('ide.src.component.group-provider.configModal.lr6a4qimbzk')
+          .d('数据源类型'),
+        key: 'dataStorageType',
+        initialValue: info.dataStorageType || defaultStorage.storageType,
+        disabled: defaultStorage.storageType,
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: toJS(storageType),
+          onSelect: v => this.selectStorageType(v),
+          notFoundContent: storageTypeLoading ? <Spin size="small" /> : null,
+        },
+
+        component: 'select',
       },
-      component: 'select',
-      // extra: <span>
-      //   若无可用的数据源，请先
-      //   <a target="_blank" rel="noopener noreferrer" href={`/asset-tag/index.html#/project/${this.store.projectId}`}>去项目配置中添加目的数据源</a>
-      // </span>,
-    }, {
-      label: '对象',
-      key: 'objId',
-      initialValue: info.objId,
-      rules: [
-        '@requiredSelect',
-      ],
-      control: {
-        options: toJS(objList),
+      {
+        label: intl
+          .get('ide.src.component.group-provider.configModal.emv6widuog')
+          .d('数据源'),
+        key: 'storageId',
+        initialValue: info.dataStorageId || defaultStorage.storageId,
+        disabled: defaultStorage.storageId,
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: toJS(storageSelectList),
+          onSelect: v => this.selectStorage(v),
+          notFoundContent: storageSelectLoading ? <Spin size="small" /> : null,
+        },
+
+        component: 'select',
+        // extra: <span>
+        //   若无可用的数据源，请先
+        //   <a target="_blank" rel="noopener noreferrer" href={`/asset-tag/index.html#/project/${this.store.projectId}`}>去项目配置中添加目的数据源</a>
+        // </span>,
       },
-      component: 'select',
-      extra: <span>
-        若无可用的对象，请先
-        <a className="ml4" target="_blank" rel="noopener noreferrer" href="/tag-model/index.html#/manage/tag-sync">去标签同步中添加同步计划</a>
-             </span>,
-    }, {
-      label: '描述',
-      key: 'descr',
-      initialValue: info.descr,
-      component: 'textArea',
-      rules: [
-        '@max128',
-      ],
-    }]
+      {
+        label: intl.get('ide.src.page-scene.scene.modal.j1g9cmsu22g').d('对象'),
+        key: 'objId',
+        initialValue: info.objId,
+        rules: ['@requiredSelect'],
+
+        control: {
+          options: toJS(objList),
+        },
+
+        component: 'select',
+        extra: (
+          <span>
+            {intl
+              .get('ide.src.page-scene.scene.modal.aoebr92r1pd')
+              .d('若无可用的对象，请先')}
+
+            <a
+              className="ml4"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/tag-model/index.html#/manage/tag-sync"
+            >
+              {intl
+                .get('ide.src.page-scene.scene.modal.duucwqiuddf')
+                .d('去标签同步中添加同步计划')}
+            </a>
+          </span>
+        ),
+      },
+      {
+        label: intl
+          .get('ide.src.component.modal-stroage-detail.main.m75jykdqa6')
+          .d('描述'),
+        key: 'descr',
+        initialValue: info.descr,
+        component: 'textArea',
+        rules: ['@max128'],
+      },
+    ]
   }
 
   @action handleCancel = () => {
@@ -117,19 +156,22 @@ export default class ModalAdd extends Component {
   }
 
   @action handleSubmit = e => {
-    const {store} = this.props
+    const { store } = this.props
 
     this.form.validateFieldsAndScroll((err, values) => {
       if (err) {
         return
       }
       if (store.isEdit) {
-        store.editScene({
-          occasionId: store.info.id,
-          ...values,
-        }, () => {
-          this.handleReset()
-        })
+        store.editScene(
+          {
+            occasionId: store.info.id,
+            ...values,
+          },
+          () => {
+            this.handleReset()
+          }
+        )
       } else {
         store.addScene(values, () => {
           this.handleReset()
@@ -152,8 +194,8 @@ export default class ModalAdd extends Component {
 
   // 名称查重校验
   @action handleNameValidator = (rule, value = '', callback) => {
-    const {info} = this.store
-    
+    const { info } = this.store
+
     // 后端校验
     const params = {
       name: value,
@@ -168,15 +210,13 @@ export default class ModalAdd extends Component {
 
   render() {
     const {
-      store: {
-        modalVisible: visible,
-        isEdit,
-        confirmLoading,
-      },
+      store: { modalVisible: visible, isEdit, confirmLoading },
     } = this.props
 
     const modalConfig = {
-      title: isEdit ? '编辑场景' : '添加场景',
+      title: isEdit
+        ? intl.get('ide.src.page-scene.scene.modal.jzwmor14h5').d('编辑场景')
+        : intl.get('ide.src.page-scene.scene.main.k292pc7w0no').d('添加场景'),
       visible,
       onCancel: this.handleCancel,
       onOk: this.handleSubmit,
@@ -188,8 +228,11 @@ export default class ModalAdd extends Component {
 
     const formConfig = {
       selectContent: visible && this.selectContent(),
-      wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      wrappedComponentRef: form => {
+        this.form = form ? form.props.form : form
+      },
     }
+
     return (
       <Modal {...modalConfig}>
         <ModalForm {...formConfig} />
@@ -197,3 +240,4 @@ export default class ModalAdd extends Component {
     )
   }
 }
+export default ModalAdd

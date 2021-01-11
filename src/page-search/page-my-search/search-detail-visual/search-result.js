@@ -1,13 +1,22 @@
-import React, {useState} from 'react'
-import {Table, Spin} from 'antd'
+import intl from 'react-intl-universal'
+import React, { useState } from 'react'
+import { Table, Spin } from 'antd'
 import cls from 'classnames'
 
 import iconup from '../../../icon/xiangshangzhankai.svg'
 import icondown from '../../../icon/xiangxiazhankai.svg'
 import xiazai from '../../../icon/xiazai.svg'
 
-const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLogMouseDown, downloadResult, resultKey}) => {
-  const [isExpend, changeExpend] = useState(false) 
+const SearchResult = ({
+  loading,
+  expend,
+  resultInfo,
+  handleExpend,
+  onDraggableLogMouseDown,
+  downloadResult,
+  resultKey,
+}) => {
+  const [isExpend, changeExpend] = useState(false)
   const resultInfoSize = resultInfo.totalSize
 
   const getColumns = col => {
@@ -38,43 +47,84 @@ const SearchResult = ({loading, expend, resultInfo, handleExpend, onDraggableLog
       })}
       id="search-result"
     >
-      {
-        !isExpend ? null : (
-          <div className="drag-bottom" onMouseDown={onDraggableLogMouseDown} />
-        )
-      }
+      {!isExpend ? null : (
+        <div className="drag-bottom" onMouseDown={onDraggableLogMouseDown} />
+      )}
+
       <div className="search-result-header">
-        <div className="result-header-text">查询结果</div>
+        <div className="result-header-text">
+          {intl
+            .get(
+              'ide.src.page-search.page-data-search.tql.search-result.xb4qpmoeee8'
+            )
+            .d('查询结果')}
+        </div>
         <div className="result-header-icon">
-          {
-            isExpend
-              ? <img src={icondown} alt="img" onClick={() => handleChangeExpend(false)} />
-              : <img src={iconup} alt="img" onClick={() => handleChangeExpend(true)} />
-          }
+          {isExpend ? (
+            <img
+              src={icondown}
+              alt="img"
+              onClick={() => handleChangeExpend(false)}
+            />
+          ) : (
+            <img
+              src={iconup}
+              alt="img"
+              onClick={() => handleChangeExpend(true)}
+            />
+          )}
         </div>
       </div>
-      <div className="p16 pb48" style={{display: isExpend ? 'block' : 'none', overflowY: 'auto', height: '100%', paddingBottom: '48px'}}>
+      <div
+        className="p16 pb48"
+        style={{
+          display: isExpend ? 'block' : 'none',
+          overflowY: 'auto',
+          height: '100%',
+          paddingBottom: '48px',
+        }}
+      >
         <Spin spinning={loading}>
           {resultInfo.data && resultInfo.data.length ? (
             <div className="mb8">
               <span>
-共查出
+                {intl
+                  .get(
+                    'ide.src.page-search.page-data-search.tql.search-result.uizpznbnx79'
+                  )
+                  .d('共查出')}
+
                 {resultInfoSize}
-条记录
+                {intl
+                  .get(
+                    'ide.src.page-search.page-data-search.tql.search-result.apy6m2izn3o'
+                  )
+                  .d('条记录')}
               </span>
-              <img src={xiazai} style={{width: '14px', cursor: 'pointer'}} className="ml8" onClick={downloadResult} />
+              <img
+                src={xiazai}
+                style={{ width: '14px', cursor: 'pointer' }}
+                className="ml8"
+                onClick={downloadResult}
+              />
             </div>
           ) : null}
-          <Table 
+          <Table
             key={resultKey}
             columns={getColumns(resultInfo.title)}
-            size="small" 
-            dataSource={resultInfo.data && resultInfo.data.slice()} 
+            size="small"
+            dataSource={resultInfo.data && resultInfo.data.slice()}
             pagination={{
               total: resultInfoSize,
               defaultCurrent: 1,
               // pageSize: 5,
-              showTotal: () => `合计${resultInfoSize}条记录`,
+              showTotal: () =>
+                intl
+                  .get(
+                    'ide.src.page-search.page-data-search.visual.search-result.zamgwmgf0tf',
+                    { resultInfoSize: resultInfoSize }
+                  )
+                  .d('合计{resultInfoSize}条记录'),
             }}
           />
         </Spin>

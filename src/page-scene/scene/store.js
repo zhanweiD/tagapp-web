@@ -1,9 +1,7 @@
-import {
-  observable, action, runInAction,
-} from 'mobx'
-import {successTip, errorTip, changeToOptions} from '../../common/util'
+import intl from 'react-intl-universal'
+import { observable, action, runInAction } from 'mobx'
+import { successTip, errorTip, changeToOptions } from '../../common/util'
 import io from './io'
-
 
 class Store {
   projectId // 项目ID
@@ -16,7 +14,7 @@ class Store {
   // 场景详情
   @observable info = {}
 
-  // 弹窗标识 
+  // 弹窗标识
   @observable modalVisible = false
 
   // 弹窗编辑／新增 判断标识
@@ -39,6 +37,7 @@ class Store {
         this.getStorageList({
           storageType: res.dataStorageType,
         })
+
         this.getObjList({
           storageId: res.dataStorageId,
         })
@@ -47,7 +46,6 @@ class Store {
       errorTip(e.message)
     }
   }
-
 
   // 场景列表
   @action async getList() {
@@ -83,6 +81,7 @@ class Store {
       const res = await io.getStorageType({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.storageType = changeToOptions(res)('name', 'type')
       })
@@ -106,6 +105,7 @@ class Store {
       const res = await io.getDefaultStorage({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.defaultStorage = res || {}
 
@@ -125,13 +125,17 @@ class Store {
   @action async getStorageList(params, cb) {
     this.storageSelectLoading = true
     try {
-      const res = await io.getStorageList({
-        id: this.projectId,
-        ...params,
-        projectId: this.projectId,
-      }) || []
+      const res =
+        (await io.getStorageList({
+          id: this.projectId,
+          ...params,
+          projectId: this.projectId,
+        })) || []
       runInAction(() => {
-        this.storageSelectList = changeToOptions(res)('dataDbName', 'dataStorageId')
+        this.storageSelectList = changeToOptions(res)(
+          'dataDbName',
+          'dataStorageId'
+        )
         if (cb) cb(res[0] && res[0].dataStorageId)
       })
     } catch (e) {
@@ -150,6 +154,7 @@ class Store {
         projectId: this.projectId,
         ...params,
       })
+
       runInAction(() => {
         this.objList = changeToOptions(res)('objName', 'objId')
       })
@@ -171,8 +176,12 @@ class Store {
         this.confirmLoading = false
         this.modalVisible = false
         this.getList()
-        successTip('添加成功')
-        if (cb)cb()
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.bouj30dq2')
+            .d('添加成功')
+        )
+        if (cb) cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -193,7 +202,11 @@ class Store {
 
       runInAction(() => {
         this.getList()
-        successTip('删除成功')
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.w7vs6nlcpyc')
+            .d('删除成功')
+        )
       })
     } catch (e) {
       errorTip(e.message)
@@ -211,9 +224,13 @@ class Store {
 
       runInAction(() => {
         this.getList()
-        successTip('编辑成功')
+        successTip(
+          intl
+            .get('ide.src.page-config.group-config.store.hn8i6himken')
+            .d('编辑成功')
+        )
 
-        if (cb)cb()
+        if (cb) cb()
       })
     } catch (e) {
       errorTip(e.message)
@@ -232,11 +249,16 @@ class Store {
         ...params,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (typeof res === 'boolean' && res) {
           cb()
         } else {
-          cb('名称已存在')
+          cb(
+            intl
+              .get('ide.src.page-scene.scene.store.o9dgle1dglj')
+              .d('名称已存在')
+          )
         }
       })
     } catch (e) {
@@ -254,6 +276,7 @@ class Store {
       const res = await io.getAuthCode({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.functionCodes = res
       })

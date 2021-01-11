@@ -1,12 +1,11 @@
-import {
-  action, runInAction, observable, toJS,
-} from 'mobx'
-import {Select} from 'antd'
-import {errorTip, changeToOptions, successTip} from '../../common/util'
-import {ListContentStore} from '../../component/list-content'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable, toJS } from 'mobx'
+import { Select } from 'antd'
+import { errorTip, changeToOptions, successTip } from '../../common/util'
+import { ListContentStore } from '../../component/list-content'
 import io from './io'
 
-const {Option} = Select
+const { Option } = Select
 class Store extends ListContentStore(io.getGroupList) {
   // example
   @observable projectId = 0 // 项目id
@@ -48,9 +47,10 @@ class Store extends ListContentStore(io.getGroupList) {
       const res = await io.getEntityList({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.entityOptions = res.map(item => {
-          return (<Option key={item.objId}>{item.objName}</Option>)
+          return <Option key={item.objId}>{item.objName}</Option>
         })
         this.entityList = changeToOptions(toJS(res || []))('objName', 'objId')
       })
@@ -66,9 +66,10 @@ class Store extends ListContentStore(io.getGroupList) {
         projectId: this.projectId,
         objId: this.objId || this.recordObj.objId,
       })
+
       runInAction(() => {
         this.tagOptions = res.map(item => {
-          return (<Option key={item.tagId}>{item.tagName}</Option>)
+          return <Option key={item.tagId}>{item.tagName}</Option>
         })
       })
     } catch (e) {
@@ -83,9 +84,14 @@ class Store extends ListContentStore(io.getGroupList) {
         ...obj,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('添加成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.bouj30dq2')
+              .d('添加成功')
+          )
           this.handleCancel()
           this.getList()
         }
@@ -95,7 +101,7 @@ class Store extends ListContentStore(io.getGroupList) {
       errorTip(e.message)
     }
   }
-  
+
   // 编辑id群体
   @action async editIdGroup(obj) {
     try {
@@ -104,9 +110,14 @@ class Store extends ListContentStore(io.getGroupList) {
         ...obj,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('编辑成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.hn8i6himken')
+              .d('编辑成功')
+          )
           this.handleCancel()
           this.getList()
         }
@@ -124,6 +135,7 @@ class Store extends ListContentStore(io.getGroupList) {
         id: this.recordObj.id, // 群体ID
         projectId: this.projectId,
       })
+
       runInAction(() => {
         res.outputTags = res.outputTags.map(String)
         cb(res.outputTags)
@@ -140,9 +152,14 @@ class Store extends ListContentStore(io.getGroupList) {
         id, // 群体ID
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('删除成功')
+          successTip(
+            intl
+              .get('ide.src.page-config.group-config.store.w7vs6nlcpyc')
+              .d('删除成功')
+          )
           this.getList()
         }
       })
@@ -158,12 +175,21 @@ class Store extends ListContentStore(io.getGroupList) {
         id, // 群体ID
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('正在执行')
+          successTip(
+            intl
+              .get('ide.src.page-group.group-manage.store.c7chyz1klvf')
+              .d('正在执行')
+          )
           this.getList()
         } else {
-          errorTip('执行失败')
+          errorTip(
+            intl
+              .get('ide.src.page-group.group-manage.store.xnanhhqwsqg')
+              .d('执行失败')
+          )
         }
       })
     } catch (e) {
@@ -183,9 +209,14 @@ class Store extends ListContentStore(io.getGroupList) {
         objId: this.objId,
         name,
       })
+
       runInAction(() => {
         if (res.isExist) {
-          callback('群体名称重复')
+          callback(
+            intl
+              .get('ide.src.page-group.group-manage.store.zceek02s75')
+              .d('群体名称重复')
+          )
         } else {
           callback()
         }

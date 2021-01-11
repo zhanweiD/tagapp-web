@@ -1,9 +1,8 @@
-import {
-  action, runInAction, observable, toJS,
-} from 'mobx'
-import {CycleSelect} from '@dtwave/uikit'
-import {errorTip, successTip, changeToOptions} from '../../common/util'
-import {ListContentStore} from '../../component/list-content'
+import intl from 'react-intl-universal'
+import { action, runInAction, observable, toJS } from 'mobx'
+import { CycleSelect } from '@dtwave/uikit'
+import { errorTip, successTip, changeToOptions } from '../../common/util'
+import { ListContentStore } from '../../component/list-content'
 import apiStore from './store-api-list'
 import io from './io'
 
@@ -12,14 +11,14 @@ class Store extends ListContentStore(io.getHistoryList) {
   @observable id = 0 // 群体ID
   @observable objId = 0 // 实体ID
   @observable visible = false // 新建API弹窗
-  
+
   @observable apiGroupList = [] // 新建API分组列表
   @observable groupDetial = {} // 群体详情
-  @observable barList =[] // 群体详情柱状图
+  @observable barList = [] // 群体详情柱状图
   @observable barDataX = [] // 群体详情柱状图横坐标
   @observable barDataY = [] // 群体详情柱图纵坐标
   @observable modeType = -1 // 1 规则离线 2 规则实时 0 ID集合离线
-  @observable confirmLoading = false // 
+  @observable confirmLoading = false //
 
   // 获取群体详情
   @action async getDetail() {
@@ -28,6 +27,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         id: this.id,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res.scheduleType === 1) {
           const expression = CycleSelect.cronSrialize(res.scheduleExpression)
@@ -51,6 +51,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         ...params,
         projectId: this.projectId,
       })
+
       // this.barDataX = []
       // this.barDataY = []
       runInAction(() => {
@@ -71,9 +72,14 @@ class Store extends ListContentStore(io.getHistoryList) {
       const res = await io.outputUnitList({
         projectId: this.projectId,
       })
+
       runInAction(() => {
         if (res) {
-          successTip('导出成功')
+          successTip(
+            intl
+              .get('ide.src.page-group.group-detail.store.65wta5fdwxg')
+              .d('导出成功')
+          )
         }
       })
     } catch (e) {
@@ -88,8 +94,13 @@ class Store extends ListContentStore(io.getHistoryList) {
         ...params,
         projectId: this.projectId,
       })
+
       if (res.isExit) {
-        callbak('项目名称已存在')
+        callbak(
+          intl
+            .get('ide.src.page-group.group-detail.store.uxhncclfdur')
+            .d('项目名称已存在')
+        )
       } else {
         callbak()
       }
@@ -104,8 +115,12 @@ class Store extends ListContentStore(io.getHistoryList) {
       const res = await io.getApiGroup({
         projectId: this.projectId,
       })
+
       runInAction(() => {
-        this.apiGroupList = changeToOptions(toJS(res || []))('apiGroupName', 'apiGroupId')
+        this.apiGroupList = changeToOptions(toJS(res || []))(
+          'apiGroupName',
+          'apiGroupId'
+        )
       })
     } catch (e) {
       errorTip(e.message)
@@ -121,11 +136,16 @@ class Store extends ListContentStore(io.getHistoryList) {
         id: this.id,
         ...params,
       })
+
       runInAction(() => {
         this.confirmLoading = false
         if (res) {
           apiStore.getList()
-          successTip('创建成功')
+          successTip(
+            intl
+              .get('ide.src.page-group.group-detail.store.t4buf6icej')
+              .d('创建成功')
+          )
           this.visible = false
         }
       })
@@ -142,6 +162,7 @@ class Store extends ListContentStore(io.getHistoryList) {
         objId: this.objId,
         projectId: this.projectId,
       })
+
       runInAction(() => {
         this.tagList = changeToOptions(toJS(res || []))('tagName', 'tagId')
       })
@@ -165,12 +186,20 @@ class Store extends ListContentStore(io.getHistoryList) {
           apiPath: name,
         })
       }
-      
+
       runInAction(() => {
         if (res && isName) {
-          callback('API名称重复')
+          callback(
+            intl
+              .get('ide.src.page-group.group-detail.store.a6c3yfy8fyb')
+              .d('API名称重复')
+          )
         } else if (res && !isName) {
-          callback('API路径重复')
+          callback(
+            intl
+              .get('ide.src.page-group.group-detail.store.9wlbzq9cqxh')
+              .d('API路径重复')
+          )
         } else {
           callback()
         }

@@ -1,44 +1,50 @@
-import {Component, Fragment} from 'react'
-import {action, toJS} from 'mobx'
-import {observer} from 'mobx-react'
-import {Modal, Spin} from 'antd'
-import {ModalForm} from '../../component'
-import {debounce} from '../../common/util'
+import intl from 'react-intl-universal'
+import { Component, Fragment } from 'react'
+import { action, toJS } from 'mobx'
+import { observer } from 'mobx-react'
+import { Modal, Spin } from 'antd'
+import { ModalForm } from '../../component'
+import { debounce } from '../../common/util'
 
 @observer
-export default class GroupModal extends Component {
+class GroupModal extends Component {
   constructor(props) {
     super(props)
     this.store = props.store
   }
 
-  selectContent= () => {
-    return [{
-      label: '群体名称',
-      key: 'name',
-      component: 'input',
-      rules: [
-        '@namePattern',
-        '@nameUnderline',
-        '@nameShuQi',
-        '@transformTrim',
-        '@required',
-        '@max32',
-        {validator: this.checkName},
-      ],
-    }, 
-    {
-      label: '描述',
-      key: 'descr',
-      component: 'textArea',
-      rules: [
-        '@max128',
-      ],
-    }]
+  selectContent = () => {
+    return [
+      {
+        label: intl
+          .get('ide.src.page-group.group-analyze.search.2ll7wsjzshl')
+          .d('群体名称'),
+        key: 'name',
+        component: 'input',
+        rules: [
+          '@namePattern',
+          '@nameUnderline',
+          '@nameShuQi',
+          '@transformTrim',
+          '@required',
+          '@max32',
+          { validator: this.checkName },
+        ],
+      },
+
+      {
+        label: intl
+          .get('ide.src.component.modal-stroage-detail.main.m75jykdqa6')
+          .d('描述'),
+        key: 'descr',
+        component: 'textArea',
+        rules: ['@max128'],
+      },
+    ]
   }
 
   submit = () => {
-    const {store} = this
+    const { store } = this
     this.form.validateFields((err, values) => {
       if (!err) {
         store.saveUnitList(values)
@@ -63,12 +69,11 @@ export default class GroupModal extends Component {
   }
 
   render() {
-    const {
-      visible,
-      confirmLoading,
-    } = this.store
+    const { visible, confirmLoading } = this.store
     const modalConfig = {
-      title: '保存群体',
+      title: intl
+        .get('ide.src.page-group.unit-list.group-modal.pl1u2lm99mr')
+        .d('保存群体'),
       visible,
       maskClosable: false,
       closable: true,
@@ -81,7 +86,9 @@ export default class GroupModal extends Component {
 
     const formConfig = {
       selectContent: visible && this.selectContent(),
-      wrappedComponentRef: form => { this.form = form ? form.props.form : form },
+      wrappedComponentRef: form => {
+        this.form = form ? form.props.form : form
+      },
     }
 
     return (
@@ -91,3 +98,4 @@ export default class GroupModal extends Component {
     )
   }
 }
+export default GroupModal
