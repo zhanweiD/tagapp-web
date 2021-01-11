@@ -129,6 +129,9 @@ export default class ListContent extends Component {
     const {
       searchParams, paginationConfig, hasPaging, ...rest
     } = this.props
+
+    const paginationTotalCount = pagination.totalCount
+
     const {
       tableLoading, list = [], pagination, handlePageChange, handleTableChange,
     } = this.store
@@ -163,7 +166,7 @@ export default class ListContent extends Component {
                 current={pagination.currentPage}
                 total={pagination.totalCount}
                 onChange={handlePageChange}
-                showTotal={() => `合计${pagination.totalCount}条记录`}
+                showTotal={() => `合计${paginationTotalCount}条记录`}
               />
             </div>
           ) : null

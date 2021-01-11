@@ -105,6 +105,7 @@ class TagList extends Component {
       },
       objList,
     } = store
+    const paginationTotal = pagination.total
     return (
       <div className="scene-tags box-border">
         <SearchForm 
@@ -124,7 +125,7 @@ class TagList extends Component {
             pageSize: pagination.pageSize,
             current: pagination.current,
             total: pagination.total,
-            showTotal: () => `合计${pagination.total}条记录`,
+            showTotal: () => `合计${paginationTotal}条记录`,
           }}
         />
       </div>

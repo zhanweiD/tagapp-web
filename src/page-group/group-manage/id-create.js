@@ -136,6 +136,11 @@ export default class IdCreate extends Component {
       handleCancel,
     } = this.store
 
+    const fileResTotal = fileRes.total
+    const fileResDuplicateCount = fileRes.duplicateCount
+    const fileResSuccessCount = fileRes.successCount
+    const fileResFailedCount = fileRes.failedCount
+
     const {tenantId, userId} = window.frameInfo.sessioninfo.userInfoVO
     const props = {
       accept: '.xls, .xlsx',
@@ -291,7 +296,7 @@ export default class IdCreate extends Component {
         </Drawer>
         <Modal {...modalConfig}>
           <p style={{marginTop: '1em'}}>
-            {`总记录${fileRes.total}条，重复记录${fileRes.duplicateCount}条，入库记录数${fileRes.successCount}条，无效记录${fileRes.failedCount}条`}
+            {`总记录${fileResTotal}条，重复记录${fileResDuplicateCount}条，入库记录数${fileResSuccessCount}条，无效记录${fileResFailedCount}条`}
             {
               fileRes.failedCount ? (
                 <span>

@@ -66,13 +66,14 @@ class RuleCreate extends Component {
 
   @action showResult = result => {
     const {oneForm, groupId} = store
+    const oneFormName = oneForm.name
 
     if (result) {
-      message.success(`群体 ${oneForm.name} ${groupId ? '编辑' : '创建'}成功`)
+      message.success(`群体 ${oneFormName} ${groupId ? '编辑' : '创建'}成功`)
       window.location.href = `${window.__keeper.pathHrefPrefix || '/'}/group/manage`
     } else {
       Modal.error({
-        content: `群体 ${oneForm.name} 创建失败 您可以重新创建`,
+        content: `群体 ${oneFormName} 创建失败 您可以重新创建`,
       })
     }
   }

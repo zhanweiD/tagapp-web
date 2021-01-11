@@ -65,7 +65,11 @@ export const pieOpt = info => {
     tooltip: {
       trigger: 'item',
       formatter: params => {
-        return `${info.tagName}:${params.name}<br />实体数: ${params.value}<br />占比: ${params.percent}%`
+        const infoTagName = info.tagName
+        const paramsName = params.name
+        const paramsValue = params.value
+        const paramsPercent = params.percent
+        return `${infoTagName}:${paramsName}<br />实体数: ${paramsValue}<br />占比: ${paramsPercent}%`
       },   
     },
     series: [
@@ -172,7 +176,11 @@ export const acrossBarOpt = data => {
         type: 'shadow',
       },
       formatter: params => {
-        return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
+        const dataTagName = data.tagName
+        const paramsAxisValue = params[0].axisValue
+        const paramsData = params[0].data
+        const paramsDataIndex = params[0].dataIndex
+        return `${dataTagName}:${paramsAxisValue}<br />实体数: ${paramsData}<br />占比: ${tooltip[paramsDataIndex]}`
       },
     },
     grid: {

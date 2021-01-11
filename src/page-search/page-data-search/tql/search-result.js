@@ -11,7 +11,7 @@ const {TabPane} = Tabs
 const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpend, onDraggableLogMouseDown, isRuned, downloadResult, resultKey}) => {
   const [isExpend, changeExpend] = useState(false) 
   const [tabKey, changeTabKey] = useState('1') 
- 
+  const resultInfoTotalSize = resultInfo.totalSize
   const getColumns = col => {
     if (col && col.length) {
       return col.map(d => ({
@@ -86,7 +86,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                   getColumns(resultInfo.title).length ? (
                       <div>
                         {resultInfo.data && resultInfo.data.length ? <div className="mb8">
-                          <span>共查出{resultInfo.totalSize}条记录</span>
+                          <span>共查出{resultInfoTotalSize}条记录</span>
                           <img src={xiazai} style={{ width: '14px', cursor: 'pointer' }} className="ml8" onClick={downloadResult} />
                         </div> : null}
                         <Table
@@ -97,7 +97,7 @@ const SearchResult = ({loading = false, expend, resultInfo = {}, log, handleExpe
                           pagination={{
                             total: resultInfo.totalSize,
                             // pageSize: 5,
-                            showTotal: () => `合计${resultInfo.totalSize}条记录`,
+                            showTotal: () => `合计${resultInfoTotalSize}条记录`,
                           }}
                         />
                       </div>
