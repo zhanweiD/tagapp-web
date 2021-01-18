@@ -58,7 +58,7 @@ const SearchConfig = ({ projectId }) => {
 
       const result = res || []
       changedataSource(() => result)
-      if (cb) cb(res[0] && res[0].storageId)
+      // if (cb) cb(res[0] && res[0].storageId)
     } catch (error) {
       errorTip(error.message)
     }

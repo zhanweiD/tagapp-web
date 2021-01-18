@@ -23,8 +23,8 @@ class ModalAdd extends Component {
     this.store.getStorageList(
       {
         storageType: type,
-      },
-      v => this.form.setFieldsValue({ storageId: v })
+      }
+      // v => this.form.setFieldsValue({ storageId: v })
     )
   }
 
@@ -45,6 +45,7 @@ class ModalAdd extends Component {
       objList,
       defaultStorage,
     } = this.store
+
     return [
       {
         label: intl

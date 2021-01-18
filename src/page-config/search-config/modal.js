@@ -24,7 +24,8 @@ const ConfigModal = ({
   const [form] = Form.useForm()
 
   const onChange = e => {
-    selectDataType(e, v => form.setFieldsValue({ dataStorageId: v }))
+    selectDataType(e)
+    // selectDataType(e, v => form.setFieldsValue({ dataStorageId: v }))
     // form.setFieldsValue({dataStorageId: undefined})
   }
   const modalConfig = {

@@ -1,11 +1,11 @@
 import intl from 'react-intl-universal'
-import React, { Component, Fragment } from 'react'
-import { observer, inject } from 'mobx-react'
-import { toJS } from 'mobx'
+import React, {Component, Fragment} from 'react'
+import {observer, inject} from 'mobx-react'
+import {toJS} from 'mobx'
 import * as d3 from 'd3'
-import { Progress, Spin } from 'antd'
+import {Progress, Spin} from 'antd'
 import personIcon from '../../icon/person.svg'
-import { NoData, Loading } from '../../component'
+import {NoData, Loading} from '../../component'
 
 import './analyze-tab.styl'
 
@@ -32,8 +32,8 @@ class AnalyzeTab extends Component {
   }
 
   draw = data => {
-    const { nodes, links } = data
-    const { idKey } = this.props
+    const {nodes, links} = data
+    const {idKey} = this.props
     this.pic = d3.select(`#pic${idKey}`)
 
     const simulation = d3
@@ -72,7 +72,7 @@ class AnalyzeTab extends Component {
       .append('g')
       .attr('class', (d, i) => {
         if (!d.name) {
-          ;('gnode node-hidden')
+          ('gnode node-hidden')
         }
         return `gnode node-${d.id.toString()}`
       })
@@ -130,8 +130,8 @@ class AnalyzeTab extends Component {
       })
   }
   render() {
-    const { statistics, markedLoading, picUrl } = this.store
-    const { idKey } = this.props
+    const {statistics, markedLoading, picUrl} = this.store
+    const {idKey} = this.props
     return (
       <div className="bgf">
         <Spin spinning={markedLoading}>
@@ -155,7 +155,7 @@ class AnalyzeTab extends Component {
                   <div>
                     <div>{d.x}</div>
                     <Progress
-                      style={{ width: 180 }}
+                      style={{width: 180}}
                       percent={parseFloat(d.y2)}
                       status="active"
                       showInfo

@@ -257,7 +257,7 @@ class Store extends ListContentStore(io.getEntityPage) {
             'storageId'
           )
         }
-        if (cb) cb(res[0] && res[0].storageId)
+        // if (cb) cb(res[0] && res[0].storageId)
       })
     } catch (e) {
       errorTip(e.message)

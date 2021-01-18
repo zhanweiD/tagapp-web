@@ -20,9 +20,10 @@ class ConfigModal extends Component {
 
   @action.bound selectDataTypeSource(storageTypeId) {
     // this.form.setFieldsValue({storageId: undefined})
-    this.store.getDataSource(storageTypeId, v =>
-      this.form.setFieldsValue({ storageId: v })
-    )
+    this.store.getDataSource(storageTypeId)
+    // this.store.getDataSource(storageTypeId, v =>
+    //   this.form.setFieldsValue({ storageId: v })
+    // )
   }
 
   formItemLayout = () => {

@@ -136,7 +136,7 @@ class Store {
           'dataDbName',
           'dataStorageId'
         )
-        if (cb) cb(res[0] && res[0].dataStorageId)
+        // if (cb) cb(res[0] && res[0].dataStorageId)
       })
     } catch (e) {
       errorTip(e.message)
