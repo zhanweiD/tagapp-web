@@ -1,18 +1,18 @@
 import intl from 'react-intl-universal'
-import { Component, Fragment } from 'react'
-import { observable, action, toJS, computed } from 'mobx'
-import { observer, Provider } from 'mobx-react'
-import { Button, Spin } from 'antd'
+import {Component, Fragment} from 'react'
+import {observable, action, toJS, computed} from 'mobx'
+import {observer, Provider} from 'mobx-react'
+import {Button, Spin} from 'antd'
 
-import { Time } from '../../common/util'
-import { NoData, DetailHeader } from '../../component'
+import {Time} from '../../common/util'
+import {NoData, DetailHeader} from '../../component'
 
 import TrendTag from './trend-tag'
 import TrendApi from './trend-api'
 
 import Store from './store-select-tag'
 
-import TagCategory, { TagCategoryStore } from './tree'
+import TagCategory, {TagCategoryStore} from './tree'
 
 @observer
 class SelectTag extends Component {
@@ -91,9 +91,8 @@ class SelectTag extends Component {
   }
 
   @action tagDel = tagId => {
-    const { categoryStore } = this.store
-    const target =
-      categoryStore.cateList.filter(item => item.id === this.tagId) || []
+    const {categoryStore} = this.store
+    const target = categoryStore.cateList.filter(item => item.id === this.tagId) || []
     this.isTagDel = !target.length
 
     // 删除项是当前选中项
@@ -110,7 +109,7 @@ class SelectTag extends Component {
 
   // 选择对象
   @action selectObj = () => {
-    const { treeData } = this.store.categoryStore
+    const {treeData} = this.store.categoryStore
     if (treeData.length) return
 
     // 获取选择对象
@@ -123,7 +122,7 @@ class SelectTag extends Component {
 
   // 判断场景下 对象是否存在
   @computed get objExistFlag() {
-    const { treeData } = this.store.categoryStore
+    const {treeData} = this.store.categoryStore
     return treeData.length
   }
 
@@ -185,9 +184,9 @@ class SelectTag extends Component {
         <div className="select-tag FBH">
           <TagCategory {...tagCategoryOpt} />
 
-          <div className="FB1 m16" style={{ overflowX: 'hidden' }}>
+          <div className="FB1 m16" style={{overflowX: 'hidden'}}>
             {this.store.categoryStore.treeLoading || !tagId ? (
-              <div style={{ marginTop: '20%', marginLeft: '50%' }}>
+              <div style={{marginTop: '20%', marginLeft: '50%'}}>
                 <Spin spinning />
               </div>
             ) : (

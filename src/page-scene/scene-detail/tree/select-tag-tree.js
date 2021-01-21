@@ -2,17 +2,17 @@ import intl from 'react-intl-universal'
 /**
  * @description 场景 - 选择标签 - 标签树
  */
-import { Component, Fragment } from 'react'
-import { observer } from 'mobx-react'
-import { observable, action, computed, toJS } from 'mobx'
-import { Tree, Checkbox, Button } from 'antd'
-import { RightOutlined } from '@ant-design/icons'
+import {Component, Fragment} from 'react'
+import {observer} from 'mobx-react'
+import {observable, action, computed, toJS} from 'mobx'
+import {Tree, Checkbox, Button} from 'antd'
+import {RightOutlined} from '@ant-design/icons'
 
-import { NoBorderInput, Loading, OmitTooltip } from '../../../component'
-import { IconChakan } from '../../../icon-comp'
+import {NoBorderInput, Loading, OmitTooltip} from '../../../component'
+import {IconChakan} from '../../../icon-comp'
 import tagIcon from '../../../icon/new-tag.svg'
 
-const { TreeNode } = Tree
+const {TreeNode} = Tree
 
 @observer
 class TagTree extends Component {
@@ -71,8 +71,8 @@ class TagTree extends Component {
       this.store.checkedKeys.replace(this.getTagList.allKeys)
       this.store.checkedTagData.replace(this.getTagList.allTags)
     } else if (
-      this.store.disabledKeys.length ||
-      this.store.disabledTagKeys.length
+      this.store.disabledKeys.length
+      || this.store.disabledTagKeys.length
     ) {
       this.indeterminate = true
       this.allChecked = false
@@ -83,7 +83,7 @@ class TagTree extends Component {
   }
 
   @action.bound onCheck(checkedKeys, e) {
-    const { checkedNodes } = e
+    const {checkedNodes} = e
 
     // 全选操作
     if (checkedKeys.length === this.getTagList.allKeys.length) {
@@ -104,7 +104,7 @@ class TagTree extends Component {
   }
 
   @action.bound rightToTable() {
-    const { rightToTable } = this.props
+    const {rightToTable} = this.props
     const disabledKeys = this.store.checkedTagData.map(d => d.id)
 
     this.store.disabledKeys.replace(disabledKeys)
@@ -128,12 +128,11 @@ class TagTree extends Component {
 
   // 获取所有标签列表数据和rowKeys
   @computed get getTagList() {
-    const { selectTagData, disabledTagKeys } = this.store
+    const {selectTagData, disabledTagKeys} = this.store
     // all keys
-    const allKeys =
-      selectTagData
-        .filter(d => !disabledTagKeys.includes(d.id))
-        .map(d => d.id) || []
+    const allKeys = selectTagData
+      .filter(d => !disabledTagKeys.includes(d.id))
+      .map(d => d.id) || []
 
     // all tags
     const allTags = selectTagData
@@ -146,58 +145,48 @@ class TagTree extends Component {
     }
   }
 
-  renderTreeNodes = data =>
-    data.map(item => {
-      // 0 标签 1 类目
-      if (item.children) {
-        return (
-          <TreeNode
-            title={<OmitTooltip maxWidth={120} text={item.name} />}
-            key={item.id}
-            dataRef={item}
-            selectable={false}
-          >
-            {this.renderTreeNodes(item.children)}
-          </TreeNode>
-        )
-      }
+  renderTreeNodes = data => data.map(item => {
+    // 0 标签 1 类目
+    if (item.children) {
+      return (
+        <TreeNode
+          title={<OmitTooltip maxWidth={120} text={item.name} />}
+          key={item.id}
+          dataRef={item}
+          selectable={false}
+        >
+          {this.renderTreeNodes(item.children)}
+        </TreeNode>
+      )
+    }
 
-      if (item.type) {
-        return (
-          <TreeNode
-            key={item.id}
-            title={<OmitTooltip maxWidth={120} text={item.name} />}
-            selectable={false}
-            icon={
-              item.type ? null : (
-                <img src={tagIcon} alt="icon" style={{ width: '14px' }} />
-              )
-            }
-          />
-        )
-      }
-
+    if (item.type) {
       return (
         <TreeNode
           key={item.id}
           title={<OmitTooltip maxWidth={120} text={item.name} />}
-          icon={
-            item.type ? null : (
-              <img src={tagIcon} alt="icon" style={{ width: '14px' }} />
-            )
-          }
           selectable={false}
-          tagData={{
-            parentId: item.parentId,
-            ...item.tag,
-          }}
-          disableCheckbox={
-            this.store.disabledKeys.includes(item.id) ||
-            this.store.disabledTagKeys.includes(item.id)
-          }
         />
       )
-    })
+    }
+
+    return (
+      <TreeNode
+        key={item.id}
+        title={<OmitTooltip maxWidth={120} text={item.name} />}
+        icon={<img src={tagIcon} alt="icon" style={{width: '14px'}} />}
+        selectable={false}
+        tagData={{
+          parentId: item.parentId,
+          ...item.tag,
+        }}
+        disableCheckbox={
+          this.store.disabledKeys.includes(item.id)
+            || this.store.disabledTagKeys.includes(item.id)
+        }
+      />
+    )
+  })
 
   render() {
     const {
@@ -257,7 +246,7 @@ class TagTree extends Component {
             type="primary"
             icon={<RightOutlined />}
             size="small"
-            style={{ display: 'block' }}
+            style={{display: 'block'}}
             className="mb4"
             disabled={!checkedTagData.length}
             onClick={this.rightToTable}

@@ -1,10 +1,10 @@
 import intl from 'react-intl-universal'
-import { Component } from 'react'
-import { Modal, Spin, Button } from 'antd'
-import { action } from 'mobx'
-import { observer, inject } from 'mobx-react'
-import { Time } from '../../../common/util'
-import { LabelItem } from '../../../component'
+import {Component} from 'react'
+import {Modal, Spin, Button} from 'antd'
+import {action} from 'mobx'
+import {observer, inject} from 'mobx-react'
+import {Time} from '../../../common/util'
+import {LabelItem} from '../../../component'
 
 @inject('bigStore')
 @observer
@@ -20,7 +20,7 @@ class ModalCategoryDetail extends Component {
   }
 
   render() {
-    const { cateDetail, modalVisible, detailLoading } = this.store
+    const {cateDetail, modalVisible, detailLoading} = this.store
     const modalProps = {
       title: intl
         .get(

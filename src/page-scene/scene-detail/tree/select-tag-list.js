@@ -2,14 +2,14 @@ import intl from 'react-intl-universal'
 /**
  * @description 场景-选择对象-对象列表
  */
-import { Component } from 'react'
-import { observer } from 'mobx-react'
-import { observable, action } from 'mobx'
-import { Table, Input, Popconfirm, Tooltip } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
-import { OmitTooltip } from '../../../component'
+import {Component} from 'react'
+import {observer} from 'mobx-react'
+import {observable, action} from 'mobx'
+import {Table, Input, Popconfirm, Tooltip} from 'antd'
+import {SearchOutlined} from '@ant-design/icons'
+import {OmitTooltip} from '../../../component'
 
-const { Search } = Input
+const {Search} = Input
 
 @observer
 class TagList extends Component {
@@ -55,10 +55,9 @@ class TagList extends Component {
       dataIndex: 'isEnum',
       key: 'isEnum',
       width: 80,
-      render: text =>
-        text
-          ? intl.get('ide.src.component.form-component.qzk44dlnid').d('是')
-          : intl.get('ide.src.component.form-component.5lxtuor5tix').d('否'),
+      render: text => (text
+        ? intl.get('ide.src.component.form-component.qzk44dlnid').d('是')
+        : intl.get('ide.src.component.form-component.5lxtuor5tix').d('否')),
       // render: text => <OmitTooltip maxWidth={50} text={text ? '是' : '否'} />,
     },
     {
@@ -127,18 +126,18 @@ class TagList extends Component {
   ]
 
   @action.bound onChange(e) {
-    const { value } = e.target
+    const {value} = e.target
     this.searchKey = value
   }
 
   remove = d => {
-    const { remove } = this.props
+    const {remove} = this.props
 
     remove(d)
   }
 
   getFilterData() {
-    const { selectTagTableData } = this.store
+    const {selectTagTableData} = this.store
     if (this.searchKey) {
       return selectTagTableData.filter(
         d => d.name.indexOf(this.searchKey) !== -1
@@ -153,7 +152,7 @@ class TagList extends Component {
       rowKey: 'id',
       columns: this.columns,
       pagination: false,
-      scroll: { y: 'calc(100% - 98)' },
+      scroll: {y: 'calc(100% - 98)'},
     }
 
     return (
@@ -166,9 +165,8 @@ class TagList extends Component {
           /> */}
         <Input
           onChange={this.onChange}
-          style={{ width: 300 }}
+          style={{width: 156, marginBottom: '8px'}}
           size="small"
-          className="select-tag-search"
           placeholder={intl
             .get(
               'ide.src.page-scene.scene-detail.tree.select-tag-list.b57cc5hqnid'

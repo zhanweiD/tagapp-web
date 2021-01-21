@@ -1,10 +1,10 @@
 import intl from 'react-intl-universal'
-import { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { observer, inject } from 'mobx-react'
-import { toJS, action, runInAction } from 'mobx'
-import { Modal, Spin } from 'antd'
-import { DtTree } from '@dtwave/uikit'
+import {Component} from 'react'
+import {withRouter} from 'react-router-dom'
+import {observer, inject} from 'mobx-react'
+import {toJS, action, runInAction} from 'mobx'
+import {Modal, Spin} from 'antd'
+import {DtTree} from '@dtwave/uikit'
 
 import treeUnfold from '../../../icon/tree-unfold.svg'
 import treeFold from '../../../icon/tree-fold.svg'
@@ -17,9 +17,9 @@ import ModalObjectEdit from './modal-object-edit'
 import SelectTag from './drawer-select-tag'
 import ModalTagMove from './modal-tag-move'
 
-const { DtTreeNode } = DtTree
-const { DtTreeBox } = DtTree
-const { confirm } = Modal
+const {DtTreeNode} = DtTree
+const {DtTreeBox} = DtTree
+const {confirm} = Modal
 
 @inject('bigStore')
 @inject('sceneDetail')
@@ -33,8 +33,8 @@ class TagCategory extends Component {
   }
 
   @action.bound onselect(selectedKeys, info) {
-    const { tagChange } = this.props
-    const { id } = this.bigStore
+    const {tagChange} = this.props
+    const {id} = this.bigStore
     // 1. 展开节点
     info.node.onExpand()
 
@@ -119,11 +119,11 @@ class TagCategory extends Component {
       value:
         item.type === 1
           ? intl
-              .get('ide.src.page-group.group-manage.main.80dolfimgwr')
-              .d('删除')
+            .get('ide.src.page-group.group-manage.main.80dolfimgwr')
+            .d('删除')
           : intl
-              .get('ide.src.page-config.group-config.back-config.kovby4adjrk')
-              .d('移除'),
+            .get('ide.src.page-config.group-config.back-config.kovby4adjrk')
+            .d('移除'),
       onClick: (key, nodeData) => {
         runInAction(() => {
           this.store.currentTreeItemKey = nodeData.id
@@ -135,18 +135,17 @@ class TagCategory extends Component {
 
           // 节点类型 type 0 标签 1 类目 2 对象
           /* eslint-disable no-nested-ternary */
-          const tipStr =
-            nodeData.type === 2
+          const tipStr = nodeData.type === 2
+            ? intl
+              .get('ide.src.page-scene.scene-detail.tree.main.fov6pq7h3d')
+              .d('所属该场景的全部对象、标签都会被移除，类目会被删除')
+            : nodeData.type === 1
               ? intl
-                  .get('ide.src.page-scene.scene-detail.tree.main.fov6pq7h3d')
-                  .d('所属该场景的全部对象、标签都会被移除，类目会被删除')
-              : nodeData.type === 1
-              ? intl
-                  .get('ide.src.page-scene.scene-detail.tree.main.wbeswh88m2')
-                  .d('所属该类目的子类目会被删除，标签也会被移除')
+                .get('ide.src.page-scene.scene-detail.tree.main.wbeswh88m2')
+                .d('所属该类目的子类目会被删除，标签也会被移除')
               : intl
-                  .get('ide.src.page-scene.scene-detail.tree.main.q2suwv7ns8')
-                  .d('该标签会被移除')
+                .get('ide.src.page-scene.scene-detail.tree.main.q2suwv7ns8')
+                .d('该标签会被移除')
 
           confirm({
             title: intl
@@ -155,20 +154,17 @@ class TagCategory extends Component {
               )
               .d('确认删除？'),
             content: tipStr,
-            onOk: () =>
-              this.store.deleteNode(nodeData.type, () => {
-                // 删除项为标签
-                if (!nodeData.type)
-                  this.store.currentTreeItemKey = nodeData.parentId
+            onOk: () => this.store.deleteNode(nodeData.type, () => {
+              // 删除项为标签
+              if (!nodeData.type) { this.store.currentTreeItemKey = nodeData.parentId }
 
-                // 删除项为类目；且非一级类目 1
-                if (nodeData.type === 1)
-                  this.store.currentTreeItemKey = nodeData.parentId
+              // 删除项为类目；且非一级类目 1
+              if (nodeData.type === 1) { this.store.currentTreeItemKey = nodeData.parentId }
 
-                // 为了场景的标签数 大费周折
-                this.sceneDetailStore.getDetail()
-                this.props.tagDel(nodeData.id)
-              }),
+              // 为了场景的标签数 大费周折
+              this.sceneDetailStore.getDetail()
+              this.props.tagDel(nodeData.id)
+            }),
           })
         })
       },
@@ -221,8 +217,8 @@ class TagCategory extends Component {
     if (this.bigStore.tagId) return [this.bigStore.tagId]
 
     if (
-      this.currSelectCategory &&
-      this.store.currentTreeItemKey === this.currSelectCategory
+      this.currSelectCategory
+      && this.store.currentTreeItemKey === this.currSelectCategory
     ) {
       return [this.store.currentTreeItemKey]
     }
@@ -292,7 +288,7 @@ class TagCategory extends Component {
 
     const treeBoxProps = {
       defaultWidth: 200,
-      style: { minWidth: '200px' },
+      style: {minWidth: '200px'},
       titleHeight: 34,
       title: <Action />,
       onDragStart: (e, w) => console.log('onDragStart..', e, w),
@@ -320,7 +316,7 @@ class TagCategory extends Component {
           {(() => {
             if (this.store.treeLoading) {
               return (
-                <div style={{ textAlign: 'center', margin: '100px 0' }}>
+                <div style={{textAlign: 'center', margin: '100px 0'}}>
                   <Spin />
                 </div>
               )

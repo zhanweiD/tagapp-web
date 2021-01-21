@@ -2,10 +2,10 @@ import intl from 'react-intl-universal'
 /**
  * @description 选择标签
  */
-import { Component } from 'react'
-import { observer, inject } from 'mobx-react'
-import { observable, action } from 'mobx'
-import { Drawer, Button, message } from 'antd'
+import {Component} from 'react'
+import {observer, inject} from 'mobx-react'
+import {observable, action} from 'mobx'
+import {Drawer, Button, message} from 'antd'
 
 import Tree from './select-tag-tree'
 import List from './select-tag-list'
@@ -31,7 +31,7 @@ class SelectTag extends Component {
   }
 
   @action.bound closeDrawer() {
-    const { modalVisible } = this.store
+    const {modalVisible} = this.store
     modalVisible.selectTag = false
     this.removeListItem = undefined
     this.destroy()
@@ -49,7 +49,7 @@ class SelectTag extends Component {
   }
 
   @action.bound handleSubmit() {
-    const { selectTagTableData } = this.store
+    const {selectTagTableData} = this.store
     if (!selectTagTableData.length) {
       message.warning(
         intl
@@ -70,7 +70,7 @@ class SelectTag extends Component {
 
   render() {
     const {
-      modalVisible: { selectTag },
+      modalVisible: {selectTag},
 
       confirmLoading,
     } = this.store
@@ -125,17 +125,7 @@ class SelectTag extends Component {
           <div className="select-tag-modal">
             <Tree {...treeConfig} />
             <List {...listConfig} />
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                width: '100%',
-                background: '#fff',
-                textAlign: 'right',
-                padding: '10px 16px',
-              }}
-            >
+            <div className="bottom-button">
               <Button onClick={this.closeDrawer} className="mr8">
                 {intl
                   .get(

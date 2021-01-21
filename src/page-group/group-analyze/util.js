@@ -154,13 +154,13 @@ export const barOpt = data => {
         const value3 = params[0].axisValue
         const value4 = params[0].data
         const name1 = data.tagName
-        const index1 = params[0].dataIndex
+        const index1 = tooltip[params[0].dataIndex]
         return intl
           .get('ide.src.page-group.group-analyze.util.br4691akdfr', {
             name1,
             value3,
             value4,
-            index1: tooltip.index1,
+            index1,
           })
           .d(
             '{name1}:{value3}<br />实体数: {value4}<br />占比: {index1}'
@@ -317,16 +317,16 @@ export const lineOpt = data => {
         const value3 = params[0].axisValue
         const value4 = params[0].data
         const name1 = data.tagName
-        const index1 = params[0].dataIndex
+        const index1 = tooltip[params[0].dataIndex]
         return intl
           .get('ide.src.page-group.group-analyze.util.br4691akdfr', {
             name1,
             value3,
             value4,
-            'tooltip.index1': tooltip.index1,
+            index1,
           })
           .d(
-            '{name1}:{value3}<br />实体数: {value4}<br />占比: {tooltip.index1}'
+            '{name1}:{value3}<br />实体数: {value4}<br />占比: {index1}'
           )
         // return `${data.tagName}:${params[0].axisValue}<br />实体数: ${params[0].data}<br />占比: ${tooltip[params[0].dataIndex]}`
       },

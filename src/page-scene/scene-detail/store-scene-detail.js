@@ -1,6 +1,6 @@
 import intl from 'react-intl-universal'
-import { observable, action, runInAction } from 'mobx'
-import { successTip, errorTip, failureTip } from '../../common/util'
+import {observable, action, runInAction} from 'mobx'
+import {successTip, errorTip, failureTip} from '../../common/util'
 import io from './io'
 
 class SceneDetailStore {

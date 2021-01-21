@@ -29,24 +29,24 @@ export function getTagTrendOpt(data, legend = []) {
 
   const series = legend.length
     ? legend.map(name => ({
-        name,
+      name,
+      type: 'line',
+      symbol: 'none',
+      // smooth: 0.3,
+      data: _.map(data, d => {
+        const obj = d.data.filter(i => i.name === name)[0] || {}
+        return obj.invokeCount || 0
+      }),
+    }))
+    : [
+      {
+        name: 'noData',
         type: 'line',
         symbol: 'none',
         // smooth: 0.3,
-        data: _.map(data, d => {
-          const obj = d.data.filter(i => i.name === name)[0] || {}
-          return obj.invokeCount || 0
-        }),
-      }))
-    : [
-        {
-          name: 'noData',
-          type: 'line',
-          symbol: 'none',
-          // smooth: 0.3,
-          data: _.map(data, () => 0),
-        },
-      ]
+        data: _.map(data, () => 0),
+      },
+    ]
 
   return {
     grid: {
@@ -65,16 +65,14 @@ export function getTagTrendOpt(data, legend = []) {
         const domArr = [
           intl
             .get('ide.src.page-scene.scene-detail.charts-options.5jywpt4fxi9', {
-              dataTotalCount: dataTotalCount,
+              dataTotalCount,
             })
             .d('日期:  <br/>总调用次数: {dataTotalCount}<br/>'),
         ]
         if (legend.length) {
-          params.map((item, idx) =>
-            domArr.push(
-              `${params[idx].marker} ${params[idx].seriesName}: ${params[idx].data} <br/>`
-            )
-          )
+          params.map((item, idx) => domArr.push(
+            `${params[idx].marker} ${params[idx].seriesName}: ${params[idx].data} <br/>`
+          ))
         }
         return domArr.join(' ')
       },
@@ -159,7 +157,7 @@ export function getApiTrendOpt(data) {
         const paramsValue = params[0].value
         return intl
           .get('ide.src.page-scene.scene-detail.charts-options.4vts3tyyeqb', {
-            paramsValue: paramsValue,
+            paramsValue,
           })
           .d('日期:  <br/>API调用数: {paramsValue}')
       },

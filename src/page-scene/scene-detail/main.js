@@ -1,19 +1,19 @@
 import intl from 'react-intl-universal'
-import { Component, Fragment, useEffect } from 'react'
-import { action, toJS } from 'mobx'
-import { observer } from 'mobx-react'
+import {Component, Fragment, useEffect} from 'react'
+import {action, toJS} from 'mobx'
+import {observer} from 'mobx-react'
 import OnerFrame from '@dtwave/oner-frame'
-import { Tabs, Button, Icon, Spin, Alert } from 'antd'
+import {Tabs, Button, Icon, Spin, Alert} from 'antd'
 
-import { Time } from '../../common/util'
-import { Authority, Tag, DetailHeader, TabRoute } from '../../component'
+import {Time} from '../../common/util'
+import {Authority, Tag, DetailHeader, TabRoute} from '../../component'
 import ModalEditScene from '../scene/modal'
 
 import SelectTag from './select-tag'
 
 import store from './store-scene-detail'
 
-const { TabPane } = Tabs
+const {TabPane} = Tabs
 
 @observer
 class SceneDetail extends Component {
@@ -22,7 +22,7 @@ class SceneDetail extends Component {
 
     // store.projectId = props.projectId
     const {
-      match: { params },
+      match: {params},
     } = props
     store.sceneId = params.sceneId
     store.projectId = params.projectId
@@ -200,7 +200,7 @@ export default props => {
   const ctx = OnerFrame.useFrame()
 
   useEffect(() => {
-    ctx.useProject(true, null, { visible: false })
+    ctx.useProject(true, null, {visible: false})
   }, [])
 
   return <SceneDetail {...props} />

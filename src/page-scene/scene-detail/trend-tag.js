@@ -1,8 +1,8 @@
 import intl from 'react-intl-universal'
-import { Component } from 'react'
-import { action } from 'mobx'
-import { TimeRange } from '../../component'
-import { getTagTrendOpt } from './charts-options'
+import {Component} from 'react'
+import {action} from 'mobx'
+import {TimeRange} from '../../component'
+import {getTagTrendOpt} from './charts-options'
 
 export default class TrendTag extends Component {
   defStartTime = moment()
@@ -21,7 +21,7 @@ export default class TrendTag extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { tagId } = this.props
+    const {tagId} = this.props
 
     if (tagId && tagId !== nextProps.tagId) {
       this.getData()
@@ -33,7 +33,7 @@ export default class TrendTag extends Component {
   }
 
   @action getData(gte = this.defStartTime, lte = this.defEndTime) {
-    const { store } = this.props
+    const {store} = this.props
     const params = {
       startDate: gte,
       endDate: lte,
@@ -55,7 +55,7 @@ export default class TrendTag extends Component {
   }
 
   render() {
-    const { tagId } = this.props
+    const {tagId} = this.props
 
     return (
       <div className="bgf pt16 pb16 pl24 pr24 mb16 mt16">
@@ -86,7 +86,7 @@ export default class TrendTag extends Component {
             exportTimeRange={(gte, lte) => this.getData(gte, lte)}
           />
         </div>
-        <div style={{ height: '300px' }} ref={ref => (this.lineRef = ref)} />
+        <div style={{height: '300px'}} ref={ref => (this.lineRef = ref)} />
       </div>
     )
   }

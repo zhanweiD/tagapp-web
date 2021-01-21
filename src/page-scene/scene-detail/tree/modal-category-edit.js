@@ -2,13 +2,13 @@ import intl from 'react-intl-universal'
 /**
  * 场景详情标签树-类目(编辑/添加)弹窗
  */
-import { Component } from 'react'
-import { Form } from '@ant-design/compatible'
+import {Component} from 'react'
+import {Form} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Modal, Input, Spin } from 'antd'
-import { action } from 'mobx'
-import { observer, inject } from 'mobx-react'
-import { getNamePattern, trimFormValues } from '../../../common/util'
+import {Modal, Input, Spin} from 'antd'
+import {action} from 'mobx'
+import {observer, inject} from 'mobx-react'
+import {getNamePattern, trimFormValues} from '../../../common/util'
 
 const FormItem = Form.Item
 
@@ -22,7 +22,7 @@ class ModalEditCategory extends Component {
   }
 
   @action.bound handleOnCancel() {
-    const { form } = this.props
+    const {form} = this.props
     this.store.cateDetail = false
     this.store.modalVisible.editCategory = false
     form.resetFields()
@@ -30,10 +30,10 @@ class ModalEditCategory extends Component {
 
   @action.bound handleOnOk() {
     const {
-      form: { validateFields },
+      form: {validateFields},
     } = this.props
     const {
-      eStatus: { editCategory },
+      eStatus: {editCategory},
       cateDetail,
       currentTreeItemKey,
     } = this.store
@@ -73,7 +73,7 @@ class ModalEditCategory extends Component {
   @action.bound handleNameValidator(rule, value, callback) {
     const {
       currentTreeItemKey,
-      eStatus: { editCategory },
+      eStatus: {editCategory},
     } = this.store
     if (value) {
       const params = {
@@ -101,11 +101,11 @@ class ModalEditCategory extends Component {
 
   render() {
     const {
-      form: { getFieldDecorator },
+      form: {getFieldDecorator},
     } = this.props
     const {
       cateDetail,
-      eStatus: { editCategory },
+      eStatus: {editCategory},
       modalVisible,
       confirmLoading,
     } = this.store
@@ -113,13 +113,13 @@ class ModalEditCategory extends Component {
     const modalProps = {
       title: editCategory
         ? intl
-            .get(
-              'ide.src.page-scene.scene-detail.tree.modal-category-edit.jjahghtlt6'
-            )
-            .d('编辑类目')
+          .get(
+            'ide.src.page-scene.scene-detail.tree.modal-category-edit.jjahghtlt6'
+          )
+          .d('编辑类目')
         : intl
-            .get('ide.src.page-scene.scene-detail.tree.main.xdj5y85lf1')
-            .d('添加类目'),
+          .get('ide.src.page-scene.scene-detail.tree.main.xdj5y85lf1')
+          .d('添加类目'),
       visible: modalVisible.editCategory,
       onCancel: this.handleOnCancel,
       onOk: this.handleOnOk,
@@ -130,8 +130,8 @@ class ModalEditCategory extends Component {
     }
 
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
+      labelCol: {span: 4},
+      wrapperCol: {span: 20},
       colon: false,
     }
 
@@ -157,7 +157,7 @@ class ModalEditCategory extends Component {
                       .d('名称不可为空'),
                   },
                   ...getNamePattern(),
-                  { validator: this.handleNameValidator },
+                  {validator: this.handleNameValidator},
                 ],
 
                 validateFirst: true,
@@ -193,7 +193,7 @@ class ModalEditCategory extends Component {
             >
               {getFieldDecorator('descr', {
                 rules: [
-                  { transform: value => value && value.trim() },
+                  {transform: value => value && value.trim()},
                   {
                     max: 128,
                     message: intl

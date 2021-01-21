@@ -2,13 +2,13 @@ import intl from 'react-intl-universal'
 /**
  * 场景详情标签树-选择对象弹窗
  */
-import { Component } from 'react'
-import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Form } from '@ant-design/compatible'
+import {Component} from 'react'
+import {QuestionCircleOutlined} from '@ant-design/icons'
+import {Form} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Modal, Spin, Cascader, Tooltip } from 'antd'
-import { action } from 'mobx'
-import { observer, inject } from 'mobx-react'
+import {Modal, Spin, Cascader, Tooltip} from 'antd'
+import {action} from 'mobx'
+import {observer, inject} from 'mobx-react'
 
 const FormItem = Form.Item
 
@@ -22,7 +22,7 @@ class ModalObjectEdit extends Component {
   }
 
   @action.bound handleOnCancel() {
-    const { form } = this.props
+    const {form} = this.props
     // this.store.objectDetail = false
     this.store.modalVisible.editObject = false
     form.resetFields()
@@ -30,7 +30,7 @@ class ModalObjectEdit extends Component {
 
   @action.bound handleOnOk() {
     const {
-      form: { validateFields },
+      form: {validateFields},
     } = this.props
 
     validateFields((err, values) => {
@@ -47,9 +47,9 @@ class ModalObjectEdit extends Component {
 
   render() {
     const {
-      form: { getFieldDecorator },
+      form: {getFieldDecorator},
     } = this.props
-    const { modalVisible, confirmLoading, selectObj } = this.store
+    const {modalVisible, confirmLoading, selectObj} = this.store
 
     // 场景对象操作包括：选择对象; 没有编辑对象
     const modalProps = {
@@ -68,8 +68,8 @@ class ModalObjectEdit extends Component {
     }
 
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 19 },
+      labelCol: {span: 4},
+      wrapperCol: {span: 19},
       colon: false,
     }
 
@@ -79,7 +79,7 @@ class ModalObjectEdit extends Component {
           <Spin spinning={this.store.detailLoading}>
             <FormItem
               {...formItemLayout}
-              label={
+              label={(
                 <span>
                   {intl
                     .get(
@@ -99,7 +99,7 @@ class ModalObjectEdit extends Component {
                     <QuestionCircleOutlined />
                   </Tooltip>
                 </span>
-              }
+              )}
             >
               {getFieldDecorator('objIds', {
                 rules: [

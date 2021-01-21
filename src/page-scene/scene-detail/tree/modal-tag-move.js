@@ -1,10 +1,10 @@
 import intl from 'react-intl-universal'
-import { Component } from 'react'
-import { Form } from '@ant-design/compatible'
+import {Component} from 'react'
+import {Form} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Modal, Spin, Cascader } from 'antd'
-import { action, toJS } from 'mobx'
-import { observer, inject } from 'mobx-react'
+import {Modal, Spin, Cascader} from 'antd'
+import {action, toJS} from 'mobx'
+import {observer, inject} from 'mobx-react'
 
 const FormItem = Form.Item
 
@@ -18,7 +18,7 @@ class ModalTagMove extends Component {
   }
 
   @action.bound handleOnCancel() {
-    const { form } = this.props
+    const {form} = this.props
     this.store.tagDetail = false
     this.store.modalVisible.moveTag = false
     form.resetFields()
@@ -26,9 +26,9 @@ class ModalTagMove extends Component {
 
   @action.bound handleOnOk() {
     const {
-      form: { validateFields },
+      form: {validateFields},
     } = this.props
-    const { currentTreeItemKey } = this.store
+    const {currentTreeItemKey} = this.store
 
     validateFields((err, values) => {
       if (!err) {
@@ -53,9 +53,9 @@ class ModalTagMove extends Component {
 
   render() {
     const {
-      form: { getFieldDecorator },
+      form: {getFieldDecorator},
     } = this.props
-    const { tagDetail, modalVisible, confirmLoading, moveTreeData } = this.store
+    const {tagDetail, modalVisible, confirmLoading, moveTreeData} = this.store
 
     const modalProps = {
       title: intl
@@ -71,8 +71,8 @@ class ModalTagMove extends Component {
     }
 
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
+      labelCol: {span: 4},
+      wrapperCol: {span: 20},
       colon: false,
     }
 
