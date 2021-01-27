@@ -23,6 +23,9 @@ class Search extends React.Component {
 
   @action.bound onFinish = values => {
     this.store.searchValue = values
+    this.store.currentPage = 1
+    this.store.isFirst = true
+    this.store.isLast = false
     this.store.getPageList()
   }
 
