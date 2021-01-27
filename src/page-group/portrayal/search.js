@@ -1,12 +1,12 @@
 import intl from 'react-intl-universal'
 import React from 'react'
-import { Form, Button, Select, Input } from 'antd'
-import { action } from 'mobx'
-import { inject, observer } from 'mobx-react'
+import {Form, Button, Select, Input} from 'antd'
+import {action} from 'mobx'
+import {inject, observer} from 'mobx-react'
 
-import { OmitTooltip } from '../../component'
+import {OmitTooltip} from '../../component'
 
-const { Option } = Select
+const {Option} = Select
 
 @inject('store')
 @observer
@@ -22,13 +22,8 @@ class Search extends React.Component {
   }
 
   @action.bound onFinish = values => {
-    // if (values.mainLabel === this.store.mainLabel && values.objId === this.store.objId) return
-    // this.store.mainLabel = values.mainLabel
-    // this.store.objId = +values.objId
-    // this.store.getLabel()
-    // this.store.getAnalysis()
-    // this.store.getAllTags()
-    this.store.getPageList(values)
+    this.store.searchValue = values
+    this.store.getPageList()
   }
 
   @action.bound selectObj(e) {
@@ -44,7 +39,7 @@ class Search extends React.Component {
   }
 
   render() {
-    const { entityList, objId, mainLabel, searchList } = this.store
+    const {entityList, objId, mainLabel, searchList} = this.store
     if (objId && this.formRef.current) {
       this.formRef.current.resetFields(['objId'])
     }
@@ -56,7 +51,7 @@ class Search extends React.Component {
           hideRequiredMark
           ref={this.formRef}
           onFinish={this.onFinish}
-          style={{ width: '523px', marginTop: '16px', display: 'flex' }}
+          style={{width: '523px', marginTop: '16px', display: 'flex'}}
         >
           <Form.Item
             label={intl.get('ide.src.common.dict.eppgpvyn3fp').d('实体')}
@@ -74,7 +69,7 @@ class Search extends React.Component {
             ]}
           >
             <Select
-              style={{ width: '156px' }}
+              style={{width: '156px'}}
               placeholder={intl
                 .get('ide.src.page-group.group-manage.id-create.p21zfuks4dn')
                 .d('请选择实体')}
@@ -87,7 +82,7 @@ class Search extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Input.Group style={{ width: '239px' }} compact>
+          <Input.Group style={{width: '239px'}} compact>
             <Form.Item
               name="tagId"
               // initialValue={searchList[0] ? searchList[0].tagId.toString() : undefined}
@@ -104,7 +99,7 @@ class Search extends React.Component {
                 placeholder={intl
                   .get('ide.src.page-group.portrayal.search.gicqkpjlgwo')
                   .d('请选择条件')}
-                style={{ width: '96px' }}
+                style={{width: '96px'}}
               >
                 {searchList.map(item => (
                   <Option key={item.tagId}>
@@ -126,7 +121,7 @@ class Search extends React.Component {
             >
               <Input
                 size="small"
-                style={{ width: '128px' }}
+                style={{width: '128px'}}
                 placeholder={intl
                   .get('ide.src.page-group.portrayal.search.rwifvgib37j')
                   .d('请输入搜索内容')}

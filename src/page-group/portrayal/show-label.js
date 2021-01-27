@@ -1,13 +1,13 @@
 import intl from 'react-intl-universal'
-import React, { Component, Fragment } from 'react'
-import { Tabs } from 'antd'
-import { action } from 'mobx'
-import { observer, inject } from 'mobx-react'
+import React, {Component, Fragment} from 'react'
+import {Tabs} from 'antd'
+import {action} from 'mobx'
+import {observer, inject} from 'mobx-react'
 
 import AnalyzeTab from './analyze-tab'
 import LabelTab from './label-tab'
 
-const { TabPane } = Tabs
+const {TabPane} = Tabs
 @inject('store')
 @observer
 class ShowLabel extends Component {
@@ -17,7 +17,7 @@ class ShowLabel extends Component {
   }
 
   render() {
-    const { mainLabel, objId } = this.store
+    const {mainLabel, objId} = this.store
     return (
       <Fragment>
         <Tabs defaultActiveKey="1" className="label-tab">

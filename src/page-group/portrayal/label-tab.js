@@ -1,12 +1,12 @@
 import intl from 'react-intl-universal'
-import React, { Component } from 'react'
-import { toJS, action } from 'mobx'
-import { observer, inject } from 'mobx-react'
-import { Button, Tooltip, Progress, Spin } from 'antd'
-import { TagFilled } from '@ant-design/icons'
+import React, {Component} from 'react'
+import {toJS, action} from 'mobx'
+import {observer, inject} from 'mobx-react'
+import {Button, Tooltip, Progress, Spin} from 'antd'
+import {TagFilled} from '@ant-design/icons'
 
-import { NoData } from '../../component'
-import { debounce } from '../../common/util'
+import {NoData} from '../../component'
+import {debounce} from '../../common/util'
 
 @inject('store')
 @observer
@@ -20,7 +20,7 @@ class LabelTab extends Component {
 
   // 判断是否是重复的请求
   @action isRepeat = nowTag => {
-    const { prevTag, tagAnalysis } = this.store
+    const {prevTag, tagAnalysis} = this.store
     if (nowTag === prevTag) {
       return
     }
@@ -29,10 +29,10 @@ class LabelTab extends Component {
   }
 
   render() {
-    const { labelRes, tooltipX, tooltipY, allTagLoading } = this.store
+    const {labelRes, tooltipX, tooltipY, allTagLoading} = this.store
     return (
       <div className="pl24 pt16 h-100">
-        <Spin spinning={allTagLoading}>
+        <Spin spinning={allTagLoading} style={{marginTop: '10%'}}>
           {labelRes.length ? (
             labelRes.map(now => {
               const nowRes = now.tags || []
@@ -43,8 +43,8 @@ class LabelTab extends Component {
                 return (
                   <Tooltip
                     key={item.value}
-                    title={
-                      <div style={{ padding: '0xp 4px' }}>
+                    title={(
+                      <div style={{padding: '0xp 4px'}}>
                         <div>
                           <span>{tooltipX}</span>
                         </div>
@@ -63,13 +63,12 @@ class LabelTab extends Component {
                           }}
                         />
                       </div>
-                    }
+                    )}
                     color="rgba(0,0,0,.65)"
                   >
                     <Button
                       className="label-btn"
-                      onMouseEnter={() =>
-                        debounce(() => this.isRepeat(nowRes[index]), 200)
+                      onMouseEnter={() => debounce(() => this.isRepeat(nowRes[index]), 200)
                       }
                     >
                       {item.value === '' ? '-' : item.value}
@@ -85,7 +84,7 @@ class LabelTab extends Component {
                   <div>
                     <TagFilled
                       rotate={270}
-                      style={{ color: 'rgba(0,0,0,.65)', marginRight: '8px' }}
+                      style={{color: 'rgba(0,0,0,.65)', marginRight: '8px'}}
                     />
                     <span>{`${nowCategoryName}（${nowRes.length}）`}</span>
                   </div>
@@ -99,6 +98,7 @@ class LabelTab extends Component {
                 .get('ide.src.component.no-data.noData.rwnouwn2p1f')
                 .d('暂无数据')}
               size="small"
+              style={{marginTop: '15%'}}
             />
           )}
         </Spin>

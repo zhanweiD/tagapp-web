@@ -1,8 +1,7 @@
 import {
   observable, action, runInAction, toJS, observe,
 } from 'mobx'
-import {Progress, Tooltip, Button} from 'antd'
-import {TagFilled} from '@ant-design/icons'
+import {message} from 'antd'
 import {
   errorTip, trimFormValues, debounce,
 } from '../../common/util'
@@ -21,14 +20,15 @@ class Store {
   @observable changeLoading = false // tab切换
   @observable tabLoading = false // tab切换
   @observable allTagLoading = false // tab切换
-  @observable isFirst = true // tab切换
-  @observable isLast = false // tab切换
+  @observable isFirst = true // 是否第一页
+  @observable isLast = false // 是否最后一页
   @observable mainKey // 主标签key
-  @observable labelKey = '0' // 主标签key
   @observable unitList = [] // 个体列表
   @observable searchList = [] // 搜索条件列表
   @observable firstEntry // 默认选中第一个实体
   @observable searchForm // 搜索表单
+  @observable searchValue // 搜索表单值
+  @observable currentPage = 1 // 页数
 
   @observable entityList = [] // 实体option列表
   @observable basicLabel = [] // 基本特征
@@ -93,19 +93,23 @@ class Store {
   }
 
   // 获取个体列表
-  @action async getPageList(value) {
+  @action async getPageList() {
     this.tabLoading = true
     try {
       const res = await io.getPageList({
         projectId: this.projectId,
-        // objId: this.objId,
-        // tagId: +value.tagId,
-        // keyword: value.keyword,
-        currentPage: 1,
+        currentPage: this.currentPage,
         pageSize: 10,
-        ...value,
+        ...this.searchValue,
       })
       runInAction(() => {
+        if (res.data.length === 0) {
+          this.isLast = true
+          message.warning('已经到底了！')
+          return
+        }
+        if (res.data.length < 10) this.isLast = true
+        if (res.data.length === 10) this.isLast = false
         this.mainKey = res.mainTag
         this.unitList = res.data || []
         this.mainLabel = res.data ? res.data[0][res.mainTag].toString() : null

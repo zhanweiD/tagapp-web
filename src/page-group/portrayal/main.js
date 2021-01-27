@@ -2,12 +2,11 @@ import intl from 'react-intl-universal'
 /**
  * @description 微观画像
  */
-import { Component } from 'react'
-import { observer, Provider } from 'mobx-react'
-import { toJS, action } from 'mobx'
-import { Layout, Tabs, Spin } from 'antd'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-import personIcon from '../../icon/person.svg'
+import {Component} from 'react'
+import {observer, Provider} from 'mobx-react'
+import {toJS, action} from 'mobx'
+import {Layout, Tabs, Spin} from 'antd'
+import {LeftOutlined, RightOutlined} from '@ant-design/icons'
 
 import {
   projectProvider,
@@ -22,15 +21,15 @@ import DetailSidebar from './detail-sidebar'
 import ShowLabel from './show-label'
 import Search from './search'
 
-const { Sider, Content } = Layout
-const { TabPane } = Tabs
+const {Sider, Content} = Layout
+const {TabPane} = Tabs
 @observer
 class PortrayalLabel extends Component {
   constructor(props) {
     super(props)
 
     const {
-      match: { params },
+      match: {params},
     } = props
 
     store.resetValue()
@@ -48,6 +47,23 @@ class PortrayalLabel extends Component {
     store.getEntityList(params)
   }
 
+  @action prevPage = () => {
+    store.isLast = false
+    if (store.currentPage === 2) {
+      store.isFirst = true
+    }
+    if (store.currentPage - 1) {
+      store.currentPage -= 1
+      store.getPageList()
+    } 
+  }
+
+  @action nextPage = () => {
+    store.currentPage += 1
+    store.isFirst = false
+    store.getPageList()
+  }
+
   @action selectPor = v => {
     store.mainLabel = v
     // store.mainLabel = v
@@ -58,21 +74,17 @@ class PortrayalLabel extends Component {
 
   setCard = item => {
     const cards = []
-    const { picUrl } = store
     for (const key in item) {
-      // if (key !== 'mainLabel') {
-      //   cards.push(`${key}: ${item[key]}`)
-      // }
       cards.push(`${key}: ${item[key]}`)
     }
     return (
       <div
-        style={{ width: '108px', textAlign: 'left', fontSize: '12px' }}
+        style={{width: '118px', textAlign: 'left', fontSize: '12px'}}
         onClick={() => this.btnClick(item)}
       >
-        <OmitTooltip text={cards[0]} maxWidth={108} />
-        <OmitTooltip text={cards[1]} maxWidth={108} />
-        <OmitTooltip text={cards[2]} maxWidth={108} />
+        <OmitTooltip text={cards[0]} maxWidth={118} />
+        <OmitTooltip text={cards[1]} maxWidth={118} />
+        <OmitTooltip text={cards[2]} maxWidth={118} />
         {/* <div>
            <img width={32} height={32} src={toJS(picUrl) || personIcon} alt="头像" />
           </div>
@@ -85,97 +97,16 @@ class PortrayalLabel extends Component {
     )
   }
 
-  setOperationsSlot = () => {
-    const { isFirst, isLast } = store
-    if (isLast && isFirst) {
-      return {
-        left: (
-          <LeftOutlined
-            style={{
-              fontSize: '32px',
-              color: 'rgba(0, 0, 0, 0.25)',
-              marginLeft: '16px',
-              cursor: 'not-allowed',
-            }}
-          />
-        ),
-        right: (
-          <RightOutlined
-            style={{
-              fontSize: '32px',
-              color: 'rgba(0, 0, 0, 0.25)',
-              marginRight: '16px',
-              cursor: 'not-allowed',
-            }}
-          />
-        ),
-      }
-    }
-    if (isFirst) {
-      return {
-        left: (
-          <LeftOutlined
-            style={{
-              fontSize: '32px',
-              color: 'rgba(0, 0, 0, 0.25)',
-              marginLeft: '16px',
-              cursor: 'not-allowed',
-            }}
-          />
-        ),
-        right: (
-          <RightOutlined
-            style={{ fontSize: '32px', marginRight: '16px', color: '#fff' }}
-            onClick={this.nextPage}
-          />
-        ),
-      }
-    }
-    if (isLast) {
-      return {
-        left: (
-          <LeftOutlined
-            style={{ fontSize: '32px', marginLeft: '16px', color: '#fff' }}
-            onClick={this.prevPage}
-          />
-        ),
-        right: (
-          <RightOutlined
-            style={{
-              fontSize: '32px',
-              marginRight: '16px',
-              color: 'rgba(0, 0, 0, 0.25)',
-              cursor: 'not-allowed',
-            }}
-          />
-        ),
-      }
-    }
-    return {
-      left: (
-        <LeftOutlined
-          style={{ fontSize: '32px', marginLeft: '16px', color: '#fff' }}
-          onClick={this.prevPage}
-        />
-      ),
-      right: (
-        <RightOutlined
-          style={{ fontSize: '32px', marginRight: '16px', color: '#fff' }}
-          onClick={this.nextPage}
-        />
-      ),
-    }
-  }
-
   render() {
     const {
       mainLabel,
       isJump,
       changeLoading,
       unitList,
-      labelKey,
       tabLoading,
       mainKey,
+      isFirst,
+      isLast,
     } = store
     const noDataConfig = {
       text: intl
@@ -186,7 +117,7 @@ class PortrayalLabel extends Component {
     return (
       <Provider store={store}>
         <div className="show-label">
-          <Spin style={{ marginTop: '30%' }} spinning={tabLoading}>
+          <Spin style={{marginTop: '20%'}} spinning={tabLoading}>
             <div className="content-header label-header">
               <span>
                 {intl
@@ -212,59 +143,59 @@ class PortrayalLabel extends Component {
                 </Layout>
               </Layout>
             ) : null}
-
             {unitList.length ? (
-              <Tabs
-                defaultValue={mainLabel}
-                activeKey={mainLabel}
-                tabPosition="top"
-                type="card"
-                tabBarGutter={16}
-                onChange={this.selectPor}
-                centered
-                // tabBarExtraContent={unitList.length ? this.setOperationsSlot() : []}
-              >
-                {unitList.map((item, i) => (
-                  <TabPane tab={this.setCard(item)} key={item[mainKey]}>
-                    {mainLabel === item[mainKey].toString() && (
-                      <Spin spinning={changeLoading}>
-                        <Layout className="label-main">
-                          <Sider className="label-sider box-border">
-                            <DetailSidebar />
-                          </Sider>
-                          <Layout>
-                            <Content className="label-content box-border h-100">
-                              <ShowLabel idKey={i} />
-                            </Content>
+              <div>
+                {
+                  isFirst ? (
+                    <LeftOutlined className="left-line left-not" />
+                  ) : (
+                    <LeftOutlined className="left-line" onClick={this.prevPage} />
+                  )
+                }
+                <Tabs
+                  defaultValue={mainLabel}
+                  activeKey={mainLabel}
+                  tabPosition="top"
+                  type="card"
+                  tabBarGutter={16}
+                  onChange={this.selectPor}
+                  // centered // tab局中
+                  // tabBarExtraContent={unitList.length ? this.setOperationsSlot() : []} // 分页切换
+                >
+                  {unitList.map((item, i) => (
+                    <TabPane tab={this.setCard(item)} key={item[mainKey]}>
+                      {mainLabel === item[mainKey].toString() && (
+                        <Spin spinning={changeLoading} style={{marginTop: '25%'}}>
+                          <Layout className="label-main">
+                            <Sider className="label-sider box-border">
+                              <DetailSidebar />
+                            </Sider>
+                            <Layout>
+                              <Content className="label-content box-border h-100">
+                                <ShowLabel idKey={i} />
+                              </Content>
+                            </Layout>
                           </Layout>
-                        </Layout>
-                      </Spin>
-                    )}
-                  </TabPane>
-                ))}
-              </Tabs>
+                        </Spin>
+                      )}
+                    </TabPane>
+                  ))}
+                </Tabs>
+                {
+                  isLast ? (
+                    <RightOutlined className="right-line right-not" />
+                  ) : (
+                    <RightOutlined className="right-line" onClick={this.nextPage} />
+                  )
+                }
+              </div>
             ) : null}
           </Spin>
           {mainLabel ? null : (
-            <div className="header-page" style={{ paddingTop: '20%' }}>
+            <div className="header-page" style={{paddingTop: '20%'}}>
               <NoData {...noDataConfig} />
             </div>
           )}
-
-          {/* {
-             mainLabel ? (
-               <Layout className="label-main">
-                 <Sider className="label-sider box-border"><DetailSidebar /></Sider>
-                 <Layout>
-                   <Content className="label-content box-border h-100"><ShowLabel /></Content>
-                 </Layout>
-               </Layout>
-             ) : (
-               <div className="header-page" style={{paddingTop: '15%'}}>
-                 <NoData {...noDataConfig} />
-               </div>
-             )
-            } */}
         </div>
       </Provider>
     )
