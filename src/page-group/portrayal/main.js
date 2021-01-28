@@ -113,7 +113,7 @@ class PortrayalLabel extends Component {
         .get('ide.src.page-group.portrayal.main.l8nj6m6c08')
         .d('请输入标签查询'),
     }
-
+    
     return (
       <Provider store={store}>
         <div className="show-label">

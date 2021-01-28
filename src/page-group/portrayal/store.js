@@ -92,6 +92,21 @@ class Store {
     }
   }
 
+  @observable mainTagName = '' // 主标签值
+  // 判断主标签值是否重复
+  @action mainRepeat(res, name) {
+    this.mainTagName = ''
+    for (let i = 0; i < res.length - 1; i++) {
+      for (let j = i + 1; j < res.length; j++) {
+        if (res[i][name] === res[j][name]) {
+          this.mainTagName = res[i][name]
+          return true
+        }
+      }
+    }
+    return false
+  }
+
   // 获取个体列表
   @action async getPageList() {
     this.tabLoading = true
@@ -103,16 +118,22 @@ class Store {
         ...this.searchValue,
       })
       runInAction(() => {
-        if (res.data.length === 0) {
+        const {data = []} = res
+
+        if (this.mainRepeat(data, res.mainTag)) return errorTip(`个体主标签值${this.mainTagName}重复！`)
+
+        if (data.length === 0 && this.isFirst) return message.warning('暂无数据！')
+        if (data.length === 0) {
           this.isLast = true
-          message.warning('已经到底了！')
-          return
+          return message.warning('已经到底了！')
         }
-        if (res.data.length < 10) this.isLast = true
-        if (res.data.length === 10) this.isLast = false
+        
+        if (data.length < 10) this.isLast = true
+        if (data.length === 10) this.isLast = false
+
         this.mainKey = res.mainTag
-        this.unitList = res.data || []
-        this.mainLabel = res.data ? res.data[0][res.mainTag].toString() : null
+        this.unitList = data || []
+        this.mainLabel = data ? data[0][res.mainTag].toString() : null
       })
     } catch (e) {
       errorTip(e.message)
