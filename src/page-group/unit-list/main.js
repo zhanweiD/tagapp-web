@@ -2,10 +2,10 @@ import intl from 'react-intl-universal'
 /**
  * @description 个体列表
  */
-import { Component } from 'react'
-import { observer } from 'mobx-react'
-import { action, toJS } from 'mobx'
-import { Button, Spin } from 'antd'
+import {Component} from 'react'
+import {observer} from 'mobx-react'
+import {action, toJS} from 'mobx'
+import {Button, Spin} from 'antd'
 import moment from 'moment'
 
 import {
@@ -14,7 +14,7 @@ import {
   ListContent,
   Authority,
 } from '../../component'
-import { baseApi } from '../../common/util'
+import {baseApi} from '../../common/util'
 import GroupModal from './group-modal'
 
 import store from './store'
@@ -25,7 +25,7 @@ class UnitList extends Component {
     super(props)
     // store.projectId = props.projectId
     const {
-      match: { params },
+      match: {params},
     } = props
     store.id = params.id
     store.objId = params.objId
@@ -38,14 +38,14 @@ class UnitList extends Component {
     store.visible = true
   }
   @action outputUnitList = () => {
-    const { id, projectId, queryDate } = store
+    const {id, projectId, queryDate} = store
     window.open(
       `${baseApi}/export/individuals?groupId=${id}&projectId=${projectId}&queryDate=${queryDate}`
     )
   }
 
   render() {
-    const { list, tableLoading, titleList, totalCount } = store
+    const {list, tableLoading, titleList, totalCount} = store
 
     const noDataConfig = {
       btnText: intl
@@ -62,7 +62,7 @@ class UnitList extends Component {
       tableLoading,
       hasPaging: false,
       initGetDataByParent: true,
-      scroll: { x: 1500 },
+      scroll: {x: 1600},
       buttons: [
         <Authority authCode="tag_app:export_group[x]">
           <Button type="primary" onClick={this.outputUnitList}>
@@ -101,7 +101,7 @@ class UnitList extends Component {
               <ListContent {...listConfig} />
             </div>
           ) : (
-            <div className="header-page" style={{ paddingTop: '15%' }}>
+            <div className="header-page" style={{paddingTop: '15%'}}>
               <NoData {...noDataConfig} />
             </div>
           )}

@@ -1,6 +1,6 @@
 import intl from 'react-intl-universal'
-import { action, runInAction, observable, toJS } from 'mobx'
-import { errorTip, successTip } from '../../common/util'
+import {action, runInAction, observable, toJS} from 'mobx'
+import {errorTip, successTip} from '../../common/util'
 import io from './io'
 
 class Store {
@@ -14,11 +14,11 @@ class Store {
   @observable titleList = [] // 个体列表表头
   @observable tableLoading = false // 获取个体列表loading
   @observable totalCount = 0
-  // @observable pagination = {
-  //   totalCount: 0,
-  //   currentPage: 1,
-  //   pageSize: 10,
-  // }
+  @observable pagination = { // 没有报错
+    totalCount: 0,
+    currentPage: 1,
+    pageSize: 10,
+  }
   @observable list = []
 
   // 跳转到微观画像
@@ -42,19 +42,20 @@ class Store {
         this.list = res.data || []
         if (!res.data) return
         this.titleList = []
-        const { title } = res
+        const {title} = res
         this.totalCount = res.totalSize
-        // this.pagination = {
-        //   totalCount: res.totalSize,
-        //   currentPage: 1,
-        //   pageSize: 10,
-        // }
+        this.pagination = {
+          totalCount: res.totalSize,
+          currentPage: 1,
+          pageSize: 10,
+        }
 
         for (let i = 0; i < title.length; i++) {
           if (title[i].toLowerCase() === res.mainTag.toLowerCase()) {
             this.titleList.unshift({
               key: title[i],
               title: title[i],
+              minWidth: 60,
               dataIndex: title[i],
               render: (text, record) => (
                 <a onClick={() => this.goPortrayal(record[title[i]])}>{text}</a>
@@ -64,6 +65,7 @@ class Store {
             this.titleList.push({
               key: title[i],
               title: title[i],
+              minWidth: 60,
               dataIndex: title[i],
             })
           }
