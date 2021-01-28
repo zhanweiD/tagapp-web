@@ -1,11 +1,11 @@
 import intl from 'react-intl-universal'
-import { Component, Fragment } from 'react'
-import { action } from 'mobx'
-import { observer, inject } from 'mobx-react'
-import { Button, Popconfirm, Badge, message } from 'antd'
-import { FormOutlined } from '@ant-design/icons'
-import { ModalForm, ListContent, Authority } from '../../component'
-import { Time } from '../../common/util'
+import {Component, Fragment} from 'react'
+import {action} from 'mobx'
+import {observer, inject} from 'mobx-react'
+import {Button, Popconfirm, Badge, message} from 'antd'
+import {FormOutlined} from '@ant-design/icons'
+import {ModalForm, ListContent, Authority} from '../../component'
+import {Time} from '../../common/util'
 
 import EntityModal from './entityModal'
 import ConfigModal from './configModal'
@@ -54,10 +54,10 @@ class BackConfig extends Component {
           text={
             use
               ? intl
-                  .get(
-                    'ide.src.page-config.group-config.back-config.ec2lmau5zn'
-                  )
-                  .d('使用中')
+                .get(
+                  'ide.src.page-config.group-config.back-config.ec2lmau5zn'
+                )
+                .d('使用中')
               : intl.get('ide.src.component.tag.tag.sz5nencfou8').d('未使用')
           }
         />
@@ -133,7 +133,7 @@ class BackConfig extends Component {
   }
 
   selectContent = () => {
-    const { dataSource = [], dataTypeSource = [], config } = this.store
+    const {dataSource = [], dataTypeSource = [], config} = this.store
     return [
       {
         label: intl
@@ -164,8 +164,8 @@ class BackConfig extends Component {
     ]
   }
   render() {
-    const { store } = this
-    const { projectId, visible } = store
+    const {store} = this
+    const {projectId, visible} = store
     const formConfig = {
       labelAlign: 'left',
       selectContent: this.selectContent(),
@@ -175,7 +175,7 @@ class BackConfig extends Component {
     }
 
     const listConfig = {
-      initParams: { projectId },
+      initParams: {projectId},
       columns: this.columns,
       buttons: [
         <Button type="primary" onClick={() => this.openModal('add')}>

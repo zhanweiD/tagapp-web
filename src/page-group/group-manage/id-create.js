@@ -1,9 +1,9 @@
 import intl from 'react-intl-universal'
-import React, { Component, Fragment } from 'react'
-import { action, toJS } from 'mobx'
-import { observer } from 'mobx-react'
-import { UploadOutlined } from '@ant-design/icons'
-import { Drawer, Form, Select, Input, Upload, Button, Modal, Alert } from 'antd'
+import React, {Component, Fragment} from 'react'
+import {action, toJS} from 'mobx'
+import {observer} from 'mobx-react'
+import {UploadOutlined} from '@ant-design/icons'
+import {Drawer, Form, Select, Input, Upload, Button, Modal, Alert} from 'antd'
 
 import {
   errorTip,
@@ -13,8 +13,8 @@ import {
   getNamePattern,
 } from '../../common/util'
 
-const { Item } = Form
-const { TextArea } = Input
+const {Item} = Form
+const {TextArea} = Input
 
 @observer
 class IdCreate extends Component {
@@ -36,7 +36,7 @@ class IdCreate extends Component {
 
   // 自定义验证上传
   validateUpload = (rule, value, callback) => {
-    const { uploadData } = this.store
+    const {uploadData} = this.store
     if (!uploadData) {
       callback(
         intl
@@ -48,12 +48,12 @@ class IdCreate extends Component {
   }
 
   // 上传状态发生变化
-  uploadChange = ({ file, fileList }) => {
+  uploadChange = ({file, fileList}) => {
     if (fileList.length === 0) return
     this.store.uploadList = fileList.slice(-1)
 
     if (file.status !== 'uploading') {
-      const { success, content } = file.response
+      const {success, content} = file.response
 
       if (success) {
         // 返回正确
@@ -105,7 +105,7 @@ class IdCreate extends Component {
   }
 
   @action onOK = () => {
-    const { isAdd, mode, type, fileRes, recordObj } = this.store
+    const {isAdd, mode, type, fileRes, recordObj} = this.store
 
     this.formRef.current
       .validateFields()
@@ -163,7 +163,7 @@ class IdCreate extends Component {
     const fileResSuccessCount = fileRes.successCount
     const fileResFailedCount = fileRes.failedCount
 
-    const { tenantId, userId } = window.frameInfo.sessioninfo.userInfoVO
+    const {tenantId, userId} = window.frameInfo.sessioninfo.userInfoVO
     const props = {
       accept: '.xls, .xlsx',
       method: 'post',
@@ -239,8 +239,8 @@ class IdCreate extends Component {
     }
 
     const formItemLayout = {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 20 },
+      labelCol: {span: 3},
+      wrapperCol: {span: 20},
     }
 
     return (
@@ -303,7 +303,7 @@ class IdCreate extends Component {
                 },
                 // {max: 32, message: '名称不能超过32字'},
                 ...getNamePattern(),
-                { validator: this.checkName },
+                {validator: this.checkName},
               ]}
             >
               <Input
@@ -333,7 +333,7 @@ class IdCreate extends Component {
               ]}
             >
               <TextArea
-                style={{ minHeight: '6em' }}
+                style={{minHeight: '6em'}}
                 placeholder={intl
                   .get('ide.src.page-group.component.fixedValue.yf8vz03yizo')
                   .d('请输入')}
@@ -345,7 +345,7 @@ class IdCreate extends Component {
                 .get('ide.src.page-group.group-manage.id-create.aq2c74ubnwc')
                 .d('上传')}
               name="excel"
-              rules={[{ validator: this.validateUpload }]}
+              rules={[{validator: this.validateUpload}]}
             >
               <Upload {...props}>
                 <Button disabled={!objId}>
@@ -354,7 +354,7 @@ class IdCreate extends Component {
                 </Button>
               </Upload>
               <a
-                style={{ marginTop: '4px', display: 'block' }}
+                style={{marginTop: '4px', display: 'block'}}
                 onClick={() => {
                   if (objId) {
                     window.open(
@@ -400,13 +400,13 @@ class IdCreate extends Component {
           </Form>
         </Drawer>
         <Modal {...modalConfig}>
-          <p style={{ marginTop: '1em' }}>
+          <p style={{marginTop: '1em'}}>
             {intl
               .get('ide.src.page-group.group-manage.id-create.u2xl47fsz', {
-                fileResTotal: fileResTotal,
-                fileResDuplicateCount: fileResDuplicateCount,
-                fileResSuccessCount: fileResSuccessCount,
-                fileResFailedCount: fileResFailedCount,
+                fileResTotal,
+                fileResDuplicateCount,
+                fileResSuccessCount,
+                fileResFailedCount,
               })
               .d(
                 '总记录{fileResTotal}条，重复记录{fileResDuplicateCount}条，入库记录数{fileResSuccessCount}条，无效记录{fileResFailedCount}条'
@@ -415,10 +415,9 @@ class IdCreate extends Component {
               <span>
                 (
                 <a
-                  onClick={() =>
-                    window.open(
-                      `${baseApi}/export/failed?failedKey=${fileRes.failedKey}`
-                    )
+                  onClick={() => window.open(
+                    `${baseApi}/export/failed?failedKey=${fileRes.failedKey}`
+                  )
                   }
                 >
                   {intl

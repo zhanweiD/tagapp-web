@@ -2,10 +2,10 @@ import intl from 'react-intl-universal'
 /**
  * @description 群体洞察配置
  */
-import { Component } from 'react'
-import { observer } from 'mobx-react'
-import { action } from 'mobx'
-import { NoData, projectProvider } from '../../component'
+import {Component} from 'react'
+import {observer} from 'mobx-react'
+import {action} from 'mobx'
+import {NoData, projectProvider} from '../../component'
 
 import BackConfig from './back-config'
 import store from './store'
@@ -27,7 +27,7 @@ class GroupConfig extends Component {
   }
 
   render() {
-    const { getDefaultLogin, visible } = store
+    const {getDefaultLogin, visible} = store
     const noDataConfig = {
       onClick: () => this.openModal(),
       text: intl
@@ -53,7 +53,7 @@ class GroupConfig extends Component {
           {store.initVisible ? (
             <BackConfig store={store} />
           ) : (
-            <div style={{ marginTop: '15%' }}>
+            <div style={{marginTop: '15%'}}>
               <NoData {...noDataConfig} />
 
               {visible ? <ConfigModal store={store} /> : null}

@@ -1,13 +1,13 @@
 import intl from 'react-intl-universal'
-import { Component } from 'react'
-import { action, toJS } from 'mobx'
-import { observer } from 'mobx-react'
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible'
+import {Component} from 'react'
+import {action, toJS} from 'mobx'
+import {observer} from 'mobx-react'
+import {Form, Icon as LegacyIcon} from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Modal, Select, Button, Upload, message } from 'antd'
-import { errorTip, limitSelect } from '../../common/util'
+import {Modal, Select, Button, Upload, message} from 'antd'
+import {errorTip, limitSelect} from '../../common/util'
 
-const { Option } = Select
+const {Option} = Select
 
 @observer
 class EModal extends Component {
@@ -46,7 +46,8 @@ class EModal extends Component {
   }
 
   submit = () => {
-    const { store } = this
+    const {store} = this
+
     this.form.validateFields((err, values) => {
       values.picture = store.imageUrl
       values.objId = +values.objId
@@ -74,16 +75,12 @@ class EModal extends Component {
   @action selectEntity = value => {
     this.store.getTagList(value)
     this.store.getAnalyzeTags(value)
-    this.form.resetFields([
-      'basicFeatureTag',
-      'markedFeatureTag',
-      'groupAnalyzeTag',
-      'groupCompareTag',
-    ])
+    this.form.resetFields()
+    this.store.imageUrl = null
   }
 
   render() {
-    const { getFieldDecorator } = this.form
+    const {getFieldDecorator} = this.form
     const {
       entityVisible,
       modalType,
@@ -101,11 +98,11 @@ class EModal extends Component {
       title:
         modalType === 'edit'
           ? intl
-              .get('ide.src.page-config.group-config.entityModal.4dyf5xzjpvc')
-              .d('编辑实体')
+            .get('ide.src.page-config.group-config.entityModal.4dyf5xzjpvc')
+            .d('编辑实体')
           : intl
-              .get('ide.src.page-config.group-config.back-config.igp34mpq7dm')
-              .d('添加实体'),
+            .get('ide.src.page-config.group-config.back-config.igp34mpq7dm')
+            .d('添加实体'),
       visible: entityVisible,
       onCancel: modalCancel,
       onOk: this.submit,
@@ -116,8 +113,8 @@ class EModal extends Component {
     }
 
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
+      labelCol: {span: 4},
+      wrapperCol: {span: 20},
       colon: false,
     }
 
@@ -184,8 +181,7 @@ class EModal extends Component {
                     .d('请选择标签！'),
                 },
                 {
-                  validator: (rule, values, callback) =>
-                    limitSelect(rule, values, callback, 2),
+                  validator: (rule, values, callback) => limitSelect(rule, values, callback, 2),
                 },
               ],
             })(
@@ -230,8 +226,7 @@ class EModal extends Component {
                     .d('请选择标签！'),
                 },
                 {
-                  validator: (rule, values, callback) =>
-                    limitSelect(rule, values, callback, 20),
+                  validator: (rule, values, callback) => limitSelect(rule, values, callback, 20),
                 },
               ],
             })(
@@ -269,8 +264,7 @@ class EModal extends Component {
                     .d('请选择标签！'),
                 },
                 {
-                  validator: (rule, values, callback) =>
-                    limitSelect(rule, values, callback, 20),
+                  validator: (rule, values, callback) => limitSelect(rule, values, callback, 20),
                 },
               ],
             })(
@@ -308,8 +302,7 @@ class EModal extends Component {
                     .d('请选择标签！'),
                 },
                 {
-                  validator: (rule, values, callback) =>
-                    limitSelect(rule, values, callback, 10),
+                  validator: (rule, values, callback) => limitSelect(rule, values, callback, 10),
                 },
               ],
             })(
@@ -354,8 +347,7 @@ class EModal extends Component {
                     .d('请选择标签！'),
                 },
                 {
-                  validator: (rule, values, callback) =>
-                    limitSelect(rule, values, callback, 10),
+                  validator: (rule, values, callback) => limitSelect(rule, values, callback, 10),
                 },
               ],
             })(
@@ -411,7 +403,7 @@ class EModal extends Component {
                         'ide.src.page-config.group-config.entityModal.jftvrignd4o'
                       )
                       .d('上传画像')}
-                    style={{ width: '100%' }}
+                    style={{width: '100%'}}
                   />
                 ) : (
                   uploadButton

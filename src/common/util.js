@@ -174,7 +174,8 @@ export function trimFormValues(values) {
 export function limitSelect(rule, values, callback, number) {
   // const {setFieldsValue} = this.form
   // let newArr
-  if (values.length > number) {
+  const list = values || []
+  if (list.length > number) {
     // newArr = [].concat(values.slice(0, number-1), values.slice(-1))
     // setFieldsValue({
     //   outputTags: newArr,
