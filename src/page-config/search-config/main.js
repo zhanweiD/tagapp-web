@@ -3,15 +3,14 @@ import intl from 'react-intl-universal'
  * @description 群体洞察配置
  */
 
-import { useEffect, useState } from 'react'
-import { FormOutlined } from '@ant-design/icons'
-import { message, Button, Popconfirm } from 'antd'
-import { projectProvider, searchProvider, Authority } from '../../component'
+import {useEffect, useState} from 'react'
+import {message, Button, Popconfirm} from 'antd'
+import {projectProvider, searchProvider, Authority} from '../../component'
 import ConfigModal from './modal'
 import io from './io'
-import { successTip, errorTip } from '../../common/util'
+import {successTip, errorTip} from '../../common/util'
 
-const SearchConfig = ({ projectId }) => {
+const SearchConfig = ({projectId}) => {
   const [config, changeConfig] = useState({})
   const [hasInit, changeHasInit] = useState(true)
   const [visible, changeVisible] = useState(false)
